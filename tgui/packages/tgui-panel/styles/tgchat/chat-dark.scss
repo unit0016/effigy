@@ -989,7 +989,7 @@ em {
   background: #151515; // Chat background color
   border: 1px solid;
   border-color: inherit;
-  border-radius: 0.33em;
+  border-radius: 0; // EffigyEdit Change - TGUI
   z-index: 0;
 
   // "Mask" a half of the border
