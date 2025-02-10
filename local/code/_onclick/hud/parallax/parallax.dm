@@ -1,8 +1,7 @@
 // Which parallax does our map use? Does the setup in lieu of the base proc
-/* EffigyEdit TODO
 /datum/hud/proc/get_cached_parallax()
 	var/list/layers_to_cache = list()
-	switch(SSmapping.config.parallax_to_use)
+	switch(SSmapping.current_map.parallax_to_use)
 		if("Space") // MIMICS THE COMMENTED OUT PORTION IN THE FILE THIS IS A SATELLITE OF. Please keep it in lock-step :)
 			layers_to_cache += new /atom/movable/screen/parallax_layer/layer_1(null, src)
 			layers_to_cache += new /atom/movable/screen/parallax_layer/layer_2(null, src)
@@ -16,7 +15,6 @@
 			layers_to_cache += new /atom/movable/screen/parallax_layer/gas_giant/gas_layer(null, src)
 			layers_to_cache += new /atom/movable/screen/parallax_layer/gas_giant/gas_layer/four(null, src)
 	return layers_to_cache
-*/
 
 /atom/movable/screen/parallax_layer/gas_giant_background
 	icon = 'local/icons/effects/parallax.dmi'
