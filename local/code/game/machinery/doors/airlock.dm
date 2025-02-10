@@ -278,6 +278,9 @@
 	greyscale_config = /datum/greyscale_config/airlock_effigy
 	greyscale_colors = "#D1D0D2#D1D0D2"
 
+/obj/machinery/door/airlock/public/glass/no_lights
+	has_environment_lights = FALSE
+
 /**
  * External
  */
