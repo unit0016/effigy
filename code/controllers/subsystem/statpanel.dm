@@ -23,21 +23,44 @@ SUBSYSTEM_DEF(statpanels)
 	if (!resumed)
 		num_fires++
 		var/datum/map_config/cached = SSmap_vote.next_map_config
+		// EffigyEdit Add - Logging
+		var/server_rev = copytext(GLOB.revdata.originmastercommit, 1, 8)
+		var/round_utc_time = REALTIMEOFDAY - SSticker.round_utc_start_time
+		GLOB.active_players = get_active_player_count(alive_check = FALSE, afk_check = TRUE, human_check = FALSE) // This is a list of all active players, including players who are dead
+		GLOB.observing_players = length(GLOB.current_observers_list) // This is a list of all players that started as an observer-- dead and lobby players are not included.
+		// EffigyEdit Add End
+		// EffigyEdit Change - Logging
+		/*
 		global_data = list(
 			"Map: [SSmapping.current_map?.map_name || "Loading..."]",
 			cached ? "Next Map: [cached.map_name]" : null,
-			"Game Mode: [SSgamemode.storyteller ? SSgamemode.storyteller.name : "N/A"]", // EffigyEdit Add - Storyteller
 			"Round ID: [GLOB.round_id ? GLOB.round_id : "NULL"]",
 			"Server Time: [time2text(world.timeofday, "YYYY-MM-DD hh:mm:ss")]",
 			"Round Time: [ROUND_TIME()]",
 			"Station Time: [station_time_timestamp()]",
 			"Time Dilation: [round(SStime_track.time_dilation_current,1)]% AVG:([round(SStime_track.time_dilation_avg_fast,1)]%, [round(SStime_track.time_dilation_avg,1)]%, [round(SStime_track.time_dilation_avg_slow,1)]%)"
+		)*/
+		global_data = list(
+			"Server Rev: [server_rev ? server_rev : "N/A"]",
+			"Round ID: [GLOB.round_id == "1024" ? "Local" : GLOB.round_hex]",
+			"Map: [SSmapping.current_map?.map_name || "Loading..."]",
+			cached ? "Next Map: [cached.map_name]" : null,
+			"Game Mode: [SSgamemode.storyteller ? SSgamemode.storyteller.name : "N/A"]",
+			"UTC Round Time: [time2text(round_utc_time, "hh:mm:ss", 0)]",
+			"Round Time: [ROUND_TIME()]",
+			"Station Time: [station_time_timestamp()]",
+			" ",
+			"Connected: [GLOB.clients.len] | Active: [GLOB.active_players] | Observing: [GLOB.observing_players]",
+			"Time Dilation: [round(SStime_track.time_dilation_current,1)]% Average: [round(SStime_track.time_dilation_avg_fast,1)]% / [round(SStime_track.time_dilation_avg,1)]% / [round(SStime_track.time_dilation_avg_slow,1)]%",
+			"Server Time: [time2text(world.timeofday, "YYYY-MM-DD hh:mm:ss")]",
 		)
+		// EffigyEdit Change End
 
 		if(SSshuttle.emergency)
 			var/ETA = SSshuttle.emergency.getModeStr()
 			if(ETA)
-				global_data += "[ETA] [SSshuttle.emergency.getTimerStr()]"
+				//global_data += "[ETA] [SSshuttle.emergency.getTimerStr()]" // EffigyEdit Change - Logging
+				global_data += "Emergency Shuttle: [ETA] [SSshuttle.emergency.getTimerStr()]"
 
 		if(SSticker.reboot_timer)
 			var/reboot_time = timeleft(SSticker.reboot_timer)

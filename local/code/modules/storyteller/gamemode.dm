@@ -742,8 +742,12 @@ SUBSYSTEM_DEF(gamemode)
 	point_thresholds[EVENT_TRACK_GHOST] = track_data.threshold_ghostset * CONFIG_GET(number/ghostset_point_threshold)
 
 	to_chat(world, span_notice("<b>Game mode is [storyteller.name]!</b>"))
-	to_chat(world, span_notice("[storyteller.welcome_text]"))
-	log_admin_private("Game mode switched to [storyteller.name]. [forced ? "Forced by admin ckey [force_ckey]" : ""]")
+	if(forced)
+		var/log_message = "Game mode is [storyteller.name], forced by admin ckey [force_ckey]"
+		log_events(log_message, notify_admins = TRUE)
+		log_admin_private(log_message)
+	else
+		log_events("Game mode is [storyteller.name]")
 
 /**
  * halt_storyteller

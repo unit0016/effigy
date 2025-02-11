@@ -165,7 +165,7 @@ SUBSYSTEM_DEF(ticker)
 			// EffigyEdit Add - Storyteller
 			var/storyteller = CONFIG_GET(string/default_storyteller)
 			if(storyteller)
-				SSgamemode.set_storyteller(text2path(storyteller), TRUE)
+				SSgamemode.set_storyteller(text2path(storyteller), forced = FALSE)
 			else
 				SSvote.initiate_vote(/datum/vote/storyteller, "Game Mode Vote", forced = TRUE)
 			// EffigyEdit Add End
@@ -319,7 +319,8 @@ SUBSYSTEM_DEF(ticker)
 
 	var/list/adm = get_admin_counts()
 	var/list/allmins = adm["present"]
-	send2adminchat("Server", "Round [GLOB.round_id ? "#[GLOB.round_id]" : ""] has started[allmins.len ? ".":" with no active admins online!"]")
+	//send2adminchat("Server", "Round [GLOB.round_id ? "#[GLOB.round_id]" : ""] has started[allmins.len ? ".":" with no active admins online!"]") // EffigyEdit Change - Logging
+	send2adminchat("Server", "Round [GLOB.round_hex ? "#[GLOB.round_hex]" : ""] has started[allmins.len ? ".":" with no active admins online!"]") // EffigyEdit Change - Logging
 	SSautotransfer.new_shift(round_utc_start_time) // EffigyEdit Add - Autotransfer
 	setup_done = TRUE
 
