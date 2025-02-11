@@ -15,5 +15,4 @@
 #define span_debugcyan(str) ("<span class='debugcyan'>" + str + "</span>")
 #define span_debugwhite(str) ("<span class='debugwhite'>" + str + "</span>")
 #define span_debugpink(str) ("<span class='debugpink'>" + str + "</span>")
-#define span_emote(str) ("<span class='emote'>" + str + "</span>")
 #define span_rlooc(str) ("<span class='rlooc'>" + str + "</span>")
