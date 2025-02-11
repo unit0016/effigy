@@ -12,6 +12,30 @@
 	/// How long is the lobby track
 	var/lobby_track_duration
 
+/datum/controller/subsystem/ticker/proc/load_effigy_lobby_tracks()
+	lobby_track_id = CONFIG_GET(string/pregame_lobby_track)
+	if(isnull(lobby_track_id))
+		log_game("No lobby music track ID configuration found!")
+		lobby_track_fired = TRUE
+		lobby_track_duration = -2
+	lobby_track_duration = CONFIG_GET(number/pregame_lobby_duration)
+	if(isnull(lobby_track_duration))
+		log_game("No lobby music track duration configuration found!")
+		lobby_track_duration = -3
+
+/datum/controller/subsystem/ticker/proc/queue_game_start(time_override)
+	if(isnull(time_override) || !isnum(time_override))
+		CRASH("Queue Game Start called without a valid time override")
+
+	timeLeft = time_override
+	log_game("Game start queued in [DisplayTimeText(time_override)]")
+
+	if(time_override <= 94 SECONDS)
+		hr_announce_fired = TRUE
+		lobby_track_fired = FALSE
+
+	queue_game_start_announcement()
+
 /datum/controller/subsystem/ticker/proc/queue_game_start_announcement()
 	var/announce_time = round(timeLeft, 10 SECONDS)
 	var/list/announcement_strings = list()

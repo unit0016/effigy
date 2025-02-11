@@ -1241,3 +1241,29 @@ $border-width-px: $border-width * 1px;
     );
   }
 }
+
+/* EffigyEdit Additions */
+
+.debugcyan {
+  color: hsl(183, 100%, 75%); // EffigyEdit Change - TGUI
+}
+
+.debugpink {
+  color: hsl(330, 100%, 68%); // EffigyEdit Change - TGUI
+}
+
+.debugwhite {
+  color: hsl(228, 11%, 91%); // EffigyEdit Change - TGUI
+}
+
+.debugyellow {
+  color: hsl(50, 100%, 68%); // EffigyEdit Change - TGUI
+}
+
+.looc {
+  color: #b300b0;
+}
+
+.rlooc {
+  color: #b300b0;
+}
