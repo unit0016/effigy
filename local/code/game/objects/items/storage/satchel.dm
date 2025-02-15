@@ -10,8 +10,8 @@
 	inhand_icon_state = "technician"
 	worn_icon = 'local/icons/mob/medical/worn.dmi'
 	equip_sound = 'sound/items/equip/jumpsuit_equip.ogg'
-	pickup_sound = 'sound/items/handling/cloth_pickup.ogg'
-	drop_sound = 'sound/items/handling/cloth_drop.ogg'
+	pickup_sound = SFX_CLOTH_PICKUP
+	drop_sound = SFX_CLOTH_DROP
 	slot_flags = ITEM_SLOT_BACK | ITEM_SLOT_BELT
 	storage_type = /datum/storage/duffel/deforest_paramedic
 	zip_slowdown = 0.3 // Midrange between the other two bags
