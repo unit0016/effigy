@@ -4,7 +4,6 @@
 	)
 	return ..()
 
-/*
 // Hypospray upgrade
 /datum/design/hypomkii/deluxe
 	name = "Hypospray Mk. II Deluxe Upgrade"
@@ -19,7 +18,6 @@
 	category = list(
 		RND_CATEGORY_TOOLS + RND_SUBCATEGORY_EQUIPMENT_MEDICAL,
 	)
-*/
 
 // Hypospray Research
 /datum/techweb_node/chem_synthesis/New()
@@ -37,10 +35,8 @@
 	)
 	return ..()
 
-/*
 /datum/techweb_node/alien_surgery/New()
 	design_ids += list(
 		"hypomkii_deluxe",
 	)
 	return ..()
-*/

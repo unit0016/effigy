@@ -303,7 +303,6 @@
 	. = ..()
 	. += span_notice("<b>Left-Click</b> on patients to spray, <b>Right-Click</b> to inject.")
 
-/*
 // Deluxe hypo upgrade Kit
 /obj/item/device/custom_kit/deluxe_hypo2
 	name = "hypospray Mk.II deluxe bodykit"
@@ -321,7 +320,6 @@
 		balloon_alert(user, "unload the vial first!")
 		return FALSE
 	return TRUE
-*/
 
 #undef HYPO_INJECT
 #undef HYPO_SPRAY
@@ -350,6 +348,7 @@
 	fill_icon_state = "hypovial_fill"
 	spillable = FALSE
 	volume = 10
+	amount_per_transfer_from_this = 5
 	possible_transfer_amounts = list(1,2,5,10)
 	fill_icon_thresholds = list(10, 25, 50, 75, 100)
 	var/chem_color = "#FFFFFF" //Used for hypospray overlay
@@ -426,8 +425,8 @@
 /obj/item/reagent_containers/cup/hypovial/small
 	name = "hypovial"
 	desc = "A small, 50u capacity vial compatible with most hyposprays."
-	volume = 50
-	possible_transfer_amounts = list(1,2,5,10,15,25,50)
+	volume = 60
+	possible_transfer_amounts = list(1,2,5,10,15,20,30,60)
 
 /obj/item/reagent_containers/cup/hypovial/small/style
 	icon_state = "hypovial"
@@ -454,9 +453,9 @@
 	icon_state = "hypoviallarge"
 	fill_icon_state = "hypoviallarge_fill"
 	current_skin = "hypoviallarge"
-	desc = "A large, 100u capacity vial that fits only in the most deluxe hyposprays."
+	desc = "A large, 120u capacity vial that fits only in the most deluxe hyposprays."
 	volume = 100
-	possible_transfer_amounts = list(1,2,5,10,20,30,40,50,100)
+	possible_transfer_amounts = list(1,2,5,10,15,20,30,40,60,120)
 	type_suffix = "-l"
 
 	unique_reskin = list(
