@@ -1,8 +1,8 @@
-/* EffigyEdit TODO - Scythes
+/* EffigyEdit TODO - give these better names, and some sprites that make sense to show upgrade levels
 /obj/item/scythe
 	name = "scythe"
 	desc = "A sharp and curved blade on a long fibremetal handle, this tool makes it easy to reap what you sow."
-	icon = 'local/icons/obj/scythe.dmi'
+	icon = 'local/icons/obj/weapons/scythe.dmi'
 	icon_state = "scythe_t1"
 	worn_icon = 'local/icons/mob/back.dmi'
 	lefthand_file = 'local/icons/mob/inhands/polearms_lefthand.dmi'

@@ -1,4 +1,3 @@
-/* EffigyEdit TODO - Chem Dispenser
 /obj/machinery/chem_dispenser
 	/// These become available once the manipulator has been upgraded to tier 2 (femto)
 	var/list/upgrade_reagents_t2 = list()
@@ -78,4 +77,3 @@
 	upgrade_reagents_t2 = null
 	upgrade_reagents_t3 = null
 	upgrade_reagents_t4 = null
-*/

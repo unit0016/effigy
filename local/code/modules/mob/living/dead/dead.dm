@@ -16,7 +16,6 @@
 	if(client.holder)
 		. += "Admins Ready: [SSticker.total_admins_ready] / [length(GLOB.admins)]"
 
-	/* EffigyEdit TODO - Manifest Preview
 	// Adds the manifest preview panel to the end of the Statpanel.
 	if(CONFIG_GET(flag/show_manifest_preview))
 		. += get_manifest_preview()
@@ -73,4 +72,3 @@
 		player_ready_data.Insert(1, "Manifest Preview:")
 		player_ready_data.Insert(1, "")
 	return player_ready_data
-*/
