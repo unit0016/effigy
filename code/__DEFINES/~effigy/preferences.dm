@@ -1,0 +1,17 @@
+#define EFFIGY_SAVEFILE_VERSION_LEGACY 3
+#define EFFIGY_SAVEFILE_VERSION_CURRENT 4
+
+#define PREVIEW_STYLE_JOB "Character Preview: Job"
+#define PREVIEW_STYLE_LOADOUT "Character Preview: Loadout"
+#define PREVIEW_STYLE_UNDERWEAR "Character Preview: Underwear"
+#define PREVIEW_STYLE_NAKED "Character Preview: Naked"
+
+#define READ_PREFS(target, pref) (target.client?.prefs?.read_preference(/datum/preference/pref))
+
+// tgui category
+#define PREFERENCE_CATEGORY_AUGMENTS "augments"
+#define PREFERENCE_CATEGORY_MARKINGS "markings"
+#define PREFERENCE_CATEGORY_PROFILE "profile"
+
+#define MAX_FLAVOR_TEXT_LENGTH 4096
+#define FLAVOR_TEXT_PREVIEW_LIMIT 128

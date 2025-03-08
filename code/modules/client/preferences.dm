@@ -165,6 +165,10 @@ GLOBAL_LIST_EMPTY(preferences_datums)
 		data["character_profiles"] = create_character_profiles()
 		tainted_character_profiles = FALSE
 
+	// EffigyEdit Add - Character Preferences
+	data["character_preview_selection"] = preview_style
+	// EffigyEdit Add End
+
 	data["character_preferences"] = compile_character_preferences(user)
 
 	data["active_slot"] = default_slot
@@ -178,6 +182,10 @@ GLOBAL_LIST_EMPTY(preferences_datums)
 	var/list/data = list()
 
 	data["character_profiles"] = create_character_profiles()
+
+	// EffigyEdit Add - Character Preferences
+	data["character_preview_styles"] = list(PREVIEW_STYLE_JOB, PREVIEW_STYLE_LOADOUT, PREVIEW_STYLE_UNDERWEAR, PREVIEW_STYLE_NAKED)
+	// EffigyEdit Add End
 
 	data["character_preview_view"] = character_preview_view.assigned_map
 	data["overflow_role"] = SSjob.get_job_type(SSjob.overflow_role).title
@@ -267,6 +275,47 @@ GLOBAL_LIST_EMPTY(preferences_datums)
 				return FALSE
 
 			return TRUE
+
+		// EffigyEdit Add - Character Preferences
+		if ("set_tricolor_preference")
+			var/requested_preference_key = params["preference"]
+			var/index_key = params["value"]
+
+			var/datum/preference/requested_preference = GLOB.preference_entries_by_key[requested_preference_key]
+			if (isnull(requested_preference))
+				return FALSE
+
+			if (!istype(requested_preference, /datum/preference/tri_color))
+				return FALSE
+
+			var/default_value_list = read_preference(requested_preference.type)
+			if (!islist(default_value_list))
+				return FALSE
+			var/default_value = default_value_list[index_key]
+
+			// Yielding
+			var/new_color = tgui_color_picker(
+				usr,
+				"Select new color",
+				null,
+				default_value || COLOR_WHITE,
+			)
+
+			if (!new_color)
+				return FALSE
+
+			default_value_list[index_key] = new_color
+
+			if (!update_preference(requested_preference, default_value_list))
+				return FALSE
+
+			return TRUE
+
+		if("update_preview")
+			preview_style = params["updated_preview"]
+			character_preview_view.update_body()
+			return TRUE
+		// EffigyEdit Add End
 
 	for (var/datum/preference_middleware/preference_middleware as anything in middleware)
 		var/delegation = preference_middleware.action_delegations[action]

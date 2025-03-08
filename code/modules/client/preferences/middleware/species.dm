@@ -18,6 +18,7 @@
 
 		var/mob/living/carbon/human/dummy/consistent/dummy = new
 		dummy.set_species(species_type)
+		// dummy.equipOutfit(dummy.dna.species.preview_outfit, visuals_only = TRUE) // EffigyEdit Change - Character Preferences
 		dummy.equipOutfit(/datum/outfit/job/assistant/consistent, visuals_only = TRUE)
 		dummy.dna.species.prepare_human_for_preview(dummy)
 
