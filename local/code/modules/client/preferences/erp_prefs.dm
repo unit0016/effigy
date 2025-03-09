@@ -45,3 +45,7 @@
 	if(!preferences.read_preference(/datum/preference/toggle/master_erp_preferences))
 		return FALSE
 	. = ..()
+
+/// Controls whether or not you can hear ERP item SFX.
+/datum/preference/toggle/erp_item_use/sounds
+	savefile_key = "sextoy_sounds_pref"

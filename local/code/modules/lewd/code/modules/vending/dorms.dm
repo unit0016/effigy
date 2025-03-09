@@ -36,16 +36,41 @@
 				/obj/item/clothing/neck/collar/leather/tagged = 4,
 				/// Belts
 				/obj/item/storage/belt/thigh_satchel = 4,
+				/// Gloves
+				/obj/item/clothing/gloves/long_gloves = 4,
+				/// Hats
+				/obj/item/clothing/head/domina_cap = 4,
+				/obj/item/clothing/head/costume/rabbitears = 4,
+				/obj/item/clothing/head/costume/kitty = 4,
+				/// Uniforms
+				/obj/item/clothing/under/costume/jabroni = 3,
+				/obj/item/clothing/under/costume/maid = 5,
+				/obj/item/clothing/under/rank/civilian/janitor/maid = 5,
+				/obj/item/clothing/under/rank/prisoner/customizable = 4,
+				/obj/item/clothing/under/rank/prisoner/skirt/customizable = 4,
+				/obj/item/clothing/glasses/regular/thin = 1, // i opted not to port the 'nice goggles'; but this is close enough tribute
 			),
 		),
 		list(
 			"name" = "Restraints",
 			"icon" = FA_ICON_HANDCUFFS,
 			"products" = list(
+				// Handcuffs Slot Stuff
 				/obj/item/restraints/handcuffs/fake = 2,
-				/obj/item/clothing/glasses/blindfold = 4,
+				// Hands Slot Stuff
+				/obj/item/clothing/gloves/ball_mittens = 4,
+				/obj/item/clothing/gloves/ball_mittens/paw_mittens = 4,
+				// Blindfolds, Eyewear
+				/obj/item/clothing/glasses/blindfold = 2,
 				/obj/item/clothing/glasses/blindfold/dorms = 4,
+				// Gags, Mouthwear
 				/obj/item/clothing/mask/muzzle = 4,
+				/obj/item/clothing/mask/ballgag = 4,
+				/obj/item/clothing/mask/gas/dorms_mask = 4,
+				// Earwear
+				/obj/item/clothing/ears/dorms_headphones = 2,
+				// Headwear
+				/obj/item/clothing/head/deprivation_helmet = 3,
 			),
 		),
 		list(
