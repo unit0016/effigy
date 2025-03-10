@@ -1,4 +1,4 @@
-/proc/generate_underwear_icon(datum/sprite_accessory/accessory, datum/universal_icon/base_icon, color)
+/proc/generate_underwear_icon(datum/sprite_accessory/accessory, datum/universal_icon/base_icon, color, icon_offset = 0) // EffigyEdit Change - Character Preferences - add icon_offset
 	var/datum/universal_icon/final_icon = base_icon.copy()
 
 	if (!isnull(accessory))
