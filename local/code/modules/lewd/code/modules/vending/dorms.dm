@@ -15,7 +15,66 @@
 			"name" = "Fashion",
 			"icon" = FA_ICON_SHIRT,
 			"products" = list(
-				/// Collars
+				/// Belts
+				/obj/item/storage/belt/thigh_satchel = 4,
+				/// Gloves
+				/obj/item/clothing/gloves/long_gloves = 4,
+				/// Hats
+				/obj/item/clothing/head/domina_cap = 4,
+				/obj/item/clothing/head/costume/rabbitears = 4,
+				/obj/item/clothing/head/costume/kitty = 4,
+				/// Uniforms
+				/obj/item/clothing/under/costume/jabroni = 3,
+				/obj/item/clothing/under/costume/maid = 5,
+				/obj/item/clothing/under/rank/civilian/janitor/maid = 5,
+				/obj/item/clothing/under/rank/prisoner/customizable = 4,
+				/obj/item/clothing/under/rank/prisoner/skirt/customizable = 4,
+				/// Shoes & Legwear
+				/obj/item/clothing/shoes/ballet_heels = 3,
+				/obj/item/clothing/shoes/latex_socks = 3,
+				/// Eyewear
+				/obj/item/clothing/glasses/regular/thin = 1, // i opted not to port the 'nice goggles'; but this is close enough tribute
+			),
+		),
+		list(
+			"name" = "Restraints",
+			"icon" = FA_ICON_HANDCUFFS,
+			"products" = list(
+				// Handcuffs / Snowflake Slot Stuff
+				/obj/item/restraints/handcuffs/fake = 2,
+				/obj/item/stack/shibari_rope/full = 5,
+				/obj/item/stack/shibari_rope/glow/full = 5,
+				// Hands Slot Stuff
+				/obj/item/clothing/gloves/ball_mittens = 4,
+				/obj/item/clothing/gloves/ball_mittens/paw_mittens = 4,
+				// Suits
+				/obj/item/clothing/suit/straight_jacket/shackles = 4,
+				// Blindfolds, Eyewear
+				/obj/item/clothing/glasses/blindfold = 2,
+				/obj/item/clothing/glasses/blindfold/dorms = 4,
+				// Gags, Mouthwear
+				/obj/item/clothing/mask/muzzle = 4,
+				/obj/item/clothing/mask/ballgag = 4,
+				/obj/item/clothing/mask/gas/dorms_mask = 4,
+				// Earwear
+				/obj/item/clothing/ears/dorms_headphones = 2,
+				// Headwear
+				/obj/item/clothing/head/deprivation_helmet = 3,
+			),
+		),
+		list(
+			"name" = "Tools & Fixtures",
+			"icon" = FA_ICON_TOOLBOX,
+			"products" = list(
+				/obj/item/clothing/erp_leash = 8,
+				/obj/item/clothing/glasses/hypno = 4,
+				/obj/item/construction_kit/pole = 2,
+			),
+		),
+		list(
+			"name" = "Collars",
+			"icon" = FA_ICON_TOOLBOX,
+			"products" = list(
 				// Thin
 				/obj/item/clothing/neck/collar = 4,
 				/obj/item/clothing/neck/collar/bell = 4,
@@ -34,53 +93,8 @@
 				/obj/item/clothing/neck/collar/leather/cowbell = 4,
 				/obj/item/clothing/neck/collar/leather/cross = 4,
 				/obj/item/clothing/neck/collar/leather/tagged = 4,
-				/// Belts
-				/obj/item/storage/belt/thigh_satchel = 4,
-				/// Gloves
-				/obj/item/clothing/gloves/long_gloves = 4,
-				/// Hats
-				/obj/item/clothing/head/domina_cap = 4,
-				/obj/item/clothing/head/costume/rabbitears = 4,
-				/obj/item/clothing/head/costume/kitty = 4,
-				/// Uniforms
-				/obj/item/clothing/under/costume/jabroni = 3,
-				/obj/item/clothing/under/costume/maid = 5,
-				/obj/item/clothing/under/rank/civilian/janitor/maid = 5,
-				/obj/item/clothing/under/rank/prisoner/customizable = 4,
-				/obj/item/clothing/under/rank/prisoner/skirt/customizable = 4,
-				/obj/item/clothing/glasses/regular/thin = 1, // i opted not to port the 'nice goggles'; but this is close enough tribute
 			),
-		),
-		list(
-			"name" = "Restraints",
-			"icon" = FA_ICON_HANDCUFFS,
-			"products" = list(
-				// Handcuffs Slot Stuff
-				/obj/item/restraints/handcuffs/fake = 2,
-				// Hands Slot Stuff
-				/obj/item/clothing/gloves/ball_mittens = 4,
-				/obj/item/clothing/gloves/ball_mittens/paw_mittens = 4,
-				// Blindfolds, Eyewear
-				/obj/item/clothing/glasses/blindfold = 2,
-				/obj/item/clothing/glasses/blindfold/dorms = 4,
-				// Gags, Mouthwear
-				/obj/item/clothing/mask/muzzle = 4,
-				/obj/item/clothing/mask/ballgag = 4,
-				/obj/item/clothing/mask/gas/dorms_mask = 4,
-				// Earwear
-				/obj/item/clothing/ears/dorms_headphones = 2,
-				// Headwear
-				/obj/item/clothing/head/deprivation_helmet = 3,
-			),
-		),
-		list(
-			"name" = "Tools",
-			"icon" = FA_ICON_TOOLBOX,
-			"products" = list(
-				/obj/item/clothing/erp_leash = 8,
-				/obj/item/clothing/glasses/hypno = 4,
-			),
-		),
+		), // Keep collars last to keep them a little more congruent with premium; if you please.
 	)
 
 	premium = list(
@@ -89,7 +103,13 @@
 		/obj/item/clothing/neck/collar/leather/holocollar = 3,
 		)
 
-	contraband = list(/obj/item/toy/plush/shark = 1) // temp
+	contraband = list(
+		/obj/item/restraints/handcuffs = 2,
+		/obj/item/clothing/under/rank/civilian/mime/sexy = 1,
+		/obj/item/clothing/mask/gas/sexymime = 1,
+		/obj/item/clothing/under/rank/civilian/clown/sexy = 1,
+		/obj/item/clothing/mask/gas/sexyclown = 1,
+		)
 
 	refill_canister = /obj/item/vending_refill/dorms
 	payment_department = ACCOUNT_SRV
