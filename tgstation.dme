@@ -6628,6 +6628,7 @@
 #include "local\code\controllers\subsystem\mapping.dm"
 #include "local\code\controllers\subsystem\security_level.dm"
 #include "local\code\controllers\subsystem\shuttle.dm"
+#include "local\code\controllers\subsystem\sprite_accessories.dm"
 #include "local\code\controllers\subsystem\ticker.dm"
 #include "local\code\controllers\subsystem\transport.dm"
 #include "local\code\controllers\subsystem\vote.dm"
