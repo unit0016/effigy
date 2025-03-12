@@ -75,7 +75,7 @@
 
 /proc/generate_ext_groin_y1_shot(datum/sprite_accessory/sprite_accessory, key)
 	var/static/datum/universal_icon/final_icon
-	final_icon = uni_icon('local/icons/mob/mutant/sprite_accessories/fallback.dmi')
+	final_icon = uni_icon('local/icons/mob/mutant/sprite_accessories/fallback.dmi', null)
 
 	if (!isnull(sprite_accessory))
 		var/datum/universal_icon/accessory_icon_1 = uni_icon(sprite_accessory.icon, "m_[key]_[sprite_accessory.icon_state]_ADJ", SOUTH)
