@@ -494,9 +494,6 @@
 			markings_icon_2.crop(17, 1, 48, 32)
 			markings_icon_3.crop(17, 1, 48, 32)
 		// finally apply icons
-		markings_icon_1.blend_icon(final_icon, ICON_OVERLAY)
-		markings_icon_2.blend_icon(final_icon, ICON_OVERLAY)
-		markings_icon_3.blend_icon(final_icon, ICON_OVERLAY)
 		final_icon.blend_icon(markings_icon_1, ICON_OVERLAY)
 		final_icon.blend_icon(markings_icon_2, ICON_OVERLAY)
 		final_icon.blend_icon(markings_icon_3, ICON_OVERLAY)
