@@ -27,7 +27,7 @@ fi
 cp tgstation.dmb tgstation.rsc $1/
 cp -r _maps/* $1/_maps/
 cp -r icons/* $1/icons/
-cp -r local/icons/* $1/local/icons/ # EFFIGY EDIT ADD
+cp -r local/icons/* $1/local/icons/ # EffigyEdit Add
 cp -r sound/runtime/* $1/sound/runtime/
 cp -r strings/* $1/strings/
 cp -r tgui/public/* $1/tgui/public/
