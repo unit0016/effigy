@@ -13,7 +13,7 @@ mkdir -p \
     $1/_maps \
     $1/data/spritesheets \
     $1/icons \
-		$1/local/icons \
+    $1/local/icons \
     $1/sound/runtime \
     $1/strings \
     $1/tgui/public \
