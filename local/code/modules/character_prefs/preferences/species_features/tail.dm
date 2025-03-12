@@ -477,7 +477,7 @@
 	var/datum/sprite_accessory/sprite_accessory = chosen_tail
 	var/datum/universal_icon/final_icon = uni_icon('local/icons/mob/mutant/sprite_accessories/fallback.dmi', null)
 
-	if (sprite_accessory.icon_state != "none")
+	if (LOWER_TEXT(sprite_accessory.icon_state) != "none")
 		var/datum/universal_icon/markings_icon_1 = uni_icon(sprite_accessory.icon, "m_[key]_[sprite_accessory.icon_state]_BEHIND", NORTH)
 		markings_icon_1.blend_color(COLOR_EFFIGY_SKY_BLUE, ICON_MULTIPLY)
 		var/datum/universal_icon/markings_icon_2 = uni_icon(sprite_accessory.icon, "m_[key]_[sprite_accessory.icon_state]_BEHIND_2", NORTH)
