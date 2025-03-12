@@ -428,7 +428,7 @@
 
 		// front breaker
 		if(sprite_accessory_layers.Find("m_ears_[sprite_accessory.icon_state]_FRONT"))
-			ar/datum/universal_icon/markings_icon_1_f = uni_icon(sprite_accessory.icon, "m_ears_[sprite_accessory.icon_state]_FRONT", SOUTH)
+			var/datum/universal_icon/markings_icon_1_f = uni_icon(sprite_accessory.icon, "m_ears_[sprite_accessory.icon_state]_FRONT", SOUTH)
 			markings_icon_1_f.blend_color(COLOR_EFFIGY_SKY_BLUE, ICON_MULTIPLY)
 			final_icon.blend_icon(markings_icon_1_f, ICON_OVERLAY)
 		if(sprite_accessory_layers.Find("m_ears_[sprite_accessory.icon_state]_FRONT_2"))

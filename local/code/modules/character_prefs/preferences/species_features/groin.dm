@@ -90,8 +90,7 @@
 		if(sprite_accessory_layers.Find("m_[key]_[sprite_accessory.icon_state]_ADJ_3"))
 			var/datum/universal_icon/accessory_icon_3 = uni_icon(sprite_accessory.icon, "m_[key]_[sprite_accessory.icon_state]_ADJ_3", SOUTH)
 			accessory_icon_3.blend_color(COLOR_EFFIGY_ELECTRIC_BLUE, ICON_MULTIPLY)
-
-		final_icon.blend_icon(accessory_icon_3, ICON_OVERLAY)
+			final_icon.blend_icon(accessory_icon_3, ICON_OVERLAY)
 
 	/*
 	final_icon.Crop(10, 8, 22, 23)
