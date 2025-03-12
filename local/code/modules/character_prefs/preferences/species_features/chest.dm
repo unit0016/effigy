@@ -71,23 +71,23 @@
 	return FALSE
 
 /proc/generate_ext_chest_shot(datum/sprite_accessory/sprite_accessory, key)
-	var/static/icon/final_icon
-	final_icon = icon('local/icons/mob/mutant/sprite_accessories/fallback.dmi')
+	var/static/datum/universal_icon/final_icon
+	final_icon = uni_icon('local/icons/mob/mutant/sprite_accessories/fallback.dmi', null)
 
 	if (!isnull(sprite_accessory))
-		var/icon/accessory_icon_1 = icon(sprite_accessory.icon, "m_[key]_[sprite_accessory.icon_state]_ADJ", SOUTH)
-		accessory_icon_1.Blend(COLOR_EFFIGY_SKY_BLUE, ICON_MULTIPLY)
-		var/icon/accessory_icon_2 = icon(sprite_accessory.icon, "m_[key]_[sprite_accessory.icon_state]_ADJ_2", SOUTH)
-		accessory_icon_2.Blend(COLOR_EFFIGY_PLATINUM, ICON_MULTIPLY)
-		var/icon/accessory_icon_3 = icon(sprite_accessory.icon, "m_[key]_[sprite_accessory.icon_state]_ADJ_3", SOUTH)
-		accessory_icon_3.Blend(COLOR_EFFIGY_ELECTRIC_BLUE, ICON_MULTIPLY)
-		final_icon.Blend(accessory_icon_1, ICON_OVERLAY)
-		final_icon.Blend(accessory_icon_2, ICON_OVERLAY)
-		final_icon.Blend(accessory_icon_3, ICON_OVERLAY)
+		var/datum/universal_icon/accessory_icon_1 = uni_icon(sprite_accessory.icon, "m_[key]_[sprite_accessory.icon_state]_ADJ", SOUTH)
+		accessory_icon_1.blend_color(COLOR_EFFIGY_SKY_BLUE, ICON_MULTIPLY)
+		var/datum/universal_icon/accessory_icon_2 = uni_icon(sprite_accessory.icon, "m_[key]_[sprite_accessory.icon_state]_ADJ_2", SOUTH)
+		accessory_icon_2.blend_color(COLOR_EFFIGY_PLATINUM, ICON_MULTIPLY)
+		var/datum/universal_icon/accessory_icon_3 = uni_icon(sprite_accessory.icon, "m_[key]_[sprite_accessory.icon_state]_ADJ_3", SOUTH)
+		accessory_icon_3.blend_color(COLOR_EFFIGY_ELECTRIC_BLUE, ICON_MULTIPLY)
+		final_icon.blend_icon(accessory_icon_1, ICON_OVERLAY)
+		final_icon.blend_icon(accessory_icon_2, ICON_OVERLAY)
+		final_icon.blend_icon(accessory_icon_3, ICON_OVERLAY)
 
-	final_icon.Crop(10, 8, 22, 23)
-	final_icon.Scale(26, 32)
-	final_icon.Crop(-2, 1, 29, 32)
+	final_icon.crop(10, 8, 22, 23)
+	final_icon.scale(26, 32)
+	final_icon.crop(-2, 1, 29, 32)
 
 	return final_icon
 
