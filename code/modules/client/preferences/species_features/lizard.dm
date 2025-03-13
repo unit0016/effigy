@@ -20,27 +20,6 @@
 	final_icon.crop(11, 20, 23, 32)
 	final_icon.scale(32, 32)
 	final_icon.blend_color(COLOR_VIBRANT_LIME, ICON_MULTIPLY)
-	
-	/* EffigyEdit TODO
-	var/static/icon/final_icon
-	final_icon = icon('local/icons/mob/mutant/sprite_accessories/fallback.dmi')
-
-	if (!isnull(sprite_accessory))
-		var/icon/accessory_icon = icon(sprite_accessory.icon, "m_[key]_[sprite_accessory.icon_state]_ADJ", EAST)
-		accessory_icon.Blend(COLOR_EFFIGY_SKY_BLUE, ICON_MULTIPLY)
-		var/icon/accessory_icon_2 = icon(sprite_accessory.icon, "m_[key]_[sprite_accessory.icon_state]_ADJ_2", EAST)
-		accessory_icon_2.Blend(COLOR_EFFIGY_PLATINUM, ICON_MULTIPLY)
-		var/icon/accessory_icon_3 = icon(sprite_accessory.icon, "m_[key]_[sprite_accessory.icon_state]_ADJ_3", EAST)
-		accessory_icon_3.Blend(COLOR_EFFIGY_ELECTRIC_BLUE, ICON_MULTIPLY)
-		final_icon.Blend(accessory_icon, ICON_OVERLAY)
-		final_icon.Blend(accessory_icon_2, ICON_OVERLAY)
-		final_icon.Blend(accessory_icon_3, ICON_OVERLAY)
-	// EffigyEdit Change End
-
-	final_icon.Crop(11, 20, 23, 32)
-	final_icon.Scale(32, 32)
-	// final_icon.Blend(COLOR_VIBRANT_LIME, ICON_MULTIPLY) // EffigyEdit Remove - Character Preferences
-	*/
 
 	return final_icon
 
