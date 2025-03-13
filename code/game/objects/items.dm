@@ -449,7 +449,6 @@
 	if(greyscale_config_worn_bodyshapes && greyscale_config_last_bodyshape)
 		if(greyscale_config_worn_bodyshapes["[greyscale_config_last_bodyshape]"])
 			var/alt_worn_icon = greyscale_config_worn_bodyshapes["[greyscale_config_last_bodyshape]"]
-			debug_effigy("Digigags", "Assoc list found, passing through value ["[greyscale_config_last_bodyshape]"] (got [alt_worn_icon])")
 			bodyshape_icon_files["[greyscale_config_last_bodyshape]"] = SSgreyscale.GetColoredIconByType(alt_worn_icon, greyscale_colors)
 			worn_icon = bodyshape_icon_files["[greyscale_config_last_bodyshape]"]
 		else
