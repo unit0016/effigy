@@ -6,5 +6,4 @@
 # Example:
 # 500.1337: runtimestation
 # 516.1638: runtimestation;516
-# Beta version
-516.1658: tramstation;516
+516.1658: runtimestation;516
