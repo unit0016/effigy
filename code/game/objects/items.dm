@@ -448,8 +448,8 @@
 	/// EffigyEdit TODO: make this functional
 	if(greyscale_config_worn_bodyshapes && greyscale_config_last_bodyshape)
 		if(greyscale_config_worn_bodyshapes[greyscale_config_last_bodyshape])
-			greyscale_config_worn = greyscale_config_worn_bodyshapes[greyscale_config_last_bodyshape]
-			bodyshape_icon_files["[greyscale_config_last_bodyshape]"] = SSgreyscale.GetColoredIconByType(greyscale_config_worn, greyscale_colors)
+			var/alt_worn_icon = greyscale_config_worn_bodyshapes[greyscale_config_last_bodyshape]
+			bodyshape_icon_files["[greyscale_config_last_bodyshape]"] = SSgreyscale.GetColoredIconByType(alt_worn_icon, greyscale_colors)
 			worn_icon = bodyshape_icon_files["[greyscale_config_last_bodyshape]"]
 		else
 			worn_icon = SSgreyscale.GetColoredIconByType(greyscale_config_worn, greyscale_colors)
