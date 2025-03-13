@@ -775,7 +775,7 @@
 		var/mob/living/carbon/human/human_user = user
 		for(var/shape in supported_bodyshapes)
 			if(human_user.bodyshape & shape)
-				greyscale_config_last_bodyshape = "[shape]"
+				greyscale_config_last_bodyshape = shape
 		update_greyscale()
 	// EffigyEdit Add End
 	return
