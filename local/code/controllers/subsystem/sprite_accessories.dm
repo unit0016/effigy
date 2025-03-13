@@ -7,5 +7,5 @@
 	else
 		var/json_list = rustg_dmi_icon_states(icon_file)
 		var/list/decoded_list = json_decode(json_list)
-		sprite_accessory_layers[icon_file] = LAZYCOPY(decoded_list)
+		sprite_accessory_layers[icon_file] = decoded_list ? decoded_list.Copy() : list()
 		return sprite_accessory_layers[icon_file]
