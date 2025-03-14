@@ -74,19 +74,23 @@
 	return FALSE
 
 /proc/generate_ext_groin_y1_shot(datum/sprite_accessory/sprite_accessory, key)
-	var/static/icon/final_icon
-	final_icon = icon('local/icons/mob/mutant/sprite_accessories/fallback.dmi')
+	var/static/datum/universal_icon/final_icon
+	final_icon = uni_icon('local/icons/mob/mutant/sprite_accessories/fallback.dmi', null)
 
 	if (!isnull(sprite_accessory))
-		var/icon/accessory_icon_1 = icon(sprite_accessory.icon, "m_[key]_[sprite_accessory.icon_state]_ADJ", SOUTH)
-		accessory_icon_1.Blend(COLOR_EFFIGY_SKY_BLUE, ICON_MULTIPLY)
-		var/icon/accessory_icon_2 = icon(sprite_accessory.icon, "m_[key]_[sprite_accessory.icon_state]_ADJ_2", SOUTH)
-		accessory_icon_2.Blend(COLOR_EFFIGY_PLATINUM, ICON_MULTIPLY)
-		var/icon/accessory_icon_3 = icon(sprite_accessory.icon, "m_[key]_[sprite_accessory.icon_state]_ADJ_3", SOUTH)
-		accessory_icon_3.Blend(COLOR_EFFIGY_ELECTRIC_BLUE, ICON_MULTIPLY)
-		final_icon.Blend(accessory_icon_1, ICON_OVERLAY)
-		final_icon.Blend(accessory_icon_2, ICON_OVERLAY)
-		final_icon.Blend(accessory_icon_3, ICON_OVERLAY)
+		var/list/sprite_accessory_layers = SSaccessories.get_sprite_accessory_layers("[sprite_accessory.icon]")
+		if(sprite_accessory_layers.Find("m_[key]_[sprite_accessory.icon_state]_ADJ"))
+			var/datum/universal_icon/accessory_icon_1 = uni_icon(sprite_accessory.icon, "m_[key]_[sprite_accessory.icon_state]_ADJ", SOUTH)
+			accessory_icon_1.blend_color(COLOR_EFFIGY_SKY_BLUE, ICON_MULTIPLY)
+			final_icon.blend_icon(accessory_icon_1, ICON_OVERLAY)
+		if(sprite_accessory_layers.Find("m_[key]_[sprite_accessory.icon_state]_ADJ_2"))
+			var/datum/universal_icon/accessory_icon_2 = uni_icon(sprite_accessory.icon, "m_[key]_[sprite_accessory.icon_state]_ADJ_2", SOUTH)
+			accessory_icon_2.blend_color(COLOR_EFFIGY_PLATINUM, ICON_MULTIPLY)
+			final_icon.blend_icon(accessory_icon_2, ICON_OVERLAY)
+		if(sprite_accessory_layers.Find("m_[key]_[sprite_accessory.icon_state]_ADJ_3"))
+			var/datum/universal_icon/accessory_icon_3 = uni_icon(sprite_accessory.icon, "m_[key]_[sprite_accessory.icon_state]_ADJ_3", SOUTH)
+			accessory_icon_3.blend_color(COLOR_EFFIGY_ELECTRIC_BLUE, ICON_MULTIPLY)
+			final_icon.blend_icon(accessory_icon_3, ICON_OVERLAY)
 
 	/*
 	final_icon.Crop(10, 8, 22, 23)
@@ -184,19 +188,23 @@
 	return FALSE
 
 /proc/generate_ext_groin_y2_shot(datum/sprite_accessory/sprite_accessory, key)
-	var/static/icon/final_icon
-	final_icon = icon('local/icons/mob/mutant/sprite_accessories/fallback.dmi')
+	var/static/datum/universal_icon/final_icon
+	final_icon = uni_icon('local/icons/mob/mutant/sprite_accessories/fallback.dmi', null)
 
 	if (!isnull(sprite_accessory))
-		var/icon/accessory_icon_1 = icon(sprite_accessory.icon, "m_[key]_[sprite_accessory.icon_state]_ADJ", SOUTH)
-		accessory_icon_1.Blend(COLOR_EFFIGY_SKY_BLUE, ICON_MULTIPLY)
-		var/icon/accessory_icon_2 = icon(sprite_accessory.icon, "m_[key]_[sprite_accessory.icon_state]_ADJ_2", SOUTH)
-		accessory_icon_2.Blend(COLOR_EFFIGY_PLATINUM, ICON_MULTIPLY)
-		var/icon/accessory_icon_3 = icon(sprite_accessory.icon, "m_[key]_[sprite_accessory.icon_state]_ADJ_3", SOUTH)
-		accessory_icon_3.Blend(COLOR_EFFIGY_ELECTRIC_BLUE, ICON_MULTIPLY)
-		final_icon.Blend(accessory_icon_1, ICON_OVERLAY)
-		final_icon.Blend(accessory_icon_2, ICON_OVERLAY)
-		final_icon.Blend(accessory_icon_3, ICON_OVERLAY)
+		var/list/sprite_accessory_layers = SSaccessories.get_sprite_accessory_layers("[sprite_accessory.icon]")
+		if(sprite_accessory_layers.Find("m_[key]_[sprite_accessory.icon_state]_ADJ"))
+			var/datum/universal_icon/accessory_icon_1 = uni_icon(sprite_accessory.icon, "m_[key]_[sprite_accessory.icon_state]_ADJ", SOUTH)
+			accessory_icon_1.blend_color(COLOR_EFFIGY_SKY_BLUE, ICON_MULTIPLY)
+			final_icon.blend_icon(accessory_icon_1, ICON_OVERLAY)
+		if(sprite_accessory_layers.Find("m_[key]_[sprite_accessory.icon_state]_ADJ_2"))
+			var/datum/universal_icon/accessory_icon_2 = uni_icon(sprite_accessory.icon, "m_[key]_[sprite_accessory.icon_state]_ADJ_2", SOUTH)
+			accessory_icon_2.blend_color(COLOR_EFFIGY_PLATINUM, ICON_MULTIPLY)
+			final_icon.blend_icon(accessory_icon_2, ICON_OVERLAY)
+		if(sprite_accessory_layers.Find("m_[key]_[sprite_accessory.icon_state]_ADJ_3"))
+			var/datum/universal_icon/accessory_icon_3 = uni_icon(sprite_accessory.icon, "m_[key]_[sprite_accessory.icon_state]_ADJ_3", SOUTH)
+			accessory_icon_3.blend_color(COLOR_EFFIGY_ELECTRIC_BLUE, ICON_MULTIPLY)
+			final_icon.blend_icon(accessory_icon_3, ICON_OVERLAY)
 
 	/*
 	final_icon.Crop(10, 8, 22, 23)

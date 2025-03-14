@@ -27,7 +27,8 @@
 	var/offset2 = 0.02
 	var/offset3 = 0.01
 
-/datum/bodypart_overlay/mutant/ext_groin_y1/can_draw_on_bodypart(mob/living/carbon/human/human)
+/datum/bodypart_overlay/mutant/ext_groin_y1/can_draw_on_bodypart(obj/item/bodypart/bodypart_owner)
+	var/mob/living/carbon/human/human = bodypart_owner.owner
 	if(visibility == ORGAN_VISIBILITY_MODE_NORMAL)
 		if(human.underwear != "Nude" && !(human.underwear_visibility & UNDERWEAR_HIDE_UNDIES))
 			return FALSE
@@ -112,7 +113,8 @@
 	var/offset2 = 0.05
 	var/offset3 = 0.04
 
-/datum/bodypart_overlay/mutant/ext_groin_y2/can_draw_on_bodypart(mob/living/carbon/human/human)
+/datum/bodypart_overlay/mutant/ext_groin_y2/can_draw_on_bodypart(obj/item/bodypart/bodypart_owner)
+	var/mob/living/carbon/human/human = bodypart_owner.owner
 	if(visibility == ORGAN_VISIBILITY_MODE_NORMAL)
 		if(human.underwear != "Nude" && !(human.underwear_visibility & UNDERWEAR_HIDE_UNDIES))
 			return FALSE

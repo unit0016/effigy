@@ -59,7 +59,7 @@
 
 /datum/sprite_accessory/socks/bee_thigh_legacy
 	name = "Thigh-high (Bee, Legacy)"
-	icon_state = "bee_thigh_old"
+	icon_state = "bee_thigh_legacy"
 
 /datum/sprite_accessory/socks/fishnet_thigh_legacy
 	name = "Thigh-high (Fishnet, Legacy)"

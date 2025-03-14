@@ -6,7 +6,7 @@
  * and should be kept together and sorted as 'Beak'
  */
 /datum/sprite_accessory/wings_anthro
-	icon = 'local/icons/mob/mutant/sprite_accessories/wings.dmi'
+	icon = EFFIGY_WINGS_ICON_FILE
 	dimension_x = 46
 	dimension_y = 34
 	center = TRUE

@@ -43,6 +43,9 @@
 /datum/preference/choiced/lizard_snout/create_default_value()
 	return /datum/sprite_accessory/snouts/none::name
 
+/datum/preference/choiced/lizard_snout/icon_for(value)
+	return generate_side_icon(SSaccessories.snouts_list[value], "snout", include_snout = FALSE)
+
 /datum/preference/choiced/lizard_snout/is_accessible(datum/preferences/preferences)
 	. = ..()
 	var/datum/species/species = preferences.read_preference(/datum/preference/choiced/species)

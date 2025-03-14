@@ -34,6 +34,23 @@
 /datum/preference/choiced/moth_antennae/create_default_value()
 	return /datum/sprite_accessory/moth_antennae/none::name
 
+/datum/preference/choiced/moth_antennae/icon_for(value)
+	var/datum/sprite_accessory/sprite_accessory = SSaccessories.moth_antennae_list[value]
+	var/static/datum/universal_icon/final_icon
+	final_icon = uni_icon('local/icons/mob/mutant/sprite_accessories/fallback.dmi', null)
+
+	if (!isnull(sprite_accessory) && (LOWER_TEXT(sprite_accessory.icon_state) != "none"))
+		var/list/sprite_accessory_layers = SSaccessories.get_sprite_accessory_layers("[sprite_accessory.icon]")
+		if(sprite_accessory_layers.Find("m_moth_antennae_[sprite_accessory.icon_state]_FRONT"))
+			var/datum/universal_icon/accessory_icon_1 = uni_icon(sprite_accessory.icon, "m_moth_antennae_[sprite_accessory.icon_state]_FRONT")
+			final_icon.blend_icon(accessory_icon_1, ICON_OVERLAY)
+
+	final_icon.blend_color(COLOR_EFFIGY_SKY_BLUE, ICON_MULTIPLY)
+	final_icon.scale(64, 64)
+	final_icon.crop(15, 64 - 31, 15 + 31, 64)
+
+	return final_icon
+
 /datum/preference/choiced/moth_antennae/is_accessible(datum/preferences/preferences)
 	. = ..()
 	var/datum/species/species = preferences.read_preference(/datum/preference/choiced/species)

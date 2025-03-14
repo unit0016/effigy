@@ -53,6 +53,9 @@
 /datum/preference/choiced/lizard_frills/create_default_value()
 	return /datum/sprite_accessory/frills/none::name
 
+/datum/preference/choiced/lizard_frills/icon_for(value)
+	return generate_side_icon(SSaccessories.frills_list[value], "frills")
+
 /datum/preference/choiced/lizard_frills/is_accessible(datum/preferences/preferences)
 	. = ..()
 	var/datum/species/species = preferences.read_preference(/datum/preference/choiced/species)
