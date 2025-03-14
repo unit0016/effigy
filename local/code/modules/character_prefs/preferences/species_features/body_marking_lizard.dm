@@ -24,6 +24,24 @@
 /datum/preference/choiced/lizard_body_markings/create_default_value()
 	return /datum/sprite_accessory/lizard_markings/none::name
 
+/datum/preference/choiced/lizard_body_markings/icon_for(value)
+	var/datum/sprite_accessory/sprite_accessory = SSaccessories.lizard_markings_list[value]
+	var/static/datum/universal_icon/final_icon
+	final_icon = uni_icon('local/icons/mob/mutant/sprite_accessories/fallback.dmi', null)
+
+	if (!isnull(sprite_accessory) && (LOWER_TEXT(sprite_accessory.icon_state) != "none"))
+		var/list/sprite_accessory_layers = SSaccessories.get_sprite_accessory_layers("[sprite_accessory.icon]")
+		if(sprite_accessory_layers.Find("male_[sprite_accessory.icon_state]_chest"))
+			var/datum/universal_icon/accessory_icon_1 = uni_icon(sprite_accessory.icon, "male_[sprite_accessory.icon_state]_chest")
+			final_icon.blend_icon(accessory_icon_1, ICON_OVERLAY)
+
+	final_icon.blend_color(COLOR_EFFIGY_SKY_BLUE, ICON_MULTIPLY)
+	final_icon.crop(10, 8, 22, 23)
+	final_icon.scale(26, 32)
+	final_icon.crop(-2, 1, 29, 32)
+
+	return final_icon
+
 /datum/preference/choiced/lizard_body_markings/is_accessible(datum/preferences/preferences)
 	. = ..()
 	/*
