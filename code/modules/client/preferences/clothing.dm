@@ -116,7 +116,7 @@
 		lower_half.blend_icon(uni_icon('icons/mob/human/bodyparts_greyscale.dmi', "human_r_leg"), ICON_OVERLAY)
 		lower_half.blend_icon(uni_icon('icons/mob/human/bodyparts_greyscale.dmi', "human_l_leg"), ICON_OVERLAY)
 
-	return generate_under_icon(SSaccessories.socks_list[value], lower_half) // EffigyEdit Change - Character Preferences - Original: generate_underwear_icon
+	return generate_underwear_icon(SSaccessories.socks_list[value], lower_half) // EffigyEdit Change - Character Preferences - Original: generate_underwear_icon
 
 /datum/preference/choiced/socks/apply_to_human(mob/living/carbon/human/target, value)
 	target.socks = value
@@ -165,7 +165,7 @@
 
 	if (value != "Nude")
 		var/datum/sprite_accessory/accessory = SSaccessories.undershirt_list[value]
-		icon_with_undershirt.blend_icon(uni_icon('icons/mob/clothing/underwear.dmi', accessory.icon_state), ICON_OVERLAY)
+		icon_with_undershirt.blend_icon(uni_icon(accessory.icon, accessory.icon_state), ICON_OVERLAY) // EffigyEdit Change - Character Preferences - Original: icon_with_undershirt.blend_icon(uni_icon('icons/mob/clothing/underwear.dmi', accessory.icon_state), ICON_OVERLAY)
 
 	icon_with_undershirt.crop(10, 11, 22, 23) // EffigyEdit Change - Character Preferences - Original: icon_with_undershirt.crop(9, 9, 23, 23)
 	icon_with_undershirt.scale(32, 32)
@@ -198,7 +198,7 @@
 		lower_half.blend_icon(uni_icon('icons/mob/human/bodyparts_greyscale.dmi', "human_r_leg"), ICON_OVERLAY)
 		lower_half.blend_icon(uni_icon('icons/mob/human/bodyparts_greyscale.dmi', "human_l_leg"), ICON_OVERLAY)
 
-	return generate_under_icon(SSaccessories.underwear_list[value], lower_half, COLOR_ALMOST_BLACK, icon_offset = 5) // EffigyEdit Change - Character Preferences - Original: generate_underwear_icon(SSaccessories.underwear_list[value], lower_half, COLOR_ALMOST_BLACK)
+	return generate_underwear_icon(SSaccessories.underwear_list[value], lower_half, COLOR_ALMOST_BLACK, icon_offset = 5) // EffigyEdit Change - Character Preferences - Original: generate_underwear_icon(SSaccessories.underwear_list[value], lower_half, COLOR_ALMOST_BLACK)
 
 /datum/preference/choiced/underwear/apply_to_human(mob/living/carbon/human/target, value)
 	target.underwear = value

@@ -2,7 +2,7 @@
 	var/static/datum/universal_icon/final_icon
 	final_icon = uni_icon('local/icons/mob/mutant/sprite_accessories/fallback.dmi', null)
 
-	if (!isnull(sprite_accessory) && (LOWER_TEXT(sprite_accessory.icon_state) != "none"))
+	if (!isnull(sprite_accessory) && (LOWER_TEXT(sprite_accessory.icon_state) != "nude"))
 		var/list/sprite_accessory_layers = SSaccessories.get_sprite_accessory_layers("[sprite_accessory.icon]")
 		if(sprite_accessory_layers.Find("[sprite_accessory.icon_state]"))
 			var/datum/universal_icon/accessory_icon_1 = uni_icon(sprite_accessory.icon, "[sprite_accessory.icon_state]")
