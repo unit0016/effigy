@@ -109,7 +109,7 @@
 /datum/supply_pack/organic/lavalandsamples
 	name = "Planetary Flora Samples"
 	desc = "A box of samples taken from the surface of Lavaland. Requires Hydroponics access to open."
-	cost = CARGO_CRATE_VALUE * 2
+	cost = CARGO_CRATE_VALUE * 7
 	access_view = ACCESS_HYDROPONICS
 	contains = list(
 		/obj/item/seeds/lavaland/polypore,

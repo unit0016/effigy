@@ -5162,7 +5162,7 @@
 /area/station/science)
 "cLy" = (
 /obj/machinery/mecha_part_fabricator{
-	dir = 4
+	drop_direction = 4
 	},
 /obj/effect/turf_decal/bot_red,
 /turf/open/floor/mineral/plastitanium,
@@ -40486,7 +40486,7 @@
 /area/station/security/warden)
 "vPf" = (
 /obj/machinery/mecha_part_fabricator{
-	dir = 4
+	drop_direction = 4
 	},
 /obj/effect/turf_decal/bot_red,
 /obj/structure/sign/poster/official/random/directional/west,

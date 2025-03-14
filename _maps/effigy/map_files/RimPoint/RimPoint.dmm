@@ -14605,7 +14605,7 @@
 /area/station/cargo/storage)
 "ffx" = (
 /obj/machinery/mecha_part_fabricator{
-	dir = 1
+	drop_direction = 1
 	},
 /obj/effect/turf_decal/bot_red,
 /obj/effect/turf_decal/siding/wideplating_new/dark{
@@ -39009,7 +39009,7 @@
 /area/station/hallway/secondary/recreation)
 "nMo" = (
 /obj/machinery/mecha_part_fabricator/maint{
-	dir = 1
+	drop_direction = 1
 	},
 /obj/effect/decal/cleanable/dirt/dust,
 /turf/open/floor/plating,
