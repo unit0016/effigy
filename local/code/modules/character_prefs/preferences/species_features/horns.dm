@@ -1,3 +1,27 @@
+/datum/preference/choiced/proc/generate_side_icon(datum/sprite_accessory/sprite_accessory, key, include_snout = TRUE)
+	var/static/datum/universal_icon/final_icon
+	final_icon = uni_icon('local/icons/mob/mutant/sprite_accessories/fallback.dmi', null)
+
+	if (!isnull(sprite_accessory) && (LOWER_TEXT(sprite_accessory.icon_state) != "none"))
+		var/list/sprite_accessory_layers = SSaccessories.get_sprite_accessory_layers("[sprite_accessory.icon]")
+		if(sprite_accessory_layers.Find("m_[key]_[sprite_accessory.icon_state]_ADJ"))
+			var/datum/universal_icon/accessory_icon_1 = uni_icon(sprite_accessory.icon, "m_[key]_[sprite_accessory.icon_state]_ADJ", EAST)
+			accessory_icon_1.blend_color(COLOR_EFFIGY_SKY_BLUE, ICON_MULTIPLY)
+			final_icon.blend_icon(accessory_icon_1, ICON_OVERLAY)
+		if(sprite_accessory_layers.Find("m_[key]_[sprite_accessory.icon_state]_ADJ_2"))
+			var/datum/universal_icon/accessory_icon_2 = uni_icon(sprite_accessory.icon, "m_[key]_[sprite_accessory.icon_state]_ADJ_2", EAST)
+			accessory_icon_2.blend_color(COLOR_EFFIGY_PLATINUM, ICON_MULTIPLY)
+			final_icon.blend_icon(accessory_icon_2, ICON_OVERLAY)
+		if(sprite_accessory_layers.Find("m_[key]_[sprite_accessory.icon_state]_ADJ_3"))
+			var/datum/universal_icon/accessory_icon_3 = uni_icon(sprite_accessory.icon, "m_[key]_[sprite_accessory.icon_state]_ADJ_3", EAST)
+			accessory_icon_3.blend_color(COLOR_EFFIGY_ELECTRIC_BLUE, ICON_MULTIPLY)
+			final_icon.blend_icon(accessory_icon_3, ICON_OVERLAY)
+
+	final_icon.crop(11, 20, 23, 32)
+	final_icon.scale(32, 32)
+
+	return final_icon
+
 /obj/item/organ/horns
 	name = "horns"
 
@@ -82,6 +106,9 @@
 
 /datum/preference/choiced/lizard_horns/create_default_value()
 	return /datum/sprite_accessory/horns/none::name
+
+/datum/preference/choiced/lizard_horns/icon_for(value)
+	return generate_side_icon(SSaccessories.horns_list[value], "horns")
 
 /datum/preference/choiced/lizard_horns/is_accessible(datum/preferences/preferences)
 	. = ..()

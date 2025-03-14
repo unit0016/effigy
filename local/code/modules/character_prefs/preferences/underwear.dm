@@ -1,3 +1,20 @@
+/proc/generate_under_icon(datum/sprite_accessory/sprite_accessory, datum/universal_icon/base_icon, color, icon_offset = 0)
+	var/static/datum/universal_icon/final_icon
+	final_icon = uni_icon('local/icons/mob/mutant/sprite_accessories/fallback.dmi', null)
+
+	if (!isnull(sprite_accessory) && (LOWER_TEXT(sprite_accessory.icon_state) != "nude"))
+		var/list/sprite_accessory_layers = SSaccessories.get_sprite_accessory_layers("[sprite_accessory.icon]")
+		if(sprite_accessory_layers.Find("[sprite_accessory.icon_state]"))
+			var/datum/universal_icon/accessory_icon_1 = uni_icon(sprite_accessory.icon, "[sprite_accessory.icon_state]")
+			if (color && !sprite_accessory.use_static)
+				accessory_icon_1.blend_color(color, ICON_MULTIPLY)
+			final_icon.blend_icon(accessory_icon_1, ICON_OVERLAY)
+
+	final_icon.crop(10, 1 + icon_offset, 22, 13 + icon_offset)
+	final_icon.scale(32, 32)
+
+	return final_icon
+
 /// SSAccessories setup
 /datum/controller/subsystem/accessories
 	var/list/bra_list
@@ -64,22 +81,22 @@
 	return assoc_to_keys_features(SSaccessories.bra_list)
 
 /datum/preference/choiced/bra/icon_for(value)
-	var/static/icon/body
+	var/static/datum/universal_icon/body
 	if (isnull(body))
-		body = icon('icons/mob/human/bodyparts_greyscale.dmi', "human_r_arm")
-		body.Blend(icon('icons/mob/human/bodyparts_greyscale.dmi', "human_l_arm"), ICON_OVERLAY)
-		body.Blend(icon('icons/mob/human/bodyparts_greyscale.dmi', "human_r_hand"), ICON_OVERLAY)
-		body.Blend(icon('icons/mob/human/bodyparts_greyscale.dmi', "human_l_hand"), ICON_OVERLAY)
-		body.Blend(icon('icons/mob/human/bodyparts_greyscale.dmi', "human_chest_m"), ICON_OVERLAY)
+		body = uni_icon('icons/mob/human/bodyparts_greyscale.dmi', "human_r_arm")
+		body.blend_icon(uni_icon('icons/mob/human/bodyparts_greyscale.dmi', "human_l_arm"), ICON_OVERLAY)
+		body.blend_icon(uni_icon('icons/mob/human/bodyparts_greyscale.dmi', "human_r_hand"), ICON_OVERLAY)
+		body.blend_icon(uni_icon('icons/mob/human/bodyparts_greyscale.dmi', "human_l_hand"), ICON_OVERLAY)
+		body.blend_icon(uni_icon('icons/mob/human/bodyparts_greyscale.dmi', "human_chest_m"), ICON_OVERLAY)
 
-	var/icon/icon_with_bra = icon(body)
+	var/datum/universal_icon/icon_with_bra = body.copy()
 
 	if (value != "Nude")
 		var/datum/sprite_accessory/accessory = SSaccessories.bra_list[value]
-		icon_with_bra.Blend(icon(accessory.icon, accessory.icon_state), ICON_OVERLAY)
+		icon_with_bra.blend_icon(uni_icon(accessory.icon, accessory.icon_state), ICON_OVERLAY)
 
-	icon_with_bra.Crop(10, 11, 22, 23)
-	icon_with_bra.Scale(32, 32)
+	icon_with_bra.crop(10, 11, 22, 23)
+	icon_with_bra.scale(32, 32)
 	return icon_with_bra
 
 /datum/preference/choiced/bra/apply_to_human(mob/living/carbon/human/target, value)

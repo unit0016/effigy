@@ -1,3 +1,16 @@
+/datum/preference/choiced/proc/generate_neck_icon(datum/sprite_accessory/sprite_accessory, key)
+	var/static/datum/universal_icon/final_icon
+	final_icon = uni_icon('local/icons/mob/mutant/sprite_accessories/fallback.dmi', null)
+
+	if (!isnull(sprite_accessory) && (LOWER_TEXT(sprite_accessory.icon_state) != "none"))
+		var/list/sprite_accessory_layers = SSaccessories.get_sprite_accessory_layers("[sprite_accessory.icon]")
+		if(sprite_accessory_layers.Find("m_[key]_[sprite_accessory.icon_state]_ADJ"))
+			var/datum/universal_icon/accessory_icon_1 = uni_icon(sprite_accessory.icon, "m_[key]_[sprite_accessory.icon_state]_ADJ", EAST)
+			accessory_icon_1.blend_color(COLOR_EFFIGY_SKY_BLUE, ICON_MULTIPLY)
+			final_icon.blend_icon(accessory_icon_1, ICON_OVERLAY)
+
+	return final_icon
+
 /// Fluff toggle
 /datum/preference/toggle/fluff
 	savefile_key = "fluff_toggle"
@@ -35,10 +48,7 @@
 	return /datum/sprite_accessory/fluff/none::name
 
 /datum/preference/choiced/fluff/icon_for(value)
-	var/datum/sprite_accessory/fluff = SSaccessories.fluff_list[value]
-	var/icon/final_icon = icon(fluff.icon, "m_fluff_[fluff.icon_state]_ADJ")
-	final_icon.Blend(icon(fluff.icon, "m_fluff_[fluff.icon_state]_ADJ"), ICON_OVERLAY)
-	return final_icon
+	return generate_neck_icon(SSaccessories.horns_list[value], "fluff")
 
 /datum/preference/choiced/fluff/init_possible_values()
 	return assoc_to_keys_features(SSaccessories.fluff_list)

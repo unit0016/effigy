@@ -66,6 +66,10 @@
 	return TRUE
 
 ///	Wings type
+/datum/preference/choiced/moth_wings/icon_for(value)
+	var/datum/sprite_accessory/moth_wings = SSaccessories.moth_wings_list[value]
+	return generate_back_icon(moth_wings, "moth_wings")
+
 /datum/preference/choiced/wings
 	savefile_key = "feature_wings"
 	savefile_identifier = PREFERENCE_CHARACTER
