@@ -58,19 +58,11 @@
 	var/custom_species_lore
 	var/obscured
 	var/name = ""
-	var/obscurity_examine_pref = preferences?.read_preference(/datum/preference/toggle/obscurity_examine)
 	var/ooc_notes = ""
 	var/headshot = ""
 
 	//  Handle OOC notes first
 	if(preferences)
-		/*
-		if(preferences.read_preference(/datum/preference/toggle/master_erp_preferences))
-			var/e_prefs = preferences.read_preference(/datum/preference/choiced/erp_status)
-			ooc_notes += "ERP: [e_prefs]\n"
-			ooc_notes += "\n"
-		*/ // EffigyEdit to remove
-
 		// Now we handle silicon and/or human, order doesn't really matter
 		// If other variants of mob/living need to be handled at some point, put them here
 		if(issilicon(holder))
@@ -84,9 +76,8 @@
 
 	if(ishuman(holder))
 		var/mob/living/carbon/human/holder_human = holder
-		obscured = (holder_human.wear_mask && (holder_human.wear_mask.flags_inv & HIDEFACE)) && \
-		obscurity_examine_pref || \
-		(holder_human.head && (holder_human.head.flags_inv & HIDEFACE) && obscurity_examine_pref)
+		obscured = (holder_human.wear_mask && (holder_human.wear_mask.flags_inv & HIDEFACE)) || \
+		(holder_human.head && (holder_human.head.flags_inv & HIDEFACE))
 
 		//Check if the mob is obscured, then continue to headshot and species lore
 		ooc_notes += holder_human.dna?.features["ooc_notes"]
@@ -122,31 +113,4 @@
 	data["custom_species"] = custom_species
 	data["custom_species_lore"] = custom_species_lore
 	data["headshot"] = headshot
-	return data
-
-/datum/examine_panel/ui_data(mob/user)
-	var/list/data = ..()
-	var/datum/preferences/preferences = holder.client?.prefs
-	if(isnull(preferences))
-		return ..()
-	var/flavor_text_nsfw = ""
-	var/headshot_nsfw = ""
-	var/character_ad = ""
-	var/emote_length = preferences.read_preference(/datum/preference/choiced/emote_length)
-	var/approach = preferences.read_preference(/datum/preference/choiced/approach_pref)
-	var/furries = preferences.read_preference(/datum/preference/choiced/directory_character_prefs/furry_pref)
-	var/scalies = preferences.read_preference(/datum/preference/choiced/directory_character_prefs/scalie_pref)
-	var/others = preferences.read_preference(/datum/preference/choiced/directory_character_prefs/other_pref)
-	var/demihumans = preferences.read_preference(/datum/preference/choiced/directory_character_prefs/demihuman_pref)
-	var/humans = preferences.read_preference(/datum/preference/choiced/directory_character_prefs/human_pref)
-	character_ad += "Preferred Emote Length: [emote_length]\n"
-	character_ad += "How to Approach: [approach]\n"
-	character_ad += "Furries: [furries] | Scalies: [scalies] | Other: [others]\n"
-	character_ad += "Demis: [demihumans] | Humans: [humans]\n"
-	character_ad += "\n"
-	character_ad += preferences.read_preference(/datum/preference/text/character_ad)
-
-	data["character_ad"] = character_ad
-	data["flavor_text_nsfw"] = flavor_text_nsfw
-	data["headshot_nsfw"] = headshot_nsfw
 	return data

@@ -302,12 +302,6 @@
 		flavor_text_link = span_notice("<a href='byond://?src=[REF(src)];lookup_info=open_examine_panel'>\[Examine\]</a>")
 	if(!isnull(flavor_text_link))
 		. += flavor_text_link
-	if(client)
-		var/erp_status_pref = client.prefs.read_preference(/datum/preference/choiced/erp_status)
-		if(erp_status_pref)
-			ADD_NEWLINE_IF_NECESSARY(.)
-			. += span_info("ERP Status: [span_purple(EXAMINE_HINT(erp_status_pref))]")
-	// EffigyEdit Add End
 
 	SEND_SIGNAL(src, COMSIG_ATOM_EXAMINE, user, .)
 	if(length(.))

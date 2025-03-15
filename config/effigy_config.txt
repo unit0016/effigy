@@ -1,4 +1,0 @@
-## Uncomment to remove all ERP game preferences. Doesn't include organs.
-#DISABLE_ERP_PREFERENCES
-## Uncomment to remove all adult items from the game.
-#DISABLE_LEWD_ITEMS

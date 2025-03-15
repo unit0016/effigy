@@ -6864,7 +6864,6 @@
 #include "local\code\modules\character_prefs\preferences\_preferences.dm"
 #include "local\code\modules\character_prefs\preferences\age.dm"
 #include "local\code\modules\character_prefs\preferences\body_size.dm"
-#include "local\code\modules\character_prefs\preferences\character_directory.dm"
 #include "local\code\modules\character_prefs\preferences\character_info.dm"
 #include "local\code\modules\character_prefs\preferences\character_preview.dm"
 #include "local\code\modules\character_prefs\preferences\chat_color.dm"
