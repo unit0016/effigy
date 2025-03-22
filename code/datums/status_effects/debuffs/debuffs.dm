@@ -281,6 +281,7 @@
 	. = ..()
 	if(!.)
 		return
+	// EffigyEdit TODO: Stasis bed numbing for surgery
 	owner.add_traits(list(TRAIT_IMMOBILIZED, TRAIT_HANDS_BLOCKED, TRAIT_STASIS), TRAIT_STATUS_EFFECT(id))
 	owner.add_filter("stasis_status_ripple", 2, list("type" = "ripple", "flags" = WAVE_BOUNDED, "radius" = 0, "size" = 2))
 	var/filter = owner.get_filter("stasis_status_ripple")
@@ -360,7 +361,7 @@
 	boosted = was_boosted
 
 /datum/status_effect/crusher_mark/on_apply()
-	if(owner.mob_size < MOB_SIZE_LARGE)
+	if(owner.mob_size < MOB_SIZE_LARGE && !HAS_TRAIT(owner, TRAIT_OVERSIZED)) // EFFIGY EDIT CHANGE - Original: if(owner.mob_size >= MOB_SIZE_LARGE)
 		return FALSE
 
 	marked_underlay = new()

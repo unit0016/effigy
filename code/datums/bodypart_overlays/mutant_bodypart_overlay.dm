@@ -26,6 +26,9 @@
 /datum/bodypart_overlay/mutant/proc/on_mob_insert(obj/item/organ/parent, mob/living/carbon/receiver)
 	SIGNAL_HANDLER
 
+	if (isalien(receiver))
+		return // Xenomorphs have no dna or other features required to support this, maybe one day
+
 	if(!should_visual_organ_apply_to(parent.type, receiver))
 		stack_trace("adding a [parent.type] to a [receiver.type] when it shouldn't be!")
 
@@ -76,7 +79,7 @@
 	var/gender = (limb?.limb_gender == FEMALE) ? "f" : "m"
 	var/list/icon_state_builder = list()
 	icon_state_builder += sprite_datum.gender_specific ? gender : "m" //Male is default because sprite accessories are so ancient they predate the concept of not hardcoding gender
-	icon_state_builder += feature_key
+	icon_state_builder += feature_key_sprite ? feature_key_sprite : feature_key // EffigyEdit Change - Character Preferences - Original: icon_state_builder += feature_key
 	icon_state_builder += get_base_icon_state()
 	icon_state_builder += mutant_bodyparts_layertext(image_layer)
 

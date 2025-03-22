@@ -1159,7 +1159,8 @@
 	gender = MALE
 	use_static = TRUE
 
-
+// EffigyEdit Remove - Character Preferences
+/*
 //FEMALE UNDERWEAR
 /datum/sprite_accessory/underwear/female_bikini
 	name = "Bikini"
@@ -1261,6 +1262,8 @@
 	icon_state = "female_kinky"
 	gender = FEMALE
 	use_static = TRUE
+*/
+// EffigyEdit Remove End
 
 ////////////////////////////
 // Undershirt Definitions //
@@ -1457,6 +1460,8 @@
 	icon_state = "whiteshortsleeve"
 	gender = NEUTER
 
+// EffigyEdit Remove - Character Preferences
+/*
 /datum/sprite_accessory/undershirt/sports_bra
 	name = "Sports Bra"
 	icon_state = "sports_bra"
@@ -1466,6 +1471,8 @@
 	name = "Sports Bra (Alt)"
 	icon_state = "sports_bra_alt"
 	gender = NEUTER
+*/
+// EffigyEdit Remove End
 
 /datum/sprite_accessory/undershirt/blueshirtsport
 	name = "Sports Shirt (Blue)"
@@ -1744,6 +1751,8 @@
 	/// Describes which tail spine sprites to use, if any.
 	var/spine_key = NONE
 
+// EffigyEdit Remove - Character Preferences - Moved to local/code/modules/character_prefs/sprite_accessories/tails/tails_aquatic.dm
+/*
 ///Used for fish-infused tails, which come in different flavors.
 /datum/sprite_accessory/tails/fish
 	icon = 'icons/mob/human/fish_features.dmi'
@@ -1772,16 +1781,24 @@
 	icon_state = "chonky"
 	center = TRUE
 	dimension_x = 36
+*/
+// EffigyEdit Remove End
 
 /datum/sprite_accessory/tails/lizard
 	icon = 'icons/mob/human/species/lizard/lizard_tails.dmi'
 	spine_key = SPINE_KEY_LIZARD
 
+// EffigyEdit Remove - Character Preferences - Moved to code/~effigy_sprite_accessories.dm
+/*
 /datum/sprite_accessory/tails/lizard/none
 	name = SPRITE_ACCESSORY_NONE
 	icon_state = "none"
 	natural_spawn = FALSE
+*/
+// EffigyEdit Remove End
 
+// EffigyEdit Remove - Character Preferences - Moved to local/code/modules/character_prefs/sprite_accessories/tails/tails_lizard.dm
+/*
 /datum/sprite_accessory/tails/lizard/smooth
 	name = "Smooth"
 	icon_state = "smooth"
@@ -1802,6 +1819,8 @@
 	name = "Short"
 	icon_state = "short"
 	spine_key = NONE
+*/
+// EffigyEdit Remove End
 
 /datum/sprite_accessory/tails/felinid/cat
 	name = "Cat"
@@ -1811,16 +1830,35 @@
 
 /datum/sprite_accessory/tails/monkey
 
+// EffigyEdit Remove - Character Preferences - Moved to code/~effigy_sprite_accessories.dm
+/*
 /datum/sprite_accessory/tails/monkey/none
 	name = SPRITE_ACCESSORY_NONE
 	icon_state = "none"
 	natural_spawn = FALSE
+*/
+// EffigyEdit Remove End
 
 /datum/sprite_accessory/tails/monkey/default
 	name = "Monkey"
 	icon = 'icons/mob/human/species/monkey/monkey_tail.dmi'
 	icon_state = "default"
 	color_src = FALSE
+
+/datum/sprite_accessory/tails/xeno
+	icon_state = "default"
+	color_src = FALSE
+	center = TRUE
+
+/datum/sprite_accessory/tails/xeno/default
+	name = "Xeno"
+	icon = 'icons/mob/human/species/alien/tail_xenomorph.dmi'
+	dimension_x = 40
+
+/datum/sprite_accessory/tails/xeno/queen
+	name = "Xeno Queen"
+	icon = 'icons/mob/human/species/alien/tail_xenomorph_queen.dmi'
+	dimension_x = 64
 
 /datum/sprite_accessory/pod_hair
 	icon = 'icons/mob/human/species/podperson_hair.dmi'
@@ -1866,6 +1904,8 @@
 	name = "Hibiscus"
 	icon_state = "hibiscus"
 
+// EffigyEdit Remove - Character Preferences - Moved to local/code/modules/character_prefs/sprite_accessories/snouts.dm
+/*
 /datum/sprite_accessory/snouts
 	icon = 'icons/mob/human/species/lizard/lizard_misc.dmi'
 	em_block = TRUE
@@ -1885,7 +1925,10 @@
 /datum/sprite_accessory/snouts/roundlight
 	name = "Round + Light"
 	icon_state = "roundlight"
+*/
 
+// EffigyEdit Remove - Character Preferences - Moved to local/code/modules/character_prefs/sprite_accessories/horns.dm
+/*
 /datum/sprite_accessory/horns
 	icon = 'icons/mob/human/species/lizard/lizard_misc.dmi'
 	em_block = TRUE
@@ -1909,11 +1952,15 @@
 /datum/sprite_accessory/horns/angler
 	name = "Angeler"
 	icon_state = "angler"
+*/
+// EffigyEdit Remove End
 
 /datum/sprite_accessory/ears
 	icon = 'icons/mob/human/cat_features.dmi'
 	em_block = TRUE
 
+// EffigyEdit Remove - Character Preferences - Moved to local/code/modules/character_prefs/sprite_accessories/ears/ears_cat.dm
+/*
 /datum/sprite_accessory/ears/cat
 	name = "Cat"
 	icon_state = "cat"
@@ -1938,6 +1985,7 @@
 /datum/sprite_accessory/ears/cat/round
 	name = "Round"
 	icon_state = "round"
+*/
 
 /datum/sprite_accessory/ears/fox
 	icon = 'icons/mob/human/fox_features.dmi'
@@ -2086,6 +2134,8 @@
 	center = TRUE
 	dimension_y = 32
 
+// EffigyEdit Remove - Character Preferences - Moved to local/code/modules/character_prefs/sprite_accessories/frills.dm
+/*
 /datum/sprite_accessory/frills
 	icon = 'icons/mob/human/species/lizard/lizard_misc.dmi'
 
@@ -2100,6 +2150,8 @@
 /datum/sprite_accessory/frills/aquatic
 	name = "Aquatic"
 	icon_state = "aqua"
+*/
+// EffigyEdit Remove End
 
 /datum/sprite_accessory/spines
 	icon = 'icons/mob/human/species/lizard/lizard_spines.dmi'

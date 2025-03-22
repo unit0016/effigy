@@ -283,7 +283,7 @@ Works together with spawning an observer, noted above.
 	var/mob/dead/observer/ghost = new(src) // Transfer safety to observer spawning proc.
 	SStgui.on_transfer(src, ghost) // Transfer NanoUIs.
 	ghost.can_reenter_corpse = can_reenter_corpse
-	ghost.key = key
+	ghost.PossessByPlayer(key)
 	ghost.client?.init_verbs()
 	if(!can_reenter_corpse)// Disassociates observer mind from the body mind
 		ghost.mind = null
@@ -293,7 +293,7 @@ Works together with spawning an observer, noted above.
 	if(isliving(former_mob))
 		recordable_time = former_mob.timeofdeath
 
-	ghost.client?.player_details.time_of_death = recordable_time
+	ghost.persistent_client?.time_of_death = recordable_time
 	SEND_SIGNAL(src, COMSIG_MOB_GHOSTIZED)
 	return ghost
 
@@ -376,7 +376,7 @@ This is the proc mobs get to turn into a ghost. Forked from ghostize due to comp
 	if(!mind || QDELETED(mind.current))
 		to_chat(src, span_warning("You have no body."))
 		return
-	if(!can_reenter_corpse)
+	if(!can_reenter_corpse) // EffigyEdit TODO: oldbase we had && !mind.has_antag_datum(/datum/antagonist/changeling) but idk if we need it now
 		to_chat(src, span_warning("You cannot re-enter your body."))
 		return
 	if(mind.current.key && mind.current.key[1] != "@") //makes sure we don't accidentally kick any clients
@@ -386,7 +386,7 @@ This is the proc mobs get to turn into a ghost. Forked from ghostize due to comp
 	SStgui.on_transfer(src, mind.current) // Transfer NanoUIs.
 	if(mind.current.stat == DEAD && SSlag_switch.measures[DISABLE_DEAD_KEYLOOP])
 		to_chat(src, span_warning("To leave your body again use the Ghost verb."))
-	mind.current.key = key
+	mind.current.PossessByPlayer(key)
 	mind.current.client.init_verbs()
 	return TRUE
 
@@ -409,6 +409,15 @@ This is the proc mobs get to turn into a ghost. Forked from ghostize due to comp
 		// Update med huds
 		current_mob.med_hud_set_status()
 		current_mob.log_message("had their player ([key_name(src)]) do-not-resuscitate / DNR", LOG_GAME, color = COLOR_GREEN, log_globally = FALSE)
+		/* EffigyEdit TODO - DNR
+		if(!current_mob.has_quirk(/datum/quirk/dnr))
+			current_mob.add_quirk(/datum/quirk/dnr)
+		var/datum/job/job_to_free = SSjob.GetJob(current_mob.mind.assigned_role.title)
+		if(job_to_free)
+			job_to_free.current_positions = max(0, job_to_free.current_positions - 1)
+		*/
+		// EffigyEdit Add End
+
 	log_message("has opted to do-not-resuscitate / DNR from their body ([current_mob])", LOG_GAME, color = COLOR_GREEN)
 
 	// Disassociates observer mind from the body mind
@@ -680,7 +689,7 @@ This is the proc mobs get to turn into a ghost. Forked from ghostize due to comp
 		to_chat(src, span_warning("Someone has taken this body while you were choosing!"))
 		return FALSE
 
-	target.key = key
+	target.PossessByPlayer(key)
 	target.faction = list(FACTION_NEUTRAL)
 	return TRUE
 

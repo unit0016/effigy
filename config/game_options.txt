@@ -248,7 +248,7 @@ NEAR_DEATH_EXPERIENCE
 ## Set to 4 for "specified", silicons will start with an existing lawset. (If no specified lawset is identified, the AI will spawn with asimov.)
 
 
-DEFAULT_LAWS 0
+DEFAULT_LAWS 1
 
 ## SILICON ASIMOV SUPERIORITY OVERRIDE ###
 ## This makes "Asimov Superiority" show up as a perk for humans in the character creation menu even if asimov is not the default lawset, such as when used with asimov++
@@ -561,6 +561,9 @@ MAX_POSITIVE_QUIRKS 6
 # If higher than 1, it'll lean toward common spawns even more.
 RANDOM_LOOT_WEIGHT_MODIFIER 1
 
+## Custom shuttle spam prevention. Changine these numbers allows you to change the maxsize and amount of custom shuttles.
+MAX_SHUTTLE_COUNT 6
+MAX_SHUTTLE_SIZE 300
 ## EFFIGY GAME OPTIONS ##
 
 ## Enables autotransfer system

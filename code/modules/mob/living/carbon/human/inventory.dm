@@ -250,6 +250,12 @@
 			if(belt && !can_equip(belt, ITEM_SLOT_BELT, TRUE, ignore_equipped = TRUE))
 				dropItemToGround(belt)
 	else if(I == gloves)
+		/// EFFIGY ADD - Gloves can restrain
+		if(gloves.breakouttime) //when unequipping a straightjacket
+			REMOVE_TRAIT(src, TRAIT_RESTRAINED, REF(gloves))
+			drop_all_held_items() //suit is restraining
+			update_mob_action_buttons() //certain action buttons may be usable again.
+		/// EFFIGY ADD END
 		gloves = null
 		if(!QDELETED(src))
 			update_worn_gloves()

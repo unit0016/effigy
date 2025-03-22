@@ -183,6 +183,12 @@
 		power_throw--
 	if(HAS_TRAIT(thrown_thing, TRAIT_DWARF))
 		power_throw++
+	//EFFIGY EDIT ADDITION
+	if(HAS_TRAIT(src, TRAIT_OVERSIZED))
+		power_throw++
+	if(HAS_TRAIT(thrown_thing, TRAIT_OVERSIZED))
+		power_throw--
+	//EFFIGY EDIT END
 	if(neckgrab_throw)
 		power_throw++
 	if(HAS_TRAIT(src, TRAIT_TOSS_GUN_HARD) && isgun(thrown_thing))
@@ -430,7 +436,7 @@
 /mob/living/carbon/proc/vomit(vomit_flags = VOMIT_CATEGORY_DEFAULT, vomit_type = /obj/effect/decal/cleanable/vomit/toxic, lost_nutrition = 10, distance = 1, purge_ratio = 0.1)
 	var/force = (vomit_flags & MOB_VOMIT_FORCE)
 	if((HAS_TRAIT(src, TRAIT_NOHUNGER) || HAS_TRAIT(src, TRAIT_TOXINLOVER)) && !force)
-		return TRUE
+		return FALSE
 
 	if(!force && HAS_TRAIT(src, TRAIT_STRONG_STOMACH))
 		lost_nutrition *= 0.5
@@ -1049,6 +1055,11 @@
 	bodyparts += new_bodypart
 	new_bodypart.update_owner(src)
 
+	// Apply a bodypart effect or merge with an existing one, for stuff like plant limbs regenning in light
+	for(var/datum/status_effect/grouped/bodypart_effect/effect_type as anything in new_bodypart.bodypart_effects)
+		apply_status_effect(effect_type, type, new_bodypart)
+
+	// Tell the organs in the bodyparts that we are in a mob again
 	for(var/obj/item/organ/organ in new_bodypart)
 		organ.mob_insert(src)
 
@@ -1379,7 +1390,16 @@
 /// Special carbon interaction on lying down, to transform its sprite by a rotation.
 /mob/living/carbon/proc/lying_angle_on_lying_down(new_lying_angle)
 	if(!new_lying_angle)
+		// EffigyEdit Change - Original:
+		// set_lying_angle(pick(LYING_ANGLE_EAST, LYING_ANGLE_WEST))
+		if(dir == WEST)
+			set_lying_angle(270)
+			return
+		else if(dir == EAST)
+			set_lying_angle(90)
+			return
 		set_lying_angle(pick(LYING_ANGLE_EAST, LYING_ANGLE_WEST))
+		// EffigyEdit Add End
 	else
 		set_lying_angle(new_lying_angle)
 

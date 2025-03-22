@@ -224,7 +224,7 @@ GLOBAL_LIST_INIT(achievements_unlocked, list())
 	for(var/client/C in GLOB.clients)
 		if(!C?.credits)
 			C?.RollCredits()
-		C?.playtitlemusic(40)
+		C?.playtitlemusic(volume_multiplier = 0.5)
 		if(speed_round && was_forced != ADMIN_FORCE_END_ROUND)
 			C?.give_award(/datum/award/achievement/misc/speed_round, C?.mob)
 		HandleRandomHardcoreScore(C)
@@ -259,7 +259,7 @@ GLOBAL_LIST_INIT(achievements_unlocked, list())
 	log_game("The round has ended.")
 	if(was_forced != ADMIN_FORCE_END_ROUND)
 		send_news_report()
-		send2adminchat("Server", "Round [GLOB.round_hex] just ended.")
+		send2adminchat("Server", "Round [GLOB.round_id] just ended.")
 	// EffigyEdit Change End
 
 	CHECK_TICK
@@ -347,8 +347,7 @@ GLOBAL_LIST_INIT(achievements_unlocked, list())
 
 	if(GLOB.round_id)
 		var/statspage = CONFIG_GET(string/roundstatsurl)
-		//var/info = statspage ? "<a href='byond://?action=openLink&link=[url_encode(statspage)][GLOB.round_id]'>[GLOB.round_id]</a>" : GLOB.round_id // EffigyEdit Change - Logging
-		var/info = statspage ? "<a href='byond://?action=openLink&link=[url_encode(statspage)][GLOB.round_hex]'>[GLOB.round_hex]</a>" : GLOB.round_hex // EffigyEdit Change - Logging
+		var/info = statspage ? "<a href='byond://?action=openLink&link=[url_encode(statspage)][GLOB.round_id]'>[GLOB.round_id]</a>" : GLOB.round_id
 		parts += "[FOURSPACES]Round ID: <b>[info]</b>"
 	parts += "[FOURSPACES]Shift Duration: <B>[DisplayTimeText(world.time - SSticker.round_start_time)]</B>"
 	parts += "[FOURSPACES]Station Integrity: <B>[GLOB.station_was_nuked ? span_redtext("Destroyed") : "[popcount["station_integrity"]]%"]</B>"
@@ -671,7 +670,7 @@ GLOBAL_LIST_INIT(achievements_unlocked, list())
 
 /datum/controller/subsystem/ticker/proc/give_show_report_button(client/C)
 	var/datum/action/report/R = new
-	C.player_details.player_actions += R
+	C.persistent_client.player_actions += R
 	R.Grant(C.mob)
 	to_chat(C,span_infoplain("<a href='byond://?src=[REF(R)];report=1'>Show roundend report again</a>"))
 

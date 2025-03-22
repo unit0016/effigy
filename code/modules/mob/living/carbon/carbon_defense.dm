@@ -290,6 +290,7 @@
 		Knockdown(stun_duration)
 
 /mob/living/carbon/proc/help_shake_act(mob/living/carbon/helper, force_friendly)
+	var/nosound = FALSE /// EFFIGY EDIT ADDITION
 	if(on_fire)
 		to_chat(helper, span_warning("You can't put [p_them()] out with just your bare hands!"))
 		return
@@ -309,7 +310,22 @@
 						null, span_hear("You hear the rustling of clothes."), DEFAULT_MESSAGE_RANGE, list(helper, src))
 		to_chat(helper, span_notice("You shake [src] trying to pick [p_them()] up!"))
 		to_chat(src, span_notice("[helper] shakes you to get you up!"))
+	/// EFFIGY EDIT ADD
+	else if(helper.zone_selected == BODY_ZONE_PRECISE_MOUTH)
+		nosound = TRUE
+		playsound(src, 'local/sound/emotes/nose_boop.ogg', 50, 0)
+		helper.visible_message(span_notice("[helper] boops [src]'s nose."), span_notice("You boop [src] on the nose."))
+		if(HAS_TRAIT(src, TRAIT_SENSITIVESNOUT) && get_location_accessible(src, BODY_ZONE_PRECISE_MOUTH))
+			var/datum/quirk/sensitivesnout/poor_snout = src.get_quirk(/datum/quirk/sensitivesnout)
+			poor_snout?.get_booped(helper)
+		return
+	/// EFFIGY EDIT END
 	else if(check_zone(helper.zone_selected) == BODY_ZONE_HEAD && get_bodypart(BODY_ZONE_HEAD)) //Headpats!
+		/// EFFIGY EDIT BEGIN
+		if(HAS_TRAIT(src, TRAIT_OVERSIZED) && !HAS_TRAIT(helper, TRAIT_OVERSIZED))
+			visible_message(span_warning("[helper] tries to pat [src] on the head, but can't reach!"))
+			return
+		/// EFFIGY EDIT END
 		helper.visible_message(span_notice("[helper] gives [src] a pat on the head to make [p_them()] feel better!"), \
 					null, span_hear("You hear a soft patter."), DEFAULT_MESSAGE_RANGE, list(helper, src))
 		to_chat(helper, span_notice("You give [src] a pat on the head to make [p_them()] feel better!"))
@@ -398,7 +414,8 @@
 	if(body_position != STANDING_UP && !resting && !buckled && !HAS_TRAIT(src, TRAIT_FLOORED))
 		get_up(TRUE)
 
-	playsound(loc, 'sound/items/weapons/thudswoosh.ogg', 50, TRUE, -1)
+	if(!nosound) /// EFFIGY EDIT ADDITION
+		playsound(loc, 'sound/items/weapons/thudswoosh.ogg', 50, TRUE, -1) /// EFFIGY EDIT - indented to account for the above
 
 	// Shake animation
 	if (incapacitated)
@@ -702,7 +719,7 @@
 		body_parts -= part
 	GLOB.bioscrambler_valid_parts = body_parts
 
-	var/list/organs = subtypesof(/obj/item/organ) + subtypesof(/obj/item/organ)
+	var/list/organs = subtypesof(/obj/item/organ)
 	for(var/obj/item/organ/organ_type as anything in organs)
 		if(!is_type_in_typecache(organ_type, GLOB.bioscrambler_organs_blacklist) && !(initial(organ_type.organ_flags) & ORGAN_ROBOTIC))
 			continue

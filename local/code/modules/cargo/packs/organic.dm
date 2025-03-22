@@ -109,7 +109,7 @@
 /datum/supply_pack/organic/lavalandsamples
 	name = "Planetary Flora Samples"
 	desc = "A box of samples taken from the surface of Lavaland. Requires Hydroponics access to open."
-	cost = CARGO_CRATE_VALUE * 2
+	cost = CARGO_CRATE_VALUE * 7
 	access_view = ACCESS_HYDROPONICS
 	contains = list(
 		/obj/item/seeds/lavaland/polypore,
@@ -123,6 +123,7 @@
 	crate_name = "planetary seeds crate"
 	crate_type = /obj/structure/closet/crate/hydroponics
 
+/* EffigyEdit TODO: This fails cargo export CI check for some reason
 /datum/supply_pack/service/MODsuit_cargo
 	name = "Cargo Loader MODsuit Crate"
 	desc = "Contains a single quad-armed MODsuit, built to standard cargo specifications."
@@ -130,3 +131,4 @@
 	access_view = ACCESS_CARGO
 	contains = list(/obj/item/mod/control/pre_equipped/loader)
 	crate_name = "cargo MODsuit crate"
+*/

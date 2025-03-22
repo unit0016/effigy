@@ -40,7 +40,7 @@ SUBSYSTEM_DEF(statpanels)
 			"Time Dilation: [round(SStime_track.time_dilation_current,1)]% AVG:([round(SStime_track.time_dilation_avg_fast,1)]%, [round(SStime_track.time_dilation_avg,1)]%, [round(SStime_track.time_dilation_avg_slow,1)]%)"
 		)*/
 		global_data = list(
-			"Round ID: [GLOB.round_id == "1024" ? "Local" : GLOB.round_hex]",
+			"Round ID: [GLOB.round_id ? GLOB.round_id : "Local"]",
 			"Game Mode: [SSgamemode.storyteller ? SSgamemode.storyteller.name : "N/A"]",
 			"Map: [SSmapping.current_map?.map_name || "Loading..."]",
 			cached ? "Next Map: [cached.map_name]" : null,
@@ -150,7 +150,7 @@ SUBSYSTEM_DEF(statpanels)
 #if MIN_COMPILER_VERSION > 515
 	#warn 516 is most certainly out of beta, remove this beta notice if you haven't already
 #endif
-	var/static/list/beta_notice = list("", "You are on the BYOND 516 beta, various UIs and such may be broken!", "Please report issues, and switch back to BYOND 515 if things are causing too many issues for you.")
+	var/static/list/beta_notice = list("", "You are on BYOND 516, some visual glitches with UIs may be present!", "Please report issues, and switch back to BYOND 515 if things are causing too many issues for you.")
 	if(!global_data)//statbrowser hasnt fired yet and we were called from immediate_send_stat_data()
 		return
 	target.stat_panel.send_message("update_stat", list(

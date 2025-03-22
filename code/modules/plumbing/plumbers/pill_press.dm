@@ -28,12 +28,13 @@
 	. = ..()
 
 	if(!packaging_types)
-		var/datum/asset/spritesheet/simple/assets = get_asset_datum(/datum/asset/spritesheet/chemmaster)
+		var/datum/asset/spritesheet_batched/assets = get_asset_datum(/datum/asset/spritesheet_batched/chemmaster)
 
 		var/list/types = list(
 			CAT_PILLS = GLOB.reagent_containers[CAT_PILLS],
 			CAT_PATCHES = GLOB.reagent_containers[CAT_PATCHES],
 			"Bottles" = list(/obj/item/reagent_containers/cup/bottle),
+			CAT_HYPOS = GLOB.reagent_containers[CAT_HYPOS], // EffigyEdit Add - Hyposprays
 		)
 
 		packaging_types = list()
@@ -78,6 +79,8 @@
 				suffix = "Pill"
 			if(CAT_PATCHES)
 				suffix = "Patch"
+			if(CAT_HYPOS) // EffigyEdit Add - Hyposprays
+				suffix = "Hypo"
 			else
 				suffix = "Bottle"
 		container.name = "[product_name] [suffix]"
@@ -100,7 +103,7 @@
 
 /obj/machinery/plumbing/pill_press/ui_assets(mob/user)
 	return list(
-		get_asset_datum(/datum/asset/spritesheet/chemmaster)
+		get_asset_datum(/datum/asset/spritesheet_batched/chemmaster)
 	)
 
 /obj/machinery/plumbing/pill_press/ui_interact(mob/user, datum/tgui/ui)
@@ -173,10 +176,12 @@
 
 			//decode container & its category
 			packaging_type = locate(container)
-			if(ispath(packaging_type, /obj/item/reagent_containers/pill/patch))
+			if(ispath(packaging_type, /obj/item/reagent_containers/applicator/patch))
 				packaging_category = CAT_PATCHES
-			else if(ispath(packaging_type, /obj/item/reagent_containers/pill))
+			else if(ispath(packaging_type, /obj/item/reagent_containers/applicator/pill))
 				packaging_category = CAT_PILLS
+			else if(ispath(container, /obj/item/reagent_containers/cup/hypovial)) // EffigyEdit Add - Hyposprays
+				packaging_category = CAT_HYPOS
 			else
 				packaging_category = "Bottles"
 

@@ -1207,7 +1207,7 @@ GLOBAL_LIST_EMPTY(vending_machines_to_restock)
 
 /obj/machinery/vending/ui_assets(mob/user)
 	return list(
-		get_asset_datum(/datum/asset/spritesheet/vending),
+		get_asset_datum(/datum/asset/spritesheet_batched/vending),
 	)
 
 /obj/machinery/vending/ui_interact(mob/user, datum/tgui/ui)
@@ -1362,12 +1362,26 @@ GLOBAL_LIST_EMPTY(vending_machines_to_restock)
 	allowed_configs += "[config]"
 	if(ispath(fake_atom, /obj/item))
 		var/obj/item/item = fake_atom
+		// EffigyEdit Change - Character Preferences
+		/* Original:
 		if(initial(item.greyscale_config_worn))
 			allowed_configs += "[initial(item.greyscale_config_worn)]"
 		if(initial(item.greyscale_config_inhand_left))
 			allowed_configs += "[initial(item.greyscale_config_inhand_left)]"
 		if(initial(item.greyscale_config_inhand_right))
 			allowed_configs += "[initial(item.greyscale_config_inhand_right)]"
+		*/
+		if(initial(item.greyscale_config_worn_bodyshapes))
+			var/bconfig
+			for(bconfig in item.greyscale_config_worn_bodyshapes)
+				allowed_configs += "[initial(item.greyscale_config_worn_bodyshapes[bconfig])]"
+		else if(initial(item.greyscale_config_worn))
+			allowed_configs += "[initial(item.greyscale_config_worn)]"
+		if(initial(item.greyscale_config_inhand_left))
+			allowed_configs += "[initial(item.greyscale_config_inhand_left)]"
+		if(initial(item.greyscale_config_inhand_right))
+			allowed_configs += "[initial(item.greyscale_config_inhand_right)]"
+		// EffigyEdit Change End
 
 	var/datum/greyscale_modify_menu/menu = new(
 		src, usr, allowed_configs, CALLBACK(src, PROC_REF(vend_greyscale), params),

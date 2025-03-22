@@ -169,6 +169,7 @@
 /mob/living/silicon/pai/examine(mob/user)
 	. = ..()
 	. += "Its master ID string seems to be [(!master_name || emagged) ? "empty" : master_name]."
+	. += get_silicon_flavour_text() // EffigyEdit Add - Character Preferences
 
 /mob/living/silicon/pai/get_status_tab_items()
 	. += ..()
@@ -486,3 +487,6 @@
 /mob/living/silicon/pai/proc/remove_messenger_ability()
 	if(messenger_ability)
 		messenger_ability.Remove(src)
+
+/mob/living/silicon/pai/get_access()
+	return list()

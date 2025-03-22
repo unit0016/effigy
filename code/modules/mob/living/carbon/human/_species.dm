@@ -496,6 +496,8 @@ GLOBAL_LIST_EMPTY(features_by_species)
 				eye_organ.refresh(call_update = FALSE)
 				standing += eye_organ.generate_body_overlay(species_human)
 
+	// EffigyEdit Change - Character Preferences
+	/*
 	//Underwear, Undershirts & Socks
 	if(!HAS_TRAIT(species_human, TRAIT_NO_UNDERWEAR))
 		if(species_human.underwear)
@@ -524,6 +526,60 @@ GLOBAL_LIST_EMPTY(features_by_species)
 			var/datum/sprite_accessory/socks/socks = SSaccessories.socks_list[species_human.socks]
 			if(socks)
 				standing += mutable_appearance(socks.icon, socks.icon_state, -BODY_LAYER)
+	*/
+	if(!HAS_TRAIT(species_human, TRAIT_NO_UNDERWEAR))
+		if(species_human.underwear && !(species_human.underwear_visibility & UNDERWEAR_HIDE_UNDIES))
+			var/datum/sprite_accessory/underwear/underwear = SSaccessories.underwear_list[species_human.underwear]
+			var/mutable_appearance/underwear_overlay
+			var/female_sprite_flags = FEMALE_UNIFORM_FULL // the default gender shaping
+			if(underwear)
+				var/icon_state = underwear.icon_state
+				if(underwear.has_digitigrade && (species_human.bodyshape & BODYSHAPE_DIGITIGRADE))
+					icon_state += "_d"
+					female_sprite_flags = FEMALE_UNIFORM_TOP_ONLY // for digi gender shaping
+				if(species_human.dna.species.sexes && species_human.physique == FEMALE && (underwear.gender == MALE))
+					underwear_overlay = mutable_appearance(wear_female_version(icon_state, underwear.icon, female_sprite_flags), layer = -UNDERWEAR_UNDERSHIRT)
+				else
+					underwear_overlay = mutable_appearance(underwear.icon, icon_state, -UNDERWEAR_UNDERSHIRT)
+				if(!underwear.use_static)
+					underwear_overlay.color = species_human.underwear_color
+				standing += underwear_overlay
+
+		if(species_human.bra && !(species_human.underwear_visibility & UNDERWEAR_HIDE_BRA))
+			var/datum/sprite_accessory/bra/bra = SSaccessories.bra_list[species_human.bra]
+
+			if(bra)
+				var/mutable_appearance/bra_overlay
+				var/icon_state = bra.icon_state
+				bra_overlay = mutable_appearance(bra.icon, icon_state, -BRA_SOCKS_LAYER)
+				if(!bra.use_static)
+					bra_overlay.color = species_human.bra_color
+				standing += bra_overlay
+
+		if(species_human.undershirt && !(species_human.underwear_visibility & UNDERWEAR_HIDE_SHIRT))
+			var/datum/sprite_accessory/undershirt/undershirt = SSaccessories.undershirt_list[species_human.undershirt]
+			if(undershirt)
+				var/mutable_appearance/undershirt_overlay
+				if(species_human.dna.species.sexes && species_human.physique == FEMALE)
+					undershirt_overlay = mutable_appearance(wear_female_version(undershirt.icon_state, undershirt.icon), layer = -UNDERWEAR_UNDERSHIRT)
+				else
+					undershirt_overlay = mutable_appearance(undershirt.icon, undershirt.icon_state, layer = -UNDERWEAR_UNDERSHIRT)
+				if(!undershirt.use_static)
+					undershirt_overlay.color = species_human.undershirt_color
+				standing += undershirt_overlay
+
+		if(species_human.socks && !(species_human.underwear_visibility & UNDERWEAR_HIDE_SOCKS))
+			var/datum/sprite_accessory/socks/socks = SSaccessories.socks_list[species_human.socks]
+			if(socks)
+				var/mutable_appearance/socks_overlay
+				var/icon_state = socks.icon_state
+				if((species_human.bodyshape & BODYSHAPE_DIGITIGRADE))
+					icon_state += "_d"
+				socks_overlay = mutable_appearance(socks.icon, icon_state, -BRA_SOCKS_LAYER)
+				if(!socks.use_static)
+					socks_overlay.color = species_human.socks_color
+				standing += socks_overlay
+	// EffigyEdit Change End
 
 	if(standing.len)
 		species_human.overlays_standing[BODY_LAYER] = standing
@@ -551,6 +607,7 @@ GLOBAL_LIST_EMPTY(features_by_species)
 	human_mob.undershirt = random_undershirt(human_mob.gender)
 	human_mob.underwear = random_underwear(human_mob.gender)
 	human_mob.socks = random_socks(human_mob.gender)
+	human_mob.bra = random_bra(human_mob.gender) // EffigyEdit Add - Character Preferences
 
 ///Proc that will randomise the underwear (i.e. top, pants and socks) of a species' associated mob
 /datum/species/proc/randomize_active_underwear(mob/living/carbon/human/human_mob)
@@ -580,7 +637,7 @@ GLOBAL_LIST_EMPTY(features_by_species)
 			sample_overlay = new overlay_path()
 			organs_to_randomize[overlay_path] = sample_overlay
 
-		new_features["[sample_overlay.feature_key]"] = sample_overlay.get_random_appearance().name
+		new_features["[sample_overlay.feature_key]"] = /datum/sprite_accessory/blank::name // EffigyEdit Change - Character Preferences - Original: new_features["[sample_overlay.feature_key]"] = sample_overlay.get_random_appearance().name
 
 	return new_features
 
@@ -636,7 +693,7 @@ GLOBAL_LIST_EMPTY(features_by_species)
 			if(H.num_legs < 2)
 				return FALSE
 			if((H.bodyshape & BODYSHAPE_DIGITIGRADE) && !(I.item_flags & IGNORE_DIGITIGRADE))
-				if(!(I.supports_variations_flags & DIGITIGRADE_VARIATIONS))
+				if(!((I.supports_variations_flags & DIGITIGRADE_VARIATIONS) || (BODYSHAPE_DIGITIGRADE in I.supported_bodyshapes))) // EffigyEdit Change - Character Preferences - Original: if(!(I.supports_variations_flags & DIGITIGRADE_VARIATIONS))
 					if(!disable_warning)
 						to_chat(H, span_warning("The footwear around here isn't compatible with your feet!"))
 					return FALSE
@@ -859,37 +916,43 @@ GLOBAL_LIST_EMPTY(features_by_species)
 	user.do_attack_animation(target, atk_effect)
 
 	//has our target been shoved recently? If so, they're staggered and we get an easy hit.
-	var/staggered = FALSE
+	var/staggered = target.has_status_effect(/datum/status_effect/staggered)
 
 	//Someone in a grapple is much more vulnerable to being harmed by punches.
-	var/grappled = FALSE
-
-	if(target.get_timed_status_effect_duration(/datum/status_effect/staggered))
-		staggered = TRUE
-
-	if(target.pulledby && target.pulledby.grab_state >= GRAB_AGGRESSIVE)
-		grappled = TRUE
+	var/grappled = (target.pulledby && target.pulledby.grab_state >= GRAB_AGGRESSIVE)
 
 	var/damage = rand(attacking_bodypart.unarmed_damage_low, attacking_bodypart.unarmed_damage_high)
 	var/limb_accuracy = attacking_bodypart.unarmed_effectiveness
+
+	if(grappled)
+		var/pummel_bonus = attacking_bodypart.unarmed_pummeling_bonus
+		damage = floor(damage * pummel_bonus)
+		limb_accuracy = floor(limb_accuracy * pummel_bonus)
+
+	//Get our puncher's combined brute and burn damage.
+	var/puncher_brute_and_burn = (user.getFireLoss() + user.getBruteLoss())
+
+	//Get our targets combined brute and burn damage.
+	var/target_brute_and_burn = (target.getFireLoss() + target.getBruteLoss())
 
 	// In a brawl, drunkenness can make you swing more wildly and with more force, and thus catch your opponent off guard, but it could also totally throw you off if you're too intoxicated
 	// But god is it going to make you sick moving too much while drunk
 	var/user_drunkenness = user.get_drunk_amount()
 
-	if(user_drunkenness && HAS_TRAIT(user, TRAIT_DRUNKEN_BRAWLER)) // Drunken brawlers only need to be intoxicated, doesn't matter how much
-		limb_accuracy += clamp((user.getFireLoss() + user.getBruteLoss()) * 0.5, 10, 200)
-		damage += damage * clamp((user.getFireLoss() + user.getBruteLoss()) / 100, 0.3, 2) //Basically a multiplier of how much extra damage you get based on how low your health is overall. A floor of about a 30%.
-		var/drunken_martial_descriptor = pick("Drunken", "Intoxicated", "Tipsy", "Inebriated", "Delirious", "Day-Drinker's", "Firegut", "Blackout")
-		atk_verb = "[drunken_martial_descriptor] [atk_verb]"
+	if(user_drunkenness)
+		if(HAS_TRAIT(user, TRAIT_DRUNKEN_BRAWLER)) // Drunken brawlers only need to be intoxicated, doesn't matter how much
+			limb_accuracy += clamp(puncher_brute_and_burn / 2, 10, 200)
+			damage += damage * clamp(puncher_brute_and_burn / 100, 0.3, 2) //Basically a multiplier of how much extra damage you get based on how low your health is overall. A floor of about a 30%.
+			var/drunken_martial_descriptor = pick("Drunken", "Intoxicated", "Tipsy", "Inebriated", "Delirious", "Day-Drinker's", "Firegut", "Blackout")
+			atk_verb = "[drunken_martial_descriptor] [atk_verb]"
 
-	else if(user_drunkenness > 30 && user_drunkenness < 60)
-		limb_accuracy *= 1.2
-		user.adjust_disgust(2)
+		else if(user_drunkenness >= 60)
+			limb_accuracy = -limb_accuracy // good luck landing a punch now, you drunk fuck
+			user.adjust_disgust(5)
 
-	else if(user_drunkenness >= 60)
-		limb_accuracy = -limb_accuracy // good luck landing a punch now, you drunk fuck
-		user.adjust_disgust(5)
+		else if(user_drunkenness >= 30)
+			limb_accuracy *= 1.2
+			user.adjust_disgust(2)
 
 	var/obj/item/bodypart/affecting = target.get_bodypart(target.get_random_valid_zone(user.zone_selected))
 
@@ -898,7 +961,7 @@ GLOBAL_LIST_EMPTY(features_by_species)
 		if((target.body_position == LYING_DOWN) || HAS_TRAIT(user, TRAIT_PERFECT_ATTACKER) || staggered || user_drunkenness && HAS_TRAIT(user, TRAIT_DRUNKEN_BRAWLER)) //kicks and attacks against staggered targets never miss (provided your species deals more than 0 damage). Drunken brawlers while drunk also don't miss
 			miss_chance = 0
 		else
-			miss_chance = clamp(UNARMED_MISS_CHANCE_BASE - limb_accuracy + (user.getFireLoss()*0.5 + user.getBruteLoss()*0.5), 0, UNARMED_MISS_CHANCE_MAX) //Limb miss chance + various damage. capped at 80 so there is at least a chance to land a hit.
+			miss_chance = clamp(UNARMED_MISS_CHANCE_BASE - limb_accuracy + (puncher_brute_and_burn / 2), 0, UNARMED_MISS_CHANCE_MAX) //Limb miss chance + various damage. capped at 80 so there is at least a chance to land a hit.
 
 	if(!damage || !affecting || prob(miss_chance))//future-proofing for species that have 0 damage/weird cases where no zone is targeted
 		playsound(target.loc, attacking_bodypart.unarmed_miss_sound, 25, TRUE, -1)
@@ -913,16 +976,18 @@ GLOBAL_LIST_EMPTY(features_by_species)
 	// In a brawl, drunkenness is a boon if you're a bit drunk but not too much. Else you're easier to hit.
 	// But, generally, getting hit while drunk is probably a good way to start throwing up
 	var/target_drunkenness = target.get_drunk_amount()
-	if(target_drunkenness && HAS_TRAIT(target, TRAIT_DRUNKEN_BRAWLER)) // Drunken brawlers only need to be intoxicated, doesn't matter how much
-		armor_block += 20
 
-	else if(target_drunkenness > 30 && target_drunkenness < 60)
-		armor_block += 10
-		target.adjust_disgust(2)
+	if(target_drunkenness)
+		if(HAS_TRAIT(target, TRAIT_DRUNKEN_BRAWLER)) // Drunken brawlers only need to be intoxicated, doesn't matter how much
+			armor_block += 20
 
-	else if(target_drunkenness >= 60)
-		armor_block *= 0.5
-		target.adjust_disgust(5)
+		else if(target_drunkenness >= 60)
+			armor_block *= 0.5
+			target.adjust_disgust(5)
+
+		else if(target_drunkenness >= 30)
+			armor_block += 10
+			target.adjust_disgust(2)
 
 	playsound(target.loc, attacking_bodypart.unarmed_attack_sound, 25, TRUE, -1)
 
@@ -940,16 +1005,21 @@ GLOBAL_LIST_EMPTY(features_by_species)
 
 	var/attack_direction = get_dir(user, target)
 	var/attack_type = attacking_bodypart.attack_type
-	if(atk_effect == ATTACK_EFFECT_KICK || grappled) //kicks and punches when grappling bypass armor slightly.
+	var/kicking = (atk_effect == ATTACK_EFFECT_KICK)
+	var/final_armor_block = armor_block
+	if(kicking || grappled) //kicks and punches when grappling bypass armor slightly.
 		if(damage >= 9)
 			target.force_say()
 		log_combat(user, target, grappled ? "grapple punched" : "kicked")
-		target.apply_damage(damage, attack_type, affecting, armor_block - limb_accuracy, attack_direction = attack_direction)
+		final_armor_block -= limb_accuracy
+		target.apply_damage(damage, attack_type, affecting, final_armor_block, attack_direction = attack_direction)
 	else // Normal attacks do not gain the benefit of armor penetration.
 		target.apply_damage(damage, attack_type, affecting, armor_block, attack_direction = attack_direction)
 		if(damage >= 9)
 			target.force_say()
 		log_combat(user, target, "punched")
+
+	SEND_SIGNAL(target, COMSIG_HUMAN_GOT_PUNCHED, user, damage, attack_type, affecting, final_armor_block, kicking)
 
 	// If our target is staggered and has sustained enough damage, we can apply a randomly determined status effect to inflict when we punch them.
 	// The effects are based on the punching effectiveness of our attacker. Some effects are not reachable by the average human, and require augmentation to reach or being a species with a heavy punch effectiveness.
@@ -957,8 +1027,9 @@ GLOBAL_LIST_EMPTY(features_by_species)
 	if(HAS_TRAIT(target, TRAIT_BRAWLING_KNOCKDOWN_BLOCKED) || target.stat == DEAD) //If our target is dead or has specailized armor, there is no way to inflict these effects.
 		return
 
-	// If our target is staggered, the target's armor, minus our limb effectiveness sets the minimum necessary amount of damage sustained to cause an effect. Minimum 40, max 200 for sanity reasons
-	if(staggered && (target.getFireLoss()*0.5 + target.getBruteLoss()*0.5) >= min(armor_block - limb_accuracy, 40, 200))
+	// If our target is staggered, the target's armor, minus our limb effectiveness sets the minimum necessary amount of damage sustained to cause an effect. We clamp the value for sanity reasons.
+	var/effective_armor = max(armor_block, UNARMED_COMBO_HIT_HEALTH_BASE) - limb_accuracy
+	if(staggered && target_brute_and_burn >= clamp(effective_armor, 0, 200))
 		stagger_combo(user, target, atk_verb, limb_accuracy, armor_block)
 
 /// Handles the stagger combo effect of our punch. Follows the same logic as the above proc, target is our owner, user is our attacker.
@@ -1973,8 +2044,14 @@ GLOBAL_LIST_EMPTY(features_by_species)
 
 	var/list/final_bodypart_overrides = new_species.bodypart_overrides.Copy()
 	if((new_species.digitigrade_customization == DIGITIGRADE_OPTIONAL && target.dna.features["legs"] == DIGITIGRADE_LEGS) || new_species.digitigrade_customization == DIGITIGRADE_FORCED)
+		// EffigyEdit Change - Character Preferences
+		/* Original:
 		final_bodypart_overrides[BODY_ZONE_R_LEG] = /obj/item/bodypart/leg/right/digitigrade
 		final_bodypart_overrides[BODY_ZONE_L_LEG] = /obj/item/bodypart/leg/left/digitigrade
+		*/
+		final_bodypart_overrides[BODY_ZONE_R_LEG] = new_species.digi_leg_overrides[BODY_ZONE_R_LEG]
+		final_bodypart_overrides[BODY_ZONE_L_LEG] = new_species.digi_leg_overrides[BODY_ZONE_L_LEG]
+		// EffigyEdit Change End
 
 	for(var/obj/item/bodypart/old_part as anything in target.bodyparts)
 		if((old_part.change_exempt_flags & BP_BLOCK_CHANGE_SPECIES) || (old_part.bodypart_flags & BODYPART_IMPLANTED))

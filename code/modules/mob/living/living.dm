@@ -702,8 +702,12 @@
 			if(!silent)
 				to_chat(src, span_notice("You will now stand up as soon as you are able to."))
 		else
+			// EffigyEdit Remove
+			/*
 			if(!silent)
 				to_chat(src, span_notice("You stand up."))
+			*/
+			// EffigyEdit Remove End
 			get_up(instant)
 
 	SEND_SIGNAL(src, COMSIG_LIVING_RESTING, new_resting, silent, instant)
@@ -1272,6 +1276,13 @@
 		// see defines/combat.dm, this should be baseline 60%
 		// Resist chance divided by the value imparted by your grab state. It isn't until you reach neckgrab that you gain a penalty to escaping a grab.
 		var/resist_chance = clamp(BASE_GRAB_RESIST_CHANCE / effective_grab_state, 0, 100)
+		/// EFFIGY EDIT ADD ///
+		// Oversized grab resist
+		if(HAS_TRAIT(src, TRAIT_OVERSIZED))
+			resist_chance += OVERSIZED_GRAB_RESIST_BONUS
+		if(HAS_TRAIT(pulledby, TRAIT_OVERSIZED))
+			resist_chance -= OVERSIZED_GRAB_RESIST_BONUS
+		/// EFFIGY EDIT END
 		if(prob(resist_chance))
 			visible_message(span_danger("[src] breaks free of [pulledby]'s grip!"), \
 							span_danger("You break free of [pulledby]'s grip!"), null, null, pulledby)
@@ -1787,7 +1798,7 @@
 
 	// Well, no mmind, guess we should try to move a key over
 	else if(key)
-		new_mob.key = key
+		new_mob.PossessByPlayer(key)
 
 /mob/living/proc/unfry_mob() //Callback proc to tone down spam from multiple sizzling frying oil dipping.
 	REMOVE_TRAIT(src, TRAIT_OIL_FRIED, "cooking_oil_react")
@@ -2938,7 +2949,7 @@ GLOBAL_LIST_EMPTY(fire_appearances)
 		summoned_guardian.fully_replace_character_name(null, picked_name)
 	if(picked_color)
 		summoned_guardian.set_guardian_colour(picked_color)
-	summoned_guardian.key = guardian_client?.key
+	summoned_guardian.PossessByPlayer(guardian_client?.key)
 	guardian_client?.init_verbs()
 	if(del_mob)
 		qdel(old_mob)
@@ -2989,7 +3000,7 @@ GLOBAL_LIST_EMPTY(fire_appearances)
 /**
  * Totals the physical cash on the mob and returns the total.
  */
-/mob/living/verb/tally_physical_credits()
+/mob/living/proc/tally_physical_credits()
 	//Here is all the possible non-ID payment methods.
 	var/list/counted_money = list()
 	var/physical_cash_total = 0

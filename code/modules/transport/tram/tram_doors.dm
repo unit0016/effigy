@@ -10,6 +10,7 @@
 	multi_tile = TRUE
 	opacity = FALSE
 	assemblytype = /obj/structure/door_assembly/multi_tile/door_assembly_tram
+	can_be_glass = FALSE
 	airlock_material = "glass"
 	air_tight = TRUE
 	req_access = list(ACCESS_TCOMMS)
@@ -186,7 +187,7 @@
 
 /obj/machinery/door/airlock/tram/post_machine_initialize()
 	. = ..()
-	//INVOKE_ASYNC(src, PROC_REF(open)) // EffigyEdit Remove
+	//INVOKE_ASYNC(src, PROC_REF(open)) // EffigyEdit Remove - Tram platform doors
 	SStransport.doors += src
 	find_tram()
 

@@ -73,8 +73,12 @@
 #define MOB_PLANT (1 << 10)
 ///The mob is a goopy creature, probably coming from xenobiology.
 #define MOB_SLIME (1 << 11)
-/// Mob is fish or water-related.
+///The mob is fish or water-related.
 #define MOB_AQUATIC (1 << 12)
+///The mob is a mining-related mob. It's the plasma, you see. Gets in ya bones.
+#define MOB_MINING (1 << 13)
+///The mob is a crustacean. Like crabs. Or lobsters.
+#define MOB_CRUSTACEAN (1 << 14)
 
 //Lung respiration type flags
 #define RESPIRATION_OXYGEN (1 << 0)
@@ -95,6 +99,10 @@
 #define BODYTYPE_GOLEM (1<<4)
 //The limb is a peg limb
 #define BODYTYPE_PEG (1<<5)
+//The limb is plantly (and will regen if photosynthesis is active)
+#define BODYTYPE_PLANT (1<<6)
+//This limb is shadowy and will regen if shadowheal is active
+#define BODYTYPE_SHADOW (1<<7)
 
 // Bodyshape defines for how things can be worn, i.e., what "shape" the mob sprite is
 ///The limb fits the human mold. This is not meant to be literal, if the sprite "fits" on a human, it is "humanoid", regardless of origin.
@@ -105,6 +113,15 @@
 #define BODYSHAPE_DIGITIGRADE (1<<2)
 ///The limb is snouted.
 #define BODYSHAPE_SNOUTED (1<<3)
+
+// EffigyEdit Add - Character Preferences
+// This is where our custom bodyshapes are going to go.  Keeping these in one place is critical for readability.
+// Numeric -> text for use in defines
+#define BODYSHAPE_HUMANOID_T "1"
+#define BODYSHAPE_MONKEY_T "2"
+#define BODYSHAPE_DIGITIGRADE_T "4"
+#define BODYSHAPE_SNOUTED_T "8"
+// EffigyEdit Add End
 
 #define BODYTYPE_BIOSCRAMBLE_INCOMPATIBLE (BODYTYPE_ROBOTIC | BODYTYPE_LARVA_PLACEHOLDER | BODYTYPE_GOLEM | BODYTYPE_PEG)
 #define BODYTYPE_CAN_BE_BIOSCRAMBLED(bodytype) (!(bodytype & BODYTYPE_BIOSCRAMBLE_INCOMPATIBLE))
@@ -705,26 +722,49 @@ GLOBAL_LIST_INIT(human_heights_to_offsets, list(
 #define MUTATIONS_LAYER 35
 /// Mutantrace features (tail when looking south) that must appear behind the body parts
 #define BODY_BEHIND_LAYER 34
+// EffigyEdit Add - Character Preferences
+#define BODY_BEHIND_LAYER_2 33.9
+#define BODY_BEHIND_LAYER_3 33.8
+// EffigyEdit Add End
 /// Layer for bodyparts that should appear behind every other bodypart - Mostly, legs when facing WEST or EAST
 #define BODYPARTS_LOW_LAYER 33
 /// Layer for most bodyparts, appears above BODYPARTS_LOW_LAYER and below BODYPARTS_HIGH_LAYER
 #define BODYPARTS_LAYER 32
 /// Mutantrace features (snout, body markings) that must appear above the body parts
 #define BODY_ADJ_LAYER 31
+// EffigyEdit Add - Character Preferences
+#define BODY_ADJ_LAYER_2 30.9
+#define BODY_ADJ_LAYER_3 30.8
+// EffigyEdit Add End
 /// Underwear, undershirts, socks, eyes, lips(makeup)
 #define BODY_LAYER 30
 /// Mutations that should appear above body, body_adj and bodyparts layer (e.g. laser eyes)
 #define FRONT_MUTATIONS_LAYER 29
 /// Damage indicators (cuts and burns)
 #define DAMAGE_LAYER 28
+// EffigyEdit Add - Character Preferences
+/// Just below clothing layer
+#define UNDER_UNIFORM_LAYER 27.5
+/// Bra and socks
+#define BRA_SOCKS_LAYER 27.2
+/// Underwear and undershirt
+#define UNDERWEAR_UNDERSHIRT 27.1
+// EffigyEdit Add End
 /// Jumpsuit clothing layer
 #define UNIFORM_LAYER 27
+// EffigyEdit Add - Character Preferences
+#define BANDAGE_LAYER 26.5
+// EffigyEdit Add End
 /// ID card layer
 #define ID_LAYER 26
 /// ID card layer (might be deprecated)
 #define ID_CARD_LAYER 25
 /// Layer for bodyparts that should appear above every other bodypart - Currently only used for hands
 #define BODYPARTS_HIGH_LAYER 24
+// EffigyEdit Add - Character Preferences
+/// Layer for hands
+#define BODY_HAND_LAYER 23.9
+// EffigyEdit Add End
 /// Gloves layer
 #define GLOVES_LAYER 23
 /// Shoes layer
@@ -761,6 +801,10 @@ GLOBAL_LIST_INIT(human_heights_to_offsets, list(
 #define HANDS_LAYER 7
 /// Body front layer. Usually used for mutant bodyparts that need to be in front of stuff (e.g. cat ears)
 #define BODY_FRONT_LAYER 6
+// EffigyEdit Add - Character Preferences
+#define BODY_FRONT_LAYER_2 5.9
+#define BODY_FRONT_LAYER_3 5.8
+// EffigyEdit Add End
 /// Special body layer that actually require to be above the hair (e.g. lifted welding goggles)
 #define ABOVE_BODY_FRONT_GLASSES_LAYER 5
 /// Special body layer for the rare cases where something on the head needs to be above everything else (e.g. flowers)
@@ -820,12 +864,36 @@ GLOBAL_LIST_INIT(layers_to_offset, list(
 ))
 
 //Bitflags for the layers a bodypart overlay can draw on (can be drawn on multiple layers)
+// EffigyEdit Change - Character Preferences
+/* Original:
 /// Draws overlay on the BODY_FRONT_LAYER
 #define EXTERNAL_FRONT (1 << 0)
 /// Draws overlay on the BODY_ADJ_LAYER
 #define EXTERNAL_ADJACENT (1 << 1)
 /// Draws overlay on the BODY_BEHIND_LAYER
 #define EXTERNAL_BEHIND (1 << 2)
+*/
+/// Draws primary overlay on the BODY_FRONT_LAYER
+#define EXTERNAL_FRONT (1 << 0)
+/// Draws secondary overlay on the BODY_FRONT_LAYER
+#define EXTERNAL_FRONT_2 (1 << 1)
+/// Draws tertiary overlay on the BODY_FRONT_LAYER
+#define EXTERNAL_FRONT_3 (1 << 2)
+/// Draws primary overlay on the BODY_ADJ_LAYER
+#define EXTERNAL_ADJACENT (1 << 3)
+/// Draws secondary overlay on the BODY_ADJ_LAYER
+#define EXTERNAL_ADJACENT_2 (1 << 4)
+/// Draws tertiary overlay on the BODY_ADJ_LAYER
+#define EXTERNAL_ADJACENT_3 (1 << 5)
+/// Draws primary overlay on the BODY_BEHIND_LAYER
+#define EXTERNAL_BEHIND (1 << 6)
+/// Draws secondary overlay on the BODY_BEHIND_LAYER
+#define EXTERNAL_BEHIND_2 (1 << 7)
+/// Draws tertiary overlay on the BODY_BEHIND_LAYER
+#define EXTERNAL_BEHIND_3 (1 << 8)
+/// Draws hands overlay on the HANDS_LAYER
+#define EXTERNAL_HAND (1 << 9)
+// EffigyEdit Change End
 /// Draws organ on all EXTERNAL layers
 #define ALL_EXTERNAL_OVERLAYS EXTERNAL_FRONT | EXTERNAL_ADJACENT | EXTERNAL_BEHIND
 

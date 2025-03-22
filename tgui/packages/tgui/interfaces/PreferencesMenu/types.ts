@@ -98,6 +98,14 @@ export type QuirkInfo = {
   points_enabled: boolean;
 };
 
+// EffigyEdit Add - Character Preferences
+export type Language = {
+  description: string;
+  name: string;
+  icon: string;
+};
+// EffigyEdit Add End
+
 export enum RandomSetting {
   AntagOnly = 1,
   Disabled = 2,
@@ -133,6 +141,9 @@ export type PreferencesMenuData = {
   character_preview_view: string;
   character_profiles: (string | null)[];
 
+  character_preview_styles: string[]; // EffigyEdit Add - Character Preferences
+  character_preview_selection: string; // EffigyEdit Add - Character Preferences
+
   character_preferences: {
     clothing: Record<string, string>;
     features: Record<string, string>;
@@ -143,6 +154,9 @@ export type PreferencesMenuData = {
     };
     secondary_features: Record<string, unknown>;
     supplemental_features: Record<string, unknown>;
+    markings: Record<string, unknown> /* EffigyEdit Add */;
+    profile: Record<string, unknown> /* EffigyEdit Add */;
+    augments: Record<string, unknown> /* EffigyEdit Add */;
     manually_rendered_features: Record<string, string>;
 
     names: Record<string, string>;

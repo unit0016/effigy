@@ -45,11 +45,12 @@
 	return ..()
 
 /// Creates whatever mob the spawner makes. Return FALSE if we want to exit from here without doing that, returning NULL will be logged to admins.
-/obj/effect/mob_spawn/proc/create(mob/mob_possessor, newname)
+/obj/effect/mob_spawn/proc/create(mob/mob_possessor, newname, is_pref_loaded) // EffigyEdit Change - add is_pref_loaded for loading prefs in ghost roles
 	var/mob/living/spawned_mob = new mob_type(get_turf(src)) //living mobs only
 	name_mob(spawned_mob, newname)
 	special(spawned_mob, mob_possessor)
-	equip(spawned_mob)
+	if(!is_pref_loaded) // EffigyEdit Add - loading prefs in ghost roles
+		equip(spawned_mob)
 	spawned_mob_ref = WEAKREF(spawned_mob)
 	return spawned_mob
 
@@ -242,7 +243,7 @@
 		if(mob_possessor.mind)
 			mob_possessor.mind.transfer_to(spawned_mob, force_key_move = TRUE)
 		else
-			spawned_mob.key = mob_possessor.key
+			spawned_mob.PossessByPlayer(mob_possessor.key)
 	var/datum/mind/spawned_mind = spawned_mob.mind
 	if(spawned_mind)
 		spawned_mob.mind.set_assigned_role_with_greeting(SSjob.get_job_type(spawner_job_path))

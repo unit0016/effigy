@@ -11,12 +11,13 @@ import {
   Popper,
   Stack,
 } from 'tgui-core/components';
-import { exhaustiveCheck } from 'tgui-core/exhaustive'; // EffigyEdit Add - Character Preferences
+import { exhaustiveCheck } from 'tgui-core/exhaustive';
 import { classes } from 'tgui-core/react';
 import { createSearch } from 'tgui-core/string';
 
+import { SideDropdown } from '../../../effigy/SideDropdown';
 import { CharacterPreview } from '../../common/CharacterPreview';
-import { PageButton } from '../components/PageButton'; // EffigyEdit Add - Character Preferences
+import { PageButton } from '../components/PageButton';
 import { RandomizationButton } from '../components/RandomizationButton';
 import { features } from '../preferences/features';
 import {
@@ -597,15 +598,25 @@ export function MainPage(props: MainPageProps) {
 
   // EffigyEdit Add - Character Preferences
   enum PrefPage {
-    Character, // Character Preferences
+    Character,
     Markings,
-    Profile, // Markings
+    Augments,
+    NonContextual,
+    Profile,
   }
 
   const [currentPrefPage, setCurrentPrefPage] = useState(PrefPage.Character);
 
   const markingPreferences = {
-    ...data.character_preferences.non_contextual,
+    ...data.character_preferences.markings,
+  };
+
+  const augmentPreferences = {
+    ...data.character_preferences.augments,
+  };
+
+  const profilePreferences = {
+    ...data.character_preferences.profile,
   };
 
   let prefPageContents;
@@ -636,6 +647,32 @@ export function MainPage(props: MainPageProps) {
         />
       );
       break;
+    case PrefPage.Augments:
+      prefPageContents = (
+        <PreferenceList
+          randomizations={getRandomization(
+            contextualPreferences,
+            serverData,
+            randomBodyEnabled,
+          )}
+          preferences={augmentPreferences}
+          maxHeight="auto"
+        />
+      );
+      break;
+    case PrefPage.NonContextual:
+      prefPageContents = (
+        <PreferenceList
+          randomizations={getRandomization(
+            contextualPreferences,
+            serverData,
+            randomBodyEnabled,
+          )}
+          preferences={nonContextualPreferences}
+          maxHeight="auto"
+        />
+      );
+      break;
     case PrefPage.Profile:
       prefPageContents = (
         <PreferenceList
@@ -644,7 +681,7 @@ export function MainPage(props: MainPageProps) {
             serverData,
             randomBodyEnabled,
           )}
-          preferences={markingPreferences}
+          preferences={profilePreferences}
           maxHeight="auto"
         />
       );
@@ -697,6 +734,19 @@ export function MainPage(props: MainPageProps) {
               />
             </Stack.Item>
 
+            <Stack.Item mt="10px">
+              <SideDropdown
+                width="100%"
+                selected={data.character_preview_selection}
+                options={data.character_preview_styles}
+                onSelected={(value) =>
+                  act('update_preview', {
+                    updated_preview: value,
+                  })
+                }
+              />
+            </Stack.Item>
+
             <Stack.Item grow mt="10px">
               <CharacterPreview
                 height="100%"
@@ -733,7 +783,25 @@ export function MainPage(props: MainPageProps) {
                 page={PrefPage.Markings}
                 setPage={setCurrentPrefPage}
               >
-                Supplemental
+                Markings
+              </PageButton>
+            </Stack.Item>
+            <Stack.Item grow ml="10px">
+              <PageButton
+                currentPage={currentPrefPage}
+                page={PrefPage.Augments}
+                setPage={setCurrentPrefPage}
+              >
+                Augments
+              </PageButton>
+            </Stack.Item>
+            <Stack.Item grow ml="10px">
+              <PageButton
+                currentPage={currentPrefPage}
+                page={PrefPage.NonContextual}
+                setPage={setCurrentPrefPage}
+              >
+                Misc
               </PageButton>
             </Stack.Item>
             <Stack.Item grow ml="10px">
@@ -742,16 +810,7 @@ export function MainPage(props: MainPageProps) {
                 page={PrefPage.Profile}
                 setPage={setCurrentPrefPage}
               >
-                Contextual
-              </PageButton>
-            </Stack.Item>
-            <Stack.Item grow ml="10px">
-              <PageButton
-                currentPage={currentPrefPage}
-                page={PrefPage.Profile}
-                setPage={setCurrentPrefPage}
-              >
-                Informational
+                Profile
               </PageButton>
             </Stack.Item>
           </Stack>
