@@ -41,14 +41,12 @@ export const ExaminePanel = (props) => {
     character_name,
     obscured,
     assigned_map,
-    flavor_text,
-    flavor_text_nsfw,
+    flavour_text,
     ooc_notes,
     custom_species,
     custom_species_lore,
     character_ad,
     headshot,
-    headshot_nsfw,
   } = data;
   return (
     <Window
@@ -86,11 +84,7 @@ export const ExaminePanel = (props) => {
                 </Section>
                 <Section height="310px" title="Headshot">
                   <img
-                    src={
-                      tabIndex === 2
-                        ? resolveAsset(headshot_nsfw)
-                        : resolveAsset(headshot)
-                    }
+                    src={resolveAsset(headshot)}
                     height="250px"
                     width="250px"
                   />
@@ -107,8 +101,8 @@ export const ExaminePanel = (props) => {
                 <Section fitted title={'Flavor Text'} />
               </Tabs.Tab>
               <Tabs.Tab
-                selected={tabIndex === 3}
-                onClick={() => setTabIndex(3)}
+                selected={tabIndex === 2}
+                onClick={() => setTabIndex(2)}
               >
                 <Section
                   fitted
@@ -127,24 +121,10 @@ export const ExaminePanel = (props) => {
                 lineHeight="1.7"
                 textIndent="3em"
               >
-                {formatURLs(flavor_text)}
+                {formatURLs(flavour_text)}
               </Section>
             )}
             {tabIndex === 2 && (
-              <Section
-                style={{ 'overflow-y': 'scroll' }}
-                fitted
-                preserveWhitespace
-                minHeight="50%"
-                maxHeight="50%"
-                fontSize="14px"
-                lineHeight="1.7"
-                textIndent="3em"
-              >
-                {formatURLs(flavor_text_nsfw)}
-              </Section>
-            )}
-            {tabIndex === 3 && (
               <Section
                 style={{ 'overflow-y': 'scroll' }}
                 fitted
