@@ -29,7 +29,7 @@ fi
 cp tgstation.dmb tgstation.rsc $1/
 cp -r _maps/* $1/_maps/
 cp -r code/datums/greyscale/json_configs/* $1/code/datums/greyscale/json_configs/
-cp -r local/code/datums/greyscale/json_configs/* $1/local/code/datums/greyscale/json_configs/
+cp -r local/code/datums/greyscale/json_configs/* $1/local/code/datums/greyscale/json_configs/ # EffigyEdit Add
 cp -r icons/* $1/icons/
 cp -r local/icons/* $1/local/icons/ # EffigyEdit Add
 cp -r sound/runtime/* $1/sound/runtime/
