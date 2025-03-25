@@ -171,7 +171,8 @@
 /obj/item/storage/hypospraykit/PopulateContents()
 	if(empty)
 		return
-	new /obj/item/hypospray/mkii(src)
+
+	return list(/obj/item/hypospray/mkii)
 
 /obj/item/storage/hypospraykit/empty
 	empty = TRUE
@@ -189,7 +190,8 @@
 /obj/item/storage/hypospraykit/cmo/PopulateContents()
 	if(empty)
 		return
-	new /obj/item/hypospray/mkii/deluxe/cmo(src)
+
+	return list(/obj/item/hypospray/mkii/deluxe/cmo)
 
 /obj/item/storage/hypospraykit/cmo/empty
 	desc = "An extended hypospray kit with foam insets for hypovials & a mounting point on the bottom."
@@ -205,11 +207,14 @@
 /obj/item/storage/hypospraykit/cmo/preloaded/PopulateContents()
 	if(empty)
 		return
-	new /obj/item/hypospray/mkii/deluxe/cmo(src)
-	new /obj/item/reagent_containers/cup/hypovial/large/deluxe(src)
-	new /obj/item/reagent_containers/cup/hypovial/large/multiver(src)
-	new /obj/item/reagent_containers/cup/hypovial/large/salglu(src)
-	new /obj/item/reagent_containers/cup/hypovial/large/synthflesh(src)
+
+	return list(
+		/obj/item/hypospray/mkii/deluxe/cmo,
+		/obj/item/reagent_containers/cup/hypovial/large/deluxe,
+		/obj/item/reagent_containers/cup/hypovial/large/multiver,
+		/obj/item/reagent_containers/cup/hypovial/large/salglu,
+		/obj/item/reagent_containers/cup/hypovial/large/synthflesh,
+	)
 
 /// Combat hypokit
 /obj/item/storage/hypospraykit/cmo/combat
@@ -221,41 +226,48 @@
 /obj/item/storage/hypospraykit/cmo/combat/PopulateContents()
 	if(empty)
 		return
-	new /obj/item/hypospray/mkii/deluxe/cmo/combat(src)
-	new /obj/item/reagent_containers/cup/hypovial/large/advbrute(src)
-	new /obj/item/reagent_containers/cup/hypovial/large/advburn(src)
-	new /obj/item/reagent_containers/cup/hypovial/large/advtox(src)
-	new /obj/item/reagent_containers/cup/hypovial/large/advoxy(src)
-	new /obj/item/reagent_containers/cup/hypovial/large/advcrit(src)
-	new /obj/item/reagent_containers/cup/hypovial/large/advomni(src)
-	new /obj/item/reagent_containers/cup/hypovial/large/numbing(src)
+
+	return list(
+		/obj/item/hypospray/mkii/deluxe/cmo/combat,
+		/obj/item/reagent_containers/cup/hypovial/large/advbrute,
+		/obj/item/reagent_containers/cup/hypovial/large/advburn,
+		/obj/item/reagent_containers/cup/hypovial/large/advtox,
+		/obj/item/reagent_containers/cup/hypovial/large/advoxy,
+		/obj/item/reagent_containers/cup/hypovial/large/advcrit,
+		/obj/item/reagent_containers/cup/hypovial/large/advomni,
+		/obj/item/reagent_containers/cup/hypovial/large/numbing,
+	)
 
 /// Boxes of empty hypovials, coming in every style.
 /obj/item/storage/box/hypovials
 	name = "box of hypovials"
 
 /obj/item/storage/box/hypovials/PopulateContents()
+	var/list/box_contents
 	for(var/vialpath in subtypesof(/obj/item/reagent_containers/cup/hypovial/small/style))
-		new vialpath(src)
+		box_contents += vialpath
+
+	return box_contents
 
 // Ditto, just large vials.
 /obj/item/storage/box/hypovials/deluxe
 	name = "box of deluxe hypovials"
 
 /obj/item/storage/box/hypovials/deluxe/PopulateContents()
+	var/list/box_contents
 	for(var/vialpath in subtypesof(/obj/item/reagent_containers/cup/hypovial/large/style))
-		new vialpath(src)
+		box_contents += vialpath
+
+	return box_contents
 
 // A box of small hypospray kits, pre-skinned to each variant to remind people what styles are available.
 /obj/item/storage/box/hypospray
 	name = "box of hypospray kits"
 
 /obj/item/storage/box/hypospray/PopulateContents()
-	var/list/case_designs = list("firstaid", "brute", "burn", "toxin", "oxy", "advanced", "buffs")
-	for(var/label in case_designs)
-		var/obj/item/storage/hypospraykit/newkit = new /obj/item/storage/hypospraykit(src)
-		newkit.current_case = label
-		newkit.update_icon_state()
+	return flatten_quantified_list(list(
+		/obj/item/storage/hypospraykit = 7,
+	))
 
 /datum/storage/hypospray_kit
 	max_slots = 7

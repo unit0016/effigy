@@ -119,9 +119,14 @@
 		/obj/item/crowbar/power,
 		/obj/item/weldingtool/experimental,
 		/obj/item/multitool,
-		/obj/item/construction/rcd/loaded/upgraded,
-		/obj/item/extinguisher/mini,
-		/obj/item/stack/cable_coil,
+		// EffigyEdit Change - belt contents
+		///obj/item/construction/rcd/loaded/upgraded,
+		///obj/item/extinguisher/mini,
+		///obj/item/stack/cable_coil,
+		/obj/item/construction/rcd/mkii,
+		/obj/item/pipe_dispenser,
+		/obj/item/analyzer/ranged,
+		// EffigyEdit Change End
 	)
 
 /obj/item/storage/belt/utility/full/engi/PopulateContents()
