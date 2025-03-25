@@ -87,6 +87,11 @@
 		/obj/item/wrench/medical,
 		/obj/item/knife/ritual,
 		/obj/item/flesh_shears,
+		// EffigyEdit Add - Hyposprays
+		/obj/item/hypospray/mkii,
+		/obj/item/storage/hypospraykit,
+		/obj/item/reagent_containers/cup/hypovial,
+		// EffigyEdit Add End
 	))
 
 //Security belt
