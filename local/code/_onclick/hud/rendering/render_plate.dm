@@ -3,9 +3,9 @@
 	add_filter("effigy_matrix_value", 2, color_matrix_filter(color_matrix_saturation(1.17)))
 
 /datum/client_colour/effigy
-	colour = list(1.01,-0.02,0.04,0, 0.02,0.99,0.02,0, 0,0,1.06,0, 0,0,0,1, 0,0,0,0)
-	priority = 998
+	color = list(1.01,-0.02,0.04,0, 0.02,0.99,0.02,0, 0,0,1.06,0, 0,0,0,1, 0,0,0,0)
+	priority = CLIENT_COLOR_OVERRIDE_PRIORITY
 
 /mob/Initialize(mapload)
 	. = ..()
-	add_client_colour(/datum/client_colour/effigy)
+	add_client_colour(/datum/client_colour/effigy, "effigy_client")

@@ -250,8 +250,7 @@
 		"status" = status,
 		"interface" = list(
 			"name" = interface,
-			//"layout" = user.client.prefs.read_preference(/datum/preference/choiced/tgui_layout),
-			"layout" = get_cached_tgui_layout_pref(user.client.ckey), // EffigyEdit Change - Stop TGUI White Box
+			"layout" = user.client.prefs.read_preference(src_object.layout_prefs_used),
 		),
 		"refreshing" = refreshing,
 		"window" = list(
