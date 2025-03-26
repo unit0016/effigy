@@ -243,22 +243,30 @@
 	name = "box of hypovials"
 
 /obj/item/storage/box/hypovials/PopulateContents()
-	var/list/box_contents
-	for(var/vialpath in subtypesof(/obj/item/reagent_containers/cup/hypovial/small/style))
-		box_contents += vialpath
-
-	return box_contents
+	return list(
+		/obj/item/reagent_containers/cup/hypovial/small/style/generic,
+		/obj/item/reagent_containers/cup/hypovial/small/style/brute,
+		/obj/item/reagent_containers/cup/hypovial/small/style/burn,
+		/obj/item/reagent_containers/cup/hypovial/small/style/toxin,
+		/obj/item/reagent_containers/cup/hypovial/small/style/oxy,
+		/obj/item/reagent_containers/cup/hypovial/small/style/crit,
+		/obj/item/reagent_containers/cup/hypovial/small/style/buff,
+	)
 
 // Ditto, just large vials.
 /obj/item/storage/box/hypovials/deluxe
 	name = "box of deluxe hypovials"
 
 /obj/item/storage/box/hypovials/deluxe/PopulateContents()
-	var/list/box_contents
-	for(var/vialpath in subtypesof(/obj/item/reagent_containers/cup/hypovial/large/style))
-		box_contents += vialpath
-
-	return box_contents
+	return list(
+		/obj/item/reagent_containers/cup/hypovial/large/style/generic,
+		/obj/item/reagent_containers/cup/hypovial/large/style/brute,
+		/obj/item/reagent_containers/cup/hypovial/large/style/burn,
+		/obj/item/reagent_containers/cup/hypovial/large/style/toxin,
+		/obj/item/reagent_containers/cup/hypovial/large/style/oxy,
+		/obj/item/reagent_containers/cup/hypovial/large/style/crit,
+		/obj/item/reagent_containers/cup/hypovial/large/style/buff,
+	)
 
 // A box of small hypospray kits, pre-skinned to each variant to remind people what styles are available.
 /obj/item/storage/box/hypospray
