@@ -119,9 +119,9 @@
 	desc = "Contains two beacons for delivery of atmospheric gas miners."
 
 /obj/item/storage/box/gas_miner_beacons/PopulateContents()
-	new /obj/item/summon_beacon/gas_miner(src)
-	new /obj/item/summon_beacon/gas_miner(src)
-
+	return flatten_quantified_list(list(
+		/obj/item/summon_beacon/gas_miner = 2,
+	))
 
 // Actual beacons start here
 
