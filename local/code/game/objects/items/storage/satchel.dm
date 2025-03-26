@@ -1,4 +1,4 @@
-
+/*
 // Midrange bag for paramedics, hypospray and more flexible item wise than surgical, but restricted to small items only
 /obj/item/storage/backpack/duffelbag/deforest_paramedic
 	name = "medical technician kit"
@@ -70,6 +70,7 @@
 		/obj/item/lazarus_injector,
 		/obj/item/lighter,
 		/obj/item/pinpointer/crew,
+		/obj/item/reagent_containers/applicator,
 		/obj/item/reagent_containers/blood,
 		/obj/item/reagent_containers/dropper,
 		/obj/item/reagent_containers/cup/beaker,
@@ -78,7 +79,6 @@
 		/obj/item/reagent_containers/cup/tube,
 		/obj/item/reagent_containers/hypospray,
 		/obj/item/reagent_containers/medigel,
-		/obj/item/reagent_containers/pill,
 		/obj/item/reagent_containers/spray,
 		/obj/item/reagent_containers/syringe,
 		/obj/item/retractor,
@@ -93,3 +93,4 @@
 		/obj/item/storage/box/bandages,
 		/obj/item/bodybag,
 	))
+*/

@@ -1,6 +1,6 @@
 /obj/effect/abstract/liquid_turf
 	name = "liquid"
-	icon = 'local/code/modules/liquids/assets/obj/effects/liquid.dmi'
+	icon = 'local/icons/effects/liquid.dmi'
 	icon_state = "water-0"
 	base_icon_state = "water"
 	anchored = TRUE
@@ -209,7 +209,7 @@
 	PRIVATE_PROC(TRUE)
 
 	return mutable_appearance(
-		'local/code/modules/liquids/assets/obj/effects/liquid_overlays.dmi',
+		'local/icons/effects/liquid_overlays.dmi',
 		overlay_state,
 		overlay_layer,
 		src,
@@ -625,7 +625,7 @@
 	return LOWER_TEXT(reagents_string)
 
 /obj/effect/temp_visual/liquid_splash
-	icon = 'local/code/modules/liquids/assets/obj/effects/splash.dmi'
+	icon = 'local/icons/effects/splash.dmi'
 	icon_state = "splash"
 	layer = FLY_LAYER
 	randomdir = FALSE
@@ -651,7 +651,7 @@
 
 /obj/effect/abstract/liquid_turf/immutable/ocean
 	smoothing_flags = NONE
-	icon = 'local/code/modules/liquids/assets/obj/effects/liquid.dmi'
+	icon = 'local/icons/effects/liquid.dmi'
 	icon_state = "ocean"
 	base_icon_state = "ocean"
 	layer = FLY_LAYER
