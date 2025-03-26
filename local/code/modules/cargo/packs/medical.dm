@@ -1,3 +1,4 @@
+/*
 /datum/supply_pack/medical/kit_technician
 	name = "Heavy Duty Medical Kit Crate - Technician"
 	crate_name = "technician kit crate"
@@ -9,6 +10,7 @@
 	)
 	crate_name = "medical technician crate"
 	crate_type = /obj/structure/closet/crate/deforest
+*/
 
 /datum/supply_pack/medical/firstaidmixed
 	name = "Mixed Medical Kits"

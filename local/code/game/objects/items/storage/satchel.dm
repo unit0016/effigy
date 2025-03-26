@@ -1,4 +1,4 @@
-
+/*
 // Midrange bag for paramedics, hypospray and more flexible item wise than surgical, but restricted to small items only
 /obj/item/storage/backpack/duffelbag/deforest_paramedic
 	name = "medical technician kit"
@@ -93,3 +93,4 @@
 		/obj/item/storage/box/bandages,
 		/obj/item/bodybag,
 	))
+*/
