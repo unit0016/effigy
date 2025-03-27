@@ -15,6 +15,15 @@
 	clawfootstep = FOOTSTEP_HARD_CLAW
 	heavyfootstep = FOOTSTEP_GENERIC_HEAVY
 	rust_resistance = RUST_RESISTANCE_BASIC
+	/// EffigyEdit Variables - Additive
+	icon = 'local/icons/turf/floors/plating.dmi'
+	smoothing_flags = SMOOTH_BITMASK
+	smoothing_groups = SMOOTH_GROUP_TURF_OPEN + SMOOTH_GROUP_PLATING
+	canSmoothWith = SMOOTH_GROUP_PLATING
+	liquid_height = -5 // Very very slight dip
+	/// EffigyEdit Variables - Overrides
+	icon_state = "plating-0"
+	/// EffigyEdit Variables End
 
 	//Can this plating have reinforced floors placed ontop of it
 	var/attachment_holes = TRUE
