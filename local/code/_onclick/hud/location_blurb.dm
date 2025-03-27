@@ -37,10 +37,10 @@
 	animate(text_movable, alpha = 255, time = 1 SECONDS)
 	if(typewriter_esque)
 		for(var/i = 1 to length_char(our_blurb_text) + 1) // Animate each character rolling in like this is a typewriter
-			text_movable.maptext = MAPTEXT_GRAND9K(copytext_char(our_blurb_text, 1, i))
+			text_movable.maptext = MAPTEXT_EFFIGY_12(copytext_char(our_blurb_text, 1, i))
 			sleep(1)
 	else
-		text_movable.maptext = MAPTEXT_GRAND9K(our_blurb_text)
+		text_movable.maptext = MAPTEXT_EFFIGY_12(our_blurb_text)
 
 	addtimer(CALLBACK(GLOBAL_PROC, GLOBAL_PROC_REF(fade_location_blurb), src, text_movable), duration)
 
