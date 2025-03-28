@@ -97,106 +97,55 @@
 // -------- Directional presets
 // The directions are backwards on the lights we have now
 MAPPING_DIRECTIONAL_HELPERS(/obj/machinery/light, 0)
-/// EffigyEdit Variables - Overrides
-MAPPING_GRANULAR_DIRECTIONAL_HELPERS(/obj/machinery/light, 13, 0, 7, -7)\
-/// EffigyEdit Variables - End
 
 // ---- Broken tube
 MAPPING_DIRECTIONAL_HELPERS(/obj/machinery/light/broken, 0)
-/// EffigyEdit Variables - Overrides
-MAPPING_GRANULAR_DIRECTIONAL_HELPERS(/obj/machinery/light/broken, 13, 0, 7, -7)\
-/// EffigyEdit Variables - End
 
 // ---- Tube construct
 MAPPING_DIRECTIONAL_HELPERS(/obj/structure/light_construct, 0)
-/// EffigyEdit Variables - Overrides
-MAPPING_GRANULAR_DIRECTIONAL_HELPERS(/obj/machinery/light/light_construct, 13, 0, 7, -7)\
-/// EffigyEdit Variables - End
 
 // ---- Tube frames
 MAPPING_DIRECTIONAL_HELPERS(/obj/machinery/light/built, 0)
-/// EffigyEdit Variables - Overrides
-MAPPING_GRANULAR_DIRECTIONAL_HELPERS(/obj/machinery/light/built, 13, 0, 7, -7)\
-/// EffigyEdit Variables - End
 
 // ---- No nightlight tubes
 MAPPING_DIRECTIONAL_HELPERS(/obj/machinery/light/no_nightlight, 0)
-/// EffigyEdit Variables - Overrides
-MAPPING_GRANULAR_DIRECTIONAL_HELPERS(/obj/machinery/light/no_nightlight, 13, 0, 7, -7)\
-/// EffigyEdit Variables - End
 
 // ---- Warm light tubes
 MAPPING_DIRECTIONAL_HELPERS(/obj/machinery/light/warm, 0)
-/// EffigyEdit Variables - Overrides
-MAPPING_GRANULAR_DIRECTIONAL_HELPERS(/obj/machinery/light/warm, 13, 0, 7, -7)\
-/// EffigyEdit Variables - End
 
 // ---- No nightlight warm light tubes
 MAPPING_DIRECTIONAL_HELPERS(/obj/machinery/light/warm/no_nightlight, 0)
-/// EffigyEdit Variables - Overrides
-MAPPING_GRANULAR_DIRECTIONAL_HELPERS(/obj/machinery/light/warm/no_nightlight, 13, 0, 7, -7)\
-/// EffigyEdit Variables - End
 
 // ---- Dim warm light tubes
 MAPPING_DIRECTIONAL_HELPERS(/obj/machinery/light/warm/dim, 0)
-/// EffigyEdit Variables - Overrides
-MAPPING_GRANULAR_DIRECTIONAL_HELPERS(/obj/machinery/light/warm/dim, 13, 0, 7, -7)\
-/// EffigyEdit Variables - End
 
 // ---- Cold light tubes
 MAPPING_DIRECTIONAL_HELPERS(/obj/machinery/light/cold, 0)
-/// EffigyEdit Variables - Overrides
-MAPPING_GRANULAR_DIRECTIONAL_HELPERS(/obj/machinery/light/cold, 13, 0, 7, -7)\
-/// EffigyEdit Variables - End
 
 // ---- No nightlight cold light tubes
 MAPPING_DIRECTIONAL_HELPERS(/obj/machinery/light/cold/no_nightlight, 0)
-/// EffigyEdit Variables - Overrides
-MAPPING_GRANULAR_DIRECTIONAL_HELPERS(/obj/machinery/light/cold/no_nightlight, 13, 0, 7, -7)\
-/// EffigyEdit Variables - End
 
 // ---- Dim cold light tubes
 MAPPING_DIRECTIONAL_HELPERS(/obj/machinery/light/cold/dim, 0)
-/// EffigyEdit Variables - Overrides
-MAPPING_GRANULAR_DIRECTIONAL_HELPERS(/obj/machinery/light/cold/dim, 13, 0, 7, -7)\
-/// EffigyEdit Variables - End
 
 // ---- Red tubes
 MAPPING_DIRECTIONAL_HELPERS(/obj/machinery/light/red, 0)
-/// EffigyEdit Variables - Overrides
-MAPPING_GRANULAR_DIRECTIONAL_HELPERS(/obj/machinery/light/red, 13, 0, 7, -7)\
-/// EffigyEdit Variables - End
 
 // ---- Red dim tubes
 MAPPING_DIRECTIONAL_HELPERS(/obj/machinery/light/red/dim, 0)
-/// EffigyEdit Variables - Overrides
-MAPPING_GRANULAR_DIRECTIONAL_HELPERS(/obj/machinery/light/red/dim, 13, 0, 7, -7)\
-/// EffigyEdit Variables - End
 
 // ---- Blacklight tubes
 MAPPING_DIRECTIONAL_HELPERS(/obj/machinery/light/blacklight, 0)
-/// EffigyEdit Variables - Overrides
-MAPPING_GRANULAR_DIRECTIONAL_HELPERS(/obj/machinery/light/blacklist, 13, 0, 7, -7)\
-/// EffigyEdit Variables - End
 
 // ---- Dim tubes
 MAPPING_DIRECTIONAL_HELPERS(/obj/machinery/light/dim, 0)
-/// EffigyEdit Variables - Overrides
-MAPPING_GRANULAR_DIRECTIONAL_HELPERS(/obj/machinery/light/dim, 13, 0, 7, -7)\
-/// EffigyEdit Variables - End
 
 
 // -------- Bulb lights
 MAPPING_DIRECTIONAL_HELPERS(/obj/machinery/light/small, 0)
-/// EffigyEdit Variables - Overrides
-MAPPING_GRANULAR_DIRECTIONAL_HELPERS(/obj/machinery/light/small, 13, 0, 7, -7)\
-/// EffigyEdit Variables - End
 
 // ---- Bulb construct
 MAPPING_DIRECTIONAL_HELPERS(/obj/structure/light_construct/small, 0)
-/// EffigyEdit Variables - Overrides
-MAPPING_GRANULAR_DIRECTIONAL_HELPERS(/obj/machinery/light_construct/small, 13, 0, 7, -7)\
-/// EffigyEdit Variables - End
 
 // ---- Bulb frames
 MAPPING_DIRECTIONAL_HELPERS(/obj/machinery/light/small/built, 0)

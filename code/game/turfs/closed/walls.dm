@@ -20,6 +20,7 @@
 
 	rcd_memory = RCD_MEMORY_WALL
 	/// EffigyEdit Variables - Overrides
+	canSmoothWith = SMOOTH_GROUP_WALLS + SMOOTH_GROUP_AIRLOCK
 	icon = 'local/icons/turf/walls/wall.dmi'
 	/// EffigyEdit Variables End
 	///bool on whether this wall can be chiselled into
