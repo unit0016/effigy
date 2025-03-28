@@ -181,10 +181,11 @@ SAVEFILE UPDATING/VERSIONING - 'Simplified', or rather, more coder-friendly ~Car
 			return FALSE
 
 	var/needs_update = save_data_needs_update(savefile.get_entry())
-	// EffigyEdit Add - Character Preferences
+	/* EffigyEdit Add - Character Preferences
 	var/effigy_save_status = effigy_savefile_needs_update(savefile.get_entry())
 	if(effigy_save_status != -1)
 		debug_effigy(PREF, "Preferences for [parent] have a missing or incorrect Effigy version.")
+	*/
 	// EffigyEdit Add End
 	if(load_and_save && (needs_update == -2)) //fatal, can't load any data
 		var/bacpath = "[path].updatebac" //todo: if the savefile version is higher then the server, check the backup, and give the player a prompt to load the backup
