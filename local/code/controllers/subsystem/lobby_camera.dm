@@ -22,7 +22,7 @@ SUBSYSTEM_DEF(lobby_eye)
 	/// Movement delay of our eye.
 	var/moving_speed = 4
 	/// The HUD element handling fading.
-	var/atom/movable/screen/splash/fading_screen
+	var/atom/movable/screen/fadeout_menu/fading_screen
 	/// Cached list of the pathway we expect to take this fire().
 	var/list/pathway = list()
 
@@ -31,8 +31,6 @@ SUBSYSTEM_DEF(lobby_eye)
 	linked_eye = new()
 	linked_eye.set_glide_size(4)
 	fading_screen = new()
-	fading_screen.color = "000000" // universal lobby compatibility; right here!
-	fading_screen.layer = LOBBY_BELOW_MENU_LAYER - 1
 
 /datum/controller/subsystem/lobby_eye/Destroy()
 	QDEL_NULL(linked_eye)
@@ -97,7 +95,6 @@ SUBSYSTEM_DEF(lobby_eye)
 	lock_eyes()
 
 	//fade in
-	fading_screen.icon_state = "1"
 	animate(fading_screen, alpha = 0, time = 1 SECONDS, easing = LINEAR_EASING)
 	sleep(1 SECONDS)
 
@@ -111,3 +108,11 @@ SUBSYSTEM_DEF(lobby_eye)
 	sleep(1 SECONDS)
 
 	fire()
+
+/// SCREEN OBJECT
+/atom/movable/screen/fadeout_menu
+	icon = 'icons/blanks/blank_title.png'
+	color= "#000000"
+	screen_loc = "1,1"
+	plane = SPLASHSCREEN_PLANE
+	layer = LOBBY_BELOW_MENU_LAYER - 1
