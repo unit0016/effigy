@@ -584,6 +584,10 @@ ALLOW_VOTE_TRANSFER
 ## Set to -1 to disable the maximum votes cap.
 #VOTE_AUTOTRANSFER_MAXIMUM -1
 
+## Lobby Camera
+## Comment to disable the lobby's moving preview of the map prior to roundstart.
+LOBBY_CAMERA
+
 ## EFFIGY GAMEMODE CONFIGS
 
 ## Default Storyteller. Pick a default storyteller program or comment out to enable voting.

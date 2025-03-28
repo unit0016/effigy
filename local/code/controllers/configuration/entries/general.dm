@@ -54,3 +54,6 @@
 	default = 6
 	integer = FALSE
 	min_val = 0
+
+/// enable lobby camera
+/datum/config_entry/flag/lobby_camera
