@@ -16,13 +16,11 @@
 	rad_insulation = RAD_HEAVY_INSULATION
 	rust_resistance = RUST_RESISTANCE_REINFORCED
 	heat_capacity = 312500 //a little over 5 cm thick , 312500 for 1 m by 2.5 m by 0.25 m plasteel wall. also indicates the temperature at wich the wall will melt (currently only able to melt with H/E pipes)
-	/// EffigyEdit Variables - Overrides
-	icon = 'local/icons/turf/walls/reinforced_wall.dmi'
-	/// EffigyEdit Variables End
 	///Dismantled state, related to deconstruction.
 	var/d_state = INTACT
 	///Base icon state to use for deconstruction
 	var/base_decon_state = "r_wall"
+
 
 /turf/closed/wall/r_wall/deconstruction_hints(mob/user)
 	switch(d_state)
@@ -208,7 +206,7 @@
 		icon = 'icons/turf/walls/reinforced_states.dmi'
 		icon_state = "[base_decon_state]-[d_state]"
 	else
-		icon = 'icons/turf/walls/reinforced_wall.dmi'
+		icon = 'local/icons/turf/walls/reinforced_wall.dmi' /// EffigyEdit - Moved to /local/
 		icon_state = "[base_icon_state]-[smoothing_junction]"
 	return ..()
 

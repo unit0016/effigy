@@ -19,10 +19,6 @@
 	canSmoothWith = SMOOTH_GROUP_WALLS
 
 	rcd_memory = RCD_MEMORY_WALL
-	/// EffigyEdit Variables - Overrides
-	canSmoothWith = SMOOTH_GROUP_WALLS + SMOOTH_GROUP_AIRLOCK + SMOOTH_GROUP_WINDOW_FULLTILE + SMOOTH_GROUP_WINDOW_FULLTILE_BRONZE + SMOOTH_GROUP_WINDOW_FULLTILE_PLASTITANIUM + SMOOTH_GROUP_WINDOW_FULLTILE_SHUTTLE + SMOOTH_GROUP_PAPERFRAME
-	icon = 'local/icons/turf/walls/wall.dmi'
-	/// EffigyEdit Variables End
 	///bool on whether this wall can be chiselled into
 	var/can_engrave = TRUE
 	///lower numbers are harder. Used to determine the probability of a hulk smashing through.
