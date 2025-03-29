@@ -4,4 +4,4 @@
 #define SMOOTH_GROUP_PLATING S_TURF(65)
 #define MAX_S_TURF 65 //Always match this value with the one above it.
 
-#define SMOOTH_GROUP_WATER S_OBJ(76) // obj/effect/abstract/liquid_turf
+#define SMOOTH_GROUP_WATER S_OBJ(78) // obj/effect/abstract/liquid_turf
