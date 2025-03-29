@@ -13,6 +13,9 @@
 	var/light_color_operating = LIGHT_COLOR_FAINT_BLUE
 	var/water_sensor = FALSE
 
+/obj/machinery/door/firedoor/border_only
+	smoothing_groups = NONE
+
 /obj/machinery/door/firedoor/update_overlays()
 	. = ..()
 	if(welded)
