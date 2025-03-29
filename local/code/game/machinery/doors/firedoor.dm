@@ -14,7 +14,7 @@
 	var/water_sensor = FALSE
 
 /obj/machinery/door/firedoor/border_only
-	smoothing_groups = NONE
+	smoothing_groups = null
 
 /obj/machinery/door/firedoor/update_overlays()
 	. = ..()
