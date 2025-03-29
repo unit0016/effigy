@@ -7917,6 +7917,10 @@
 	},
 /turf/open/openspace,
 /area/taeloth)
+"cMU" = (
+/obj/effect/wall_trim/station/medical,
+/turf/closed/wall/r_wall,
+/area/station/medical/virology)
 "cNy" = (
 /obj/machinery/atmospherics/pipe/smart/simple/supply/hidden/layer4{
 	dir = 4
@@ -11168,7 +11172,7 @@
 /turf/open/floor/iron/dark/small,
 /area/station/security/range)
 "dTI" = (
-/obj/effect/wall_trim/station/service,
+/obj/effect/wall_trim/station/service/alt,
 /turf/closed/wall,
 /area/station/hallway/secondary/service)
 "dUx" = (
@@ -15672,7 +15676,7 @@
 /turf/open/floor/iron/dark/small,
 /area/station/engineering/main)
 "fwa" = (
-/obj/effect/wall_trim/station/service,
+/obj/effect/wall_trim/station/service/alt,
 /turf/closed/wall,
 /area/station/service/janitor)
 "fwc" = (
@@ -23120,6 +23124,10 @@
 	},
 /turf/open/floor/wood/parquet,
 /area/station/service/library)
+"icA" = (
+/obj/effect/wall_trim/station/service/alt,
+/turf/closed/wall,
+/area/station/service/hydroponics)
 "icD" = (
 /turf/open/floor/engine/hull/reinforced/taeloth,
 /area/taeloth/nearstation/cargo_roof)
@@ -28348,7 +28356,6 @@
 /turf/open/floor/grass,
 /area/taeloth/nearstation/security_roof)
 "jTw" = (
-/obj/effect/wall_trim/station/engineering,
 /turf/closed/wall/r_wall,
 /area/station/ai_monitored/turret_protected/aisat/solar_control)
 "jTx" = (
@@ -41552,9 +41559,9 @@
 /turf/open/floor/iron/dark/diagonal,
 /area/station/security/brig)
 "oIL" = (
-/obj/effect/wall_trim/offstation/nanotrasen/blue,
-/turf/closed/wall/r_wall,
-/area/station/science/xenobiology)
+/obj/effect/wall_trim/station/research,
+/turf/closed/wall,
+/area/station/science/robotics/augments)
 "oIN" = (
 /obj/effect/turf_decal/tile/blue{
 	dir = 8
@@ -51044,6 +51051,10 @@
 /obj/structure/standing_sign/rimpoint/stationsandspacers,
 /turf/open/misc/dirt/jungle,
 /area/taeloth/nearstation/service_crossway/public_garden)
+"rRB" = (
+/obj/effect/wall_trim/station/medical,
+/turf/closed/wall,
+/area/station/medical/pharmacy)
 "rRD" = (
 /obj/effect/turf_decal/siding/thinplating_new/dark,
 /obj/effect/landmark/start/ai/secondary,
@@ -56715,7 +56726,7 @@
 /area/station/service/lawoffice)
 "tQH" = (
 /obj/effect/baseturf_helper/reinforced_plating/ceiling,
-/obj/effect/wall_trim/offstation/nanotrasen/blue,
+/obj/effect/wall_trim/station/research,
 /turf/closed/wall/r_wall,
 /area/station/science/xenobiology)
 "tRh" = (
@@ -57774,6 +57785,10 @@
 /obj/structure/disposalpipe/segment,
 /turf/open/openspace,
 /area/station/maintenance/department/medical/morgue)
+"uhF" = (
+/obj/effect/wall_trim/station/medical,
+/turf/closed/wall,
+/area/station/medical/chem_storage)
 "uhL" = (
 /obj/structure/railing/corner/end,
 /obj/effect/turf_decal/siding/wideplating_new{
@@ -62521,7 +62536,7 @@
 /turf/open/floor/plating,
 /area/station/maintenance/department/medical/morgue)
 "vNC" = (
-/obj/effect/wall_trim/station/service,
+/obj/effect/wall_trim/station/service/alt,
 /turf/closed/wall,
 /area/station/security/checkpoint/escape)
 "vNE" = (
@@ -92744,7 +92759,7 @@ iWY
 mEi
 jQK
 scM
-vCP
+rRB
 gpx
 fBa
 fBa
@@ -93258,7 +93273,7 @@ mWC
 lHp
 tvH
 xdS
-vCP
+rRB
 trE
 pDQ
 ixd
@@ -93527,7 +93542,7 @@ riQ
 lnQ
 xCJ
 vZp
-lnQ
+cMU
 jPn
 fkk
 kmv
@@ -93767,24 +93782,24 @@ eQG
 eQG
 eQG
 lTL
-vCP
+rRB
 ocY
 weM
-vCP
-vCP
-vCP
+rRB
+rRB
+rRB
 lef
 rIv
 fBa
 plV
 uid
 vbK
-fBa
+uhF
 fPM
 lnQ
 lnQ
 gLx
-lnQ
+cMU
 ezP
 gPY
 xvH
@@ -94035,8 +94050,8 @@ fmO
 fBa
 jUK
 nLE
-fBa
-fBa
+uhF
+uhF
 dzD
 hPY
 bzN
@@ -94573,7 +94588,7 @@ atM
 atM
 atM
 atM
-atM
+eTq
 vQg
 sXz
 atM
@@ -94830,7 +94845,7 @@ qTE
 yba
 mcK
 ltK
-gtR
+oIL
 iSU
 dDr
 gtR
@@ -95100,7 +95115,7 @@ fAy
 oXe
 wtj
 qCP
-oIL
+kfM
 sAd
 hiZ
 uLP
@@ -95344,7 +95359,7 @@ qTE
 fEZ
 xMA
 vpW
-gtR
+oIL
 qWF
 rVz
 gtR
@@ -95357,7 +95372,7 @@ rcX
 ghL
 vfw
 vSs
-oIL
+kfM
 xfe
 cUG
 roc
@@ -95601,7 +95616,7 @@ qTE
 dEY
 dEY
 dEY
-dEY
+cFt
 pZa
 loA
 xLh
@@ -95614,7 +95629,7 @@ wWa
 bBi
 wWa
 wWa
-oIL
+kfM
 kfM
 vZo
 kfM
@@ -113856,11 +113871,11 @@ pjT
 qNu
 pjT
 pjT
-isj
+icA
 tOT
 vcV
-isj
-isj
+icA
+icA
 nBO
 lSe
 mfH
@@ -114117,7 +114132,7 @@ dNK
 sdj
 nps
 oOU
-isj
+icA
 rEN
 oax
 rCm
@@ -114631,7 +114646,7 @@ lUh
 hDB
 gFq
 bYX
-isj
+icA
 orn
 lSe
 pBl
@@ -114888,7 +114903,7 @@ sdj
 gTI
 oZs
 csO
-isj
+icA
 mBx
 xmL
 pBl
@@ -115145,7 +115160,7 @@ sdj
 yjZ
 nAD
 nAD
-isj
+icA
 orn
 sqC
 rCm
@@ -115402,7 +115417,7 @@ sBz
 bnb
 rGd
 ibX
-isj
+icA
 bes
 fpE
 fZo
@@ -115916,7 +115931,7 @@ haG
 xGE
 nps
 uEe
-isj
+icA
 kbY
 lSe
 rCm
@@ -116172,8 +116187,8 @@ pQQ
 qiw
 bBO
 xXi
-isj
-isj
+icA
+icA
 aLf
 lSe
 pBl
@@ -116421,15 +116436,15 @@ rDi
 rDi
 rDi
 rDi
-isj
+icA
 drS
 qnc
-isj
-isj
+icA
+icA
 fRq
 xXz
 hVW
-isj
+icA
 vWe
 djL
 lSe
