@@ -58284,6 +58284,7 @@
 "urF" = (
 /obj/structure/falsewall,
 /obj/structure/cable,
+/obj/effect/wall_trim/station/security/prison,
 /turf/open/floor/plating,
 /area/station/security/prison/safe)
 "urM" = (
@@ -69734,6 +69735,7 @@
 /obj/machinery/atmospherics/pipe/smart/simple/scrubbers/hidden/layer2{
 	dir = 4
 	},
+/obj/effect/wall_trim/station/security,
 /turf/open/floor/plating,
 /area/station/command/heads_quarters/hos)
 "yls" = (

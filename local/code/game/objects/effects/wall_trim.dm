@@ -8,12 +8,19 @@
 /obj/effect/wall_trim/Initialize(mapload)
 	. = ..()
 	var/turf/closed/wall/our_turf = get_turf(src)
-	if(!iswallturf(our_turf))
-		CRASH("[src] tried to initialize but wasn't on a wall!")
-	our_turf.trim_color = color
-	our_turf.trim_alpha = alpha
-	our_turf.update_appearance()
-	qdel(src)
+	if(iswallturf(our_turf))
+		our_turf.trim_color = color
+		our_turf.trim_alpha = alpha
+		our_turf.update_appearance()
+		qdel(src)
+		return INITIALIZE_HINT_QDEL
+	var/obj/structure/falsewall/found_falsewall = locate(/obj/structure/falsewall) in src.loc.contents
+	if(found_falsewall)
+		found_falsewall.trim_color = color
+		found_falsewall.trim_alpha = alpha
+		found_falsewall.update_appearance()
+		return INITIALIZE_HINT_QDEL
+	CRASH("[src] tried to initialize but wasn't on a wall!")
 
 /// STATION ///
 /// Keep these alphabetical

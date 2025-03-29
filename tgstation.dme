@@ -6775,6 +6775,7 @@
 #include "local\code\game\objects\items\storage\satchel.dm"
 #include "local\code\game\objects\items\storage\uplink_kits.dm"
 #include "local\code\game\objects\structures\dresser.dm"
+#include "local\code\game\objects\structures\false_walls.dm"
 #include "local\code\game\objects\structures\flagpole.dm"
 #include "local\code\game\objects\structures\fluff.dm"
 #include "local\code\game\objects\structures\mineral_doors.dm"
