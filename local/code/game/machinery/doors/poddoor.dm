@@ -1,5 +1,6 @@
 /obj/machinery/door/poddoor
 	icon = 'local/icons/obj/doors/blast_door.dmi'
+	smoothing_groups = SMOOTH_GROUP_AIRLOCK
 
 /obj/machinery/door/poddoor/animation_length(animation)
 	switch(animation)

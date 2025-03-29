@@ -1,6 +1,7 @@
 /obj/machinery/door/poddoor/shutters
 	icon = 'local/icons/obj/doors/shutters.dmi'
 	animation_sound = 'local/sound/machines/shutters.ogg'
+	smoothing_groups = SMOOTH_GROUP_AIRLOCK
 
 /obj/machinery/door/poddoor/shutters/animation_length(animation)
 	switch(animation)

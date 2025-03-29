@@ -4,6 +4,7 @@
 	icon = 'local/icons/obj/doors/firedoor_glass.dmi'
 	light_power = 1
 	light_range = 1.7
+	smoothing_groups = SMOOTH_GROUP_AIRLOCK
 	var/light_color_idle = COLOR_STARLIGHT
 	var/light_color_hot = LIGHT_COLOR_FLARE
 	var/light_color_cold = LIGHT_COLOR_BLUE
