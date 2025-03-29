@@ -21,7 +21,6 @@
 	///Base icon state to use for deconstruction
 	var/base_decon_state = "r_wall"
 
-
 /turf/closed/wall/r_wall/deconstruction_hints(mob/user)
 	switch(d_state)
 		if(INTACT)
