@@ -1,7 +1,7 @@
 /obj/effect/wall_trim
 	name = "wall trim helper"
 	icon = 'local/icons/turf/walls/wall_trim.dmi'
-	icon_state = "wall-0"
+	icon_state = "walltrim-0"
 	color = "#FFFFFF"
 	alpha = 125
 
@@ -9,6 +9,8 @@
 	. = ..()
 	var/turf/closed/wall/our_turf = get_turf(src)
 	if(iswallturf(our_turf))
+		if(our_turf.trim_color) // Already defined by something else
+			CRASH("[src] tried to initialize but the [our_turf] already had it's trim color set!")
 		our_turf.trim_color = color
 		our_turf.trim_alpha = alpha
 		our_turf.update_appearance()
@@ -16,11 +18,21 @@
 		return INITIALIZE_HINT_QDEL
 	var/obj/structure/falsewall/found_falsewall = locate(/obj/structure/falsewall) in src.loc.contents
 	if(found_falsewall)
+		if(found_falsewall.trim_color) // Already defined by something else
+			CRASH("[src] tried to initialize but the [found_falsewall] already had it's trim color set!")
 		found_falsewall.trim_color = color
 		found_falsewall.trim_alpha = alpha
 		found_falsewall.update_appearance()
 		return INITIALIZE_HINT_QDEL
-	CRASH("[src] tried to initialize but wasn't on a wall!")
+	var/obj/structure/window/found_window = locate(/obj/structure/window) in src.loc.contents
+	if(found_window?.fulltile)
+		if(found_window.trim_color) // Already defined by something else
+			CRASH("[src] tried to initialize but the [found_window] already had it's trim color set!")
+		found_window.trim_color = color
+		found_window.trim_alpha = alpha
+		found_window.update_appearance()
+		return INITIALIZE_HINT_QDEL
+	CRASH("[src] tried to initialize but wasn't on a wall or window!")
 
 /// STATION ///
 /// Keep these alphabetical

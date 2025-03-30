@@ -8,9 +8,9 @@
 /obj/structure/falsewall/update_overlays()
 	. = ..()
 	if(trim_color)
-		var/mutable_appearance/our_mutable = mutable_appearance(/obj/effect/wall_trim::icon, src.icon_state, alpha = trim_alpha)
+		var/mutable_appearance/our_mutable = mutable_appearance(/obj/effect/wall_trim::icon, "walltrim-[smoothing_junction]", alpha = trim_alpha)
 		our_mutable.color = trim_color
-		our_mutable.icon_state = icon_state
+		our_mutable.icon_state = "walltrim-[smoothing_junction]"
 		. += our_mutable
 
 /obj/structure/falsewall/set_smoothed_icon_state()

@@ -1,4 +1,4 @@
-output_name = "wall"
+output_name = "walltrim"
 template = "bitmask/diagonal_32x32.toml"
 
 # When we cut up our blockls, we're cutting "around" a central point

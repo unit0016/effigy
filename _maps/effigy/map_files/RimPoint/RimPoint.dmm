@@ -56,6 +56,11 @@
 /obj/effect/spawner/random/structure/closet_maintenance,
 /turf/open/floor/engine/hull/reinforced/taeloth,
 /area/taeloth/nearstation/medical_roof)
+"ach" = (
+/obj/effect/spawner/structure/window/reinforced,
+/obj/effect/wall_trim/station/command,
+/turf/open/floor/plating,
+/area/station/command/bridge)
 "acn" = (
 /obj/effect/turf_decal/siding/wideplating_new{
 	dir = 4
@@ -189,6 +194,7 @@
 /area/station/medical/psychology)
 "adE" = (
 /obj/effect/spawner/structure/window/reinforced/plasma,
+/obj/effect/wall_trim/station/engineering,
 /turf/open/floor/plating,
 /area/station/engineering/supermatter)
 "adM" = (
@@ -874,6 +880,7 @@
 /turf/closed/wall/rust,
 /area/station/maintenance/starboard/aft)
 "ark" = (
+/obj/effect/wall_trim/station/cargo,
 /turf/closed/wall,
 /area/station/maintenance/disposal)
 "arr" = (
@@ -1484,6 +1491,7 @@
 /area/station/science/salvage)
 "aAO" = (
 /obj/effect/spawner/structure/window,
+/obj/effect/wall_trim/station/service/alt,
 /turf/open/floor/plating,
 /area/station/service/janitor)
 "aBb" = (
@@ -1742,6 +1750,7 @@
 /area/station/tcommsat/server)
 "aFX" = (
 /obj/effect/spawner/structure/window,
+/obj/effect/wall_trim/station/medical,
 /turf/open/floor/plating,
 /area/station/medical/treatment_center)
 "aGa" = (
@@ -2033,6 +2042,11 @@
 /obj/machinery/light/directional/north,
 /turf/open/floor/plating,
 /area/station/command/gateway)
+"aLQ" = (
+/obj/effect/spawner/structure/window,
+/obj/effect/wall_trim/station/medical,
+/turf/open/floor/plating,
+/area/station/science/lobby)
 "aMc" = (
 /obj/effect/turf_decal/trimline/blue/filled/line{
 	dir = 8
@@ -2650,6 +2664,7 @@
 /obj/machinery/atmospherics/pipe/smart/simple/scrubbers/visible{
 	dir = 10
 	},
+/obj/effect/wall_trim/station/engineering,
 /turf/open/floor/plating,
 /area/station/engineering/atmos/hfr_room)
 "aWa" = (
@@ -2793,6 +2808,7 @@
 	name = "Checkpoint Shutter"
 	},
 /obj/structure/cable,
+/obj/effect/wall_trim/station/security,
 /turf/open/floor/plating,
 /area/station/security/checkpoint/science)
 "aYX" = (
@@ -3700,6 +3716,7 @@
 /area/taeloth/nearstation/dormitory_concourse/crew_facilities)
 "bnE" = (
 /obj/effect/spawner/structure/window/reinforced,
+/obj/effect/wall_trim/station/engineering,
 /turf/open/floor/plating,
 /area/station/engineering/atmos/storage)
 "bnH" = (
@@ -4714,6 +4731,7 @@
 "bFJ" = (
 /obj/effect/spawner/structure/window/reinforced/plasma,
 /obj/machinery/atmospherics/pipe/smart/manifold/scrubbers/visible,
+/obj/effect/wall_trim/station/engineering,
 /turf/open/floor/plating,
 /area/station/engineering/atmos/hfr_room)
 "bFR" = (
@@ -5456,6 +5474,7 @@
 /area/station/engineering/supermatter/room)
 "bVq" = (
 /obj/effect/spawner/structure/window,
+/obj/effect/wall_trim/station/civilian,
 /turf/open/floor/plating,
 /area/station/hallway/secondary/recreation)
 "bVv" = (
@@ -6232,6 +6251,7 @@
 /obj/machinery/atmospherics/pipe/smart/simple/yellow/visible{
 	dir = 4
 	},
+/obj/effect/wall_trim/station/engineering,
 /turf/open/floor/plating,
 /area/station/engineering/atmos)
 "cjz" = (
@@ -6554,6 +6574,7 @@
 /area/station/engineering/atmos)
 "cnD" = (
 /obj/effect/spawner/structure/window,
+/obj/effect/wall_trim/station/cargo,
 /turf/open/floor/plating,
 /area/station/cargo/office)
 "coa" = (
@@ -6685,6 +6706,7 @@
 /area/station/commons/dorms/room3)
 "cqE" = (
 /obj/effect/spawner/structure/window/reinforced,
+/obj/effect/wall_trim/station/command,
 /turf/open/floor/plating,
 /area/station/command/teleporter)
 "cqF" = (
@@ -7069,6 +7091,7 @@
 "cyt" = (
 /obj/structure/tank_dispenser/oxygen,
 /obj/effect/turf_decal/delivery/blue,
+/obj/structure/cable,
 /turf/open/floor/iron/dark/textured_large,
 /area/station/ai_monitored/command/storage/eva)
 "cyL" = (
@@ -9521,6 +9544,7 @@
 /area/station/ai_monitored/turret_protected/aisat/hallway)
 "dre" = (
 /obj/effect/spawner/structure/window/reinforced,
+/obj/effect/wall_trim/station/cargo,
 /turf/open/floor/plating,
 /area/station/command/heads_quarters/qm)
 "drO" = (
@@ -10307,6 +10331,7 @@
 "dFf" = (
 /obj/effect/spawner/structure/window/reinforced,
 /obj/machinery/atmospherics/pipe/smart/simple/dark/visible,
+/obj/effect/wall_trim/station/engineering,
 /turf/open/floor/plating,
 /area/station/engineering/atmos)
 "dFh" = (
@@ -10392,6 +10417,7 @@
 "dFQ" = (
 /obj/effect/spawner/structure/window/reinforced,
 /obj/structure/cable,
+/obj/effect/wall_trim/station/security,
 /turf/open/floor/plating,
 /area/station/security/holding_cell)
 "dFT" = (
@@ -12397,6 +12423,10 @@
 	},
 /turf/open/floor/iron/dark,
 /area/station/science/ordnance)
+"epK" = (
+/obj/effect/wall_trim/station/engineering,
+/turf/closed/wall,
+/area/station/construction/mining/aux_base)
 "epO" = (
 /obj/effect/turf_decal/siding/wideplating_new/dark,
 /obj/machinery/atmospherics/pipe/smart/simple/supply/hidden/layer4{
@@ -12795,6 +12825,7 @@
 /area/station/service/theater)
 "ewQ" = (
 /obj/effect/spawner/structure/window/reinforced,
+/obj/effect/wall_trim/offstation/nanotrasen/blue,
 /turf/open/floor/plating,
 /area/station/ai_monitored/turret_protected/aisat/teleporter)
 "ewS" = (
@@ -12840,6 +12871,7 @@
 /area/station/medical/break_room)
 "exH" = (
 /obj/effect/spawner/structure/window,
+/obj/effect/wall_trim/station/research,
 /turf/open/floor/plating,
 /area/station/science)
 "exM" = (
@@ -13083,6 +13115,7 @@
 /area/station/hallway/secondary/recreation)
 "eBw" = (
 /obj/effect/spawner/structure/window/reinforced/plasma,
+/obj/effect/wall_trim/station/engineering,
 /turf/open/floor/plating,
 /area/station/engineering/supermatter/room)
 "eBz" = (
@@ -13557,6 +13590,11 @@
 /obj/effect/turf_decal/siding/wideplating_new,
 /turf/open/floor/stone,
 /area/taeloth/nearstation/arrivals)
+"eKY" = (
+/obj/effect/spawner/structure/window,
+/obj/effect/wall_trim/station/service,
+/turf/open/floor/plating,
+/area/station/maintenance/starboard/upper)
 "eKZ" = (
 /turf/open/floor/plating,
 /area/station/engineering/atmos)
@@ -13887,6 +13925,7 @@
 /area/taeloth/nearstation/medsec_crossway)
 "eQJ" = (
 /obj/effect/spawner/structure/window,
+/obj/effect/wall_trim/station/service/alt,
 /turf/open/floor/plating,
 /area/station/hallway/secondary/service)
 "eQM" = (
@@ -14770,10 +14809,12 @@
 	dir = 4
 	},
 /obj/structure/cable,
+/obj/effect/wall_trim/station/research,
 /turf/open/floor/plating,
 /area/station/security/checkpoint/science)
 "fhy" = (
 /obj/effect/spawner/structure/window/reinforced/plasma,
+/obj/effect/wall_trim/station/engineering,
 /turf/open/floor/plating,
 /area/station/engineering/atmos/hfr_room)
 "fhz" = (
@@ -16008,6 +16049,10 @@
 /obj/machinery/light/directional/west,
 /turf/open/floor/iron/dark,
 /area/station/security/courtroom)
+"fBC" = (
+/obj/effect/wall_trim/station/engineering,
+/turf/closed/wall/rust,
+/area/station/construction/mining/aux_base)
 "fBE" = (
 /turf/open/misc/grass/jungle,
 /area/taeloth/nearstation/dormitory_concourse/crew_facilities)
@@ -16695,6 +16740,7 @@
 /area/station/service/kitchen)
 "fPM" = (
 /obj/effect/spawner/structure/window,
+/obj/effect/wall_trim/station/medical,
 /turf/open/floor/plating,
 /area/station/medical/chem_storage)
 "fPP" = (
@@ -16791,6 +16837,7 @@
 	name = "Privacy Shutter"
 	},
 /obj/structure/cable,
+/obj/effect/wall_trim/station/medical,
 /turf/open/floor/plating,
 /area/station/command/heads_quarters/cmo)
 "fRq" = (
@@ -17132,6 +17179,7 @@
 	dir = 5
 	},
 /obj/effect/spawner/structure/window/reinforced,
+/obj/effect/wall_trim/station/engineering,
 /turf/open/floor/plating,
 /area/station/engineering/atmos)
 "fXz" = (
@@ -18515,10 +18563,10 @@
 /turf/open/floor/iron/dark,
 /area/station/security/checkpoint/science)
 "gxl" = (
-/obj/effect/wall_trim/station/command,
-/obj/effect/wall_trim/station/service,
-/turf/closed/wall/r_wall,
-/area/station/command/bridge)
+/obj/effect/spawner/structure/window,
+/obj/effect/wall_trim/station/medical,
+/turf/open/floor/plating,
+/area/station/medical/pharmacy)
 "gxr" = (
 /obj/machinery/atmospherics/pipe/smart/simple/supply/hidden/layer4{
 	dir = 4
@@ -18576,6 +18624,7 @@
 	dir = 4
 	},
 /obj/structure/cable,
+/obj/effect/wall_trim/station/engineering,
 /turf/open/floor/plating,
 /area/station/security/checkpoint/engineering)
 "gyy" = (
@@ -18861,6 +18910,7 @@
 "gDv" = (
 /obj/effect/spawner/structure/window/reinforced,
 /obj/structure/cable,
+/obj/effect/wall_trim/station/command,
 /turf/open/floor/plating,
 /area/station/command/meeting_room/council)
 "gDB" = (
@@ -19016,6 +19066,7 @@
 /area/station/ai_monitored/security/armory)
 "gFE" = (
 /obj/effect/spawner/structure/window/reinforced,
+/obj/effect/wall_trim/station/engineering,
 /turf/open/floor/plating,
 /area/station/construction/mining/aux_base)
 "gFG" = (
@@ -19923,6 +19974,7 @@
 "gVj" = (
 /obj/effect/spawner/structure/window/reinforced,
 /obj/effect/mapping_helpers/damaged_window,
+/obj/effect/wall_trim/station/engineering,
 /turf/open/floor/plating,
 /area/station/construction/mining/aux_base)
 "gVs" = (
@@ -20122,6 +20174,7 @@
 /area/taeloth/nearstation/dormitory_concourse)
 "gZs" = (
 /obj/effect/spawner/structure/window,
+/obj/effect/wall_trim/station/medical,
 /turf/open/floor/plating,
 /area/station/medical/surgery/theatre)
 "gZw" = (
@@ -20782,6 +20835,11 @@
 	dir = 4
 	},
 /area/station/security/brig)
+"hlK" = (
+/obj/effect/spawner/structure/window/reinforced/tinted,
+/obj/effect/wall_trim/station/service/alt,
+/turf/open/floor/plating,
+/area/station/service/cafeteria)
 "hlO" = (
 /obj/structure/closet/secure_closet/engineering_personal,
 /obj/effect/turf_decal/bot/right,
@@ -20961,6 +21019,7 @@
 /area/station/security/brig/entrance)
 "hqm" = (
 /obj/effect/spawner/structure/window,
+/obj/effect/wall_trim/station/civilian,
 /turf/open/floor/plating,
 /area/station/commons)
 "hqA" = (
@@ -21166,6 +21225,7 @@
 /area/station/medical/treatment_center)
 "huf" = (
 /obj/effect/spawner/structure/window,
+/obj/effect/wall_trim/station/security,
 /turf/open/floor/plating,
 /area/station/security/brig/entrance)
 "huj" = (
@@ -21211,6 +21271,7 @@
 "hwf" = (
 /obj/effect/spawner/structure/window/reinforced,
 /obj/structure/cable,
+/obj/effect/wall_trim/station/command,
 /turf/open/floor/plating,
 /area/station/command/gateway)
 "hwr" = (
@@ -21706,6 +21767,7 @@
 /area/station/maintenance/department/security)
 "hDW" = (
 /obj/effect/spawner/structure/window/reinforced,
+/obj/effect/wall_trim/station/engineering,
 /turf/open/floor/plating,
 /area/station/medical/chemistry)
 "hDY" = (
@@ -23291,7 +23353,7 @@
 /turf/open/floor/iron,
 /area/station/cargo/sorting)
 "igU" = (
-/obj/effect/wall_trim/station/research,
+/obj/effect/wall_trim/station/medical,
 /turf/closed/wall/r_wall,
 /area/station/science/genetics)
 "ihe" = (
@@ -23446,6 +23508,11 @@
 /obj/structure/railing/corner,
 /turf/open/openspace,
 /area/station/service/hydroponics/upper)
+"ijY" = (
+/obj/effect/spawner/structure/window,
+/obj/effect/wall_trim/station/cargo,
+/turf/open/floor/plating,
+/area/station/cargo/miningoffice)
 "ikj" = (
 /obj/effect/turf_decal/sand/plating,
 /obj/effect/turf_decal/stripes/asteroid/corner{
@@ -24210,6 +24277,7 @@
 /area/taeloth/nearstation/gateway)
 "iwk" = (
 /obj/effect/spawner/structure/window,
+/obj/effect/wall_trim/station/security,
 /turf/open/floor/plating,
 /area/station/security/courtroom)
 "iws" = (
@@ -24473,6 +24541,7 @@
 /area/station/ai_monitored/turret_protected/ai_upload_foyer)
 "iAW" = (
 /obj/effect/spawner/structure/window,
+/obj/effect/wall_trim/station/security,
 /turf/open/floor/plating,
 /area/station/security/range)
 "iBi" = (
@@ -24556,6 +24625,7 @@
 /area/taeloth/nearstation/no_valids_to_hunt/departures_landing_zone)
 "iBP" = (
 /obj/effect/spawner/structure/window/reinforced,
+/obj/effect/wall_trim/station/research,
 /turf/open/floor/plating,
 /area/station/science/robotics)
 "iBZ" = (
@@ -24565,6 +24635,7 @@
 /turf/open/floor/iron,
 /area/station/hallway/secondary/recreation)
 "iCc" = (
+/obj/effect/wall_trim/station/civilian,
 /turf/closed/wall,
 /area/taeloth/nearstation/no_valids_to_hunt/arrivals_landing_zone)
 "iCi" = (
@@ -24923,6 +24994,7 @@
 /area/station/maintenance/department/security)
 "iHX" = (
 /obj/effect/spawner/structure/window,
+/obj/effect/wall_trim/station/medical,
 /turf/open/floor/plating,
 /area/station/medical/storage)
 "iIe" = (
@@ -25236,6 +25308,7 @@
 /area/station/science)
 "iNe" = (
 /obj/effect/spawner/structure/window,
+/obj/effect/wall_trim/station/research,
 /turf/open/floor/plating,
 /area/station/science/lobby)
 "iNl" = (
@@ -25820,6 +25893,7 @@
 /obj/machinery/atmospherics/pipe/layer_manifold/dark/visible{
 	dir = 4
 	},
+/obj/effect/wall_trim/station/research,
 /turf/open/floor/plating,
 /area/station/science/ordnance/burnchamber)
 "iWa" = (
@@ -26301,6 +26375,7 @@
 /area/taeloth)
 "jiK" = (
 /obj/effect/spawner/structure/window/reinforced,
+/obj/effect/wall_trim/station/cargo,
 /turf/open/floor/plating,
 /area/station/cargo/bitrunning/den)
 "jiN" = (
@@ -27339,6 +27414,7 @@
 /area/station/medical/medbay/lobby/aft)
 "jzG" = (
 /obj/machinery/holopad,
+/obj/structure/cable,
 /turf/open/floor/iron/dark,
 /area/station/ai_monitored/command/storage/eva)
 "jzK" = (
@@ -27716,6 +27792,7 @@
 /area/station/engineering/atmos)
 "jGV" = (
 /obj/effect/spawner/structure/window/reinforced,
+/obj/effect/wall_trim/station/engineering,
 /turf/open/floor/plating,
 /area/station/engineering/atmos)
 "jGX" = (
@@ -28689,6 +28766,7 @@
 /area/station/science/xenobiology)
 "jYr" = (
 /obj/effect/spawner/structure/window/reinforced,
+/obj/effect/wall_trim/station/research,
 /turf/open/floor/plating/reinforced,
 /area/station/science)
 "jYA" = (
@@ -29288,6 +29366,7 @@
 	name = "Checkpoint Shutter"
 	},
 /obj/structure/cable,
+/obj/effect/wall_trim/station/security,
 /turf/open/floor/plating,
 /area/station/security/checkpoint/supply)
 "kjR" = (
@@ -34476,6 +34555,7 @@
 /area/station/science)
 "mbI" = (
 /obj/effect/spawner/structure/window/reinforced,
+/obj/effect/wall_trim/station/engineering,
 /turf/open/floor/plating,
 /area/station/tcommsat/server)
 "mbQ" = (
@@ -36116,6 +36196,11 @@
 /obj/structure/disposalpipe/segment,
 /turf/open/floor/plating/reinforced,
 /area/station/maintenance/department/science)
+"mHJ" = (
+/obj/effect/spawner/structure/window,
+/obj/effect/wall_trim/station/engineering,
+/turf/open/floor/plating,
+/area/station/medical/chem_storage)
 "mHY" = (
 /obj/effect/turf_decal/weather/dirt{
 	dir = 5
@@ -36277,6 +36362,11 @@
 /obj/effect/mapping_helpers/mail_sorting/supply/qm_office,
 /turf/open/floor/iron/dark,
 /area/taeloth/nearstation/cargo_roof)
+"mJD" = (
+/obj/effect/spawner/structure/window/reinforced,
+/obj/effect/wall_trim/station/research,
+/turf/open/floor/plating,
+/area/station/command/heads_quarters/rd)
 "mJG" = (
 /obj/machinery/computer/teleporter{
 	dir = 1
@@ -36437,6 +36527,7 @@
 /area/station/maintenance/starboard/upper)
 "mMu" = (
 /obj/effect/spawner/structure/window,
+/obj/effect/wall_trim/station/cargo,
 /turf/open/floor/plating,
 /area/station/cargo/lobby)
 "mMv" = (
@@ -37162,6 +37253,7 @@
 /area/station/cargo/storage)
 "nbZ" = (
 /obj/effect/spawner/structure/window,
+/obj/effect/wall_trim/station/medical,
 /turf/open/floor/plating,
 /area/station/medical/paramedic)
 "ncu" = (
@@ -38715,6 +38807,7 @@
 "nDj" = (
 /obj/effect/spawner/structure/window,
 /obj/structure/disposalpipe/segment,
+/obj/effect/wall_trim/station/civilian,
 /turf/open/floor/plating,
 /area/station/hallway/secondary/recreation)
 "nDo" = (
@@ -39228,6 +39321,7 @@
 /area/station/medical/chem_storage)
 "nLJ" = (
 /obj/effect/landmark/atmospheric_sanity/ignore_area,
+/obj/effect/wall_trim/station/engineering,
 /turf/closed/wall/rust,
 /area/station/construction/mining/aux_base)
 "nLN" = (
@@ -39661,6 +39755,7 @@
 /area/station/medical/medbay/central)
 "nVK" = (
 /obj/effect/spawner/structure/window,
+/obj/effect/wall_trim/station/civilian,
 /turf/open/floor/plating,
 /area/station/commons/storage/tools)
 "nVL" = (
@@ -39799,6 +39894,7 @@
 /obj/structure/curtain/cloth/fancy/mechanical{
 	id = "psychcurtain"
 	},
+/obj/effect/wall_trim/station/medical,
 /turf/open/floor/plating,
 /area/station/medical/psychology)
 "oae" = (
@@ -41501,6 +41597,7 @@
 "oHC" = (
 /obj/effect/spawner/structure/window,
 /obj/structure/cable,
+/obj/effect/wall_trim/station/security/prison,
 /turf/open/floor/plating,
 /area/station/security/prison/garden)
 "oHF" = (
@@ -41508,6 +41605,7 @@
 /obj/machinery/atmospherics/pipe/smart/simple/scrubbers/hidden/layer2,
 /obj/machinery/atmospherics/pipe/smart/simple/supply/hidden/layer4,
 /obj/structure/cable,
+/obj/effect/wall_trim/offstation/nanotrasen/blue,
 /turf/open/floor/plating,
 /area/station/ai_monitored/turret_protected/ai_upload)
 "oHH" = (
@@ -42338,6 +42436,7 @@
 /area/station/service/library/private)
 "oWs" = (
 /obj/effect/spawner/structure/window/reinforced,
+/obj/effect/wall_trim/station/engineering,
 /turf/open/floor/plating,
 /area/station/engineering/atmos/office)
 "oWu" = (
@@ -42845,6 +42944,7 @@
 /area/taeloth/nearstation/gateway)
 "pgX" = (
 /obj/effect/spawner/structure/window,
+/obj/effect/wall_trim/station/civilian,
 /turf/open/floor/plating,
 /area/station/service/library)
 "pgZ" = (
@@ -43363,6 +43463,8 @@
 /area/station/service/chapel)
 "ppp" = (
 /obj/effect/spawner/structure/window/reinforced,
+/obj/effect/wall_trim/station/command,
+/obj/structure/cable,
 /turf/open/floor/plating,
 /area/station/ai_monitored/command/storage/eva)
 "pps" = (
@@ -43916,6 +44018,12 @@
 /obj/structure/flora/tree/jungle/small/style_5,
 /turf/open/misc/grass/jungle,
 /area/taeloth/nearstation/dormitory_concourse/crew_facilities)
+"pzb" = (
+/obj/effect/spawner/structure/window/reinforced,
+/obj/structure/cable,
+/obj/effect/wall_trim/station/security,
+/turf/open/floor/plating,
+/area/station/security/brig)
 "pzk" = (
 /turf/closed/wall,
 /area/station/maintenance/starboard/upper)
@@ -44034,6 +44142,7 @@
 /area/taeloth/nearstation/service_crossway/bar)
 "pBl" = (
 /obj/effect/spawner/structure/window,
+/obj/effect/wall_trim/station/civilian,
 /turf/open/floor/plating,
 /area/station/commons/locker)
 "pBA" = (
@@ -44947,6 +45056,7 @@
 "pSk" = (
 /obj/effect/spawner/structure/window/reinforced,
 /obj/structure/cable,
+/obj/effect/wall_trim/station/command,
 /turf/open/floor/plating,
 /area/station/command/bridge)
 "pSl" = (
@@ -45156,6 +45266,7 @@
 /obj/machinery/atmospherics/pipe/smart/simple/supply/hidden/layer4,
 /obj/machinery/atmospherics/pipe/smart/simple/scrubbers/hidden/layer2,
 /obj/structure/cable,
+/obj/effect/wall_trim/station/command,
 /turf/open/floor/plating,
 /area/station/command/bridge)
 "pWB" = (
@@ -45260,6 +45371,7 @@
 "pYy" = (
 /obj/effect/spawner/structure/window/reinforced,
 /obj/machinery/atmospherics/pipe/smart/simple/cyan/visible,
+/obj/effect/wall_trim/station/engineering,
 /turf/open/floor/plating,
 /area/station/engineering/atmos)
 "pYA" = (
@@ -45893,6 +46005,7 @@
 /area/taeloth/nearstation/dormitory_concourse/sinners_trail)
 "qjc" = (
 /obj/effect/spawner/structure/window/reinforced,
+/obj/effect/wall_trim/offstation/nanotrasen/blue,
 /turf/open/floor/plating,
 /area/station/ai_monitored/turret_protected/aisat/foyer)
 "qjg" = (
@@ -46364,6 +46477,7 @@
 /area/station/command/meeting_room/council)
 "qpj" = (
 /obj/effect/spawner/structure/window,
+/obj/effect/wall_trim/station/service/alt,
 /turf/open/floor/plating,
 /area/station/service/hydroponics)
 "qpt" = (
@@ -47398,6 +47512,7 @@
 /area/station/engineering/supermatter/room)
 "qHf" = (
 /obj/effect/spawner/structure/window,
+/obj/effect/wall_trim/station/medical,
 /turf/open/floor/plating,
 /area/station/medical/medbay/lobby/fore)
 "qHv" = (
@@ -48210,8 +48325,14 @@
 /obj/effect/landmark/start/prisoner,
 /turf/open/floor/iron/cafeteria,
 /area/station/security/prison/mess)
+"qVP" = (
+/obj/effect/spawner/structure/window,
+/obj/effect/wall_trim/station/civilian,
+/turf/open/floor/plating,
+/area/station/commons/fitness/recreation)
 "qVQ" = (
 /obj/effect/spawner/structure/window,
+/obj/effect/wall_trim/station/medical,
 /turf/open/floor/plating,
 /area/station/medical/medbay/central)
 "qWa" = (
@@ -48524,6 +48645,7 @@
 /area/taeloth/nearstation/service_crossway/south)
 "rbk" = (
 /obj/effect/spawner/structure/window/reinforced,
+/obj/effect/wall_trim/station/service,
 /turf/open/floor/plating,
 /area/station/medical/virology)
 "rbo" = (
@@ -48719,6 +48841,7 @@
 /area/station/ai_monitored/turret_protected/aisat/hallway)
 "rer" = (
 /obj/effect/spawner/structure/window,
+/obj/effect/wall_trim/station/medical,
 /turf/open/floor/plating,
 /area/station/commons/cryo)
 "reE" = (
@@ -49103,6 +49226,7 @@
 /area/station/security/brig)
 "rlx" = (
 /obj/effect/spawner/structure/window/reinforced,
+/obj/effect/wall_trim/station/research,
 /turf/open/floor/plating,
 /area/station/science/xenobiology)
 "rlA" = (
@@ -49757,6 +49881,7 @@
 "rxK" = (
 /obj/effect/spawner/structure/window/reinforced,
 /obj/structure/cable,
+/obj/effect/wall_trim/station/security,
 /turf/open/floor/plating,
 /area/station/command/heads_quarters/hos)
 "rxM" = (
@@ -49785,6 +49910,7 @@
 /obj/structure/cable,
 /obj/machinery/atmospherics/pipe/smart/simple/supply/hidden/layer4,
 /obj/machinery/atmospherics/pipe/smart/simple/scrubbers/hidden/layer2,
+/obj/effect/wall_trim/station/command,
 /turf/open/floor/plating,
 /area/station/command/bridge)
 "ryr" = (
@@ -49992,6 +50118,7 @@
 	name = "Checkpoint Shutter";
 	dir = 1
 	},
+/obj/effect/wall_trim/station/security,
 /turf/open/floor/plating,
 /area/station/security/checkpoint/escape)
 "rBx" = (
@@ -51076,6 +51203,11 @@
 /obj/structure/cable,
 /turf/open/floor/iron/dark/diagonal,
 /area/station/ai_monitored/turret_protected/aisat/hallway)
+"rSc" = (
+/obj/effect/spawner/structure/window,
+/obj/effect/wall_trim/station/engineering,
+/turf/open/floor/plating,
+/area/station/medical/pharmacy)
 "rSi" = (
 /obj/structure/cable/layer3,
 /obj/machinery/atmospherics/pipe/smart/simple/cyan/visible,
@@ -51877,6 +52009,7 @@
 	name = "Privacy Shutter"
 	},
 /obj/structure/cable,
+/obj/effect/wall_trim/station/security,
 /turf/open/floor/plating,
 /area/station/security/checkpoint/medical)
 "sfN" = (
@@ -51966,6 +52099,7 @@
 /area/station/engineering/hallway)
 "sgw" = (
 /obj/effect/spawner/structure/window,
+/obj/effect/wall_trim/station/command,
 /turf/open/floor/plating,
 /area/station/command/heads_quarters/hop/line)
 "sgH" = (
@@ -53437,6 +53571,7 @@
 "sFv" = (
 /obj/effect/spawner/structure/window/reinforced,
 /obj/structure/cable,
+/obj/effect/wall_trim/station/command,
 /turf/open/floor/plating,
 /area/station/command/teleporter)
 "sFI" = (
@@ -53922,7 +54057,7 @@
 /area/taeloth/nearstation/public_mining_dock_roof)
 "sOp" = (
 /obj/effect/baseturf_helper/reinforced_plating/ceiling,
-/obj/effect/wall_trim/station/research,
+/obj/effect/wall_trim/station/medical,
 /turf/closed/wall/r_wall,
 /area/station/science/genetics)
 "sOA" = (
@@ -54950,6 +55085,7 @@
 /area/station/security/brig)
 "tgb" = (
 /obj/effect/spawner/structure/window/reinforced,
+/obj/effect/wall_trim/station/command,
 /turf/open/floor/plating/reinforced,
 /area/station/science/server)
 "tgi" = (
@@ -55719,6 +55855,7 @@
 /area/taeloth)
 "tvm" = (
 /obj/effect/spawner/structure/window,
+/obj/effect/wall_trim/station/cargo,
 /turf/open/floor/plating,
 /area/station/cargo/storage)
 "tvz" = (
@@ -55982,6 +56119,7 @@
 /area/station/medical/pharmacy)
 "tBa" = (
 /obj/effect/spawner/structure/window,
+/obj/effect/wall_trim/station/service,
 /turf/open/floor/plating,
 /area/station/service/hydroponics/upper)
 "tBe" = (
@@ -56054,6 +56192,7 @@
 	dir = 4
 	},
 /obj/structure/cable,
+/obj/effect/wall_trim/station/command,
 /turf/open/floor/plating,
 /area/station/command/teleporter)
 "tCy" = (
@@ -56255,6 +56394,7 @@
 "tGO" = (
 /obj/effect/spawner/structure/window/reinforced,
 /obj/structure/disposalpipe/segment,
+/obj/effect/wall_trim/station/command,
 /turf/open/floor/plating,
 /area/station/command/bridge)
 "tHa" = (
@@ -56476,7 +56616,7 @@
 /turf/open/floor/iron/dark/telecomms,
 /area/station/tcommsat/server)
 "tMK" = (
-/obj/effect/wall_trim/station/research,
+/obj/effect/wall_trim/station/medical,
 /turf/closed/wall,
 /area/station/science/genetics)
 "tMQ" = (
@@ -57339,6 +57479,7 @@
 /area/station/science/robotics)
 "ubT" = (
 /obj/effect/spawner/structure/window,
+/obj/effect/wall_trim/station/civilian,
 /turf/open/floor/plating,
 /area/station/hallway/secondary/dock)
 "ubU" = (
@@ -58701,6 +58842,7 @@
 /area/station/engineering/atmos/storage/gas)
 "uyW" = (
 /obj/effect/spawner/structure/window/reinforced,
+/obj/effect/wall_trim/station/command,
 /turf/open/floor/plating,
 /area/station/ai_monitored/command/nuke_storage)
 "uzc" = (
@@ -60928,6 +61070,7 @@
 "vkS" = (
 /obj/effect/spawner/structure/window,
 /obj/structure/cable,
+/obj/effect/wall_trim/station/security/prison,
 /turf/open/floor/plating,
 /area/station/security/prison/workout)
 "vkU" = (
@@ -61024,6 +61167,7 @@
 "vmO" = (
 /obj/effect/spawner/structure/window/reinforced,
 /obj/machinery/atmospherics/pipe/smart/simple/purple/visible,
+/obj/effect/wall_trim/station/engineering,
 /turf/open/floor/plating,
 /area/station/engineering/atmos)
 "vmR" = (
@@ -62259,6 +62403,7 @@
 "vIQ" = (
 /obj/effect/spawner/structure/window/reinforced,
 /obj/structure/cable,
+/obj/effect/wall_trim/station/command,
 /turf/open/floor/plating,
 /area/station/command/heads_quarters/hop)
 "vJk" = (
@@ -62925,6 +63070,7 @@
 /area/taeloth/nearstation/medsci_crossway)
 "vUn" = (
 /obj/effect/spawner/structure/window,
+/obj/effect/wall_trim/station/research,
 /turf/open/floor/plating/reinforced,
 /area/station/science/salvage)
 "vUo" = (
@@ -62977,6 +63123,7 @@
 /obj/structure/cable,
 /obj/machinery/atmospherics/pipe/smart/simple/supply/hidden/layer4,
 /obj/machinery/atmospherics/pipe/smart/simple/scrubbers/hidden/layer2,
+/obj/effect/wall_trim/station/command,
 /turf/open/floor/plating,
 /area/station/command/meeting_room/council)
 "vWl" = (
@@ -63008,6 +63155,7 @@
 /area/station/science/ordnance)
 "vWt" = (
 /obj/effect/spawner/structure/window,
+/obj/effect/wall_trim/station/service/alt,
 /turf/open/floor/plating,
 /area/station/service/chapel)
 "vWx" = (
@@ -63839,6 +63987,7 @@
 /obj/structure/disposalpipe/segment{
 	dir = 8
 	},
+/obj/effect/wall_trim/station/service/alt,
 /turf/open/floor/plating,
 /area/station/service/cafeteria)
 "wln" = (
@@ -64002,6 +64151,7 @@
 "wos" = (
 /obj/effect/spawner/structure/window/reinforced,
 /obj/machinery/atmospherics/pipe/smart/simple/green/visible,
+/obj/effect/wall_trim/station/engineering,
 /turf/open/floor/plating,
 /area/station/engineering/atmos)
 "wou" = (
@@ -64536,6 +64686,7 @@
 /area/taeloth)
 "wyu" = (
 /obj/effect/spawner/structure/window/reinforced,
+/obj/effect/wall_trim/station/security,
 /turf/open/floor/plating,
 /area/station/security/processing)
 "wyB" = (
@@ -64553,6 +64704,7 @@
 	dir = 4
 	},
 /obj/effect/spawner/structure/window/reinforced,
+/obj/effect/wall_trim/station/engineering,
 /turf/open/floor/plating,
 /area/station/engineering/atmos)
 "wyN" = (
@@ -64967,6 +65119,7 @@
 /area/station/security/prison/safe)
 "wEc" = (
 /obj/effect/spawner/structure/window/reinforced,
+/obj/effect/wall_trim/station/research,
 /turf/open/floor/plating,
 /area/station/science/ordnance/testlab)
 "wEj" = (
@@ -65308,6 +65461,7 @@
 "wLx" = (
 /obj/effect/spawner/structure/window/reinforced/tinted,
 /obj/structure/cable,
+/obj/effect/wall_trim/station/security,
 /turf/open/floor/plating,
 /area/station/security/interrogation)
 "wLA" = (
@@ -65411,6 +65565,7 @@
 /area/taeloth/nearstation/science_roof)
 "wNm" = (
 /obj/effect/spawner/structure/window,
+/obj/effect/wall_trim/station/engineering,
 /turf/open/floor/plating,
 /area/station/engineering/lobby)
 "wNr" = (
@@ -65823,6 +65978,7 @@
 /area/station/medical/chemistry)
 "wSQ" = (
 /obj/effect/spawner/structure/window/reinforced,
+/obj/effect/wall_trim/station/engineering,
 /turf/open/floor/plating,
 /area/station/engineering/storage)
 "wSR" = (
@@ -66684,6 +66840,7 @@
 /area/station/service/hydroponics/upper)
 "xhn" = (
 /obj/effect/spawner/structure/window,
+/obj/effect/wall_trim/station/medical,
 /turf/open/floor/plating,
 /area/station/medical/surgery)
 "xhv" = (
@@ -68247,6 +68404,7 @@
 /obj/machinery/atmospherics/pipe/smart/simple/green/visible{
 	dir = 4
 	},
+/obj/effect/wall_trim/station/engineering,
 /turf/open/floor/plating,
 /area/station/engineering/atmos)
 "xLI" = (
@@ -68722,6 +68880,7 @@
 /area/station/command/teleporter)
 "xSD" = (
 /obj/effect/spawner/structure/window,
+/obj/effect/wall_trim/station/medical,
 /turf/open/floor/plating,
 /area/station/medical/break_room)
 "xSH" = (
@@ -69152,6 +69311,7 @@
 /area/station/science/robotics/augments)
 "ybg" = (
 /obj/effect/spawner/structure/window,
+/obj/effect/wall_trim/station/cargo,
 /turf/open/floor/plating,
 /area/station/cargo/drone_bay)
 "ybj" = (
@@ -69292,6 +69452,7 @@
 	id = "genetics_shutters";
 	name = "Genetics Shutters"
 	},
+/obj/effect/wall_trim/station/medical,
 /turf/open/floor/plating,
 /area/station/science/genetics)
 "ycY" = (
@@ -87339,8 +87500,8 @@ qsP
 qsP
 qsP
 rqn
-xwS
-xwS
+qVP
+qVP
 rqn
 qsP
 qsP
@@ -87850,7 +88011,7 @@ abe
 abe
 abe
 abe
-xwS
+qVP
 gUo
 cww
 cww
@@ -92760,7 +92921,7 @@ mEi
 jQK
 scM
 rRB
-gpx
+gxl
 fBa
 fBa
 itA
@@ -93016,7 +93177,7 @@ mEO
 mEi
 ybI
 aZt
-gpx
+gxl
 foY
 gjr
 fBa
@@ -93280,7 +93441,7 @@ ixd
 mnR
 gqU
 dQi
-fPM
+mHJ
 riQ
 rbk
 hiR
@@ -93746,7 +93907,7 @@ afz
 xJE
 tdF
 tEo
-rBg
+pzb
 vkx
 sBT
 nGC
@@ -95806,7 +95967,7 @@ iqx
 nGC
 hZk
 uOs
-rBg
+pzb
 xym
 lqf
 njo
@@ -96072,7 +96233,7 @@ vYo
 vYo
 vYo
 vqr
-rBg
+pzb
 iMX
 vYo
 thA
@@ -96320,7 +96481,7 @@ kxe
 nwM
 dRo
 uOs
-rBg
+pzb
 qky
 oIA
 iqx
@@ -96843,7 +97004,7 @@ mkI
 iqx
 iqx
 jOu
-rBg
+pzb
 uzg
 abt
 wsf
@@ -96925,7 +97086,7 @@ ixn
 ixn
 jEB
 jEB
-weK
+mJD
 jEB
 izS
 jEB
@@ -100500,7 +100661,7 @@ mhK
 mhK
 mca
 mhK
-iNe
+aLQ
 iNe
 nyj
 mca
@@ -107701,9 +107862,9 @@ hWU
 hWU
 lhE
 lhE
-nwN
-nwN
-nwN
+ach
+ach
+ach
 lhE
 lhE
 hWU
@@ -111759,7 +111920,7 @@ rKK
 sVv
 tti
 eog
-csn
+ijY
 eog
 izq
 eog
@@ -112017,9 +112178,9 @@ tLb
 tLb
 sAb
 sAb
-csn
+ijY
 sOg
-csn
+ijY
 sAb
 sAb
 xEZ
@@ -112267,11 +112428,11 @@ sAb
 sAb
 sAb
 sAb
-tLb
+mda
 mft
 tgu
 gze
-tLb
+mda
 dug
 dug
 eog
@@ -112524,11 +112685,11 @@ sAb
 sAb
 sAb
 sAb
-tLb
-tLb
-tLb
-tLb
-tLb
+mda
+mda
+mda
+mda
+mda
 qjQ
 qjQ
 qjQ
@@ -112567,7 +112728,7 @@ rDi
 rDi
 rDi
 rDi
-odX
+hlK
 rDi
 rDi
 pUm
@@ -112575,7 +112736,7 @@ odX
 ebo
 rDi
 rDi
-odX
+hlK
 veA
 veA
 veA
@@ -113895,19 +114056,19 @@ bQD
 bQD
 nLJ
 tPW
-sTW
-feC
-feC
-sTW
+epK
+fBC
+fBC
+epK
 xrw
 xrw
 xrw
-sTW
+epK
 xrw
 xrw
 xrw
-feC
-feC
+fBC
+fBC
 rCE
 rCE
 rCE
@@ -114150,11 +114311,11 @@ hYn
 hYn
 hTB
 bQD
-feC
+fBC
 eUy
 gOH
 uGG
-sTW
+epK
 dKP
 dKP
 dKP
@@ -114164,7 +114325,7 @@ dKP
 dKP
 dKP
 dKP
-sTW
+epK
 wKe
 rCE
 rCE
@@ -114921,11 +115082,11 @@ hYn
 bQD
 bQD
 hYn
-sTW
+epK
 xUA
 dNO
 pdG
-feC
+fBC
 dKP
 dKP
 dKP
@@ -115192,7 +115353,7 @@ dKP
 dKP
 dKP
 dKP
-feC
+fBC
 wKe
 wKe
 rCE
@@ -115435,11 +115596,11 @@ bQD
 hYn
 bQD
 hYn
-sTW
+epK
 dNW
 plt
 rmW
-sTW
+epK
 dKP
 dKP
 dKP
@@ -116206,11 +116367,11 @@ hYn
 bQD
 bQD
 bQD
-feC
+fBC
 wvF
 nBc
 mhs
-sTW
+epK
 dKP
 dKP
 dKP
@@ -116220,7 +116381,7 @@ dKP
 dKP
 dKP
 dKP
-sTW
+epK
 wKe
 wKe
 rCE
@@ -116422,7 +116583,7 @@ eti
 eti
 eti
 eti
-odX
+hlK
 rDi
 rDi
 ebo
@@ -116463,21 +116624,21 @@ bQD
 bQD
 bQD
 bQD
-sTW
+epK
 kAC
-feC
-feC
-feC
-sTW
+fBC
+fBC
+fBC
+epK
 xrw
 xrw
 xrw
-feC
+fBC
 xrw
 xrw
 xrw
-sTW
-sTW
+epK
+epK
 wKe
 wKe
 rCE
@@ -156502,8 +156663,8 @@ pge
 pge
 vCP
 vCP
-gpx
-gpx
+rSc
+rSc
 vCP
 vCP
 xgg
@@ -172460,7 +172621,7 @@ kPv
 kPv
 kPv
 kPv
-gxl
+lhE
 xbC
 xbC
 hXV
@@ -172727,7 +172888,7 @@ nvl
 nvl
 trp
 oUr
-nwN
+ach
 czk
 fHM
 vkN
@@ -181978,8 +182139,8 @@ ruR
 ruR
 ruR
 ruR
-iEc
-iEc
+eKY
+eKY
 ruR
 ecX
 oef
