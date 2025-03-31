@@ -21,6 +21,7 @@
 
 /// Standard size (ie: normal runechat) - Size options: 6pt 12pt 18pt.
 #define MAPTEXT_GRAND9K(text) {"<span style='font-family: \"Grand9K Pixel\"; font-size: 6pt; -dm-text-outline: 1px black'>[##text]</span>"}
+#define MAPTEXT_EFFIGY_12(text) {"<span style='font-family: \"Chakra Petch\"; font-size: 12pt; line-height: 0.90; -dm-text-outline: 1px black'>[##text]</span>"} // EffigyEdit Add
 
 /// Small size. (ie: context subtooltips, spell delays) - Size options: 12pt 24pt.
 #define MAPTEXT_TINY_UNICODE(text) {"<span style='font-family: \"TinyUnicode\"; font-size: 12pt; line-height: 0.75; -dm-text-outline: 1px black'>[##text]</span>"}
@@ -39,7 +40,8 @@
  */
 /// Prepares a text to be used for maptext, using a variable size font.
 /// Variable size font. More flexible but doesn't scale pixel perfect to BYOND icon resolutions. (May be blurry.) Can use any size in pt or px.
-#define MAPTEXT_VCR_OSD_MONO(text) {"<span style='font-family: \"VCR OSD Mono\"'>[##text]</span>"}
+#define MAPTEXT_VCR_OSD_MONO(text) {"<span style='font-family: \"Chakra Petch\"'>[##text]</span>"} // EffigyEdit Change
+#define MAPTEXT_EFFIGY(text) {"<span style='font-family: \"Chakra Petch\" line-height: 0.90'>[##text]</span>"} // EffigyEdit Add
 
 /// Macro from Lummox used to get height from a MeasureText proc.
 /// resolves the MeasureText() return value once, then resolves the height, then sets return_var to that.
