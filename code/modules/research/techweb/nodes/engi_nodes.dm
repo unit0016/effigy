@@ -133,6 +133,7 @@
 		"tile_sprayer",
 		"airlock_painter",
 		"decal_painter",
+		"wall_painter", // EffigyEdit Add
 		"rwd",
 		"cable_coil",
 		"welding_helmet",
