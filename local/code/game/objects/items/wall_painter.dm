@@ -13,9 +13,18 @@
 		set_color = new_color
 
 /obj/item/airlock_painter/wall_painter/interact_with_atom(atom/interacting_with, mob/living/user, list/modifiers)
-	if(iswallturf(get_turf(interacting_with)) && use_paint(user))
+	if(is_trimmable(interacting_with) && use_paint(user))
 		var/obj/effect/wall_trim/new_trim = new get_turf(interacting_with)
 		new_trim.color = set_color
 		new_trim.apply_to_wall_or_window()
 		return ITEM_INTERACT_SUCCESS
 	return NONE
+
+/obj/item/airlock_painter/wall_painter/proc/is_trimmable(interacting_with)
+	if(iswallturf(get_turf(interacting_with)) || istype(interacting_with, /obj/structure/falsewall))
+		return TRUE
+	if(istype(interacting_with, /obj/structure/window))
+		var/obj/structure/window/found_window = interacting_with
+		if(found_window.fulltile)
+			return TRUE
+	return FALSE

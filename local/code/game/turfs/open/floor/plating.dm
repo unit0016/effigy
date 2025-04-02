@@ -7,7 +7,7 @@
 	liquid_height = -5 // Very very slight dip
 
 /turf/open/floor/plating/rcd
-	icon = EFFIGY_TURFS_ICON_FILE
+	icon = 'local/icons/hud/radial.dmi'
 	smoothing_flags = NONE
 	smoothing_groups = NONE
 	canSmoothWith = NONE
