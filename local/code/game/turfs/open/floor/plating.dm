@@ -19,13 +19,12 @@
 	canSmoothWith = NONE
 	liquid_height = 0 // No dip
 
-/turf/open/floor/plating/foam // TODO
-	icon = EFFIGY_TURFS_ICON_FILE
-	smoothing_flags = NONE
-	smoothing_groups = NONE
-	canSmoothWith = NONE
+/turf/open/floor/plating/foam
+	icon = 'local/icons/turf/floors/foam_plating.dmi'
+	icon_state = "foam_plating-0"
+	base_icon_state = "foam_plating"
 
-/turf/open/floor/plating/reinforced // TODO
+/turf/open/floor/plating/reinforced // can't smooth because of the way it's deconstruction steps are named. should best be changed upstream tbh
 	icon = EFFIGY_TURFS_ICON_FILE
 	smoothing_flags = NONE
 	smoothing_groups = NONE
