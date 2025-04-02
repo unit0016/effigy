@@ -196,7 +196,8 @@ export const ChemHeater = (props) => {
   const isBeakerLoaded = beaker !== null;
 
   return (
-    <Window width={350} height={350}>
+    // EffigyEdit Change - TGUI - Original: width={350} height={350}
+    <Window width={350} height={420}>
       <Window.Content scrollable>
         <Section
           title="Controls"

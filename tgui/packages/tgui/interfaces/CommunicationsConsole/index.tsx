@@ -43,7 +43,8 @@ export function CommunicationsConsole(props) {
   }
 
   return (
-    <Window width={400} height={650} theme={emagged ? 'syndicate' : undefined}>
+    // EffigyEdit Change - TGUI - Original: width={400} height={650}
+    <Window width={400} height={665} theme={emagged ? 'syndicate' : undefined}>
       <Window.Content scrollable>
         {!hasConnection && <NoConnectionModal />}
 

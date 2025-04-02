@@ -42,7 +42,7 @@ export const AuxBaseConsole = (props) => {
   return (
     <Window
       width={turrets.length ? 620 : 350}
-      height={turrets.length ? 310 : 260}
+      height={turrets.length ? 360 : 305} // EffigyEdit Change - TGUI - Original: height={turrets.length ? 310 : 260}
     >
       <Window.Content scrollable={!!turrets.length}>
         <Tabs>
