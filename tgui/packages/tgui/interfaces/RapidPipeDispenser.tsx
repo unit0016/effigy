@@ -401,7 +401,8 @@ export const RapidPipeDispenser = (props) => {
   const { data } = useBackend<Data>();
   const { category: rootCategoryIndex } = data;
   return (
-    <Window width={550} height={580}>
+    // EffigyEdit Change - TGUI - Original: width={550} height={580}
+    <Window width={615} height={580}>
       <Window.Content scrollable>
         <Stack fill vertical>
           <Stack.Item>

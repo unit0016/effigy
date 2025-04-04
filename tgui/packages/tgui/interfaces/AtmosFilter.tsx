@@ -27,7 +27,8 @@ export const AtmosFilter = (props) => {
   const { filter_types = [], on, rate, max_rate } = data;
 
   return (
-    <Window width={440} height={240}>
+    // EffigyEdit Change - TGUI - Original: width={440} height={240}
+    <Window width={440} height={275}>
       <Window.Content>
         <Section
           buttons={

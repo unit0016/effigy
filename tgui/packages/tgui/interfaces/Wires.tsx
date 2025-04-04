@@ -27,10 +27,12 @@ type Wire = {
 export const Wires = (props) => {
   const { data } = useBackend<Data>();
   const { proper_name, status = [], wires = [] } = data;
-  const dynamicHeight = 150 + wires.length * 30 + (proper_name ? 30 : 0);
+  // EffigyEdit Change - TGUI - Original: 150 + wires.length * 30 + (proper_name ? 30 : 0)
+  const dynamicHeight = 150 + wires.length * 35 + (proper_name ? 30 : 0);
 
   return (
-    <Window width={350} height={dynamicHeight}>
+    // EffigyEdit Change - TGUI - Original: width={350}
+    <Window width={400} height={dynamicHeight}>
       <Window.Content>
         <Stack fill vertical>
           {!!proper_name && (

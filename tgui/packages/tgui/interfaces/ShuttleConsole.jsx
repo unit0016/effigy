@@ -17,7 +17,8 @@ export const ShuttleConsole = (props) => {
   const { type = 'shuttle', blind_drop } = props;
   const { authorization_required } = data;
   return (
-    <Window width={350} height={230}>
+    // EffigyEdit Change - TGUI - Original: width={350} height={230}
+    <Window width={350} height={260}>
       {!!authorization_required && (
         <Modal
           ml={1}

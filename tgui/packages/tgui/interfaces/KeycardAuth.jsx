@@ -6,7 +6,8 @@ import { Window } from '../layouts';
 export const KeycardAuth = (props) => {
   const { act, data } = useBackend();
   return (
-    <Window width={375} height={145}>
+    // EffigyEdit Change - TGUI - Original: width={375} height={145}
+    <Window width={375} height={192}>
       <Window.Content>
         <Section>
           <Box>
