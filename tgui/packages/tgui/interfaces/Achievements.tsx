@@ -62,7 +62,8 @@ export const Achievements = (props) => {
   const { categories } = data;
   const [selectedCategory, setSelectedCategory] = useState(categories[0]);
   return (
-    <Window title="Achievements" width={540} height={680}>
+    // EffigyEdit Change - TGUI - Original: width={540} height={680}
+    <Window title="Achievements" width={580} height={680}>
       <Window.Content scrollable>
         <Tabs>
           {categories.map((category) => (

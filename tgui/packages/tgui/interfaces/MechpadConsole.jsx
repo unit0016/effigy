@@ -61,7 +61,8 @@ export const MechpadConsole = (props) => {
   const { act, data } = useBackend();
   const { mechpads = [], selected_id } = data;
   return (
-    <Window width={475} height={130}>
+    // EffigyEdit Change - TGUI - Original: width={475} height={130}
+    <Window width={475} height={150}>
       <Window.Content>
         {(mechpads.length === 0 && (
           <NoticeBox>No Pads Connected</NoticeBox>

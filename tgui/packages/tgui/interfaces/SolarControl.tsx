@@ -50,7 +50,8 @@ export const SolarControl = (props) => {
   const maxValue = Math.max(1, ...history.capacity, ...history.supply);
 
   return (
-    <Window width={330} height={330}>
+    // EffigyEdit Change - TGUI - Original: width={330} height={330}
+    <Window width={330} height={365}>
       <Window.Content>
         <Section title="Status">
           <Box

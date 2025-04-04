@@ -45,7 +45,8 @@ export const Photocopier = (props) => {
   return (
     <Window
       title="Photocopier"
-      width={selectedCategory ? 550 : 225}
+      // EffigyEdit Change - TGUI - Original: width={selectedCategory ? 550 : 225}
+      width={selectedCategory ? 860 : 350}
       height={525}
     >
       <Window.Content>

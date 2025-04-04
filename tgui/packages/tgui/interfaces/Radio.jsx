@@ -34,10 +34,10 @@ export const Radio = (props) => {
     status: !!value,
   }));
   // Calculate window height
-  let height = 106;
+  let height = 120; // EffigyEdit Change - TGUI - Original: 106
   if (subspace) {
     if (channels.length > 0) {
-      height += channels.length * 21 + 6;
+      height += channels.length * 24 + 5; // EffigyEdit Change - TGUI - Original: 21 + 6
     } else {
       height += 24;
     }

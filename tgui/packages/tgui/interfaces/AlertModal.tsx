@@ -45,7 +45,8 @@ export function AlertModal(props) {
 
   const [selected, setSelected] = useState(0);
 
-  const windowWidth = 345 + (buttons.length > 2 ? 55 : 0);
+  // const windowWidth = 345 + (buttons.length > 2 ? 55 : 0); // EffigyEdit Change - TGUI
+  const windowWidth = 370 + (buttons.length > 2 ? 55 : 0);
 
   // very accurate estimate of padding for each num of buttons
   const paddingMagicNumber = 67 / buttons.length + 23;
@@ -56,11 +57,12 @@ export function AlertModal(props) {
       textWidth(button, '', large_buttons ? 14 : 12) > // 14 is the larger font size for large buttons
       windowWidth / buttons.length - paddingMagicNumber,
   );
-  const largeSpacing = isVerbose && large_buttons ? 20 : 15;
+  // const largeSpacing = isVerbose && large_buttons ? 20 : 15; // EffigyEdit Change - TGUI
+  const largeSpacing = isVerbose && large_buttons ? 40 : 35;
 
   // Dynamically sets window dimensions
   const windowHeight =
-    120 +
+    125 + // EffigyEdit Change - TGUI - Original: 120
     (isVerbose ? largeSpacing * buttons.length : 0) +
     (message.length > 30 ? Math.ceil(message.length / 4) : 0) +
     (message.length && large_buttons ? 5 : 0);
