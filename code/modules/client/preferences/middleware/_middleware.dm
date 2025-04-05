@@ -51,6 +51,9 @@
 /datum/preference_middleware/proc/on_new_character(mob/user)
 	return
 
+/// Called after every update_preference
+/datum/preference_middleware/proc/post_set_preference(mob/user, preference, value)
+	return
 // EffigyEdit Add - Character Preferences
 /// Called after every update_preference, returns TRUE if this handled it.
 /datum/preference_middleware/proc/post_set_preference(mob/user, preference, value)
