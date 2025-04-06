@@ -240,10 +240,9 @@
 		"window" = list(
 			"key" = window_key,
 			"size" = window_size,
-			//"fancy" = user.client.prefs.read_preference(/datum/preference/toggle/tgui_fancy),
-			"fancy" = get_cached_tgui_fancy_pref(user.client.ckey), // EffigyEdit Change - Stop TGUI White Box
-			//"locked" = user.client.prefs.read_preference(/datum/preference/toggle/tgui_lock),
-			"locked" = get_cached_tgui_locked_pref(user.client.ckey), // EffigyEdit Change - Stop TGUI White Box
+			"fancy" = user.client.prefs.read_preference(/datum/preference/toggle/tgui_fancy),
+			"locked" = user.client.prefs.read_preference(/datum/preference/toggle/tgui_lock),
+			"scale" = user.client.prefs.read_preference(/datum/preference/toggle/ui_scale),
 		),
 		"client" = list(
 			"ckey" = user.client.ckey,

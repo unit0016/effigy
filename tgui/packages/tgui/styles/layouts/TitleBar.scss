@@ -6,6 +6,7 @@
 @use 'sass:color';
 @use '../base';
 @use '../colors';
+@use '../functions.scss' as *;
 
 /* EffigyEdit Change - TGUI
 $text-color: hsla(0, 0%, 100%, 0.75) !default;
@@ -23,7 +24,7 @@ $shadow-color: base.$color-bg !default;
   position: fixed;
   display: flex;
   align-items: center;
-  width: 100vw;
+  width: vp(100vw);
   height: base.rem(32px);
   background-color: $background-color;
   border-bottom: 1px solid $shadow-color-core;
