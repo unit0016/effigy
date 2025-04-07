@@ -1,4 +1,0 @@
-author: "TealSeer, LT3"
-delete-after: True
-changes:
-  - refactor: "Improved changelog processing and formatting"
