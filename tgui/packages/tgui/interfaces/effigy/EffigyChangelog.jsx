@@ -133,7 +133,7 @@ const ChangelogList = (props) => {
       <Section key={date} title={dateformat(date, 'd mmmm yyyy', true)}>
         <Box ml={3}>
           {effigyContents[date] && (
-            <Section>
+            <Section mb={-2.5}>
               {Object.entries(effigyContents[date]).map(([name, changes]) => (
                 <EffigyChangelogEntry
                   key={name}
@@ -144,7 +144,7 @@ const ChangelogList = (props) => {
             </Section>
           )}
           {contents[date] && (
-            <Section mt="-20px">
+            <Section mt={-2}>
               {Object.entries(contents[date]).map(([name, changes]) => (
                 <ChangelogEntry key={name} author={name} changes={changes} />
               ))}
@@ -166,7 +166,7 @@ const ChangelogEntry = (props) => {
           {author} changed:
         </h4>
       </Box>
-      <Box ml={3} mt="-3px">
+      <Box ml={3} mt={-0.5}>
         <Table>
           {changes.map((change) => {
             const changeType = Object.keys(change)[0];
@@ -189,6 +189,7 @@ const ChangelogEntry = (props) => {
                         ? icons[changeType].icon
                         : icons['unknown'].icon
                     }
+                    verticalAlign="middle"
                   />
                 </Table.Cell>
                 <Table.Cell className="Changelog__Cell">
@@ -214,7 +215,7 @@ const EffigyChangelogEntry = (props) => {
           {author} changed:
         </h4>
       </Box>
-      <Box ml={3} mt="-3px">
+      <Box ml={3} mt={-0.5}>
         <Table>
           {changes.map((change) => {
             const changeType = Object.keys(change)[0];
@@ -237,6 +238,7 @@ const EffigyChangelogEntry = (props) => {
                         ? icons[changeType].icon
                         : icons['unknown'].icon
                     }
+                    verticalAlign="middle"
                   />
                 </Table.Cell>
                 <Table.Cell className="Changelog__Cell">
