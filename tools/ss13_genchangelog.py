@@ -109,7 +109,7 @@ for fileName in glob.glob(os.path.join(args.ymlDir, "*.yml")):
     name, ext = os.path.splitext(os.path.basename(fileName))
     if name.startswith('.'): continue
     if name == 'example': continue
-    if "effigy" not in name: continue # EffigyEdit Add - Changelog 2
+    if "Effigy" not in name: continue # EffigyEdit Add - Changelog 2
     fileName = os.path.abspath(fileName)
     formattedDate = today.strftime(fileDateFormat)
     monthFile = os.path.join(archiveDir, formattedDate + '.yml')
