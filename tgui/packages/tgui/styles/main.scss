@@ -6,7 +6,11 @@
 @use 'sass:meta';
 @use 'base';
 @use '~tgui-core/styles';
-@use 'effigy';
+
+// Effigy CSS variables
+@use './effigy-colors';
+@use './effigy-values';
+@use './effigy-components';
 
 // Core styles
 @include meta.load-css('./reset.scss');

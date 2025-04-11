@@ -39,7 +39,8 @@
     white-space: nowrap;
     text-overflow: ellipsis;
     color: var(--titlebar-text);
-    font-size: base.rem(14px);
+    // EffigyEdit Change - TGUI - Original: base.rem(14px);
+    font-size: base.rem(16px);
   }
 
   &__buttons {
