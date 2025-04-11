@@ -2,27 +2,17 @@
 	name = "rain storm"
 	desc = "Thick bouts of rain trickle in from the trees above, coating the outside jungle."
 	probability = 90
-
 	telegraph_message = span_boldnotice("The atmosphere shifts as clouds converge...")
-	telegraph_duration = 300
 	telegraph_overlay = "light_rain"
-
 	weather_message = span_boldnotice("Rain pours in from the breaks in the trees above!")
 	weather_overlay = "rain_storm"
-	weather_duration_lower = 600
-	weather_duration_upper = 1500
-
-	end_duration = 100
+	weather_duration_lower = 1 MINUTES
+	weather_duration_upper = 3 MINUTES
+	end_duration = 10 SECONDS
 	end_message = span_notice("The raindrops slow, before falling still.")
-
 	area_type = /area
-	protect_indoors = TRUE
 	target_trait = ZTRAIT_RAINSTORM
-
 	use_glow = FALSE
-
-	barometer_predictable = TRUE
-
 	weather_overlay_icon = 'local/icons/effects/weather_effects.dmi'
 
 	protected_areas = list(
@@ -31,10 +21,12 @@
 		/area/taeloth/nearstation/bridge_crossway/deck, \
 		)
 
-/datum/weather/rain_storm/weather_act(mob/living/living)
+/datum/weather/rain_storm/weather_act_mob(mob/living/living)
+	. = ..()
 	living.extinguish_mob()
 	living.adjust_wet_stacks(2) // Gets out a lil faster than being in a lake or something.
 
+/* EffigyEdit TODO: Ruby
 /datum/weather/rain_storm/can_get_alert(mob/player)
 	if(!..())
 		return FALSE
@@ -56,10 +48,10 @@
 			return TRUE
 
 	return FALSE
+*/ // EffigyEdit TODO End
 
 // This sucks HARDER but not as any fault of it's own.
 /datum/weather/rain_storm/forever_storm
 	telegraph_duration = 0
-	perpetual = TRUE
-
+	weather_flags = parent_type::weather_flags | WEATHER_ENDLESS
 	probability = 0
