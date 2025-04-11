@@ -693,16 +693,13 @@ GLOBAL_LIST_INIT(human_heights_to_offsets, list(
 #define UNIFORM_LAYER 28
 // EffigyEdit Add - Character Preferences
 /// Just below clothing layer
-#define UNDER_UNIFORM_LAYER 27.5
+#define UNDER_UNIFORM_LAYER 27.8
 /// Bra and socks
-#define BRA_SOCKS_LAYER 27.2
+#define BRA_SOCKS_LAYER 27.6
 /// Underwear and undershirt
-#define UNDERWEAR_UNDERSHIRT 27.1
-// EffigyEdit Add End
-/// Jumpsuit clothing layer
-#define UNIFORM_LAYER 27
-// EffigyEdit Add - Character Preferences
-#define BANDAGE_LAYER 26.5
+#define UNDERWEAR_UNDERSHIRT 27.4
+/// Bandages
+#define BANDAGE_LAYER 27.2
 // EffigyEdit Add End
 /// ID card layer
 #define ID_LAYER 27
