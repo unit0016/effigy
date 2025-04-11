@@ -1,28 +1,16 @@
 /**
  * Copyright (c) 2020 Aleksej Komarov
  * SPDX-License-Identifier: MIT
+ *
+ * If you're looking for a color palette,
+ * see tgui-core - https://github.com/tgstation/tgui-core/tree/main/styles
+ * Files: vars-colors.scss | vars-components.scss | vars-vaules.scss
  */
 
-@use 'sass:color';
 @use 'sass:math';
 
-$color-fg: hsl(224, 16%, 92%) !default; // EffigyEdit Change - TGUI
-$color-bg: hsl(224, 16%, 16%) !default; // EffigyEdit Change - TGUI
-$color-bg-section: hsl(224, 16%, 12%) !default; // EffigyEdit Change - TGUI
-$color-bg-grad-spread: 0% !default; // EffigyEdit Change - TGUI
-$color-bg-start: color.adjust(
-  $color-bg,
-  $lightness: $color-bg-grad-spread
-) !default;
-$color-bg-end: color.adjust(
-  $color-bg,
-  $lightness: -$color-bg-grad-spread
-) !default;
-$color-bg-alt: hsl(224, 16%, 18%) !default; // EffigyEdit Add - TGUI
-
-$unit: 14px; // EffigyEdit Change - TGUI
+$unit: 14px;
 $font-size: 1 * $unit !default;
-$border-radius: 0 !default; // EffigyEdit Change - TGUI
 
 @function em($px) {
   @return 1em * math.div($px, $unit);

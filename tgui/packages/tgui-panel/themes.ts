@@ -15,9 +15,9 @@ const COLORS = {
     TEXT_DARK: '#22252f', // EffigyEdit Add - TGUI
   },
   LIGHT: {
-    BG_BASE: '#EFEEEE',
+    BG_BASE: '#EEEEEE',
     BG_SECOND: '#FFFFFF',
-    BUTTON: '#FFFEFE',
+    BUTTON: '#FFFFFF',
     TEXT: '#000000',
   },
 };

@@ -5,17 +5,9 @@
 
 @use 'sass:meta';
 @use 'sass:color';
+
 // Components
 @use '~tgui-core/styles';
-
-@use '~tgui/styles/colors.scss';
-@use '~tgui/styles/base.scss' with (
-  $color-bg: hsl(224, 16%, 12%),
-  // EffigyEdit Change - TGUI - Original: $color-bg: hsl(0, 0%, 12.5%)
-  // $color-bg-section: color.adjust(hsl(0, 0%, 12.5%), $lightness: -5%),
-  $color-bg-section: hsl(224, 16%, 12%),
-  $color-bg-grad-spread: 0%
-);
 
 // Core styles
 @include meta.load-css('~tgui/styles/reset.scss');
@@ -31,16 +23,25 @@
 @include meta.load-css('./components/Chat.scss');
 @include meta.load-css('./components/Ping.scss');
 @include meta.load-css('./components/Notifications.scss');
+@include meta.load-css('./components/UnreadCount.scss');
 
 // Layouts
 @include meta.load-css('~tgui/styles/layouts/Layout.scss');
-// @include meta.load-css('~tgui/styles/layouts/TitleBar.scss');
 @include meta.load-css('~tgui/styles/layouts/Window.scss');
 
 // tgchat styles
 @include meta.load-css('./tgchat/chat-dark.scss');
 
-// EffigyEdit Add - TGUI
+:root {
+  --chat-text-color: hsl(210, 50%, 80%);
+
+  --color-base: hsl(0, 0%, 12.5%);
+  --color-section: hsl(from var(--color-base) h s calc(l - 4.2));
+  --base-gradient-spread: 0;
+}
+
+// EffigyEdit TODO - Covert to TGUI v6
+/*
 @include meta.load-css('~tgui/styles/effigy/BlockQuote.scss');
 @include meta.load-css('~tgui/styles/effigy/Button.scss');
 @include meta.load-css('~tgui/styles/effigy/ColorBox.scss');
@@ -62,4 +63,5 @@
 @include meta.load-css('~tgui/styles/effigy/Tabs.scss');
 @include meta.load-css('~tgui/styles/effigy/TextArea.scss');
 @include meta.load-css('~tgui/styles/effigy/Tooltip.scss');
-// EffigyEdit Add End
+*/
+// EffigyEdit TODO End
