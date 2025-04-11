@@ -104,7 +104,7 @@ export function ItemListDisplay(props: ListProps) {
   return (
     <Flex wrap m="7px">
       {props.items.map((item) => (
-        <Flex.Item key={item.name} mr="12px" mb="9px">
+        <Flex.Item key={item.name} mr="17px" mb="15px">
           <ItemDisplay
             item={item}
             active={loadout_list && loadout_list[item.path] !== undefined}

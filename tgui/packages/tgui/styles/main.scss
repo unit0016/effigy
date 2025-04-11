@@ -6,10 +6,13 @@
 @use 'sass:meta';
 @use 'base';
 @use '~tgui-core/styles';
-@use 'effigy';
+
+// Effigy TGUI customisation
+@use './effigy-tgui';
 
 // Core styles
 @include meta.load-css('./reset.scss');
+@include meta.load-css('./css-variables.scss');
 
 // Atomic classes
 @include meta.load-css('./atomic/candystripe.scss');
@@ -41,7 +44,6 @@
 @include meta.load-css('./interfaces/NuclearBomb.scss');
 @include meta.load-css('./interfaces/Orbit.scss');
 @include meta.load-css('./interfaces/Paper.scss');
-@include meta.load-css('./interfaces/PersonalCrafting.scss');
 @include meta.load-css('./interfaces/PreferencesMenu.scss');
 @include meta.load-css('./interfaces/RequestManager.scss');
 @include meta.load-css('./interfaces/Roulette.scss');
@@ -49,7 +51,6 @@
 @include meta.load-css('./interfaces/Techweb.scss');
 @include meta.load-css('./interfaces/Trophycase.scss');
 @include meta.load-css('./interfaces/Uplink.scss');
-@include meta.load-css('./interfaces/UtilityModulesPane.scss');
 @include meta.load-css('./interfaces/DetectiveBoard.scss');
 
 // Layouts
