@@ -10,19 +10,25 @@
   padding: var(--space-xs) var(--space-sm);
   border: var(--border-thickness-tiny) solid
     hsl(from var(--color-border-primary) h 10 50 / 0.33);
-  border-radius: var(--border-radius-medium);
-  min-width: 4em;
-  max-width: 5em;
+  // EffigyEdit Change - TGUI - var(--border-radius-medium);
+  border-radius: var(--border-radius-none);
+  min-width: 5em; // EffigyEdit Change - TGUI - Original: 4em;
+  max-width: 6em; // EffigyEdit Change - TGUI - Original: 5em;
   text-align: right;
 }
 
 .Ping__indicator {
   content: '';
   position: absolute;
-  top: var(--space-m);
-  left: var(--space-m);
+  top: 0;
+  left: 0;
   width: 0.5em;
-  height: 0.5em;
-  background-color: hsl(225, 10%, 60%); // EffigyEdit Change - TGUI - Original: hsl(0, 0%, 53.3%);
-  border-radius: var(--border-radius-medium);
+  height: 100%;
+  background-color: hsl(
+    225,
+    10%,
+    60%
+  ); // EffigyEdit Change - TGUI - Original: hsl(0, 0%, 53.3%);
+  // EffigyEdit Change - TGUI - var(--border-radius-medium);
+  border-radius: var(--border-radius-none);
 }

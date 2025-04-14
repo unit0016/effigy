@@ -14,6 +14,7 @@
 @use './effigy-values';
 @use './effigy-components';
 @use './effigy-panel';
+@include meta.load-css('./effigy/Tabs.scss');
 
 // Core styles
 @include meta.load-css('~tgui/styles/reset.scss');
