@@ -17,7 +17,7 @@
 			CRASH("[src] tried to initialize but the [our_turf] already had it's trim color set!")
 		our_turf.trim_color = color
 		our_turf.trim_alpha = alpha
-		our_turf.update_appearance()
+		our_turf.update_appearance(UPDATE_ICON)
 		qdel(src)
 		return
 	var/obj/structure/falsewall/found_falsewall = locate(/obj/structure/falsewall) in src.loc.contents
@@ -26,7 +26,7 @@
 			CRASH("[src] tried to initialize but the [found_falsewall] already had it's trim color set!")
 		found_falsewall.trim_color = color
 		found_falsewall.trim_alpha = alpha
-		found_falsewall.update_appearance()
+		found_falsewall.update_appearance(UPDATE_ICON)
 		qdel(src)
 		return
 	var/obj/structure/window/found_window = locate(/obj/structure/window) in src.loc.contents
@@ -35,7 +35,7 @@
 			CRASH("[src] tried to initialize but the [found_window] already had it's trim color set!")
 		found_window.trim_color = color
 		found_window.trim_alpha = alpha
-		found_window.update_appearance()
+		found_window.update_appearance(UPDATE_ICON)
 		qdel(src)
 		return
 	CRASH("[src] tried to initialize but wasn't on a wall or window!")
