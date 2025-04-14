@@ -8,6 +8,12 @@
 
 // Components
 @use '~tgui-core/styles';
+// Effigy CSS variables
+
+@use './effigy-colors';
+@use './effigy-values';
+@use './effigy-components';
+@use './effigy-panel';
 
 // Core styles
 @include meta.load-css('~tgui/styles/reset.scss');
