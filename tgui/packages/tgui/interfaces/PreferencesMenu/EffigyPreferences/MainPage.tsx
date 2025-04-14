@@ -64,7 +64,7 @@ function CharacterControls(props: CharacterControlsProps) {
         />
       </Stack.Item>
 
-      <Stack.Item ml="21px">
+      <Stack.Item>
         <Button
           onClick={props.handleRotate}
           fontSize="22px"
@@ -74,7 +74,7 @@ function CharacterControls(props: CharacterControlsProps) {
         />
       </Stack.Item>
 
-      <Stack.Item ml="21px">
+      <Stack.Item>
         <Button
           onClick={props.handleOpenSpecies}
           fontSize="22px"
@@ -85,13 +85,23 @@ function CharacterControls(props: CharacterControlsProps) {
       </Stack.Item>
 
       {props.showGender && (
-        <Stack.Item ml="21px">
+        <Stack.Item>
           <GenderButton
             gender={props.gender}
             handleSetGender={props.setGender}
           />
         </Stack.Item>
       )}
+
+      <Stack.Item>
+        <Button
+          onClick={props.handleRotate}
+          fontSize="22px"
+          icon="redo"
+          tooltip="Rotate"
+          tooltipPosition="top"
+        />
+      </Stack.Item>
     </Stack>
   );
 }
@@ -734,7 +744,7 @@ export function MainPage(props: MainPageProps) {
               />
             </Stack.Item>
 
-            <Stack.Item mt="10px">
+            <Stack.Item mt="0px">
               <SideDropdown
                 width="100%"
                 selected={data.character_preview_selection}
@@ -747,7 +757,7 @@ export function MainPage(props: MainPageProps) {
               />
             </Stack.Item>
 
-            <Stack.Item grow mt="10px">
+            <Stack.Item grow mt="2px" mr="-5px">
               <CharacterPreview
                 height="100%"
                 id={data.character_preview_view}
@@ -777,7 +787,7 @@ export function MainPage(props: MainPageProps) {
                 Physical
               </PageButton>
             </Stack.Item>
-            <Stack.Item grow ml="10px">
+            <Stack.Item grow ml="5px">
               <PageButton
                 currentPage={currentPrefPage}
                 page={PrefPage.Markings}
@@ -786,7 +796,7 @@ export function MainPage(props: MainPageProps) {
                 Markings
               </PageButton>
             </Stack.Item>
-            <Stack.Item grow ml="10px">
+            <Stack.Item grow ml="5px">
               <PageButton
                 currentPage={currentPrefPage}
                 page={PrefPage.Augments}
@@ -795,7 +805,7 @@ export function MainPage(props: MainPageProps) {
                 Augments
               </PageButton>
             </Stack.Item>
-            <Stack.Item grow ml="10px">
+            <Stack.Item grow ml="5px">
               <PageButton
                 currentPage={currentPrefPage}
                 page={PrefPage.NonContextual}
@@ -804,7 +814,7 @@ export function MainPage(props: MainPageProps) {
                 Misc
               </PageButton>
             </Stack.Item>
-            <Stack.Item grow ml="10px">
+            <Stack.Item grow ml="5px">
               <PageButton
                 currentPage={currentPrefPage}
                 page={PrefPage.Profile}

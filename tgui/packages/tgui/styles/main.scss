@@ -7,10 +7,8 @@
 @use 'base';
 @use '~tgui-core/styles';
 
-// Effigy CSS variables
-@use './effigy-colors';
-@use './effigy-values';
-@use './effigy-components';
+// Effigy TGUI customisation
+@use './effigy-tgui';
 
 // Core styles
 @include meta.load-css('./reset.scss');

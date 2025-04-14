@@ -1,0 +1,18 @@
+/**
+ * Effigy TGUI
+ *
+ * Original made with love by Aylong (https://github.com/AyIong)
+ * Effigy adaptation by LT3  (https://github.com/lessthnthree)
+ */
+
+@use 'sass:meta';
+@use 'base';
+
+// Core Styles
+@include meta.load-css('./effigy/effigy-colors.scss');
+@include meta.load-css('./effigy/effigy-values.scss');
+@include meta.load-css('./effigy/effigy-variables.scss');
+
+// Component Specific Overrides
+@include meta.load-css('./effigy/components/Button.scss');
+@include meta.load-css('./effigy/components/Tabs.scss');

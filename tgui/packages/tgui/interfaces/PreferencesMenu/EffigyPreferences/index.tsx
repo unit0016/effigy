@@ -33,7 +33,7 @@ function CharacterProfiles(props: ProfileProps) {
 
   return (
     <Stack align="center" justify="left">
-      <Stack.Item width="336px">
+      <Stack.Item width="250px" mr="-2px">
         <SideDropdown
           width="100%"
           selected={profiles[activeSlot]}
@@ -114,7 +114,7 @@ export function CharacterPreferenceWindow(props) {
             </PageButton>
           </Stack.Item>
 
-          <Stack.Item grow ml="10px">
+          <Stack.Item grow ml="5px">
             <PageButton
               currentPage={currentPage}
               page={Page.Loadout}
@@ -124,7 +124,7 @@ export function CharacterPreferenceWindow(props) {
             </PageButton>
           </Stack.Item>
 
-          <Stack.Item grow={1} ml="10px">
+          <Stack.Item grow={1} ml="5px">
             <PageButton
               currentPage={currentPage}
               page={Page.Jobs}
@@ -138,7 +138,7 @@ export function CharacterPreferenceWindow(props) {
             </PageButton>
           </Stack.Item>
 
-          <Stack.Item grow={1} ml="10px">
+          <Stack.Item grow={1} ml="5px">
             <PageButton
               currentPage={currentPage}
               page={Page.Antags}
@@ -148,7 +148,7 @@ export function CharacterPreferenceWindow(props) {
             </PageButton>
           </Stack.Item>
 
-          <Stack.Item grow={1} ml="10px">
+          <Stack.Item grow={1} ml="5px">
             <PageButton
               currentPage={currentPage}
               page={Page.Quirks}
@@ -160,7 +160,7 @@ export function CharacterPreferenceWindow(props) {
         </Stack>
       </Stack.Item>
 
-      <Stack.Item mt="10px" ml="8px">
+      <Stack.Item mt="7px" ml="8px">
         {pageContents}
       </Stack.Item>
     </Stack>

@@ -1,0 +1,53 @@
+.Tabs--vertical {
+  flex-direction: column;
+  padding: 0.25em 0 0.25em 0.25em;
+}
+
+.Tabs--horizontal {
+  margin-bottom: 0.5em;
+  padding: 0.25em 0.25em 0 0.25em;
+
+  &:last-child {
+    margin-bottom: 0;
+  }
+}
+
+.Tabs__Tab {
+  flex-grow: 0;
+}
+
+.Tabs--fluid .Tabs__Tab {
+  flex-grow: 1;
+}
+
+.Tab {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  min-height: 1.75em;
+  min-width: 5.5em;
+  margin-right: 10px;
+}
+
+.Tab__text {
+  flex-grow: 1;
+  margin: 0 0.5em;
+}
+
+.Tab__left {
+  min-width: 1.5em;
+  text-align: center;
+  margin-left: 0.25em;
+}
+
+.Tab__right {
+  min-width: 1.5em;
+  text-align: center;
+  margin-right: 0.25em;
+}
+
+.Tabs--vertical {
+  .Tab {
+    min-height: 2em;
+  }
+}

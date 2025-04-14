@@ -49,7 +49,14 @@ export function LoadoutPage(props) {
             setModifyItemDimmer={setModifyItemDimmer}
           />
         )}
-        <Section title="&nbsp;" align="center">
+        <Section
+          ml="-2px"
+          pt="4px"
+          align="center"
+          style={{
+            backgroundColor: '#22262F',
+          }}
+        >
           <Stack>
             <Stack.Item grow>
               <Tabs fluid align="center" m={-1}>
@@ -75,12 +82,13 @@ export function LoadoutPage(props) {
                 ))}
               </Tabs>
             </Stack.Item>
-            <Stack.Item align="center" pt="1px">
+            <Stack.Item align="center" mt="-3px">
               <Input
                 width="150px"
                 onInput={(_, value) => setSearchLoadout(value)}
                 placeholder="Search for an item..."
                 value={searchLoadout}
+                minHeight="21px"
               />
             </Stack.Item>
           </Stack>

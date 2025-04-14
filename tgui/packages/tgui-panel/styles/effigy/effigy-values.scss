@@ -6,7 +6,7 @@
  * You won't find any colors here, just numbers and letters.
  *
  * Made with love by Aylong (https://github.com/AyIong)
- * Effigy adaption by LT3  (https://github.com/lessthnthree)
+ * Effigy adaptation by LT3  (https://github.com/lessthnthree)
  */
 :root {
   /* Font */
@@ -14,9 +14,10 @@
   --font-family: 'Chakra Petch', Geneva, sans-serif;
   --font-family-mono: 'Ubunto Mono', Consolas, monospace;
 
-  /* Border radius */
+  /* Border */
   /* 0px | 0.rem */
   --border-radius-none: 0;
+  --border-thickness-none: 0;
 
   /* Adjustments */
   /* Color lightness multiplier. + for FG - for BG */

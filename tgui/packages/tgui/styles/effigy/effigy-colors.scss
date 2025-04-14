@@ -14,7 +14,7 @@
  * For finer customization of components, use vars-components.scss
  *
  * Original Made with love by Aylong (https://github.com/AyIong)
- * Effigy adaption by LT3  (https://github.com/lessthnthree)
+ * Effigy adaptation by LT3  (https://github.com/lessthnthree)
  */
 
 :root {
@@ -65,8 +65,8 @@
 
   /* Text colors */
   --color-text: var(--color-white);
-  --color-text-translucent: hsl(from var(--color-text) h s l / 0.5);
-  --color-text-translucent-light: hsl(from var(--color-text) h s l / 0.75);
+  --color-text-translucent: var(--color-grey);
+  --color-text-translucent-light: var(--color-grey);
   --color-text-fixed-white: var(--color-white);
   --color-text-fixed-black: var(--color-black);
 
