@@ -33,7 +33,7 @@ export const Panel = (props) => {
         <Stack.Item>
           <Section fitted>
             {/* EffigyEdit Change - TGUI - change align to top */}
-            <Stack mr={1} align="top">
+            <Stack mr={1} mb={-1} align="top">
               <Stack.Item grow overflowX="auto">
                 <ChatTabs />
               </Stack.Item>

@@ -5,26 +5,30 @@
 
 @use 'sass:math';
 
-// EffigyEdit Change - TGUI - Original: rgba(140, 140, 140, 0.5)
-$border-color: rgba(66, 70, 81, 1) !default;
-
 .Ping {
   position: relative;
-  padding: 0.125em 0.25em;
-  border: math.div(1em, 12) solid $border-color;
-  // border-radius: 0.25em; // EffigyEdit Change - TGUI
-  width: 5em; // EffigyEdit Change - TGUI - Original: 3.75em
+  padding: var(--space-xs) var(--space-sm);
+  border: var(--border-thickness-tiny) solid
+    hsl(from var(--color-border-primary) h 10 50 / 0.33);
+  // EffigyEdit Change - TGUI - var(--border-radius-medium);
+  border-radius: var(--border-radius-none);
+  min-width: 5em; // EffigyEdit Change - TGUI - Original: 4em;
+  max-width: 6em; // EffigyEdit Change - TGUI - Original: 5em;
   text-align: right;
 }
 
 .Ping__indicator {
   content: '';
   position: absolute;
-  top: 0.5em;
-  left: 0.5em;
+  top: 0;
+  left: 0;
   width: 0.5em;
-  height: 0.5em;
-  // EffigyEdit Change - TGUI - Original: rgba(140, 140, 140, 0.5)
-  background-color: hsl(225, 10%, 60%);
-  //border-radius: 0.25em;
+  height: 100%;
+  background-color: hsl(
+    225,
+    10%,
+    60%
+  ); // EffigyEdit Change - TGUI - Original: hsl(0, 0%, 53.3%);
+  // EffigyEdit Change - TGUI - var(--border-radius-medium);
+  border-radius: var(--border-radius-none);
 }
