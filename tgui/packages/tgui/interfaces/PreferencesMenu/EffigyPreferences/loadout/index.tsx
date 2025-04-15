@@ -82,7 +82,7 @@ export function LoadoutPage(props) {
                 ))}
               </Tabs>
             </Stack.Item>
-            <Stack.Item align="center" mt="-3px">
+            <Stack.Item align="center" mt="-3px" mr="-6px">
               <Input
                 width="150px"
                 onInput={(_, value) => setSearchLoadout(value)}

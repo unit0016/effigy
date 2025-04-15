@@ -92,16 +92,6 @@ function CharacterControls(props: CharacterControlsProps) {
           />
         </Stack.Item>
       )}
-
-      <Stack.Item>
-        <Button
-          onClick={props.handleRotate}
-          fontSize="22px"
-          icon="redo"
-          tooltip="Rotate"
-          tooltipPosition="top"
-        />
-      </Stack.Item>
     </Stack>
   );
 }
@@ -841,7 +831,7 @@ export function MainPage(props: MainPageProps) {
               };
 
               return (
-                <Stack.Item key={clothingKey} mt="0" mb="0px" pl="13px">
+                <Stack.Item key={clothingKey} mt="0" mb="0px" pl="12px">
                   {!catalog ? (
                     // Skeleton button
                     <Button height={4} width={4} disabled />

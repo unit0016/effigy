@@ -91,8 +91,8 @@ export function CharacterPreferenceWindow(props) {
   return (
     <Stack vertical fill>
       <Stack.Item>
-        <Stack fill ml="5px" mr="10px">
-          <Stack.Item width="224px" fontSize="14px">
+        <Stack fill ml="8px" mr="12px">
+          <Stack.Item width="222px" fontSize="14px">
             <CharacterProfiles
               activeSlot={data.active_slot - 1}
               onClick={(slot) => {
