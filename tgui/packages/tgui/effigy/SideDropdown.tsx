@@ -1,4 +1,3 @@
-import type { Placement } from '@floating-ui/react';
 import { ReactNode, useRef, useState } from 'react';
 import { Button } from 'tgui-core/components';
 import { Icon } from 'tgui-core/components';
@@ -144,11 +143,6 @@ export function SideDropdown(props: Props) {
     onSelected?.(getOptionValue(options[newIndex]));
   }
 
-  let placement: Placement = over ? 'right-end' : 'right-end';
-  if (iconOnly) {
-    placement = `${placement}-start` as Placement;
-  }
-
   return (
     <div className="Dropdown">
       <Floating
@@ -159,7 +153,7 @@ export function SideDropdown(props: Props) {
         contentStyles={{ width: menuWidth ? unit(menuWidth) : undefined }}
         disabled={disabled}
         onOpenChange={setOpen}
-        placement={placement}
+        placement="right-start"
         content={
           <div ref={innerRef} className="Dropdown__menu">
             {options.length === 0 ? (
