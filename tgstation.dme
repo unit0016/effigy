@@ -6666,6 +6666,7 @@
 #include "local\code\_onclick\hud\screen_objects.dm"
 #include "local\code\_onclick\hud\parallax\parallax.dm"
 #include "local\code\_onclick\hud\rendering\render_plate.dm"
+#include "local\code\controllers\configuration\entries\debug.dm"
 #include "local\code\controllers\configuration\entries\game_options.dm"
 #include "local\code\controllers\configuration\entries\general.dm"
 #include "local\code\controllers\subsystem\autotransfer.dm"

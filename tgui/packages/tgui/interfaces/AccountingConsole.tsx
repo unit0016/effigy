@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import {
+  Blink,
   BlockQuote,
   Collapsible,
   Modal,
@@ -126,7 +127,7 @@ const MarketCrashing = (props) => {
   }
   return (
     <Modal textAlign="center" mr={1.5}>
-      <blink>OH GOD THE ECONOMY IS RUINED.</blink>
+      <Blink>OH GOD THE ECONOMY IS RUINED.</Blink>
     </Modal>
   );
 };

@@ -1,0 +1,38 @@
+/**
+ * TGUI
+ * Values Variables
+ *
+ * This file contains all values, like spacings, sizes, etc.
+ * You won't find any colors here, just numbers and letters.
+ *
+ * Made with love by Aylong (https://github.com/AyIong)
+ * Effigy adaptation by LT3  (https://github.com/lessthnthree)
+ */
+:root {
+  /* Font */
+  --font-size: 14px;
+  --font-family: 'Chakra Petch', Geneva, sans-serif;
+  --font-family-mono: 'Ubunto Mono', Consolas, monospace;
+
+  /* Border */
+  /* 0px | 0.rem */
+  --border-radius-none: 0;
+  --border-thickness-none: 0;
+
+  /* Adjustments */
+  /* Color lightness multiplier. + for FG - for BG */
+  --adjust-color: 0;
+  /* Color lightness multiplier wneh hovered */
+  --adjust-hover: 10;
+  /* Color lightness multiplier when active (clicked) */
+  --adjust-active: 7.5;
+
+  /* Cursors */
+  --cursor-default: default;
+  --cursor-pointer: pointer;
+  --cursor-disabled: var(--cursor-default);
+  --cursor-n-resize: n-resize;
+  --cursor-s-resize: s-resize;
+  --cursor-se-resize: se-resize;
+  --cursor-e-resize: e-resize;
+}
