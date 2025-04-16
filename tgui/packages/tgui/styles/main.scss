@@ -14,6 +14,10 @@
 @include meta.load-css('./reset.scss');
 @include meta.load-css('./css-variables.scss');
 
+// EFFIGY ADDITION START: TGUI COLOR PICKER
+@include meta.load-css('./interfaces/ColorPicker.scss');
+// EFFIGY ADDITION END: TGUI COLOR PICKER
+
 // Atomic classes
 @include meta.load-css('./atomic/candystripe.scss');
 @include meta.load-css('./atomic/centered-image.scss');
