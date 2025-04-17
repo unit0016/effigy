@@ -685,22 +685,18 @@ GLOBAL_LIST_INIT(human_heights_to_offsets, list(
 // EffigyEdit Add End
 /// Underwear, undershirts, socks, eyes, lips(makeup)
 #define BODY_LAYER 31
+/// EffigyEdit Add - Character Preferences ///
+/// Bra and socks layer
+#define BRA_SOCKS_LAYER 30.6
+/// Underwear and undershirt layer
+#define UNDERWEAR_UNDERSHIRT 30.4
+/// EffigyEdit Add - Character Preferences End ///
 /// Mutations that should appear above body, body_adj and bodyparts layer (e.g. laser eyes)
 #define FRONT_MUTATIONS_LAYER 30
 /// Damage indicators (cuts and burns)
 #define DAMAGE_LAYER 29
 /// Jumpsuit clothing layer
 #define UNIFORM_LAYER 28
-// EffigyEdit Add - Character Preferences
-/// Just below clothing layer
-#define UNDER_UNIFORM_LAYER 27.8
-/// Bra and socks
-#define BRA_SOCKS_LAYER 27.6
-/// Underwear and undershirt
-#define UNDERWEAR_UNDERSHIRT 27.4
-/// Bandages
-#define BANDAGE_LAYER 27.2
-// EffigyEdit Add End
 /// ID card layer
 #define ID_LAYER 27
 /// ID card layer (might be deprecated)
