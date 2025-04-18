@@ -80505,7 +80505,6 @@
 /area/station/medical/medbay/central)
 "sEh" = (
 /obj/structure/rack,
-/obj/item/electronics/apc,
 /obj/effect/turf_decal/tile/neutral/full,
 /obj/effect/turf_decal/trimline/dark_blue/filled/line{
 	dir = 8
@@ -80513,9 +80512,7 @@
 /obj/effect/turf_decal/trimline/dark_blue/filled/mid_joiner{
 	dir = 8
 	},
-/obj/item/electronics/apc,
-/obj/item/electronics/airalarm,
-/obj/item/electronics/airalarm,
+/obj/effect/spawner/random/techstorage/custom_shuttle,
 /turf/open/floor/iron/large,
 /area/station/engineering/storage/tech)
 "sEq" = (
