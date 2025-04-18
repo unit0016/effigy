@@ -118,7 +118,8 @@ export class Interactive extends Component<InteractiveProps> {
   }
 
   render() {
-    const { style, children, ...rest } = this.props;
+    const { style, children, onMove, onKey, ...rest } = this.props;
+
     return (
       <div
         {...rest}
