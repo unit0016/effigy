@@ -236,8 +236,8 @@
 /atom/movable/screen/lobby/button/character_setup/Initialize(mapload, datum/hud/hud_owner)
 	. = ..()
 	// EffigyEdit Add - Custom Lobby
-	if(!isnull(hud.mymob.client))
-		var/character_name = hud.mymob.client.prefs?.read_preference(/datum/preference/name/real_name)
+	if(!isnull(hud.mymob))
+		var/character_name = hud.mymob.client?.prefs?.read_preference(/datum/preference/name/real_name)
 		update_character_name(new_name = character_name)
 		RegisterSignal(hud.mymob.client.prefs, COMSIG_CHARACTER_SLOT_CHANGED, PROC_REF(update_character_name))
 	// EffigyEdit Add End
