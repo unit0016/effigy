@@ -6957,6 +6957,7 @@
 #include "local\code\modules\character_prefs\sprite_accessories\tails\tails_monkey.dm"
 #include "local\code\modules\client\effigy_registration.dm"
 #include "local\code\modules\client\preferences\_admin.dm"
+#include "local\code\modules\client\preferences\detailed_init.dm"
 #include "local\code\modules\client\preferences\looc.dm"
 #include "local\code\modules\client\preferences\manifest_preview.dm"
 #include "local\code\modules\client\preferences\preferences_savefile.dm"
