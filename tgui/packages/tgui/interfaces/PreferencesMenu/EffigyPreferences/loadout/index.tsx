@@ -15,7 +15,7 @@ import {
 
 import { SideDropdown } from '../../../../effigy/SideDropdown';
 import { useServerPrefs } from '../../useServerPrefs';
-import {
+import type {
   LoadoutCategory,
   LoadoutItem,
   LoadoutManagerData,
@@ -94,7 +94,7 @@ export function LoadoutPage(props) {
           </Stack>
         </Section>
       </Stack.Item>
-      <Stack.Item>
+      <Stack.Item grow>
         <LoadoutTabs
           loadout_tabs={loadout_tabs}
           currentTab={selectedTabName}
@@ -147,7 +147,7 @@ function LoadoutTabs(props: LoadoutTabsProps) {
       <Stack.Item grow>
         {searching || activeCategory?.contents ? (
           <Section
-            title={searching ? 'Searching...' : 'Catalog'}
+            title={searching ? 'Search Results' : 'Catalog'}
             fill
             scrollable
             buttons={
@@ -259,9 +259,10 @@ function LoadoutSelectedSection(props: LoadoutSelectedSectionProps) {
 
   return (
     <Section
-      title="&nbsp;"
+      title="Selected Items"
       scrollable
       fill
+      pl={1}
       buttons={
         <Button.Confirm
           icon="times"
@@ -295,7 +296,7 @@ function LoadoutPreviewSection() {
   const { act, data } = useBackend<LoadoutManagerData>();
 
   return (
-    <Section fill title="Character">
+    <Section fill pl={1} title="Character">
       <Stack vertical fill>
         <Stack.Item grow align="center">
           <CharacterPreview height="100%" id={data.character_preview_view} />

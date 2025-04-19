@@ -2,7 +2,7 @@
 	/// Mob that the examine panel belongs to
 	var/mob/living/holder
 	/// The screen containing the appearance of the mob
-	var/atom/movable/screen/map_view/examine_panel_screen/examine_panel_screen
+	var/atom/movable/screen/map_view/examine_panel_screen
 
 /datum/examine_panel/New(mob/holder_mob)
 	holder = holder_mob
@@ -17,7 +17,7 @@
 	return GLOB.always_state
 
 /datum/examine_panel/ui_close(mob/user)
-	user.client?.clear_map(examine_panel_screen.assigned_map)
+	examine_panel_screen.hide_from(user)
 
 /atom/movable/screen/map_view/examine_panel_screen
 	name = "examine panel screen"
@@ -43,10 +43,9 @@
 
 	ui = SStgui.try_update_ui(user, src, ui)
 	if(!ui)
-		examine_panel_screen.display_to(user)
-		user.client.register_map_obj(examine_panel_screen)
 		ui = new(user, src, "ExaminePanel")
 		ui.open()
+		examine_panel_screen.display_to(user, ui.window)
 
 /datum/examine_panel/ui_data(mob/user)
 	var/list/data = list()

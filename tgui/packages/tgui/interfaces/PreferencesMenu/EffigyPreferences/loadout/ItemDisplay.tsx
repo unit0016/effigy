@@ -1,15 +1,15 @@
 import { useBackend } from 'tgui/backend';
 import {
-  Box,
-  Button,
   DmIcon,
-  Flex,
   Icon,
+  ImageButton,
   NoticeBox,
+  Stack,
+  Tooltip,
 } from 'tgui-core/components';
 import { createSearch } from 'tgui-core/string';
 
-import { LoadoutCategory, LoadoutItem, LoadoutManagerData } from './base';
+import type { LoadoutCategory, LoadoutItem, LoadoutManagerData } from './base';
 
 type Props = {
   item: LoadoutItem;
@@ -58,38 +58,44 @@ export function ItemDisplay(props: DisplayProps) {
   const { act } = useBackend();
   const { active, item, scale = 3 } = props;
 
-  const boxSize = `${scale * 32}px`;
-
   return (
-    <Button
-      height={boxSize}
-      width={boxSize}
-      color={active ? 'good' : 'default'}
-      style={{ textTransform: 'capitalize', zIndex: '1' }}
-      tooltip={item.name}
-      tooltipPosition={'bottom'}
-      onClick={() =>
-        act('select_item', {
-          path: item.path,
-          deselect: active,
-        })
-      }
-    >
-      <Flex vertical>
-        <Flex.Item pt="10px" pl="5px">
-          <ItemIcon item={item} scale={scale} />
-        </Flex.Item>
+    <div style={{ position: 'relative' }}>
+      <ImageButton
+        imageSize={scale * 32}
+        color={active ? 'blue' : 'default'}
+        style={{ textTransform: 'capitalize', zIndex: '1' }}
+        tooltip={item.name}
+        tooltipPosition={'bottom'}
+        dmIcon={item.icon}
+        dmIconState={item.icon_state}
+        onClick={() =>
+          act('select_item', {
+            path: item.path,
+            deselect: active,
+          })
+        }
+      />
+      <div
+        style={{ position: 'absolute', top: '8px', right: '8px', zIndex: '2' }}
+      >
         {item.information.length > 0 && (
-          <Flex.Item ml={-5.7} style={{ zIndex: '3' }}>
+          <Stack vertical>
             {item.information.map((info) => (
-              <Box height="12px" key={info} fontSize="12px" textColor={'white'}>
-                {info}
-              </Box>
+              <Stack.Item
+                key={info.icon}
+                fontSize="14px"
+                textColor={'blue'}
+                bold
+              >
+                <Tooltip position="right" content={info.tooltip}>
+                  <Icon name={info.icon} />
+                </Tooltip>
+              </Stack.Item>
             ))}
-          </Flex.Item>
+          </Stack>
         )}
-      </Flex>
-    </Button>
+      </div>
+    </div>
   );
 }
 
@@ -97,21 +103,66 @@ type ListProps = {
   items: LoadoutItem[];
 };
 
+type LoadoutGroup = {
+  items: LoadoutItem[];
+  title: string;
+};
+
+function sortByGroup(items: LoadoutItem[]): LoadoutGroup[] {
+  const groups: LoadoutGroup[] = [];
+
+  for (let i = 0; i < items.length; i++) {
+    const item: LoadoutItem = items[i];
+    let usedGroup: LoadoutGroup | undefined = groups.find(
+      (group) => group.title === item.group,
+    );
+    if (usedGroup === undefined) {
+      usedGroup = { items: [], title: item.group };
+      groups.push(usedGroup);
+    }
+    usedGroup.items.push(item);
+  }
+
+  return groups;
+}
+
 export function ItemListDisplay(props: ListProps) {
   const { data } = useBackend<LoadoutManagerData>();
   const { loadout_list } = data.character_preferences.misc;
+  const itemGroups = sortByGroup(props.items);
 
   return (
-    <Flex wrap m="7px">
-      {props.items.map((item) => (
-        <Flex.Item key={item.name} mr="17px" mb="15px">
-          <ItemDisplay
-            item={item}
-            active={loadout_list && loadout_list[item.path] !== undefined}
-          />
-        </Flex.Item>
+    <Stack vertical>
+      {itemGroups.length > 1 && <Stack.Item />}
+      {itemGroups.map((group) => (
+        <Stack.Item key={group.title}>
+          <Stack vertical>
+            {itemGroups.length > 1 && (
+              <>
+                <Stack.Item mt={-1.5} mb={-0.8} ml={1.5}>
+                  <h3 color="grey">{group.title}</h3>
+                </Stack.Item>
+                <Stack.Divider />
+              </>
+            )}
+            <Stack.Item>
+              <Stack wrap g={0.5}>
+                {group.items.map((item) => (
+                  <Stack.Item key={item.name}>
+                    <ItemDisplay
+                      item={item}
+                      active={
+                        loadout_list && loadout_list[item.path] !== undefined
+                      }
+                    />
+                  </Stack.Item>
+                ))}
+              </Stack>
+            </Stack.Item>
+          </Stack>
+        </Stack.Item>
       ))}
-    </Flex>
+    </Stack>
   );
 }
 

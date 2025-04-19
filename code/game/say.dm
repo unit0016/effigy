@@ -68,8 +68,7 @@ GLOBAL_LIST_INIT(freqtospan, list(
 	// EffigyEdit Add End
 
 	spans |= speech_span
-	if(!language)
-		language = get_selected_language()
+	language ||= get_selected_language()
 	message_mods[SAY_MOD_VERB] = say_mod(message, message_mods)
 	send_speech(message, message_range, src, bubble_type, spans, language, message_mods, forced = forced)
 
@@ -276,7 +275,7 @@ GLOBAL_LIST_INIT(freqtospan, list(
 
 	if(!has_language(language))
 		var/datum/language/dialect = GLOB.language_datum_instances[language]
-		raw_message = dialect.scramble(raw_message)
+		raw_message = dialect.scramble_sentence(raw_message, get_partially_understood_languages())
 
 	return raw_message
 
