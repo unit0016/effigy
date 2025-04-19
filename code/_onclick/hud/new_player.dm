@@ -3,10 +3,12 @@
 /// Maximum number of station trait buttons we will display, please think hard before creating scenarios where there are more than this
 #define MAX_STATION_TRAIT_BUTTONS_VERTICAL 3
 
+// EffigyEdit Add - Custom Lobby
 #define LOBBY_MAPTEXT_HEIGHT 56
 #define LOBBY_MAPTEXT_WIDTH 300
 #define LOBBY_MAPTEXT_X 5
 #define LOBBY_MAPTEXT_Y -10
+// EffigyEdit Add End
 
 /datum/hud/new_player
 	///Whether the menu is currently on the client's screen or not
@@ -194,7 +196,7 @@
 /atom/movable/screen/lobby/button/update_icon(updates)
 	. = ..()
 	if(!enabled)
-		icon_state = null
+		icon_state = null // EffigyEdit Change - Custom Lobby - Original: [base_icon_state]_disabled
 		return
 	else if(highlighted)
 		icon_state = "[base_icon_state]_highlighted"
@@ -325,9 +327,11 @@
 	if(ready)
 		new_player.auto_deadmin_on_ready_or_latejoin()
 		new_player.ready = PLAYER_READY_TO_PLAY
+		// base_icon_state = "ready" // EffigyEdit Remove - Custom Lobby
 		maptext = "<span style='font-family: \"Chakra Petch\"; font-size: 21pt; color: #2ccaff; line-height: 0.90; -dm-text-outline: 1px black'>Ready</span>"
 	else
 		new_player.ready = PLAYER_NOT_READY
+		// base_icon_state = "not_ready" // EffigyEdit Remove - Custom Lobby
 		maptext = "<span style='font-family: \"Chakra Petch\"; font-size: 21pt; line-height: 0.90; -dm-text-outline: 1px black'>Not Ready</span>"
 	update_appearance(UPDATE_ICON)
 	SEND_SIGNAL(hud, COMSIG_HUD_PLAYER_READY_TOGGLE)
@@ -904,15 +908,8 @@
 	maptext = MAPTEXT(new_maptext)
 
 // EffigyEdit Add - Custom Lobby
-///Antagonist Toggle
+///Antagonist Toggle - TODO, add toggle for global antag disable
 /atom/movable/screen/lobby/button/antagonist
-	/*
-	name = "View Character Setup"
-	screen_loc = "TOP:-70,CENTER:-54"
-	icon = 'icons/hud/lobby/character_setup.dmi'
-	icon_state = "character_setup_disabled"
-	base_icon_state = "character_setup"
-	*/
 	enabled = FALSE
 	name = "Toggle Antag Status"
 	icon = 'local/icons/hud/lobby/lobby_315x32.dmi'
@@ -924,7 +921,7 @@
 
 /atom/movable/screen/lobby/button/antagonist/Initialize(mapload, datum/hud/hud_owner)
 	. = ..()
-	// We need IconForge and the assets to be ready before allowing the menu to open
+	// We display it at the same time as character preferences
 	if(SSearly_assets.initialized == INITIALIZATION_INNEW_REGULAR || SSatoms.initialized == INITIALIZATION_INNEW_REGULAR)
 		set_button_status(TRUE)
 	else
@@ -945,3 +942,10 @@
 #undef SHUTTER_MOVEMENT_DURATION
 #undef SHUTTER_WAIT_DURATION
 #undef MAX_STATION_TRAIT_BUTTONS_VERTICAL
+
+// EffigyEdit Add - Custom Lobby
+#undef LOBBY_MAPTEXT_HEIGHT
+#undef LOBBY_MAPTEXT_WIDTH
+#undef LOBBY_MAPTEXT_X
+#undef LOBBY_MAPTEXT_Y
+// EffigyEdit Add End
