@@ -1010,7 +1010,8 @@ em {
     inset: 0;
     border: var(--border-thickness-tiny) solid;
     border-color: inherit;
-    border-radius: var(--border-radius-none); // EffigyEdit Change - TGUI - Original: --border-radius-medium
+    // EffigyEdit Change - TGUI - Original: --border-radius-medium
+    border-radius: var(--border-radius-none);
     mask-image: linear-gradient(to top, black 50%, transparent 50%);
     z-index: -1;
   }
@@ -1023,7 +1024,8 @@ em {
   border-color: hsl(224, 16%, 32%);
   margin: var(--space-m) 0;
   padding: var(--space-m) var(--space-l);
-  border-radius: var(--border-radius-none); // EffigyEdit Change - TGUI - Original: --border-radius-medium
+  // EffigyEdit Change - TGUI - Original: --border-radius-medium
+  border-radius: var(--border-radius-none);
 
   /* EffigyEdit Change - TGUI */
   &.red_box {
