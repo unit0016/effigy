@@ -19,4 +19,5 @@
 // Component Specific Overrides
 @include meta.load-css('./effigy/components/Button.scss');
 @include meta.load-css('./effigy/components/Dropdown.scss');
+@include meta.load-css('./effigy/components/ImageButton.scss');
 @include meta.load-css('./effigy/components/Tabs.scss');
