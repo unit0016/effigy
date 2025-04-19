@@ -83,7 +83,7 @@
 	savefile_key = "feature_moth_wings"
 	savefile_identifier = PREFERENCE_CHARACTER
 	category = PREFERENCE_CATEGORY_FEATURES
-	main_feature_name = "Moth wings"
+	main_feature_name = "Wings" // EffigyEdit Change - Original: Moth wings
 	should_generate_icons = TRUE
 	relevant_external_organ = /obj/item/organ/wings/moth
 
