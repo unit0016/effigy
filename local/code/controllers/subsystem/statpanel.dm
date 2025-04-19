@@ -1,26 +1,4 @@
-/mob/dead/get_status_tab_items()
-	. = ..()
-	if(SSticker.HasRoundStarted())
-		return
-	var/time_remaining = SSticker.GetTimeLeft()
-	if(time_remaining > 0)
-		. += "Game starting in [round(time_remaining/10)]s"
-	else if(time_remaining == -10)
-		. += "Game start delayed by an administrator"
-	else if(SSticker.launch_queued && !SSticker.totalPlayersReady)
-		. += "Game will start when players are ready"
-	//else EffigyEdit TODO - Title Screen
-	//	. += get_fluff_message()
-	. += ""
-	. += "Players Ready: [SSticker.totalPlayersReady]"
-	if(client.holder)
-		. += "Admins Ready: [SSticker.total_admins_ready] / [length(GLOB.admins)]"
-
-	// Adds the manifest preview panel to the end of the Statpanel.
-	if(CONFIG_GET(flag/show_manifest_preview))
-		. += get_manifest_preview()
-
-/mob/dead/proc/get_manifest_preview()
+/proc/get_manifest_preview()
 	var/list/player_ready_data = list()
 	var/list/players = list()
 
