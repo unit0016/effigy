@@ -108,7 +108,6 @@ type ChoicedSelectionProps = {
 function ChoicedSelection(props: ChoicedSelectionProps) {
   const { catalog, supplementalFeature, supplementalValue } = props;
   const [getSearchText, searchTextSet] = useState('');
-  const { act } = useBackend<PreferencesMenuData>(); // EffigyEdit Add - TGUI Color Picker
 
   if (!catalog.icons) {
     return <Box color="red">Provided catalog had no icons!</Box>;
@@ -363,7 +362,7 @@ export function PreferenceList(props: PreferenceListProps) {
       basis="50%"
       grow
       style={{
-        // background: 'rgba(0, 0, 0, 0.5)', // EffigyEdit Remove - TGUI
+        background: 'rgba(0, 0, 0, 0.5)',
         padding: '4px',
       }}
       overflowX="hidden"
@@ -403,7 +402,6 @@ export function PreferenceList(props: PreferenceListProps) {
 
                   <Stack.Item grow>
                     <FeatureValueInput
-                      act={act} // EffigyEdit Add - TGUI Color Picker
                       feature={feature}
                       featureId={featureId}
                       value={value}
