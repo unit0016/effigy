@@ -26,3 +26,5 @@
 #define COMSIG_LIVING_RESET_PULL_OFFSETS "living_reset_pull_offsets"
 //from base of living/CanAllowThrough(): (atom/movable/mover, border_dir)
 #define COMSIG_LIVING_CAN_ALLOW_THROUGH "living_can_allow_through"
+
+#define COMSIG_CHARACTER_SLOT_CHANGED "character_slot_changed"

@@ -3,6 +3,13 @@
 /// Maximum number of station trait buttons we will display, please think hard before creating scenarios where there are more than this
 #define MAX_STATION_TRAIT_BUTTONS_VERTICAL 3
 
+// EffigyEdit Add - Custom Lobby
+#define LOBBY_MAPTEXT_HEIGHT 56
+#define LOBBY_MAPTEXT_WIDTH 300
+#define LOBBY_MAPTEXT_X 5
+#define LOBBY_MAPTEXT_Y -10
+// EffigyEdit Add End
+
 /datum/hud/new_player
 	///Whether the menu is currently on the client's screen or not
 	var/menu_hud_status = TRUE
@@ -121,10 +128,13 @@
 	//the buttons are off-screen, so we sync them up to come down with the shutter
 	animate(src, transform = matrix(), time = SHUTTER_MOVEMENT_DURATION, easing = CUBIC_EASING|EASE_OUT)
 
+/* EffigyEdit Remove - Custom Lobby
 /atom/movable/screen/lobby/background
 	icon = 'icons/hud/lobby/background.dmi'
 	icon_state = "background"
 	screen_loc = "TOP,CENTER:-61"
+*/
+// EffigyEdit Remove End
 
 /atom/movable/screen/lobby/button
 	mouse_over_pointer = MOUSE_HAND_POINTER
@@ -134,6 +144,13 @@
 	var/highlighted = FALSE
 	///Should this button play the select sound?
 	var/select_sound_play = TRUE
+	// EffigyEdit Add - Custom Lobby
+	var/enabled_maptext
+	maptext_height = LOBBY_MAPTEXT_HEIGHT
+	maptext_width = LOBBY_MAPTEXT_WIDTH
+	maptext_x = LOBBY_MAPTEXT_X
+	maptext_y = LOBBY_MAPTEXT_Y
+	// EffigyEdit Add End
 
 /atom/movable/screen/lobby/button/Click(location, control, params)
 	if(usr != get_mob())
@@ -179,7 +196,7 @@
 /atom/movable/screen/lobby/button/update_icon(updates)
 	. = ..()
 	if(!enabled)
-		icon_state = "[base_icon_state]_disabled"
+		icon_state = null // EffigyEdit Change - Custom Lobby - Original: [base_icon_state]_disabled
 		return
 	else if(highlighted)
 		icon_state = "[base_icon_state]_highlighted"
@@ -193,15 +210,48 @@
 	enabled = status
 	update_appearance(UPDATE_ICON)
 	mouse_over_pointer = enabled ? MOUSE_HAND_POINTER : MOUSE_INACTIVE_POINTER
+	maptext = enabled ? enabled_maptext : null // EffigyEdit Add - Custom Lobby
+
 	return TRUE
 
 ///Prefs menu
 /atom/movable/screen/lobby/button/character_setup
+	/* // EffigyEdit Change - Custom Lobby
 	name = "View Character Setup"
 	screen_loc = "TOP:-70,CENTER:-54"
 	icon = 'icons/hud/lobby/character_setup.dmi'
-	icon_state = "character_setup"
+	icon_state = "character_setup_disabled"
 	base_icon_state = "character_setup"
+	*/
+	enabled = FALSE
+	name = "Character Preferences"
+	icon = 'local/icons/hud/lobby/lobby_315x32.dmi'
+	icon_state = "button_disabled"
+	base_icon_state = "button"
+	screen_loc = "BOTTOM:+144,LEFT:+32"
+	maptext_width = 575
+	enabled_maptext = "<span style='font-family: \"Chakra Petch\"; font-size: 21pt; line-height: 0.90; -dm-text-outline: 1px black'>Setup: Felinid Example</span>"
+	// EffigyEdit Change End
+
+/atom/movable/screen/lobby/button/character_setup/Initialize(mapload, datum/hud/hud_owner)
+	. = ..()
+	if(!isnull(hud))
+		var/mob/character_mob = hud.mymob
+		var/datum/preferences/character_prefs = character_mob.client?.prefs
+		if(!isnull(character_prefs))
+			var/character_name = character_prefs.read_preference(/datum/preference/name/real_name)
+			update_character_name(new_name = character_name)
+			RegisterSignal(character_prefs, COMSIG_CHARACTER_SLOT_CHANGED, PROC_REF(update_character_name))
+	// EffigyEdit Add End
+
+	// We need IconForge and the assets to be ready before allowing the menu to open
+	if(SSearly_assets.initialized == INITIALIZATION_INNEW_REGULAR || SSatoms.initialized == INITIALIZATION_INNEW_REGULAR)
+		flick("[base_icon_state]_enabled", src)
+		set_button_status(TRUE)
+	else
+		set_button_status(FALSE)
+		RegisterSignal(SSearly_assets, COMSIG_SUBSYSTEM_POST_INITIALIZE, PROC_REF(enable_character_setup))
+		RegisterSignal(SSatoms, COMSIG_SUBSYSTEM_POST_INITIALIZE, PROC_REF(enable_character_setup))
 
 /atom/movable/screen/lobby/button/character_setup/Click(location, control, params)
 	. = ..()
@@ -213,20 +263,44 @@
 	preferences.update_static_data(usr)
 	preferences.ui_interact(usr)
 
+/atom/movable/screen/lobby/button/character_setup/proc/enable_character_setup()
+	SIGNAL_HANDLER
+	flick("[base_icon_state]_enabled", src)
+	set_button_status(TRUE)
+	UnregisterSignal(SSearly_assets, COMSIG_SUBSYSTEM_POST_INITIALIZE)
+	UnregisterSignal(SSatoms, COMSIG_SUBSYSTEM_POST_INITIALIZE)
+
+// EffigyEdit Add - Custom Lobby
+/atom/movable/screen/lobby/button/character_setup/proc/update_character_name(source, new_name)
+	SIGNAL_HANDLER
+	enabled_maptext = "<span style='font-family: \"Chakra Petch\"; font-size: 21pt; line-height: 0.90; -dm-text-outline: 1px black'>Setup: [new_name]</span>"
+	maptext = enabled_maptext
+// EffigyEdit Add End
+
 ///Button that appears before the game has started
 /atom/movable/screen/lobby/button/ready
+	/* // EffigyEdit Change - Custom Lobby
 	name = "Toggle Readiness"
 	screen_loc = "TOP:-8,CENTER:-65"
 	icon = 'icons/hud/lobby/ready.dmi'
 	icon_state = "not_ready"
 	base_icon_state = "not_ready"
+	*/
 	///Whether we are readied up for the round or not
 	var/ready = FALSE
+	name = "Toggle Ready Status"
+	icon = 'local/icons/hud/lobby/lobby_315x32.dmi'
+	icon_state = "button"
+	base_icon_state = "button"
+	screen_loc = "BOTTOM:+208,LEFT:+32"
+	enabled_maptext = "<span style='font-family: \"Chakra Petch\"; font-size: 21pt; line-height: 0.90; -dm-text-outline: 1px black'>Not Ready</span>"
+	// EffigyEdit Change End
 
 /atom/movable/screen/lobby/button/ready/Initialize(mapload, datum/hud/hud_owner)
 	. = ..()
 	switch(SSticker.current_state)
 		if(GAME_STATE_PREGAME, GAME_STATE_STARTUP)
+			maptext = enabled_maptext // EffigyEdit Add - Custom Lobby
 			RegisterSignal(SSticker, COMSIG_TICKER_ENTER_SETTING_UP, PROC_REF(hide_ready_button))
 		if(GAME_STATE_SETTING_UP)
 			set_button_status(FALSE)
@@ -255,21 +329,32 @@
 	if(ready)
 		new_player.auto_deadmin_on_ready_or_latejoin()
 		new_player.ready = PLAYER_READY_TO_PLAY
-		base_icon_state = "ready"
+		// base_icon_state = "ready" // EffigyEdit Remove - Custom Lobby
+		maptext = "<span style='font-family: \"Chakra Petch\"; font-size: 21pt; color: #2ccaff; line-height: 0.90; -dm-text-outline: 1px black'>Ready</span>"
 	else
 		new_player.ready = PLAYER_NOT_READY
-		base_icon_state = "not_ready"
+		// base_icon_state = "not_ready" // EffigyEdit Remove - Custom Lobby
+		maptext = "<span style='font-family: \"Chakra Petch\"; font-size: 21pt; line-height: 0.90; -dm-text-outline: 1px black'>Not Ready</span>"
 	update_appearance(UPDATE_ICON)
 	SEND_SIGNAL(hud, COMSIG_HUD_PLAYER_READY_TOGGLE)
 
 ///Shown when the game has started
 /atom/movable/screen/lobby/button/join
+	/* // EffigyEdit Change - Custom Lobby
 	name = "Join Game"
 	screen_loc = "TOP:-13,CENTER:-58"
 	icon = 'icons/hud/lobby/join.dmi'
 	icon_state = "" //Default to not visible
 	base_icon_state = "join_game"
+	*/
 	enabled = null // set in init
+	name = "Join Game"
+	icon = 'local/icons/hud/lobby/lobby_315x32.dmi'
+	icon_state = "button_disabled"
+	base_icon_state = "button"
+	screen_loc = "BOTTOM:+208,LEFT:+32"
+	enabled_maptext = "<span style='font-family: \"Chakra Petch\"; font-size: 21pt; color: #2ccaff; line-height: 0.90; -dm-text-outline: 1px black'>Join Game</span>"
+	// EffigyEdit Change End
 
 /atom/movable/screen/lobby/button/join/Initialize(mapload, datum/hud/hud_owner)
 	. = ..()
@@ -338,12 +423,21 @@
 	RegisterSignal(SSticker, COMSIG_TICKER_ENTER_SETTING_UP, PROC_REF(show_join_button))
 
 /atom/movable/screen/lobby/button/observe
+	/* // EffigyEdit Change - Custom Lobby
 	name = "Observe"
 	screen_loc = "TOP:-40,CENTER:-54"
 	icon = 'icons/hud/lobby/observe.dmi'
 	icon_state = "observe_disabled"
 	base_icon_state = "observe"
+	*/
 	enabled = null // set in init
+	name = "Observe"
+	icon = 'local/icons/hud/lobby/lobby_315x32.dmi'
+	icon_state = "button_disabled"
+	base_icon_state = "button"
+	screen_loc = "BOTTOM:+64,LEFT:+32"
+	enabled_maptext = "<span style='font-family: \"Chakra Petch\"; font-size: 21pt; line-height: 0.90; -dm-text-outline: 1px black'>Observe</span>"
+	// EffigyEdit Change End
 
 /atom/movable/screen/lobby/button/observe/Initialize(mapload, datum/hud/hud_owner)
 	. = ..()
@@ -372,10 +466,30 @@
 	icon = 'icons/hud/lobby/bottom_buttons.dmi'
 
 /atom/movable/screen/lobby/button/bottom/settings
+	/* // EffigyEdit Change - Custom Lobby
 	name = "View Game Preferences"
-	icon_state = "settings"
+	icon_state = "settings_disabled"
 	base_icon_state = "settings"
 	screen_loc = "TOP:-122,CENTER:+29"
+	*/
+	enabled = FALSE
+	name = "Game Preferences"
+	icon = 'local/icons/hud/lobby/lobby_315x32.dmi'
+	icon_state = "button_disabled"
+	base_icon_state = "button"
+	screen_loc = "BOTTOM:+32,LEFT:+32"
+	enabled_maptext = "<span style='font-family: \"Chakra Petch\"; font-size: 21pt; line-height: 0.90; -dm-text-outline: 1px black'>Game Preferences</span>"
+	// EffigyEdit Change End
+
+/atom/movable/screen/lobby/button/bottom/settings/Initialize(mapload, datum/hud/hud_owner)
+	. = ..()
+	// We need IconForge and the assets to be ready before allowing the menu to open
+	if(SSearly_assets.initialized == INITIALIZATION_INNEW_REGULAR || SSatoms.initialized == INITIALIZATION_INNEW_REGULAR)
+		set_button_status(TRUE)
+	else
+		set_button_status(FALSE)
+		RegisterSignal(SSearly_assets, COMSIG_SUBSYSTEM_POST_INITIALIZE, PROC_REF(enable_settings))
+		RegisterSignal(SSatoms, COMSIG_SUBSYSTEM_POST_INITIALIZE, PROC_REF(enable_settings))
 
 /atom/movable/screen/lobby/button/bottom/settings/Click(location, control, params)
 	. = ..()
@@ -387,6 +501,13 @@
 	preferences.update_static_data(usr)
 	preferences.ui_interact(usr)
 
+/atom/movable/screen/lobby/button/bottom/settings/proc/enable_settings()
+	SIGNAL_HANDLER
+	set_button_status(TRUE)
+	UnregisterSignal(SSearly_assets, COMSIG_SUBSYSTEM_POST_INITIALIZE)
+	UnregisterSignal(SSatoms, COMSIG_SUBSYSTEM_POST_INITIALIZE)
+
+/* EffigyEdit Remove - Custom Lobby
 /atom/movable/screen/lobby/button/bottom/changelog_button
 	name = "View Changelog"
 	icon_state = "changelog"
@@ -396,12 +517,39 @@
 /atom/movable/screen/lobby/button/bottom/changelog_button/Click(location, control, params)
 	. = ..()
 	usr.client?.changelog()
+*/
+// EffigyEdit Remove End
 
 /atom/movable/screen/lobby/button/bottom/crew_manifest
+	/* // EffigyEdit Change - Custom Lobby
 	name = "View Crew Manifest"
 	icon_state = "crew_manifest"
 	base_icon_state = "crew_manifest"
 	screen_loc = "TOP:-122,CENTER:+2"
+	name = "Observe"
+	*/
+	name = "Crew Manifest"
+	icon = 'local/icons/hud/lobby/lobby_315x32.dmi'
+	icon_state = "button_disabled"
+	base_icon_state = "button"
+	screen_loc = "BOTTOM:+96,LEFT:+32"
+	enabled_maptext = "<span style='font-family: \"Chakra Petch\"; font-size: 21pt; line-height: 0.90; -dm-text-outline: 1px black'>Crew Manifest</span>"
+	// EffigyEdit Change End
+
+// EffigyEdit Add - Custom Lobby
+/atom/movable/screen/lobby/button/bottom/crew_manifest/Initialize(mapload, datum/hud/hud_owner)
+	. = ..()
+	if(SSticker.current_state >= GAME_STATE_SETTING_UP)
+		set_button_status(TRUE)
+	else
+		set_button_status(FALSE)
+		RegisterSignal(SSticker, COMSIG_TICKER_ROUND_STARTING, PROC_REF(show_manifest_button))
+
+/atom/movable/screen/lobby/button/bottom/crew_manifest/proc/show_manifest_button()
+	SIGNAL_HANDLER
+	set_button_status(TRUE)
+	UnregisterSignal(SSticker, COMSIG_TICKER_ROUND_STARTING)
+// EffigyEdit Add End
 
 /atom/movable/screen/lobby/button/bottom/crew_manifest/Click(location, control, params)
 	. = ..()
@@ -410,6 +558,7 @@
 	var/mob/dead/new_player/new_player = hud.mymob
 	new_player.ViewManifest()
 
+/* EffigyEdit Remove - Custom Lobby
 /atom/movable/screen/lobby/button/bottom/poll
 	name = "View Available Polls"
 	icon_state = "poll"
@@ -473,6 +622,8 @@
 		return
 	var/mob/dead/new_player/new_player = hud.mymob
 	new_player.handle_player_polling()
+*/
+// EffigyEdit Remove End
 
 /// A generic "sign up" button used by station traits
 /atom/movable/screen/lobby/button/sign_up
@@ -491,6 +642,7 @@
 	. = ..()
 	closeToolTip(usr)
 
+/* EffigyEdit Remove - Custom Lobby
 /atom/movable/screen/lobby/button/collapse
 	name = "Collapse Lobby Menu"
 	icon = 'icons/hud/lobby/collapse_expand.dmi'
@@ -617,11 +769,13 @@
 
 	//pull the shutter back off-screen
 	animate(transform = matrix(), time = SHUTTER_MOVEMENT_DURATION, easing = CUBIC_EASING|EASE_IN)
+*/
+// EffigyEdit Remove End
 
 /// LOCALHOST ONLY - Start Now button
 /atom/movable/screen/lobby/button/start_now
 	name = "Start Now (LOCALHOST ONLY)"
-	screen_loc = "TOP:-146,CENTER:-54"
+	screen_loc = "TOP:-115,RIGHT" // EffigyEdit Change - Custom Lobby - Original: "TOP:-146,CENTER:-54"
 	icon = 'icons/hud/lobby/start_now.dmi'
 	icon_state = "start_now"
 	base_icon_state = "start_now"
@@ -632,11 +786,168 @@
 	. = ..()
 	if(!. || !usr.client.is_localhost() || !check_rights_for(usr.client, R_SERVER))
 		return
-	SEND_SOUND(hud.mymob, sound('sound/effects/splat.ogg', volume = 50))
+	SEND_SOUND(hud.mymob, sound('local/sound/emotes/voice/nya.ogg', volume = 50)) // EffigyEdit Change
 	SSticker.start_immediately = TRUE
 	if(SSticker.current_state == GAME_STATE_STARTUP)
 		to_chat(usr, span_admin("The server is still setting up, but the round will be started as soon as possible."))
 
+#define OVERLAY_X_DIFF 12
+#define OVERLAY_Y_DIFF 5
+
+///Lobby screen that appears before the game has started showing how many players there are and who is ready.
+/atom/movable/screen/lobby/new_player_info
+	name = "New Player Info"
+	screen_loc = "TOP:-20,CENTER:192"
+	icon = 'icons/hud/lobby/newplayer.dmi'
+	icon_state = null //we only show up when we get update appearance called, cause we need our overlay to not look bad.
+	base_icon_state = "newplayer"
+	maptext_height = 70
+	maptext_width = 80
+	maptext_x = OVERLAY_X_DIFF
+	maptext_y = OVERLAY_Y_DIFF
+
+	var/show_static = TRUE
+
+/atom/movable/screen/lobby/new_player_info/Initialize(mapload, datum/hud/hud_owner)
+	. = ..()
+	switch(SSticker.current_state)
+		if(GAME_STATE_PREGAME, GAME_STATE_STARTUP)
+			RegisterSignal(SSticker, COMSIG_TICKER_ENTER_SETTING_UP, PROC_REF(hide_info))
+		if(GAME_STATE_SETTING_UP)
+			RegisterSignal(SSticker, COMSIG_TICKER_ERROR_SETTING_UP, PROC_REF(show_info))
+
+	START_PROCESSING(SSnewplayer_info, src)
+	update_text()
+	update_appearance(UPDATE_ICON)
+
+/atom/movable/screen/lobby/new_player_info/Destroy()
+	STOP_PROCESSING(SSnewplayer_info, src)
+	return ..()
+
+/atom/movable/screen/lobby/new_player_info/update_overlays()
+	. = ..()
+	if(!always_available)
+		return .
+	. += mutable_appearance(icon, "[base_icon_state]_overlay", layer = src.layer+0.03)
+	if(show_static)
+		. += mutable_appearance(icon, "static_base", alpha = 20, layer = src.layer+0.01)
+		//we have this in a separate file because `generate_icon_alpha_mask` puts lighting even on non-existent pixels,
+		//giving the icon a weird background color.
+		var/mutable_appearance/scanline = mutable_appearance(generate_icon_alpha_mask('icons/hud/lobby/newplayer_scanline.dmi', "scanline"), alpha = 20, layer = src.layer+0.02)
+		scanline.pixel_y = OVERLAY_X_DIFF
+		scanline.pixel_x = OVERLAY_Y_DIFF
+		. += scanline
+
+/atom/movable/screen/lobby/new_player_info/update_icon_state()
+	. = ..()
+	if(!always_available)
+		icon_state = "[base_icon_state]_disabled"
+	else
+		icon_state = base_icon_state
+
+/atom/movable/screen/lobby/new_player_info/process(seconds_per_tick)
+	update_text()
+
+/atom/movable/screen/lobby/new_player_info/collapse_button()
+	show_static = FALSE
+	update_text()
+	//to be in sync with parent, we'll turn the TV off in this time instead.
+	animate(src, appearance = update_appearance(UPDATE_ICON), time = SHUTTER_MOVEMENT_DURATION + SHUTTER_WAIT_DURATION)
+	//we go to the right, not up
+	animate(transform = transform.Translate(x = 146, y = 0), time = SHUTTER_MOVEMENT_DURATION, easing = CUBIC_EASING|EASE_IN)
+
+/atom/movable/screen/lobby/new_player_info/expand_button()
+	. = ..()
+	show_static = TRUE
+	update_appearance(UPDATE_ICON)
+	update_text()
+
+/atom/movable/screen/lobby/new_player_info/proc/hide_info()
+	SIGNAL_HANDLER
+
+	STOP_PROCESSING(SSnewplayer_info, src)
+	UnregisterSignal(SSticker, COMSIG_TICKER_ENTER_SETTING_UP)
+	RegisterSignal(SSticker, COMSIG_TICKER_ERROR_SETTING_UP, PROC_REF(show_info))
+	always_available = FALSE
+	update_appearance(UPDATE_ICON)
+	update_text()
+
+/atom/movable/screen/lobby/new_player_info/proc/show_info()
+	SIGNAL_HANDLER
+
+	always_available = TRUE
+	update_appearance(UPDATE_ICON)
+	update_text()
+	START_PROCESSING(SSnewplayer_info, src)
+	UnregisterSignal(SSticker, COMSIG_TICKER_ERROR_SETTING_UP)
+	RegisterSignal(SSticker, COMSIG_TICKER_ENTER_SETTING_UP, PROC_REF(hide_info))
+
+/atom/movable/screen/lobby/new_player_info/proc/update_text()
+	if(!always_available || !hud || !show_static)
+		maptext = null
+		return
+	var/new_maptext
+	if(!MC_RUNNING())
+		new_maptext = "<span style='text-align: center; vertical-align: middle'>Loading...</span>"
+	else
+		var/time_remaining = SSticker.GetTimeLeft()
+		if(time_remaining > 0)
+			time_remaining = "[round(time_remaining/10)]s"
+		else if(time_remaining == -10)
+			time_remaining = "DELAYED"
+		else
+			time_remaining = "SOON"
+
+		if(hud.mymob.client.holder)
+			new_maptext = "<span style='text-align: center; vertical-align: middle'>Starting in [time_remaining]<br /> \
+				[LAZYLEN(GLOB.clients)] player\s<br /> \
+				[SSticker.totalPlayersReady] players ready<br /> \
+				[SSticker.total_admins_ready] / [length(GLOB.admins)] admins ready</span>"
+		else
+			new_maptext = "<span style='text-align: center; vertical-align: middle; font-size: 18px'>[time_remaining]</span><br /> \
+				<span style='text-align: center; vertical-align: middle'>[LAZYLEN(GLOB.clients)] player\s</span>"
+
+	maptext = MAPTEXT(new_maptext)
+
+// EffigyEdit Add - Custom Lobby
+///Antagonist Toggle - TODO, add toggle for global antag disable
+/atom/movable/screen/lobby/button/antagonist
+	enabled = FALSE
+	name = "Toggle Antag Status"
+	icon = 'local/icons/hud/lobby/lobby_315x32.dmi'
+	icon_state = "button_disabled"
+	base_icon_state = "button"
+	screen_loc = "BOTTOM:+176,LEFT:+32"
+	maptext_width = 575
+	enabled_maptext = "<span style='font-family: \"Chakra Petch\"; font-size: 21pt; color: #23FA92; line-height: 0.90; -dm-text-outline: 1px black'>Antag Enabled</span>"
+
+/atom/movable/screen/lobby/button/antagonist/Initialize(mapload, datum/hud/hud_owner)
+	. = ..()
+	// We display it at the same time as character preferences
+	if(SSearly_assets.initialized == INITIALIZATION_INNEW_REGULAR || SSatoms.initialized == INITIALIZATION_INNEW_REGULAR)
+		set_button_status(TRUE)
+	else
+		set_button_status(FALSE)
+		RegisterSignal(SSearly_assets, COMSIG_SUBSYSTEM_POST_INITIALIZE, PROC_REF(enable_antag_button))
+		RegisterSignal(SSatoms, COMSIG_SUBSYSTEM_POST_INITIALIZE, PROC_REF(enable_antag_button))
+
+/atom/movable/screen/lobby/button/antagonist/proc/enable_antag_button()
+	SIGNAL_HANDLER
+	set_button_status(TRUE)
+	UnregisterSignal(SSearly_assets, COMSIG_SUBSYSTEM_POST_INITIALIZE)
+	UnregisterSignal(SSatoms, COMSIG_SUBSYSTEM_POST_INITIALIZE)
+// EffigyEdit Add End
+
+#undef OVERLAY_X_DIFF
+#undef OVERLAY_Y_DIFF
+
 #undef SHUTTER_MOVEMENT_DURATION
 #undef SHUTTER_WAIT_DURATION
 #undef MAX_STATION_TRAIT_BUTTONS_VERTICAL
+
+// EffigyEdit Add - Custom Lobby
+#undef LOBBY_MAPTEXT_HEIGHT
+#undef LOBBY_MAPTEXT_WIDTH
+#undef LOBBY_MAPTEXT_X
+#undef LOBBY_MAPTEXT_Y
+// EffigyEdit Add End

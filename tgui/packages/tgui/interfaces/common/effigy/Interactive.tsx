@@ -11,10 +11,6 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-/**
- * EffigyEdit - This is an Effigy TGUI file
- */
-
 import React, { Component, createRef, ReactNode, RefObject } from 'react';
 import { clamp } from 'tgui-core/math';
 
@@ -48,12 +44,12 @@ const getRelativePosition = (
 export interface InteractiveProps {
   onMove: (interaction: Interaction) => void;
   onKey: (offset: Interaction) => void;
-  children: ReactNode; // Change from ReactNode[] to ReactNode
+  children: ReactNode;
   style?: React.CSSProperties;
 }
 
 export class Interactive extends Component<InteractiveProps> {
-  containerRef: RefObject<HTMLDivElement>;
+  containerRef: RefObject<HTMLDivElement | null>;
 
   constructor(props: InteractiveProps) {
     super(props);

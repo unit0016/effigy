@@ -766,7 +766,7 @@ export function MainPage(props: MainPageProps) {
           </Stack>
         </Stack.Item>
 
-        <Stack.Item width="490px" ml="9px">
+        <Stack.Item width="490px" ml="8px">
           <Stack>
             <Stack.Item grow>
               <PageButton
@@ -821,7 +821,7 @@ export function MainPage(props: MainPageProps) {
           </Stack>
         </Stack.Item>
 
-        <Stack.Item width="235px">
+        <Stack.Item width="235px" ml="3px">
           <Stack height="512px" width="0px" vertical wrap>
             {mainFeatures.map(([clothingKey, clothing]) => {
               const catalog = serverData?.[
@@ -831,7 +831,7 @@ export function MainPage(props: MainPageProps) {
               };
 
               return (
-                <Stack.Item key={clothingKey} mt="0" mb="0px" pl="12px">
+                <Stack.Item key={clothingKey} mt="0" mb="0px" pl="10px">
                   {!catalog ? (
                     // Skeleton button
                     <Button height={4} width={4} disabled />

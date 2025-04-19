@@ -1,11 +1,15 @@
 import { createDropdownInput, Feature } from '../base';
 
 export const scaling_method: Feature<string> = {
-  name: 'Scaling method',
+  name: 'Point Sampling', // EffigyEdit Change
   category: 'UI',
   component: createDropdownInput({
+    /* EffigyEdit Change
     blur: 'Bilinear',
-    distort: 'Nearest Neighbor',
-    normal: 'Point Sampling',
+    distort: 'Disabled',
+    normal: 'Enabled',
+    */
+    normal: 'Enabled',
+    distort: 'Disabled',
   }),
 };

@@ -163,6 +163,7 @@ SUBSYSTEM_DEF(ticker)
 				send2chat(new /datum/tgs_message_content("New round starting on [SSmapping.current_map.map_name]!"), channel_tag)
 			current_state = GAME_STATE_PREGAME
 			// EffigyEdit Add - Storyteller
+			GLOB.init_message_clients = null
 			var/storyteller = CONFIG_GET(string/default_storyteller)
 			if(storyteller)
 				SSgamemode.set_storyteller(text2path(storyteller), forced = FALSE)

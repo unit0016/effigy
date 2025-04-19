@@ -327,7 +327,7 @@ ADMIN_VERB(cmd_controller_view_ui, R_SERVER|R_DEBUG, "Controller Overview", "Vie
 	init_stage_completed = 0
 	var/mc_started = FALSE
 
-	to_chat(world, span_notice("Initializing subsystems..."), MESSAGE_TYPE_DEBUG) // EffigyEdit Change - Custom Lobby
+	to_chat(GLOB.init_message_clients, span_notice("Initializing subsystems..."), MESSAGE_TYPE_DEBUG) // EffigyEdit Change - Custom Lobby
 
 	var/list/stage_sorted_subsystems = new(INITSTAGE_MAX)
 	for (var/i in 1 to INITSTAGE_MAX)
@@ -547,7 +547,7 @@ ADMIN_VERB(cmd_controller_view_ui, R_SERVER|R_DEBUG, "Controller Overview", "Vie
 	var/chat_message = chat_warning ? span_warning(message) : span_info(message) // EffigyEdit Change - Custom Lobby
 
 	if(result != SS_INIT_NO_MESSAGE)
-		to_chat(world, chat_message, MESSAGE_TYPE_DEBUG)
+		to_chat(GLOB.init_message_clients, chat_message, MESSAGE_TYPE_DEBUG) // EffigyEdit Change - Custom Lobby
 	log_world(message)
 
 /datum/controller/master/proc/SetRunLevel(new_runlevel)

@@ -28,6 +28,7 @@
   --button-background-default: var(--color-grey);
   --button-background-selected: var(--color-primary);
   --button-border-radius: var(--border-radius-none);
+  --button-color-selected: var(--color-black);
 
   /* Dropdown */
   --dropdown-transition: var(--transition-time-medium);
@@ -41,6 +42,7 @@
   --dropdown-entry-background-hover: var(--color-hover);
   --dropdown-entry-background-active: var(--color-active);
   --dropdown-entry-background-selected: var(--color-selected);
+  --dropdown-entry-color-selected: var(--color-black);
   --dropdown-entry-border-radius: var(--border-radius-none);
   --dropdown-entry-transition: var(--transition-time-fast);
 
@@ -49,7 +51,7 @@
   --tab-background-hover: hsl(from var(--color-hover) h s calc(l * 0.75));
   --tab-background-selected: var(--color-primary);
   --tab-color: var(--color-white);
-  --tab-color-selected: var(--color-white);
+  --tab-color-selected: var(--color-black);
   --tab-border-radius: var(--border-radius-none);
   --tab-indicator-size: var(--border-thickness-none);
   --tab-transition: var(--transition-time-medium);

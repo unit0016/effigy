@@ -3,7 +3,7 @@ SUBSYSTEM_DEF(mapping)
 	dependencies = list(
 		/datum/controller/subsystem/job,
 		/datum/controller/subsystem/processing/station,
-		/datum/controller/subsystem/processing/reagents
+		/datum/controller/subsystem/processing/reagents,
 	)
 	runlevels = ALL
 
@@ -367,7 +367,8 @@ Used by the AI doomsday and the self-destruct nuke.
 	multiz_levels = SSmapping.multiz_levels
 	loaded_lazy_templates = SSmapping.loaded_lazy_templates
 
-#define INIT_ANNOUNCE(X) to_chat(world, span_notice("[X]"), MESSAGE_TYPE_DEBUG); log_world(X)
+// #define INIT_ANNOUNCE(X) to_chat(world, span_notice("[X]"), MESSAGE_TYPE_DEBUG); log_world(X) // EffigyEdit Change - Custom Lobby
+#define INIT_ANNOUNCE(X) to_chat(GLOB.init_message_clients, span_notice("[X]"), MESSAGE_TYPE_DEBUG); log_world(X)
 /datum/controller/subsystem/mapping/proc/LoadGroup(list/errorList, name, path, files, list/traits, list/default_traits, silent = FALSE, height_autosetup = TRUE)
 	. = list()
 	var/start_time = REALTIMEOFDAY
@@ -432,7 +433,7 @@ Used by the AI doomsday and the self-destruct nuke.
 		SSautomapper.load_templates_from_cache(files)
 	// EffigyEdit Add End
 	if(!silent)
-		INIT_ANNOUNCE("Loaded [name] in [(REALTIMEOFDAY - start_time)/10]s!")
+		INIT_ANNOUNCE("Loaded [name] level. ([(REALTIMEOFDAY - start_time)/10] seconds)") // EffigyEdit Change - Custom Lobby
 	return parsed_maps
 
 /datum/controller/subsystem/mapping/proc/loadWorld()
@@ -444,7 +445,9 @@ Used by the AI doomsday and the self-destruct nuke.
 
 	// load the station
 	station_start = world.maxz + 1
-	INIT_ANNOUNCE("Loading [current_map.map_name]...")
+	//INIT_ANNOUNCE("Loading [current_map.map_name]...") // EffigyEdit Change - Custom Lobby
+	to_chat(world, span_notice("Loading [current_map.map_name]..."), MESSAGE_TYPE_DEBUG)
+	log_world("Loading [current_map.map_name]...")
 	LoadGroup(FailedZs, "Station", current_map.map_path, current_map.map_file, current_map.traits, ZTRAITS_STATION, height_autosetup = current_map.height_autosetup)
 
 	if(SSdbcore.Connect())

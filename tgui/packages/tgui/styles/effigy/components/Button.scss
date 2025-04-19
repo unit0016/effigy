@@ -1,3 +1,7 @@
 .Button--color--transparent {
   color: var(--button-color-transparent);
 }
+
+.Button--selected {
+  color: var(--color-text-fixed-black) !important;
+}

@@ -290,6 +290,8 @@ GLOBAL_LIST_INIT(blacklisted_builds, list(
 		GLOB.preferences_datums[ckey] = prefs
 	prefs.last_ip = address //these are gonna be used for banning
 	prefs.last_id = computer_id //these are gonna be used for banning
+	if(SSticker.state == GAME_STATE_STARTUP && prefs.read_preference(/datum/preference/toggle/detailed_init))
+		GLOB.init_message_clients += src
 
 	if(fexists(roundend_report_file()))
 		add_verb(src, /client/proc/show_previous_roundend_report)
@@ -593,6 +595,7 @@ GLOBAL_LIST_INIT(blacklisted_builds, list(
 
 	GLOB.clients -= src
 	GLOB.directory -= ckey
+	LAZYREMOVE(GLOB.init_message_clients, src) // EffigyEdit Add - Custom Lobby
 	persistent_client.client = null
 
 	log_access("Logout: [key_name(src)]")

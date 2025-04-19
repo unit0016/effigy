@@ -45,6 +45,10 @@ SUBSYSTEM_DEF(statpanels)
 			"Connected: [GLOB.clients.len] | Active: [GLOB.active_players] | Observing: [GLOB.observing_players]",
 		)
 
+		if(SSticker.current_state == GAME_STATE_PREGAME && CONFIG_GET(flag/show_manifest_preview))
+			global_data += get_manifest_preview()
+		// EffigyEdit Change End
+
 		if(SSticker.HasRoundStarted())
 			global_data += list(
 				" ",
