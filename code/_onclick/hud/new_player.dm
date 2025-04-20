@@ -5,7 +5,7 @@
 
 // EffigyEdit Add - Custom Lobby
 #define LOBBY_MAPTEXT_HEIGHT 56
-#define LOBBY_MAPTEXT_WIDTH 300
+#define LOBBY_MAPTEXT_WIDTH 512
 #define LOBBY_MAPTEXT_X 5
 #define LOBBY_MAPTEXT_Y -10
 // EffigyEdit Add End
@@ -101,9 +101,15 @@
 	layer = LOBBY_MENU_LAYER
 	screen_loc = "TOP,CENTER"
 	/// Whether this HUD element can be hidden from the client's "screen" (moved off-screen) or not
-	var/always_shown = FALSE
+	var/always_shown = TRUE // EffigyEdit Change - Custom Lobby - Original: FALSE
 	/// If true we will create this button every time the HUD is generated
 	var/always_available = TRUE
+	// EffigyEdit Add - Custom Lobby
+	maptext_height = LOBBY_MAPTEXT_HEIGHT
+	maptext_width = LOBBY_MAPTEXT_WIDTH
+	maptext_x = LOBBY_MAPTEXT_X
+	maptext_y = LOBBY_MAPTEXT_Y
+	// EffigyEdit Add End
 
 ///Set the HUD in New, as lobby screens are made before Atoms are Initialized.
 /atom/movable/screen/lobby/New(loc, datum/hud/our_hud, ...)
@@ -146,10 +152,6 @@
 	var/select_sound_play = TRUE
 	// EffigyEdit Add - Custom Lobby
 	var/enabled_maptext
-	maptext_height = LOBBY_MAPTEXT_HEIGHT
-	maptext_width = LOBBY_MAPTEXT_WIDTH
-	maptext_x = LOBBY_MAPTEXT_X
-	maptext_y = LOBBY_MAPTEXT_Y
 	// EffigyEdit Add End
 
 /atom/movable/screen/lobby/button/Click(location, control, params)
@@ -228,9 +230,9 @@
 	icon = 'local/icons/hud/lobby/lobby_315x32.dmi'
 	icon_state = "button_disabled"
 	base_icon_state = "button"
-	screen_loc = "BOTTOM:+144,LEFT:+32"
+	screen_loc = "BOTTOM:+144,LEFT:+80"
 	maptext_width = 575
-	enabled_maptext = "<span style='font-family: \"Chakra Petch\"; font-size: 21pt; line-height: 0.90; -dm-text-outline: 1px black'>Setup: Felinid Example</span>"
+	enabled_maptext = "<span style='font-family: \"Chakra Petch\"; font-size: 21pt; line-height: 0.90; -dm-text-outline: 1px #22252f'>Setup: Felinid Example</span>"
 	// EffigyEdit Change End
 
 /atom/movable/screen/lobby/button/character_setup/Initialize(mapload, datum/hud/hud_owner)
@@ -273,7 +275,7 @@
 // EffigyEdit Add - Custom Lobby
 /atom/movable/screen/lobby/button/character_setup/proc/update_character_name(source, new_name)
 	SIGNAL_HANDLER
-	enabled_maptext = "<span style='font-family: \"Chakra Petch\"; font-size: 21pt; line-height: 0.90; -dm-text-outline: 1px black'>Setup: [new_name]</span>"
+	enabled_maptext = "<span style='font-family: \"Chakra Petch\"; font-size: 21pt; line-height: 0.90; -dm-text-outline: 1px #22252f'>Setup: [new_name]</span>"
 	maptext = enabled_maptext
 // EffigyEdit Add End
 
@@ -292,8 +294,8 @@
 	icon = 'local/icons/hud/lobby/lobby_315x32.dmi'
 	icon_state = "button"
 	base_icon_state = "button"
-	screen_loc = "BOTTOM:+208,LEFT:+32"
-	enabled_maptext = "<span style='font-family: \"Chakra Petch\"; font-size: 21pt; line-height: 0.90; -dm-text-outline: 1px black'>Not Ready</span>"
+	screen_loc = "BOTTOM:+208,LEFT:+80"
+	enabled_maptext = "<span style='font-family: \"Chakra Petch\"; font-size: 21pt; line-height: 0.90; -dm-text-outline: 1px #22252f'>Not Ready</span>"
 	// EffigyEdit Change End
 
 /atom/movable/screen/lobby/button/ready/Initialize(mapload, datum/hud/hud_owner)
@@ -330,11 +332,11 @@
 		new_player.auto_deadmin_on_ready_or_latejoin()
 		new_player.ready = PLAYER_READY_TO_PLAY
 		// base_icon_state = "ready" // EffigyEdit Remove - Custom Lobby
-		maptext = "<span style='font-family: \"Chakra Petch\"; font-size: 21pt; color: #2ccaff; line-height: 0.90; -dm-text-outline: 1px black'>Ready</span>"
+		maptext = "<span style='font-family: \"Chakra Petch\"; font-size: 21pt; color: #7df9ff; line-height: 0.90; -dm-text-outline: 1px #22252f'>Ready</span>"
 	else
 		new_player.ready = PLAYER_NOT_READY
 		// base_icon_state = "not_ready" // EffigyEdit Remove - Custom Lobby
-		maptext = "<span style='font-family: \"Chakra Petch\"; font-size: 21pt; line-height: 0.90; -dm-text-outline: 1px black'>Not Ready</span>"
+		maptext = "<span style='font-family: \"Chakra Petch\"; font-size: 21pt; line-height: 0.90; -dm-text-outline: 1px #22252f'>Not Ready</span>"
 	update_appearance(UPDATE_ICON)
 	SEND_SIGNAL(hud, COMSIG_HUD_PLAYER_READY_TOGGLE)
 
@@ -352,8 +354,8 @@
 	icon = 'local/icons/hud/lobby/lobby_315x32.dmi'
 	icon_state = "button_disabled"
 	base_icon_state = "button"
-	screen_loc = "BOTTOM:+208,LEFT:+32"
-	enabled_maptext = "<span style='font-family: \"Chakra Petch\"; font-size: 21pt; color: #2ccaff; line-height: 0.90; -dm-text-outline: 1px black'>Join Game</span>"
+	screen_loc = "BOTTOM:+208,LEFT:+80"
+	enabled_maptext = "<span style='font-family: \"Chakra Petch\"; font-size: 21pt; color: #7df9ff; line-height: 0.90; -dm-text-outline: 1px #22252f'>Join Game</span>"
 	// EffigyEdit Change End
 
 /atom/movable/screen/lobby/button/join/Initialize(mapload, datum/hud/hud_owner)
@@ -435,8 +437,8 @@
 	icon = 'local/icons/hud/lobby/lobby_315x32.dmi'
 	icon_state = "button_disabled"
 	base_icon_state = "button"
-	screen_loc = "BOTTOM:+64,LEFT:+32"
-	enabled_maptext = "<span style='font-family: \"Chakra Petch\"; font-size: 21pt; line-height: 0.90; -dm-text-outline: 1px black'>Observe</span>"
+	screen_loc = "BOTTOM:+64,LEFT:+80"
+	enabled_maptext = "<span style='font-family: \"Chakra Petch\"; font-size: 21pt; line-height: 0.90; -dm-text-outline: 1px #22252f'>Observe</span>"
 	// EffigyEdit Change End
 
 /atom/movable/screen/lobby/button/observe/Initialize(mapload, datum/hud/hud_owner)
@@ -477,8 +479,8 @@
 	icon = 'local/icons/hud/lobby/lobby_315x32.dmi'
 	icon_state = "button_disabled"
 	base_icon_state = "button"
-	screen_loc = "BOTTOM:+32,LEFT:+32"
-	enabled_maptext = "<span style='font-family: \"Chakra Petch\"; font-size: 21pt; line-height: 0.90; -dm-text-outline: 1px black'>Game Preferences</span>"
+	screen_loc = "BOTTOM:+32,LEFT:+80"
+	enabled_maptext = "<span style='font-family: \"Chakra Petch\"; font-size: 21pt; line-height: 0.90; -dm-text-outline: 1px #22252f'>Game Preferences</span>"
 	// EffigyEdit Change End
 
 /atom/movable/screen/lobby/button/bottom/settings/Initialize(mapload, datum/hud/hud_owner)
@@ -532,8 +534,8 @@
 	icon = 'local/icons/hud/lobby/lobby_315x32.dmi'
 	icon_state = "button_disabled"
 	base_icon_state = "button"
-	screen_loc = "BOTTOM:+96,LEFT:+32"
-	enabled_maptext = "<span style='font-family: \"Chakra Petch\"; font-size: 21pt; line-height: 0.90; -dm-text-outline: 1px black'>Crew Manifest</span>"
+	screen_loc = "BOTTOM:+96,LEFT:+80"
+	enabled_maptext = "<span style='font-family: \"Chakra Petch\"; font-size: 21pt; line-height: 0.90; -dm-text-outline: 1px #22252f'>Crew Manifest</span>"
 	// EffigyEdit Change End
 
 // EffigyEdit Add - Custom Lobby
@@ -775,12 +777,25 @@
 /// LOCALHOST ONLY - Start Now button
 /atom/movable/screen/lobby/button/start_now
 	name = "Start Now (LOCALHOST ONLY)"
-	screen_loc = "TOP:-115,RIGHT" // EffigyEdit Change - Custom Lobby - Original: "TOP:-146,CENTER:-54"
+	screen_loc = "TOP:-115,RIGHT:+8" // EffigyEdit Change - Custom Lobby - Original: "TOP:-146,CENTER:-54"
 	icon = 'icons/hud/lobby/start_now.dmi'
 	icon_state = "start_now"
 	base_icon_state = "start_now"
 	always_available = FALSE
 	select_sound_play = FALSE
+
+// EffigyEdit Add - Custom Lobby
+/atom/movable/screen/lobby/button/start_now/Initialize(mapload, datum/hud/hud_owner)
+	. = ..()
+	if(SSticker?.current_state > GAME_STATE_PREGAME)
+		qdel(src)
+
+	RegisterSignal(SSticker, COMSIG_TICKER_ROUND_STARTING, PROC_REF(enter_pregame))
+
+/atom/movable/screen/lobby/button/start_now/proc/enter_pregame(source)
+	SIGNAL_HANDLER
+	qdel(src)
+// EffigyEdit Add End
 
 /atom/movable/screen/lobby/button/start_now/Click(location, control, params)
 	. = ..()
@@ -797,7 +812,7 @@
 ///Lobby screen that appears before the game has started showing how many players there are and who is ready.
 /atom/movable/screen/lobby/new_player_info
 	name = "New Player Info"
-	screen_loc = "TOP:-20,CENTER:192"
+	screen_loc = "TOP:-20,CENTER:200" // EffigyEdit Change - Custom Lobby - Original: "TOP:-20,CENTER:192"
 	icon = 'icons/hud/lobby/newplayer.dmi'
 	icon_state = null //we only show up when we get update appearance called, cause we need our overlay to not look bad.
 	base_icon_state = "newplayer"
@@ -917,9 +932,9 @@
 	icon = 'local/icons/hud/lobby/lobby_315x32.dmi'
 	icon_state = "button_disabled"
 	base_icon_state = "button"
-	screen_loc = "BOTTOM:+176,LEFT:+32"
+	screen_loc = "BOTTOM:+176,LEFT:+80"
 	maptext_width = 575
-	enabled_maptext = "<span style='font-family: \"Chakra Petch\"; font-size: 21pt; color: #23FA92; line-height: 0.90; -dm-text-outline: 1px black'>Antag Enabled</span>"
+	enabled_maptext = "<span style='font-family: \"Chakra Petch\"; font-size: 21pt; color: #23FA92; line-height: 0.90; -dm-text-outline: 1px #22252f'>Antag Enabled</span>"
 
 /atom/movable/screen/lobby/button/antagonist/Initialize(mapload, datum/hud/hud_owner)
 	. = ..()
@@ -936,6 +951,71 @@
 	set_button_status(TRUE)
 	UnregisterSignal(SSearly_assets, COMSIG_SUBSYSTEM_POST_INITIALIZE)
 	UnregisterSignal(SSatoms, COMSIG_SUBSYSTEM_POST_INITIALIZE)
+
+/atom/movable/screen/lobby/loading_screen
+	name = "Initializing game..."
+	icon = 'local/icons/runtime/default_title.dmi'
+	screen_loc = "BOTTOM,LEFT"
+	layer = PATH_ARROW_DEBUG_LAYER
+
+/atom/movable/screen/lobby/loading_screen/Initialize(mapload, datum/hud/hud_owner)
+	. = ..()
+	if(SSticker?.current_state != GAME_STATE_STARTUP)
+		qdel(src)
+
+	icon = SStitle.splash_turf.icon
+	icon_state = SStitle.splash_turf.icon_state
+	RegisterSignal(SSticker, COMSIG_TICKER_ENTER_PREGAME, PROC_REF(enter_pregame))
+
+/atom/movable/screen/lobby/loading_screen/proc/enter_pregame(source)
+	SIGNAL_HANDLER
+	qdel(src)
+
+/atom/movable/screen/lobby/progress_bar
+	icon = 'local/icons/hud/lobby/loading.dmi'
+	icon_state = "loading"
+	screen_loc = "BOTTOM,LEFT:-608"
+	layer = PATH_ARROW_DEBUG_LAYER
+
+/atom/movable/screen/lobby/progress_bar/Initialize(mapload, datum/hud/hud_owner)
+	. = ..()
+	if(SSticker?.current_state != GAME_STATE_STARTUP)
+		qdel(src)
+
+	RegisterSignal(SSticker, COMSIG_TICKER_ENTER_PREGAME, PROC_REF(enter_pregame))
+	RegisterSignal(SSdcs, COMSIG_SUBSYSTEM_INCREMENT_PROGRESS, PROC_REF(init_progress))
+	screen_loc = "BOTTOM,LEFT:-464"
+	animate(src, transform = transform.Translate(x = 183, y = 0), time = 24 SECONDS)
+
+/atom/movable/screen/lobby/progress_bar/proc/enter_pregame(source)
+	SIGNAL_HANDLER
+	qdel(src)
+
+/atom/movable/screen/lobby/progress_bar/proc/init_progress(source, new_progress)
+	SIGNAL_HANDLER
+	transform = matrix()
+	var/new_pos = floor(608 - 608 * (new_progress / 75))
+	screen_loc = "BOTTOM,LEFT:-[new_pos]"
+	maptext_width = 512
+
+/atom/movable/screen/lobby/fluff_text
+	screen_loc = "BOTTOM:+32,LEFT:+76"
+	layer = PATH_ARROW_DEBUG_LAYER
+
+/atom/movable/screen/lobby/fluff_text/Initialize(mapload, datum/hud/hud_owner)
+	. = ..()
+	if(SSticker?.current_state != GAME_STATE_STARTUP)
+		qdel(src)
+
+	RegisterSignal(SSticker, COMSIG_TICKER_ENTER_PREGAME, PROC_REF(enter_pregame))
+
+/atom/movable/screen/lobby/fluff_text/proc/enter_pregame(source)
+	SIGNAL_HANDLER
+	qdel(src)
+
+/atom/movable/screen/lobby/fluff_text/proc/init_progress(fluff_message)
+	maptext = "<span style='font-family: \"Chakra Petch\"; font-size: 14pt; line-height: 0.90; -dm-text-outline: 1px #22252f'>[fluff_message]</span>"
+
 // EffigyEdit Add End
 
 #undef OVERLAY_X_DIFF
