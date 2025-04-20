@@ -332,7 +332,7 @@
 		new_player.auto_deadmin_on_ready_or_latejoin()
 		new_player.ready = PLAYER_READY_TO_PLAY
 		// base_icon_state = "ready" // EffigyEdit Remove - Custom Lobby
-		maptext = "<span style='font-family: \"Chakra Petch\"; font-size: 21pt; color: #7df9ff; line-height: 0.90; -dm-text-outline: 1px #22252f'>Ready</span>"
+		maptext = "<span style='font-family: \"Chakra Petch\"; font-size: 21pt; color: #2ccaff; line-height: 0.90; -dm-text-outline: 1px #22252f'>Ready</span>"
 	else
 		new_player.ready = PLAYER_NOT_READY
 		// base_icon_state = "not_ready" // EffigyEdit Remove - Custom Lobby
@@ -355,7 +355,7 @@
 	icon_state = "button_disabled"
 	base_icon_state = "button"
 	screen_loc = "BOTTOM:+208,LEFT:+80"
-	enabled_maptext = "<span style='font-family: \"Chakra Petch\"; font-size: 21pt; color: #7df9ff; line-height: 0.90; -dm-text-outline: 1px #22252f'>Join Game</span>"
+	enabled_maptext = "<span style='font-family: \"Chakra Petch\"; font-size: 21pt; color: #2ccaff; line-height: 0.90; -dm-text-outline: 1px #22252f'>Join Game</span>"
 	// EffigyEdit Change End
 
 /atom/movable/screen/lobby/button/join/Initialize(mapload, datum/hud/hud_owner)
@@ -934,7 +934,7 @@
 	base_icon_state = "button"
 	screen_loc = "BOTTOM:+176,LEFT:+80"
 	maptext_width = 575
-	enabled_maptext = "<span style='font-family: \"Chakra Petch\"; font-size: 21pt; color: #23FA92; line-height: 0.90; -dm-text-outline: 1px #22252f'>Antag Enabled</span>"
+	enabled_maptext = "<span style='font-family: \"Chakra Petch\"; font-size: 21pt; color: #21fa90; line-height: 0.90; -dm-text-outline: 1px #22252f'>Antag Enabled</span>"
 
 /atom/movable/screen/lobby/button/antagonist/Initialize(mapload, datum/hud/hud_owner)
 	. = ..()
