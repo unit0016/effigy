@@ -79,7 +79,6 @@ module.exports = (env = {}, argv) => {
             {
               loader: 'builtin:swc-loader',
               options: {
-                isModule: 'unknown',
                 jsc: {
                   parser: {
                     syntax: 'typescript',
