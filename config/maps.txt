@@ -18,6 +18,11 @@ map tramstation
 	votable
 endmap
 
+map catwalkstation
+	minplayers 25
+	votable
+endmap
+
 map metastation
 	votable
 	#feedbacklink https://www.youtube.com/watch?v=XG8b7WhANNA
