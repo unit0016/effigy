@@ -11,7 +11,7 @@
 	temperature = 309
 
 /turf/open/floor/plating/icemoon
-	icon_state = "plating"
+	// icon_state = "plating" /// EFFIGY EDIT REMOVE - why was this fucking redefined here anyways
 	initial_gas_mix = ICEMOON_DEFAULT_ATMOS
 
 /turf/open/floor/plating/abductor

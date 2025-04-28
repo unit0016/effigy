@@ -12,6 +12,18 @@
 	smoothing_groups = NONE
 	canSmoothWith = NONE
 
+/turf/open/floor/plating/abductor
+	icon = EFFIGY_TURFS_ICON_FILE
+	smoothing_flags = NONE
+	smoothing_groups = NONE
+	canSmoothWith = NONE
+
+/turf/open/floor/plating/abductor2
+	icon = EFFIGY_TURFS_ICON_FILE
+	smoothing_flags = NONE
+	smoothing_groups = NONE
+	canSmoothWith = NONE
+
 /turf/open/floor/plating/elevatorshaft
 	icon = EFFIGY_TURFS_ICON_FILE
 	smoothing_flags = NONE
