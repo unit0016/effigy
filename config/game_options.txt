@@ -21,7 +21,7 @@ EMOJIS
 
 ## HEART COMMENDATIONS ###
 ## Uncomment this if you'd like to enable commendation pollings for this percentage of players near the end of the round (5% suggested)
-COMMENDATION_PERCENT_POLL 0.05
+COMMENDATION_PERCENT_POLL 0.1
 
 ## MOB MOVEMENT ###
 
@@ -33,8 +33,8 @@ COMMENDATION_PERCENT_POLL 0.05
 ## To speed things up make the number negative, to slow things down, make the number positive.
 
 ## These modify the run/walk speed of all mobs before the mob-specific modifiers are applied.
-RUN_DELAY 1.5
-WALK_DELAY 4
+RUN_DELAY 1.7
+WALK_DELAY 2.2
 
 ## The variables below affect the movement of specific mob types. THIS AFFECTS ALL SUBTYPES OF THE TYPE YOU CHOOSE!
 ## Entries completely override all subtypes. Later entries have precedence over earlier entries.
@@ -136,12 +136,12 @@ ALLOW_LATEJOIN_ANTAGONISTS
 ## Uncomment to prevent the nuclear operative leader from getting the war declaration item
 #DISABLE_WAROPS
 
-## Uncomment to enable dynamic ruleset config file.
-DYNAMIC_CONFIG_ENABLED
-
 ## RANDOM EVENTS ###
-## Comment this out to disable random events during the round.
-ALLOW_RANDOM_EVENTS
+## Comment this out to disable random events during the round. (Not currently used on Effigy)
+#ALLOW_RANDOM_EVENTS
+
+## Uncomment to enable dynamic ruleset config file. (Not currently used on Effigy)
+#DYNAMIC_CONFIG_ENABLED
 
 ## Uncomment this to disable station traits.
 #FORBID_STATION_TRAITS
@@ -154,13 +154,13 @@ EVENTS_MIN_TIME_MUL 1
 ## Set to 0 to make dangerous events available for all populations.
 EVENTS_MIN_PLAYERS_MUL 1
 
-## The lower bound, in deciseconds, for how soon another random event can be scheduled.
+## The lower bound, in deciseconds, for how soon another random event can be scheduled. (Not currently used on Effigy)
 ## Defaults to 1500 deciseconds or 2.5 minutes
-EVENTS_FREQUENCY_LOWER 1500
+# EVENTS_FREQUENCY_LOWER 1500
 
-## The upper bound, in deciseconds, for how soon another random event can be scheduled.
+## The upper bound, in deciseconds, for how soon another random event can be scheduled. (Not currently used on Effigy)
 ## Defaults to 4200 deciseconds or 7 minutes
-EVENTS_FREQUENCY_UPPER 4200
+# EVENTS_FREQUENCY_UPPER 4200
 
 ## AI ###
 
@@ -362,7 +362,7 @@ SILICON_MAX_LAW_AMOUNT 12
 ROUNDSTART_RACES human
 
 ## Races that are strictly worse than humans that could probably be turned on without balance concerns
-#ROUNDSTART_RACES felinid
+#ROUNDSTART_RACES animalid
 ROUNDSTART_RACES lizard
 #ROUNDSTART_RACES fly
 ROUNDSTART_RACES moth
@@ -409,8 +409,7 @@ MORGUE_CADAVER_OTHER_SPECIES_PROBABILITY 50
 ## Set MORGUE_CADAVER_OTHER_SPECIES_PROBABILITY to determine the chances between being a human and this specific species.
 ## Only used if MORGUE_CADAVER_DISABLE_NONHUMANS is commented out
 ## Prob = 100 means all corpses will be this race.
-#MORGUE_CADAVER_OVERRIDE_SPECIES lizard
-
+MORGUE_CADAVER_OVERRIDE_SPECIES animalid
 
 ##Overflow job. Default is assistant.
 ## NOTE: This will overwrite anything you put in jobconfig.toml!
@@ -486,7 +485,7 @@ ROUNDSTART_TRAITS
 #DISABLE_HUMAN_MOOD
 
 ## Enable night shifts
-#ENABLE_NIGHT_SHIFTS
+ENABLE_NIGHT_SHIFTS
 
 ## The shift start hour in 24-hour (0-23) notation
 SHIFT_TIME_START_HOUR 7
@@ -574,7 +573,7 @@ MAX_SHUTTLE_SIZE 300
 AUTOTRANSFER
 
 ## Enables starting transfer votes by the crew at large.
-ALLOW_VOTE_TRANSFER
+#ALLOW_VOTE_TRANSFER
 
 ## autovote initial delay (deciseconds in real time) before first automatic transfer vote call (default 135 minutes)
 ## Set to 0 to disable the subsystem altogether.
