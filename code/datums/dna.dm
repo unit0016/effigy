@@ -128,13 +128,14 @@ GLOBAL_LIST_INIT(total_uf_len_by_block, populate_total_uf_len_by_block())
 	new_dna.default_mutation_genes = default_mutation_genes
 	new_dna.unique_identity = unique_identity
 	new_dna.unique_features = unique_features
-	new_dna.blood_type = blood_type
 	new_dna.features = features.Copy()
 	new_dna.update_effigy_body_size() // EffigyEdit Add - Character Preferences
 	//if the new DNA has a holder, transform them immediately, otherwise save it
 	if(new_dna.holder)
+		new_dna.holder.set_blood_type(blood_type)
 		new_dna.holder.set_species(species.type, icon_update = 0)
 	else
+		new_dna.blood_type = blood_type
 		new_dna.species = new species.type
 	new_dna.real_name = real_name
 	// Mutations aren't gc managed, but they still aren't templates
