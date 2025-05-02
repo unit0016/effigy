@@ -1,3 +1,8 @@
 2025-05-01:
   unit0016:
   - bugfix: Everyone's ears are back!!!!!
+2025-05-02:
+  unit0016:
+  - bugfix: Attempting to latejoin via cryo while no cryopods exist will no longer
+      destroy you with hammers.
+  - bugfix: It is no longer comedically easy to tide the spare ID on Rimpoint.
