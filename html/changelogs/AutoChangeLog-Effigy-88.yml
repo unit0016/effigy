@@ -1,0 +1,4 @@
+author: "unit0016"
+delete-after: True
+changes:
+  - bugfix: "Attempting to latejoin via cryo while no cryopods exist will no longer destroy you with hammers."
