@@ -110,7 +110,6 @@ function ChoicedSelection(props: ChoicedSelectionProps) {
   const [searchText, setSearchText] = useState('');
   const { act } = useBackend<PreferencesMenuData>(); // EffigyEdit Add - TGUI
 
-
   if (!catalog.icons) {
     return <Box color="red">Provided catalog had no icons!</Box>;
   }
