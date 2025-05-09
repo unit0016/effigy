@@ -4,7 +4,9 @@ import { CharacterPreview } from 'tgui/interfaces/common/CharacterPreview';
 import {
   Box,
   Button,
+  Dimmer,
   Divider,
+  Dropdown,
   Icon,
   Input,
   NoticeBox,
@@ -14,6 +16,8 @@ import {
 } from 'tgui-core/components';
 
 import { SideDropdown } from '../../../../effigy/SideDropdown';
+import { removeAllSkiplines } from '../../../TextInputModal';
+import { PreferencesMenuData } from '../../types';
 import { useServerPrefs } from '../../useServerPrefs';
 import type {
   LoadoutCategory,
@@ -35,6 +39,21 @@ export function LoadoutPage(props) {
   const [modifyItemDimmer, setModifyItemDimmer] = useState<LoadoutItem | null>(
     null,
   );
+  // Start Custom Loadouts
+  const [managingPreset, _setManagingPreset] = useState<string | null>(null);
+  const { act, data } = useBackend<PreferencesMenuData>();
+  const [input, setInput] = useState('');
+  const setManagingPreset = (value) => {
+    _setManagingPreset(value);
+    setInput('');
+  };
+  const onType = (value: string) => {
+    if (value === input) {
+      return;
+    }
+    setInput(removeAllSkiplines(value));
+  };
+  // End Custom Loadouts
 
   if (!serverData) {
     return <NoticeBox>Loading...</NoticeBox>;
@@ -43,6 +62,77 @@ export function LoadoutPage(props) {
   return (
     <Stack vertical fill ml="-4px" mr="10px">
       <Stack.Item>
+        {/* Start Custom Loadouts */}
+        {!!managingPreset && (
+          <Dimmer style={{ zIndex: '100' }}>
+            <Stack
+              vertical
+              width="400px"
+              backgroundColor="#101010"
+              style={{
+                borderRadius: '2px',
+                position: 'relative',
+                display: 'inline-block',
+                padding: '5px',
+              }}
+            >
+              <Stack.Item width="100%" backgroundColor="#454C5F">
+                <Stack ml="5px">
+                  <Stack.Item>{managingPreset} Loadout Preset</Stack.Item>
+                  {managingPreset === 'Add' && (
+                    <Stack.Item>
+                      (
+                      {
+                        data.character_preferences.misc.loadout_lists.loadouts
+                          .length
+                      }{' '}
+                      of 7 total)
+                    </Stack.Item>
+                  )}
+                  <Stack.Item ml="auto">
+                    <Button
+                      icon="times"
+                      color="red"
+                      onClick={() => {
+                        setManagingPreset(null);
+                      }}
+                    />
+                  </Stack.Item>
+                </Stack>
+              </Stack.Item>
+              <Stack.Item width="100%">
+                <Input
+                  placeholder="Loadout name"
+                  width="100%"
+                  maxLength={24}
+                  onChange={onType}
+                  onEnter={() => {
+                    act(`${managingPreset.toLowerCase()}_loadout_preset`, {
+                      name: input,
+                    });
+                    setManagingPreset(null);
+                  }}
+                  onEscape={() => setManagingPreset(null)}
+                />
+              </Stack.Item>
+              <Stack.Item mt={1}>
+                <Stack justify="center">
+                  <Button
+                    onClick={() => {
+                      act(`${managingPreset.toLowerCase()}_loadout_preset`, {
+                        name: input,
+                      });
+                      setManagingPreset(null);
+                    }}
+                  >
+                    Done
+                  </Button>
+                </Stack>
+              </Stack.Item>
+            </Stack>
+          </Dimmer>
+        )}
+        {/* End Custom Loadouts */}
         {!!modifyItemDimmer && (
           <LoadoutModifyDimmer
             modifyItemDimmer={modifyItemDimmer}
@@ -101,6 +191,7 @@ export function LoadoutPage(props) {
           currentSearch={searchLoadout}
           modifyItemDimmer={modifyItemDimmer}
           setModifyItemDimmer={setModifyItemDimmer}
+          setManagingPreset={setManagingPreset}
         />
       </Stack.Item>
     </Stack>
@@ -113,6 +204,7 @@ type LoadoutTabsProps = {
   currentSearch: string;
   modifyItemDimmer: LoadoutItem | null;
   setModifyItemDimmer: (dimmer: LoadoutItem | null) => void;
+  setManagingPreset: (string) => void;
 };
 
 function LoadoutTabs(props: LoadoutTabsProps) {
@@ -122,19 +214,82 @@ function LoadoutTabs(props: LoadoutTabsProps) {
     currentSearch,
     modifyItemDimmer,
     setModifyItemDimmer,
+    setManagingPreset,
   } = props;
   const activeCategory = loadout_tabs.find((curTab) => {
     return curTab.name === currentTab;
   });
   const searching = currentSearch.length > 1;
 
+  const { act, data } = useBackend<PreferencesMenuData>();
+
   return (
     <Stack fill height="470px">
       <Stack.Item align="center" width="250px" height="100%">
         <Stack vertical fill>
-          <Stack.Item height="60%">
+          <Stack.Item height="50%">
             <LoadoutPreviewSection />
           </Stack.Item>
+          {/* Start Custom Loadouts */}
+          <Stack.Item>
+            <Section title="Saved Loadouts" pl={1}>
+              <Stack>
+                <Stack.Item>
+                  <Dropdown
+                    width="150px"
+                    options={
+                      data.character_preferences.misc.loadout_lists.loadouts
+                    }
+                    selected={data.character_preferences.misc.loadout_index}
+                    onSelected={(value) =>
+                      act('set_loadout_preset', { name: value })
+                    }
+                  />
+                </Stack.Item>
+                <Stack.Item>
+                  <Button.Confirm
+                    mr="5px"
+                    pt="2px"
+                    icon="times"
+                    color="red"
+                    align="center"
+                    disabled={
+                      data.character_preferences.misc.loadout_index ===
+                      'Default'
+                    }
+                    tooltip={
+                      data.character_preferences.misc.loadout_index ===
+                      'Default'
+                        ? "Can't delete the default loadout entry."
+                        : 'Delete loadout'
+                    }
+                    onClick={() => act('remove_loadout_preset')}
+                  />
+                  <Button
+                    mr="5px"
+                    pt="2px"
+                    icon="plus"
+                    color="blue"
+                    align="center"
+                    tooltip="Add loadout"
+                    onClick={() => setManagingPreset('Add')}
+                  />
+                  <Button
+                    pt="2px"
+                    icon="pen"
+                    align="center"
+                    tooltip="Rename loadout"
+                    onClick={() => setManagingPreset('Rename')}
+                    disabled={
+                      data.character_preferences.misc.loadout_index ===
+                      'Default'
+                    }
+                  />
+                </Stack.Item>
+              </Stack>
+            </Section>
+          </Stack.Item>
+          {/* End Custom Loadouts */}
           <Stack.Item grow>
             <LoadoutSelectedSection
               all_tabs={loadout_tabs}
@@ -254,7 +409,7 @@ type LoadoutSelectedSectionProps = {
 
 function LoadoutSelectedSection(props: LoadoutSelectedSectionProps) {
   const { act, data } = useBackend<LoadoutManagerData>();
-  const { loadout_list } = data.character_preferences.misc;
+  const loadout_list = data.character_preferences.misc.loadout_lists.loadout;
   const { all_tabs, modifyItemDimmer, setModifyItemDimmer } = props;
 
   return (
