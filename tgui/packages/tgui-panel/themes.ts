@@ -13,12 +13,15 @@ const COLORS = {
     BUTTON: '#3a4050', // EffigyEdit Change - TGUI - Original: #414040
     TEXT: '#e7e9ee', // EffigyEdit Change - TGUI - Original: #161515
     TEXT_DARK: '#22252f', // EffigyEdit Add - TGUI
+    BUTTON_AHELP: '#ffe45e', // EffigyEdit Add - TGUI
   },
   LIGHT: {
     BG_BASE: '#EEEEEE',
     BG_SECOND: '#FFFFFF',
     BUTTON: '#FFFFFF',
     TEXT: '#000000',
+    TEXT_DARK: '#000000', // EffigyEdit Add - TGUI
+    BUTTON_AHELP: '#ffe45e', // EffigyEdit Add - TGUI
   },
 };
 
@@ -78,6 +81,12 @@ export const setClientTheme = (name) => {
     'report-issue.text-color': themeColor.TEXT,
     'fullscreen-toggle.background-color': themeColor.BUTTON,
     'fullscreen-toggle.text-color': themeColor.TEXT,
+    // EffigyEdit Add Start
+    'adminhelp.background-color': themeColor.BUTTON_AHELP,
+    'adminhelp.text-color': themeColor.TEXT_DARK,
+    'discord.background-color': themeColor.BUTTON,
+    'discord.text-color': themeColor.TEXT,
+    // EffigyEdit Add End
     // Status and verb tabs
     'output.background-color': themeColor.BG_BASE,
     'output.text-color': themeColor.TEXT,
