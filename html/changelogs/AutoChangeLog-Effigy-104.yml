@@ -1,0 +1,5 @@
+author: "unit0016"
+delete-after: True
+changes:
+  - balance: "Rimpoint's lightning no longer damages objects or turfs."
+  - bugfix: "Wizard rainstorms now are properly dangerous again"
