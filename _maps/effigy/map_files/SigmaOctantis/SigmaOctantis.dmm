@@ -6785,7 +6785,7 @@
 /turf/open/floor/noslip/tram,
 /area/station/engineering/main)
 "byK" = (
-/obj/structure/altar_of_gods,
+/obj/structure/altar/of_gods,
 /turf/open/floor/wood/tile,
 /area/station/service/chapel)
 "byX" = (
