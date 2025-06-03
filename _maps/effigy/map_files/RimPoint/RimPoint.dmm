@@ -10087,7 +10087,7 @@
 /area/station/science/salvage)
 "dAl" = (
 /obj/effect/decal/remains/xeno,
-/obj/effect/decal/cleanable/xenoblood,
+/obj/effect/decal/cleanable/blood/xeno,
 /turf/open/floor/engine,
 /area/station/science/xenobiology)
 "dAn" = (
@@ -21652,7 +21652,7 @@
 	dir = 1
 	},
 /obj/effect/turf_decal/siding/wideplating_new,
-/obj/effect/decal/cleanable/oil,
+/obj/effect/decal/cleanable/blood/oil,
 /turf/open/floor/engine/hull/taeloth,
 /area/taeloth/nearstation/cargo_roof)
 "hCk" = (
@@ -24115,7 +24115,7 @@
 	specialfunctions = 4
 	},
 /obj/machinery/light/small/directional/north,
-/obj/effect/decal/cleanable/oil/streak,
+/obj/effect/decal/cleanable/blood/splatter/oil,
 /turf/open/floor/iron/textured_large,
 /area/station/commons/toilet/restrooms)
 "itO" = (
