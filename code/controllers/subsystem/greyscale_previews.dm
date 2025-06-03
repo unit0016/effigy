@@ -41,6 +41,7 @@ SUBSYSTEM_DEF(greyscale_previews)
 		"items/encryptionkey" = /obj/item/encryptionkey,
 		"items/pda" = /obj/item/modular_computer/pda,
 		"items/_item" = /obj/item,
+		"airlocks" = /obj/machinery/door/airlock, // EffigyEdit Add - Greyscale airlocks
 		"objects" = /obj,
 )
 
