@@ -76888,7 +76888,7 @@
 /turf/open/floor/iron/dark,
 /area/station/ai_monitored/turret_protected/ai_upload)
 "rMx" = (
-/obj/effect/decal/cleanable/oil/slippery,
+/obj/effect/decal/cleanable/blood/oil/slippery,
 /obj/effect/decal/cleanable/dirt/dust,
 /obj/structure/chair/wood,
 /turf/open/floor/iron/white,
