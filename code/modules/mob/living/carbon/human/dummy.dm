@@ -120,6 +120,7 @@ INITIALIZE_IMMEDIATE(/mob/living/carbon/human/dummy)
 	target.dna.features["tail_lizard"] = get_consistent_feature_entry(SSaccessories.tails_list_lizard)
 	target.dna.features["tail_monkey"] = get_consistent_feature_entry(SSaccessories.tails_list_monkey)
 	// EffigyEdit Add - Character Preferences
+	target.dna.features["fish_tail"] = get_consistent_feature_entry(SSaccessories.tails_list_fish)
 	target.dna.features["tail_other"] = "No Tail"
 	target.dna.features["wings"] = "No Wings"
 	target.dna.features["ext_chest"] = "Bare"
