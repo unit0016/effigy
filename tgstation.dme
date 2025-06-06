@@ -6763,6 +6763,7 @@
 #include "local\code\datums\components\surgery_initiator.dm"
 #include "local\code\datums\components\crafting\structures.dm"
 #include "local\code\datums\components\jukebox\tracks.dm"
+#include "local\code\datums\elements\scrap_value.dm"
 #include "local\code\datums\elements\unique_examine.dm"
 #include "local\code\datums\greyscale\config_types\greyscale_configs\greyscale_airlocks.dm"
 #include "local\code\datums\greyscale\config_types\greyscale_configs\hypospray.dm"
