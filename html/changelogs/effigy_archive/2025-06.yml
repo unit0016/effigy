@@ -4,3 +4,11 @@
   unit0016:
   - balance: Rimpoint's lightning no longer damages objects or turfs.
   - bugfix: Wizard rainstorms now are properly dangerous again
+2025-06-08:
+  TealSeer:
+  - rscadd: target mouth and disarm to slap someone in the face
+  - rscadd: tail coiling
+  - rscadd: scream and laugh sound preferences
+  - rscadd: ctrl shift click menu for targeted emotes
+  unit0016:
+  - map: WHAT IF IT - AND BY IT I MEAN CRYOPODS - WERE PURPLE!?
