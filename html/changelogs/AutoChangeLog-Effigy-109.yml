@@ -1,0 +1,7 @@
+author: "TealSeer"
+delete-after: True
+changes:
+  - rscadd: "target mouth and disarm to slap someone in the face"
+  - rscadd: "tail coiling"
+  - rscadd: "scream and laugh sound preferences"
+  - rscadd: "ctrl shift click menu for targeted emotes"
