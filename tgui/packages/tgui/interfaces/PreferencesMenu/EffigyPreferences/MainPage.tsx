@@ -440,6 +440,7 @@ export function PreferenceList(props: PreferenceListProps) {
                 key={featureId}
                 label={feature.name}
                 tooltip={feature.description}
+                tooltipPosition="right"
                 verticalAlign="middle"
               >
                 <Stack fill>
