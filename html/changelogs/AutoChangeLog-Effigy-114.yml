@@ -1,4 +1,0 @@
-author: "LT3"
-delete-after: True
-changes:
-  - bugfix: "Lobby name display updates correctly when renaming without changing slots"
