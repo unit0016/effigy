@@ -30,3 +30,6 @@
       shields; including shuttle bay shields in arrivals on Foxhole and Sigma Octantis.
       Don't take too long setting up the Supermatter...
   - bugfix: T5 Stock parts now properly eat up a lot of power.
+2025-06-16:
+  unit0016:
+  - map: Sigma Octantis' cryo has been remapped.
