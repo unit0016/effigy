@@ -57,11 +57,11 @@
  * The define is how fast it will download an app every program's process_tick.
  */
 ///Used for wireless devices with low signal.
-#define NTNETSPEED_LOWSIGNAL 0.5
+#define NTNETSPEED_LOWSIGNAL 0.7 // EffigyEdit Change - Original: 0.5
 ///Used for wireless devices with high signal.
-#define NTNETSPEED_HIGHSIGNAL 1
+#define NTNETSPEED_HIGHSIGNAL 1.4 // EffigyEdit Change - Original: 1
 ///Used for laptops with a high signal, or computers, which is connected regardless of z level.
-#define NTNETSPEED_ETHERNET 2
+#define NTNETSPEED_ETHERNET 2.7 // EffigyEdit Change - Original: 2
 
 /**
  * NTNet connection signals
