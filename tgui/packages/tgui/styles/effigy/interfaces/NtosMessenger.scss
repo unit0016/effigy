@@ -1,0 +1,20 @@
+.NtosChatMessage {
+  border-radius: var(--border-radius-none);
+
+  &_outgoing {
+    @extend .NtosChatMessage;
+  }
+
+  .theme-ntos & {
+    background-color: hsl(
+      from var(--color-primary) calc(h + 10) s calc(l - 35)
+    );
+
+    &_outgoing {
+      @extend .NtosChatMessage;
+      background-color: hsl(
+        from var(--color-primary) calc(h + 80) s calc(l - 40)
+      );
+    }
+  }
+}

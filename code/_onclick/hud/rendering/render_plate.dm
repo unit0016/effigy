@@ -400,7 +400,7 @@
 /atom/movable/screen/plane_master/rendering_plate/emissive_bloom/Initialize(mapload, datum/hud/hud_owner, datum/plane_master_group/home, offset)
 	. = ..()
 	add_filter("emissive_mask", 1, alpha_mask_filter(render_source = OFFSET_RENDER_TARGET(EMISSIVE_BLOOM_MASK_TARGET, offset)))
-	add_filter("emissive_bloom", 2, bloom_filter(threshold = COLOR_BLACK, size = 2, offset = 1))
+	add_filter("emissive_bloom", 2, bloom_filter(threshold = COLOR_BLACK, size = 3, offset = 2)) // EffigyEdit Change - Lighting
 
 /atom/movable/screen/plane_master/rendering_plate/turf_lighting
 	name = "Turf lighting post-processing plate"

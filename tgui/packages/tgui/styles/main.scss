@@ -7,9 +7,6 @@
 @use 'base';
 @use '~tgui-core/styles';
 
-// Effigy TGUI customisation
-@use './effigy-tgui';
-
 // Core styles
 @include meta.load-css('./reset.scss');
 @include meta.load-css('./css-variables.scss');
@@ -61,6 +58,24 @@
 @include meta.load-css('./layouts/Window.scss');
 
 @include meta.load-css('highlight.js/scss/github-dark.scss');
+
+// Effigy Core Styles
+@include meta.load-css('./effigy/effigy-colors.scss');
+@include meta.load-css('./effigy/effigy-values.scss');
+@include meta.load-css('./effigy/effigy-variables.scss');
+
+// Effigy Components
+@include meta.load-css('./effigy/components/ColorPicker.scss');
+
+// Effigy Component Specific Overrides
+@include meta.load-css('./effigy/components/Button.scss');
+@include meta.load-css('./effigy/components/Dropdown.scss');
+@include meta.load-css('./effigy/components/ImageButton.scss');
+@include meta.load-css('./effigy/components/NoticeBox.scss');
+@include meta.load-css('./effigy/components/Tabs.scss');
+
+// Effigy Interface Specific Overrides
+@include meta.load-css('./effigy/interfaces/NtosMessenger.scss');
 
 // NT Theme
 .Layout__content {
