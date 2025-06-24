@@ -3,8 +3,6 @@
 
 SUBSYSTEM_DEF(ticker)
 	name = "Ticker"
-	init_order = INIT_ORDER_TICKER
-
 	priority = FIRE_PRIORITY_TICKER
 	flags = SS_KEEP_TIMING
 	runlevels = RUNLEVEL_LOBBY | RUNLEVEL_SETUP | RUNLEVEL_GAME
@@ -71,62 +69,65 @@ SUBSYSTEM_DEF(ticker)
 	var/reboot_timer = null
 
 /datum/controller/subsystem/ticker/Initialize()
-	var/list/byond_sound_formats = list(
-		"mid" = TRUE,
-		"midi" = TRUE,
-		"mod" = TRUE,
-		"it" = TRUE,
-		"s3m" = TRUE,
-		"xm" = TRUE,
-		"oxm" = TRUE,
-		"wav" = TRUE,
-		"ogg" = TRUE,
-		"raw" = TRUE,
-		"wma" = TRUE,
-		"aiff" = TRUE,
-	)
+	if(!CONFIG_GET(flag/use_scheduled_lobby_track)) // EffigyEdit Add - Custom Lobby
+		var/list/byond_sound_formats = list(
+			"mid" = TRUE,
+			"midi" = TRUE,
+			"mod" = TRUE,
+			"it" = TRUE,
+			"s3m" = TRUE,
+			"xm" = TRUE,
+			"oxm" = TRUE,
+			"wav" = TRUE,
+			"ogg" = TRUE,
+			"raw" = TRUE,
+			"wma" = TRUE,
+			"aiff" = TRUE,
+		)
 
-	var/list/provisional_title_music = flist("[global.config.directory]/title_music/sounds/")
-	var/list/music = list()
-	var/use_rare_music = prob(1)
+		var/list/provisional_title_music = flist("[global.config.directory]/title_music/sounds/")
+		var/list/music = list()
+		var/use_rare_music = prob(1)
 
-	for(var/S in provisional_title_music)
-		var/lower = LOWER_TEXT(S)
-		var/list/L = splittext(lower,"+")
-		switch(L.len)
-			if(3) //rare+MAP+sound.ogg or MAP+rare.sound.ogg -- Rare Map-specific sounds
-				if(use_rare_music)
-					if(L[1] == "rare" && L[2] == SSmapping.current_map.map_name)
+		for(var/S in provisional_title_music)
+			var/lower = LOWER_TEXT(S)
+			var/list/L = splittext(lower,"+")
+			switch(L.len)
+				if(3) //rare+MAP+sound.ogg or MAP+rare.sound.ogg -- Rare Map-specific sounds
+					if(use_rare_music)
+						if(L[1] == "rare" && L[2] == SSmapping.current_map.map_name)
+							music += S
+						else if(L[2] == "rare" && L[1] == SSmapping.current_map.map_name)
+							music += S
+				if(2) //rare+sound.ogg or MAP+sound.ogg -- Rare sounds or Map-specific sounds
+					if((use_rare_music && L[1] == "rare") || (L[1] == SSmapping.current_map.map_name))
 						music += S
-					else if(L[2] == "rare" && L[1] == SSmapping.current_map.map_name)
-						music += S
-			if(2) //rare+sound.ogg or MAP+sound.ogg -- Rare sounds or Map-specific sounds
-				if((use_rare_music && L[1] == "rare") || (L[1] == SSmapping.current_map.map_name))
+				if(1) //sound.ogg -- common sound
+					if(L[1] == "exclude")
+						continue
 					music += S
-			if(1) //sound.ogg -- common sound
-				if(L[1] == "exclude")
-					continue
-				music += S
 
-	var/old_login_music = trim(file2text("data/last_round_lobby_music.txt"))
-	if(length(music) > 1)
-		music -= old_login_music
-
-	for(var/S in music)
-		var/list/L = splittext(S,".")
-		if(L.len >= 2)
-			var/ext = LOWER_TEXT(L[L.len]) //pick the real extension, no 'honk.ogg.exe' nonsense here
-			if(byond_sound_formats[ext])
-				continue
-		music -= S
-
-	if(!length(music))
-		music = world.file2list(ROUND_START_MUSIC_LIST, "\n")
+		var/old_login_music = trim(file2text("data/last_round_lobby_music.txt"))
 		if(length(music) > 1)
 			music -= old_login_music
-		set_lobby_music(pick(music))
+
+		for(var/S in music)
+			var/list/L = splittext(S,".")
+			if(L.len >= 2)
+				var/ext = LOWER_TEXT(L[L.len]) //pick the real extension, no 'honk.ogg.exe' nonsense here
+				if(byond_sound_formats[ext])
+					continue
+			music -= S
+
+		if(!length(music))
+			music = world.file2list(ROUND_START_MUSIC_LIST, "\n")
+			if(length(music) > 1)
+				music -= old_login_music
+			set_lobby_music(pick(music))
+		else
+			set_lobby_music("[global.config.directory]/title_music/sounds/[pick(music)]")
 	else
-		set_lobby_music("[global.config.directory]/title_music/sounds/[pick(music)]")
+		load_lobby_tracks() // EffigyEdit Add - Custom Lobby
 
 	if(!GLOB.syndicate_code_phrase)
 		GLOB.syndicate_code_phrase = generate_code_phrase(return_list=TRUE)
@@ -144,7 +145,7 @@ SUBSYSTEM_DEF(ticker)
 
 		GLOB.syndicate_code_response_regex = codeword_match
 
-	start_at = world.time + (CONFIG_GET(number/lobby_countdown) * 10)
+	start_at = COUNTDOWN_GAME_INIT // EffigyEdit Change - Custom Lobby - Original: world.time + (CONFIG_GET(number/lobby_countdown) * 10)
 	if(CONFIG_GET(flag/randomize_shift_time))
 		gametime_offset = rand(0, 23) HOURS
 	else if(CONFIG_GET(flag/shift_time_realtime))
@@ -156,8 +157,8 @@ SUBSYSTEM_DEF(ticker)
 /datum/controller/subsystem/ticker/fire()
 	switch(current_state)
 		if(GAME_STATE_STARTUP)
-			if(Master.initializations_finished_with_no_players_logged_in)
-				start_at = world.time + (CONFIG_GET(number/lobby_countdown) * 10)
+			//if(Master.initializations_finished_with_no_players_logged_in) // EffigyEdit Remove - Custom Lobby
+			//	start_at = world.time + (CONFIG_GET(number/lobby_countdown) * 10) // EffigyEdit Remove - Custom Lobby
 			for(var/client/C in GLOB.clients)
 				window_flash(C, ignorepref = TRUE) //let them know lobby has opened up.
 			to_chat(world, span_notice("<b>Welcome to [station_name()]!</b>"))
@@ -165,6 +166,7 @@ SUBSYSTEM_DEF(ticker)
 				send2chat(new /datum/tgs_message_content("New round starting on [SSmapping.current_map.map_name]!"), channel_tag)
 			current_state = GAME_STATE_PREGAME
 			// EffigyEdit Add - Storyteller
+			GLOB.init_message_clients = null
 			var/storyteller = CONFIG_GET(string/default_storyteller)
 			if(storyteller)
 				SSgamemode.set_storyteller(text2path(storyteller), forced = FALSE)
@@ -177,7 +179,7 @@ SUBSYSTEM_DEF(ticker)
 		if(GAME_STATE_PREGAME)
 				//lobby stats for statpanels
 			if(isnull(timeLeft))
-				timeLeft = max(0,start_at - world.time)
+				timeLeft = COUNTDOWN_GAME_INIT // EffigyEdit Change - Custom Lobby - Original:  max(0,start_at - world.time)
 			totalPlayers = LAZYLEN(GLOB.new_player_list)
 			totalPlayersReady = 0
 			total_admins_ready = 0
@@ -187,22 +189,55 @@ SUBSYSTEM_DEF(ticker)
 					if(player.client?.holder)
 						++total_admins_ready
 
+			// EffigyEdit Add - Custom Lobby
+			if(timeLeft == COUNTDOWN_GAME_INIT)
+				return // server isn't finished init
+			// EffigyEdit Add End
+
 			if(start_immediately)
 				timeLeft = 0
+				CONFIG_SET(flag/setup_bypass_player_check, TRUE) // EffigyEdit Add - Custom Lobby
 
 			//countdown
-			if(timeLeft < 0)
+			if(timeLeft < 0 && CONFIG_GET(flag/setup_bypass_player_check)) // EffigyEdit Change - Custom Lobby - Original: timeLeft < 0
 				return
 			timeLeft -= wait
+
+			// EffigyEdit Add - Custom Lobby
+			if(CONFIG_GET(flag/use_scheduled_lobby_track) && timeLeft <= lobby_track_duration && lobby_track_duration > 0 && !lobby_track_fired)
+				if(timeLeft >= lobby_track_duration - 4 SECONDS)
+					play_lobby_track(lobby_track_id)
+				lobby_track_fired = TRUE
+			// EffigyEdit Add End
 
 			if(timeLeft <= 300 && !tipped)
 				send_tip_of_the_round(world, selected_tip)
 				tipped = TRUE
 
+			// EffigyEdit Add - Custom Lobby
+			if(timeLeft <= 0 && !CONFIG_GET(flag/setup_bypass_player_check) && !totalPlayersReady)
+				if(!launch_queued)
+					to_chat(world, "[alert_boxed_message(ORANGE, "Game setup delayed! The game will start when players are ready.")]", confidential = TRUE)
+					SEND_SOUND(world, sound('sound/announcer/default/attention.ogg'))
+					message_admins("Game setup delayed due to lack of players.")
+					log_game("Game setup delayed due to lack of players.")
+					launch_queued = TRUE
+				return // 'SOON' waiting for players
+
+			if(timeLeft <= 94 SECONDS && timeLeft > 0 && !hr_announce_fired && totalPlayersReady > 0 && !CONFIG_GET(flag/setup_bypass_player_check))
+				queue_game_start_announcement()
+				hr_announce_fired = TRUE
+
+			if(timeLeft <= 0 && launch_queued && totalPlayersReady > 0)
+				SSticker.queue_game_start(94 SECONDS)
+				launch_queued = FALSE
+			// EffigyEdit Add End
+
 			if(timeLeft <= 0)
 				SEND_SIGNAL(src, COMSIG_TICKER_ENTER_SETTING_UP)
 				current_state = GAME_STATE_SETTING_UP
 				Master.SetRunLevel(RUNLEVEL_SETUP)
+				SSevents.reschedule() // EffigyEdit Add - Custom Lobby
 				if(start_immediately)
 					fire()
 
@@ -238,7 +273,7 @@ SUBSYSTEM_DEF(ticker)
 	return FALSE
 
 /datum/controller/subsystem/ticker/proc/setup()
-	to_chat(world, span_boldannounce("Starting game..."))
+	to_chat(world, alert_boxed_message(BLUE, "Starting game...")) // EffigyEdit Change - TGUI
 	var/init_start = world.timeofday
 
 	CHECK_TICK
@@ -275,6 +310,7 @@ SUBSYSTEM_DEF(ticker)
 	if(!CONFIG_GET(flag/ooc_during_round))
 		toggle_ooc(FALSE) // Turn it off
 
+	SSnightshift.check_nightshift() // EffigyEdit Add - Variable Start Time
 	CHECK_TICK
 	GLOB.start_landmarks_list = shuffle(GLOB.start_landmarks_list) //Shuffle the order of spawn points so they dont always predictably spawn bottom-up and right-to-left
 	create_characters() //Create player characters
@@ -291,23 +327,30 @@ SUBSYSTEM_DEF(ticker)
 	LAZYCLEARLIST(round_start_events)
 
 	round_start_time = world.time //otherwise round_start_time would be 0 for the signals
-	round_utc_start_time = REALTIMEOFDAY // EffigyEdit Add - Stat Panel
+	// EffigyEdit Add - Automated Transfer Shuttle
+	SSgamemode.auto_shuttle_start_time = world.realtime
+	message_admins("Shuttle auto-call status is [SSgamemode.auto_shuttle_call ? "enabled" : "disabled"].")
+	log_game("Shuttle auto-call status is [SSgamemode.auto_shuttle_call ? "enabled" : "disabled"].")
+	if(SSgamemode.auto_shuttle_call)
+		message_admins("Auto-call configured time is [DisplayTimeText(SSgamemode.auto_shuttle_fire_time)].")
+		log_game("Auto-call configured time is [DisplayTimeText(SSgamemode.auto_shuttle_fire_time)].")
+	// EffigyEdit Add End
 	SEND_SIGNAL(src, COMSIG_TICKER_ROUND_STARTING, world.time)
 
 	log_world("Game start took [(world.timeofday - init_start)/10]s")
 	INVOKE_ASYNC(SSdbcore, TYPE_PROC_REF(/datum/controller/subsystem/dbcore,SetRoundStart))
 
-	to_chat(world, span_notice(span_bold("Welcome to [station_name()], enjoy your stay!")))
+	to_chat(world, alert_boxed_message(PURPLE, "Welcome to [station_name()], enjoy your stay!")) // EffigyEdit Change - TGUI
 	SEND_SOUND(world, sound(SSstation.announcer.get_rand_welcome_sound()))
 
 	current_state = GAME_STATE_PLAYING
 	Master.SetRunLevel(RUNLEVEL_GAME)
 
 	if(length(GLOB.holidays))
-		to_chat(world, span_notice("and..."))
+		//to_chat(world, span_notice("and...")) // EffigyEdit Remove - TGUI
 		for(var/holidayname in GLOB.holidays)
 			var/datum/holiday/holiday = GLOB.holidays[holidayname]
-			to_chat(world, span_info(holiday.greet()))
+			to_chat(world, alert_boxed_message(GREEN, holiday.greet())) // EffigyEdit Change - TGUI
 
 	PostSetup()
 
@@ -323,7 +366,6 @@ SUBSYSTEM_DEF(ticker)
 	var/list/adm = get_admin_counts()
 	var/list/allmins = adm["present"]
 	send2adminchat("Server", "Round [GLOB.round_id ? "#[GLOB.round_id]" : ""] has started[allmins.len ? ".":" with no active admins online!"]")
-	SSautotransfer.new_shift(round_utc_start_time) // EffigyEdit Add - Autotransfer
 	setup_done = TRUE
 
 	for(var/i in GLOB.start_landmarks_list)
@@ -530,11 +572,17 @@ SUBSYSTEM_DEF(ticker)
 			queued_players -= next_in_line
 			queue_delay = 0
 
+///Whether the game has started, including roundend.
 /datum/controller/subsystem/ticker/proc/HasRoundStarted()
 	return current_state >= GAME_STATE_PLAYING
 
+///Whether the game is currently in progress, excluding roundend
 /datum/controller/subsystem/ticker/proc/IsRoundInProgress()
 	return current_state == GAME_STATE_PLAYING
+
+///Whether the game is currently in progress, excluding roundend
+/datum/controller/subsystem/ticker/proc/IsPostgame()
+	return current_state == GAME_STATE_FINISHED
 
 /datum/controller/subsystem/ticker/Recover()
 	current_state = SSticker.current_state

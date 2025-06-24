@@ -25,6 +25,7 @@
 	icon_state = "reel_green"
 	line_color = "#2aae34"
 	wiki_desc = "Allows you to fish in lava and plasma rivers and lakes."
+	resistance_flags = FIRE_PROOF | LAVA_PROOF
 
 /obj/item/fishing_line/reinforced/Initialize(mapload)
 	. = ..()
@@ -62,6 +63,7 @@
 	fishing_line_traits = FISHING_LINE_STIFF
 	line_color = "#d1cca3"
 	wiki_desc = "Crafted from sinew. It allows you to fish in lava and plasma like the reinforced line, but it'll make the minigame harder."
+	resistance_flags = FIRE_PROOF | LAVA_PROOF
 
 /obj/item/fishing_line/sinew/Initialize(mapload)
 	. = ..()
@@ -305,7 +307,7 @@
 
 /obj/item/fishing_hook/jaws
 	name = "jawed hook"
-	desc = "Despite hints of rust, this gritty beartrap-like hook hybrid manages to look even more threating than the real thing. May neptune have mercy of whatever gets caught in its jaws."
+	desc = "Despite hints of rust, this gritty beartrap-looking hook looks even more threatening than the real thing. May neptune have mercy of whatever gets caught in its jaws."
 	icon_state = "jaws"
 	w_class = WEIGHT_CLASS_NORMAL
 	fishing_hook_traits = FISHING_HOOK_NO_ESCAPE|FISHING_HOOK_NO_ESCAPE|FISHING_HOOK_KILL
@@ -330,34 +332,6 @@
 /obj/item/paper/paperslip/fishing_tip/Initialize(mapload)
 	default_raw_text = pick(GLOB.fishing_tips)
 	return ..()
-
-///From the fishing mystery box. It's basically a lazarus and a few bottles of strange reagents.
-/obj/item/storage/box/fish_revival_kit
-	name = "fish revival kit"
-	desc = "Become a fish doctor today. A label on the side indicates that fish require two to ten reagent units to be splashed onto them for revival, depending on size."
-	illustration = "fish"
-
-/obj/item/storage/box/fish_revival_kit/PopulateContents()
-	return list(
-		/obj/item/lazarus_injector,
-		/obj/item/reagent_containers/cup/bottle/fishy_reagent,
-		/obj/item/reagent_containers/cup, //to splash the reagents on the fish.
-		/obj/item/storage/fish_case,
-		/obj/item/storage/fish_case,
-	)
-
-/obj/item/storage/box/fishing_lures
-	name = "fishing lures set"
-	desc = "A small tackle box containing all the fishing lures you will ever need to curb randomness."
-	icon_state = "plasticbox"
-	foldable_result = null
-	illustration = "fish"
-	custom_price = PAYCHECK_CREW * 9
-	storage_type = /datum/storage/box/fishing_lures
-
-/obj/item/storage/box/fishing_lures/PopulateContents()
-	. = typesof(/obj/item/fishing_lure)
-	. += /obj/item/paper/lures_instructions
 
 /obj/item/paper/lures_instructions
 	name = "instructions paper"
@@ -477,3 +451,31 @@
 
 #undef MAGNET_HOOK_BONUS_MULTIPLIER
 #undef RESCUE_HOOK_FISH_MULTIPLIER
+
+/obj/item/storage/bag/fishing
+	name = "fishing bag"
+	desc = "A vibrant bag for storing caught fish."
+	icon = 'icons/obj/fishing.dmi'
+	icon_state = "fishing_bag"
+	worn_icon_state = "fishing_bag"
+	resistance_flags = FLAMMABLE
+	custom_price = PAYCHECK_CREW * 3
+	storage_type = /datum/storage/bag/fishing
+
+	///How much holding this affects fishing difficulty
+	var/fishing_modifier = -2
+
+/obj/item/storage/bag/fishing/Initialize(mapload)
+	. = ..()
+
+	AddComponent(/datum/component/adjust_fishing_difficulty, fishing_modifier, ITEM_SLOT_HANDS)
+
+/obj/item/storage/bag/fishing/carpskin
+	name = "carpskin fishing bag"
+	desc = "A dapper fishing bag made from carpskin. You can store quite a lot of fishing gear in the small pockets formed by larger scales."
+	icon_state = "fishing_bag_carpskin"
+	worn_icon_state = "fishing_bag_carpskin"
+	resistance_flags = ACID_PROOF
+	storage_type = /datum/storage/carpskin_bag
+	fishing_modifier = -4
+

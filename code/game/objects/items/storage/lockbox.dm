@@ -20,11 +20,8 @@
 /obj/item/storage/lockbox/Initialize(mapload)
 	. = ..()
 
-	atom_storage.locked = STORAGE_FULLY_LOCKED
-
 	register_context()
-
-	update_appearance()
+	update_icon_state()
 
 ///screentips for lockboxes
 /obj/item/storage/lockbox/add_context(atom/source, list/context, obj/item/held_item, mob/user)
@@ -56,13 +53,8 @@
 	return FALSE
 
 /obj/item/storage/lockbox/proc/toggle_locked(mob/living/user)
-	if(atom_storage.locked)
-		atom_storage.locked = STORAGE_NOT_LOCKED
-	else
-		atom_storage.locked = STORAGE_FULLY_LOCKED
-		atom_storage.close_all()
+	atom_storage.set_locked(atom_storage.locked ? STORAGE_NOT_LOCKED : STORAGE_FULLY_LOCKED)
 	balloon_alert(user, atom_storage.locked ? "locked" : "unlocked")
-	update_appearance()
 
 /obj/item/storage/lockbox/update_icon_state()
 	. = ..()
@@ -78,11 +70,10 @@
 /obj/item/storage/lockbox/emag_act(mob/user, obj/item/card/emag/emag_card)
 	if(!broken)
 		broken = TRUE
-		atom_storage.locked = STORAGE_NOT_LOCKED
+		atom_storage.set_locked(STORAGE_NOT_LOCKED)
 		balloon_alert(user, "lock destroyed")
 		if (emag_card && user)
 			user.visible_message(span_warning("[user] swipes [emag_card] over [src], breaking it!"))
-		update_appearance()
 		return TRUE
 	return FALSE
 
@@ -106,10 +97,9 @@
 	req_access = list(ACCESS_SECURITY)
 
 /obj/item/storage/lockbox/loyalty/PopulateContents()
-	. = list()
 	for(var/i in 1 to 3)
-		. += /obj/item/implantcase/mindshield
-	. += /obj/item/implanter/mindshield
+		new /obj/item/implantcase/mindshield(src)
+	new /obj/item/implanter/mindshield(src)
 
 /obj/item/storage/lockbox/clusterbang
 	name = "lockbox of clusterbangs"
@@ -117,7 +107,7 @@
 	req_access = list(ACCESS_SECURITY)
 
 /obj/item/storage/lockbox/clusterbang/PopulateContents()
-	return  /obj/item/grenade/clusterbuster
+	new /obj/item/grenade/clusterbuster(src)
 
 /obj/item/storage/lockbox/medal
 	name = "medal box"
@@ -146,14 +136,15 @@
 	return CLICK_ACTION_SUCCESS
 
 /obj/item/storage/lockbox/medal/PopulateContents()
-	return flatten_quantified_list(list(
-		/obj/item/clothing/accessory/medal/gold/captain = 1,
-		/obj/item/clothing/accessory/medal/silver/valor = 2,
-		/obj/item/clothing/accessory/medal/silver/security = 1,
-		/obj/item/clothing/accessory/medal/bronze_heart = 1,
-		/obj/item/clothing/accessory/medal/plasma/nobel_science = 2,
-		/obj/item/clothing/accessory/medal/conduct = 3,
-	))
+	new /obj/item/clothing/accessory/medal/gold/captain(src)
+	new /obj/item/clothing/accessory/medal/silver/valor(src)
+	new /obj/item/clothing/accessory/medal/silver/valor(src)
+	new /obj/item/clothing/accessory/medal/silver/security(src)
+	new /obj/item/clothing/accessory/medal/bronze_heart(src)
+	new /obj/item/clothing/accessory/medal/plasma/nobel_science(src)
+	new /obj/item/clothing/accessory/medal/plasma/nobel_science(src)
+	for(var/i in 1 to 3)
+		new /obj/item/clothing/accessory/medal/conduct(src)
 
 /obj/item/storage/lockbox/medal/update_overlays()
 	. = ..()
@@ -165,11 +156,11 @@
 		var/obj/item/clothing/accessory/medal/M = contents[i]
 		var/mutable_appearance/medalicon = mutable_appearance(initial(icon), M.medaltype)
 		if(i > 1 && i <= 5)
-			medalicon.pixel_x += ((i-1)*3)
+			medalicon.pixel_w += ((i-1)*3)
 		else if(i > 5)
-			medalicon.pixel_y -= 7
-			medalicon.pixel_x -= 2
-			medalicon.pixel_x += ((i-6)*3)
+			medalicon.pixel_z -= 7
+			medalicon.pixel_w -= 2
+			medalicon.pixel_w += ((i-6)*3)
 		. += medalicon
 
 /obj/item/storage/lockbox/medal/hop
@@ -178,10 +169,9 @@
 	req_access = list(ACCESS_HOP)
 
 /obj/item/storage/lockbox/medal/hop/PopulateContents()
-	. = list()
 	for(var/i in 1 to 3)
-		. += /obj/item/clothing/accessory/medal/silver/bureaucracy
-	. += /obj/item/clothing/accessory/medal/gold/ordom
+		new /obj/item/clothing/accessory/medal/silver/bureaucracy(src)
+	new /obj/item/clothing/accessory/medal/gold/ordom(src)
 
 /obj/item/storage/lockbox/medal/sec
 	name = "security medal box"
@@ -194,16 +184,14 @@
 	req_access = list(ACCESS_CMO)
 
 /obj/item/storage/lockbox/medal/med/PopulateContents()
-	return flatten_quantified_list(list(
-		/obj/item/clothing/accessory/medal/med_medal = 1,
-		/obj/item/clothing/accessory/medal/med_medal2 = 1,
-		/obj/item/clothing/accessory/medal/silver/emergency_services/medical = 3,
-	))
+	new /obj/item/clothing/accessory/medal/med_medal(src)
+	new /obj/item/clothing/accessory/medal/med_medal2(src)
+	for(var/i in 1 to 3)
+		new /obj/item/clothing/accessory/medal/silver/emergency_services/medical(src)
 
 /obj/item/storage/lockbox/medal/sec/PopulateContents()
-	. = list()
 	for(var/i in 1 to 3)
-		. += /obj/item/clothing/accessory/medal/silver/security
+		new /obj/item/clothing/accessory/medal/silver/security(src)
 
 /obj/item/storage/lockbox/medal/cargo
 	name = "cargo award box"
@@ -211,7 +199,7 @@
 	req_access = list(ACCESS_QM)
 
 /obj/item/storage/lockbox/medal/cargo/PopulateContents()
-	return  /obj/item/clothing/accessory/medal/ribbon/cargo
+	new /obj/item/clothing/accessory/medal/ribbon/cargo(src)
 
 /obj/item/storage/lockbox/medal/service
 	name = "service award box"
@@ -219,7 +207,7 @@
 	req_access = list(ACCESS_HOP)
 
 /obj/item/storage/lockbox/medal/service/PopulateContents()
-	return /obj/item/clothing/accessory/medal/silver/excellence
+	new /obj/item/clothing/accessory/medal/silver/excellence(src)
 
 /obj/item/storage/lockbox/medal/sci
 	name = "science medal box"
@@ -227,9 +215,8 @@
 	req_access = list(ACCESS_RD)
 
 /obj/item/storage/lockbox/medal/sci/PopulateContents()
-	. = list()
 	for(var/i in 1 to 3)
-		. += /obj/item/clothing/accessory/medal/plasma/nobel_science
+		new /obj/item/clothing/accessory/medal/plasma/nobel_science(src)
 
 /obj/item/storage/lockbox/medal/engineering
 	name = "engineering medal box"
@@ -237,10 +224,9 @@
 	req_access = list(ACCESS_CE)
 
 /obj/item/storage/lockbox/medal/engineering/PopulateContents()
-	. = list()
 	for(var/i in 1 to 3)
-		. += /obj/item/clothing/accessory/medal/silver/emergency_services/engineering
-	. += /obj/item/clothing/accessory/medal/silver/elder_atmosian
+		new /obj/item/clothing/accessory/medal/silver/emergency_services/engineering(src)
+	new /obj/item/clothing/accessory/medal/silver/elder_atmosian(src)
 
 /obj/item/storage/lockbox/order
 	name = "order lockbox"
@@ -254,8 +240,6 @@
 	lefthand_file = 'icons/mob/inhands/equipment/briefcase_lefthand.dmi'
 	righthand_file = 'icons/mob/inhands/equipment/briefcase_righthand.dmi'
 	w_class = WEIGHT_CLASS_HUGE
-
-	///The bank account of the mob who purchased this lockbox
 	var/datum/bank_account/buyer_account
 
 /obj/item/storage/lockbox/order/Initialize(mapload, datum/bank_account/_buyer_account)
@@ -271,7 +255,6 @@
 		balloon_alert(user, "incorrect bank account!")
 	return FALSE
 
-//Storage case.
 /obj/item/storage/lockbox/dueling
 	name = "dueling pistol case"
 	desc = "Let's solve this like gentlespacemen."
@@ -289,6 +272,61 @@
 	storage_type = /datum/storage/lockbox/dueling
 
 /obj/item/storage/lockbox/dueling/PopulateContents()
-	var/obj/item/gun/energy/dueling/gun_A = new(null)
-	var/obj/item/gun/energy/dueling/gun_B = new(null)
+	. = ..()
+	var/obj/item/gun/energy/dueling/gun_A = new(src)
+	var/obj/item/gun/energy/dueling/gun_B = new(src)
 	new /datum/duel(gun_A, gun_B)
+
+/obj/item/storage/lockbox/bitrunning
+	name = "base class curiosity"
+	desc = "Talk to a coder."
+	req_access = list(ACCESS_INACCESSIBLE)
+	icon_state = "bitrunning+l"
+	inhand_icon_state = "bitrunning"
+	base_icon_state = "bitrunning"
+	icon_locked = "bitrunning+l"
+	icon_closed = "bitrunning"
+	icon_broken = "bitrunning+b"
+	icon_open = "bitrunning"
+
+/obj/item/storage/lockbox/bitrunning/encrypted
+	name = "encrypted curiosity"
+	desc = "Needs to be decrypted at the safehouse to be opened."
+	resistance_flags =  INDESTRUCTIBLE | LAVA_PROOF | FIRE_PROOF | UNACIDABLE | ACID_PROOF
+	/// Path for the loot we are assigned
+	var/loot_path
+
+/obj/item/storage/lockbox/bitrunning/encrypted/emag_act(mob/user, obj/item/card/emag/emag_card)
+	return FALSE
+
+/obj/item/storage/lockbox/bitrunning/decrypted
+	name = "decrypted curiosity"
+	desc = "Compiled from the virtual domain. An extra reward of a successful bitrunner."
+	storage_type = /datum/storage/lockbox/bitrunning_decrypted
+
+	/// What virtual domain did we come from.
+	var/datum/lazy_template/virtual_domain/source_domain
+
+/obj/item/storage/lockbox/bitrunning/decrypted/Initialize(
+	mapload,
+	datum/lazy_template/virtual_domain/completed_domain,
+	)
+
+	if(isnull(completed_domain))
+		log_runtime("Decrypted curiosity was created with no source domain.")
+		return INITIALIZE_HINT_QDEL
+
+	if(!istype(completed_domain, /datum/lazy_template/virtual_domain)) // Check if this is a proper virtual domain before doing anything with it
+		log_runtime("Decrypted curiosity was created with an invalid source domain. [completed_domain.name] ([completed_domain.type]).")
+		return INITIALIZE_HINT_QDEL
+
+	source_domain = completed_domain
+
+	. = ..()
+
+	icon_state = icon_closed
+	playsound(src, 'sound/effects/magic/blink.ogg', 50, TRUE)
+
+/obj/item/storage/lockbox/bitrunning/decrypted/PopulateContents()
+	var/choice = SSbitrunning.pick_secondary_loot(source_domain)
+	new choice(src)

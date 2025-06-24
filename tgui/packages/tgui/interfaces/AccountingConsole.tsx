@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import {
+  Blink,
   BlockQuote,
   Collapsible,
   Modal,
@@ -42,8 +43,7 @@ export const AccountingConsole = (props) => {
   const [screenmode, setScreenmode] = useState(SCREENS.users);
 
   return (
-    // EffigyEdit Change - TGUI - Original: width={300} height={360}
-    <Window width={375} height={475}>
+    <Window width={300} height={360}>
       <Window.Content>
         <Stack fill vertical>
           <MarketCrashing />
@@ -126,7 +126,7 @@ const MarketCrashing = (props) => {
   }
   return (
     <Modal textAlign="center" mr={1.5}>
-      <blink>OH GOD THE ECONOMY IS RUINED.</blink>
+      <Blink>OH GOD THE ECONOMY IS RUINED.</Blink>
     </Modal>
   );
 };

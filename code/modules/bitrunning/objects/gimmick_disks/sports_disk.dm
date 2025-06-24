@@ -41,24 +41,6 @@
 		/obj/item/storage/cans/sixenergydrink,
 	)
 
-/obj/item/storage/cans/sixenergydrink
-	name = "energy drink bottle ring"
-	desc = "Holds six energy drink cans. Remember to recycle when you're done!"
-
-	/// Pool of energy drinks tm we may add from
-	var/list/energy_drink_options = list(
-		/obj/item/reagent_containers/cup/soda_cans/space_mountain_wind = 50,
-		/obj/item/reagent_containers/cup/soda_cans/monkey_energy = 30,
-		/obj/item/reagent_containers/cup/soda_cans/volt_energy = 15,
-		/obj/item/reagent_containers/cup/soda_cans/thirteenloko = 5,
-	)
-
-/obj/item/storage/cans/sixenergydrink/PopulateContents()
-	. = list()
-	for(var/i in 1 to 6)
-		. += pick_weight(energy_drink_options)
-
-
 /datum/bitrunning_gimmick/archer
 	name = "Archer"
 
@@ -97,24 +79,6 @@
 		/obj/item/modular_computer/laptop/gamer,
 		/obj/item/storage/cans/sixgamerdrink,
 	)
-
-/obj/item/storage/cans/sixgamerdrink
-	name = "gamer drink bottle ring"
-	desc = "Holds six gamer drink cans. Remember to recycle when you're done!"
-
-	/// Pool of gamer drinks tm we may add from
-	var/list/gamer_drink_options = list(
-		/obj/item/reagent_containers/cup/soda_cans/pwr_game = 55,
-		/obj/item/reagent_containers/cup/soda_cans/space_mountain_wind = 15,
-		/obj/item/reagent_containers/cup/soda_cans/monkey_energy = 15,
-		/obj/item/reagent_containers/cup/soda_cans/volt_energy = 10,
-		/obj/item/reagent_containers/cup/soda_cans/thirteenloko = 5,
-	)
-
-/obj/item/storage/cans/sixgamerdrink/PopulateContents()
-	. = list()
-	for(var/i in 1 to 6)
-		. += pick_weight(gamer_drink_options)
 
 /obj/item/modular_computer/laptop/gamer
 	desc = "A high-end laptop often used for metagaming."

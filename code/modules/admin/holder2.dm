@@ -21,9 +21,10 @@ GLOBAL_PROTECT(href_token)
 
 	var/spamcooldown = 0
 
-	///Randomly generated signature used for security records authorization name.
+	///Randomly generated signature used for security records authorization name. Not code security critical
 	var/admin_signature
 
+	/// Code security critcal token used for authorizing href topic calls
 	var/href_token
 
 	/// Link from the database pointing to the admin's feedback forum
@@ -33,9 +34,10 @@ GLOBAL_PROTECT(href_token)
 
 	var/datum/filter_editor/filteriffic
 	var/datum/particle_editor/particle_test
-	var/datum/colorblind_tester/color_test = new
+	var/datum/colorblind_tester/color_test
 	var/datum/plane_master_debug/plane_debug
 	var/obj/machinery/computer/libraryconsole/admin_only_do_not_map_in_you_fucker/library_manager
+	var/datum/pathfind_debug/path_debug
 
 	/// Whether or not the user tried to connect, but was blocked by 2FA
 	var/blocked_by_2fa = FALSE
@@ -78,7 +80,13 @@ GLOBAL_PROTECT(href_token)
 	if(IsAdminAdvancedProcCall())
 		alert_to_permissions_elevation_attempt(usr)
 		return QDEL_HINT_LETMELIVE
-	. = ..()
+	QDEL_NULL(path_debug)
+	return ..()
+
+/datum/admins/can_vv_get(var_name)
+	if(var_name == NAMEOF(src, href_token))
+		return FALSE
+	return ..()
 
 /datum/admins/proc/activate()
 	if(IsAdminAdvancedProcCall())
@@ -99,6 +107,7 @@ GLOBAL_PROTECT(href_token)
 	GLOB.deadmins[target] = src
 	GLOB.admin_datums -= target
 	QDEL_NULL(plane_debug)
+	QDEL_NULL(path_debug)
 	deadmined = TRUE
 
 	var/client/client = owner || GLOB.directory[target]

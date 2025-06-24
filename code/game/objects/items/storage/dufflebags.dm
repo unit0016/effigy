@@ -4,7 +4,6 @@
 	icon_state = "duffel"
 	inhand_icon_state = "duffel"
 	actions_types = list(/datum/action/item_action/zipper)
-	action_slots = ALL
 	storage_type = /datum/storage/duffel
 	// How much to slow you down if your bag isn't zipped up
 	var/zip_slowdown = 1
@@ -22,7 +21,9 @@
 
 /obj/item/storage/backpack/duffelbag/Initialize(mapload)
 	. = ..()
+	slowdown += zip_slowdown
 	set_zipper(TRUE)
+	RegisterSignal(src, COMSIG_SPEED_POTION_APPLIED, PROC_REF(on_speed_potioned))
 
 /obj/item/storage/backpack/duffelbag/update_desc(updates)
 	. = ..()
@@ -87,20 +88,23 @@
 	zipped_up = new_zip
 	SEND_SIGNAL(src, COMSIG_DUFFEL_ZIP_CHANGE, new_zip)
 	if(zipped_up)
-		slowdown = initial(slowdown)
-		atom_storage.locked = STORAGE_SOFT_LOCKED
+		slowdown -= zip_slowdown
+		atom_storage.set_locked(STORAGE_SOFT_LOCKED)
 		atom_storage.display_contents = FALSE
-		for(var/obj/item/weapon as anything in get_all_contents_type(/obj/item)) //close ui of this and all items inside dufflebag
-			weapon.atom_storage?.close_all() //not everything has storage initialized
 	else
-		slowdown = zip_slowdown
-		atom_storage.locked = STORAGE_NOT_LOCKED
+		slowdown += zip_slowdown
+		atom_storage.set_locked(STORAGE_NOT_LOCKED)
 		atom_storage.display_contents = TRUE
 
 	if(isliving(loc))
 		var/mob/living/wearer = loc
 		wearer.update_equipment_speed_mods()
-	update_appearance()
+
+/// Signal handler for [COMSIG_SPEED_POTION_APPLIED]. Speed potion removes the unzipped slowdown
+/obj/item/storage/backpack/duffelbag/proc/on_speed_potioned(datum/source)
+	SIGNAL_HANDLER
+	// Don't need to touch the actual slowdown here, since the speed potion does it for us
+	zip_slowdown = 0
 
 /obj/item/storage/backpack/duffelbag/cursed
 	name = "living duffel bag"
@@ -181,18 +185,16 @@
 	desc = "A large duffel bag for holding extra supplies - this one has a material inlay with space for various sharp-looking tools."
 
 /obj/item/storage/backpack/duffelbag/sec/surgery/PopulateContents()
-	return list(
-		/obj/item/scalpel,
-		/obj/item/hemostat,
-		/obj/item/retractor,
-		/obj/item/circular_saw,
-		/obj/item/bonesetter,
-		/obj/item/surgicaldrill,
-		/obj/item/cautery,
-		/obj/item/surgical_drapes,
-		/obj/item/clothing/mask/surgical,
-		/obj/item/blood_filter,
-	)
+	new /obj/item/scalpel(src)
+	new /obj/item/hemostat(src)
+	new /obj/item/retractor(src)
+	new /obj/item/circular_saw(src)
+	new /obj/item/bonesetter(src)
+	new /obj/item/surgicaldrill(src)
+	new /obj/item/cautery(src)
+	new /obj/item/surgical_drapes(src)
+	new /obj/item/clothing/mask/surgical(src)
+	new /obj/item/blood_filter(src)
 
 /obj/item/storage/backpack/duffelbag/engineering
 	name = "industrial duffel bag"
@@ -209,15 +211,13 @@
 	resistance_flags = FIRE_PROOF
 
 /obj/item/storage/backpack/duffelbag/drone/PopulateContents()
-	return list(
-		/obj/item/screwdriver,
-		/obj/item/wrench,
-		/obj/item/weldingtool,
-		/obj/item/crowbar,
-		/obj/item/stack/cable_coil,
-		/obj/item/wirecutters,
-		/obj/item/multitool,
-	)
+	new /obj/item/screwdriver(src)
+	new /obj/item/wrench(src)
+	new /obj/item/weldingtool(src)
+	new /obj/item/crowbar(src)
+	new /obj/item/stack/cable_coil(src)
+	new /obj/item/wirecutters(src)
+	new /obj/item/multitool(src)
 
 /obj/item/storage/backpack/duffelbag/clown
 	name = "clown's duffel bag"
@@ -226,12 +226,8 @@
 	inhand_icon_state = "duffel-clown"
 
 /obj/item/storage/backpack/duffelbag/clown/cream_pie/PopulateContents()
-	return list(
-		/obj/item/food/pie/cream,
-		/obj/item/food/pie/cream,
-		/obj/item/food/pie/cream,
-		/obj/item/food/pie/cream,
-	)
+	for(var/i in 1 to 10)
+		new /obj/item/food/pie/cream(src)
 
 /obj/item/storage/backpack/fireproof
 	resistance_flags = FIRE_PROOF
@@ -241,13 +237,13 @@
 	desc = "A large duffel bag for holding extra tactical supplies. It contains an oiled plastitanium zipper for maximum speed tactical zipping, and is better balanced on your back than an average duffelbag. Can hold two bulky items!"
 	icon_state = "duffel-syndie"
 	inhand_icon_state = "duffel-syndieammo"
+	storage_type = /datum/storage/duffel/syndicate
 	resistance_flags = FIRE_PROOF
 	// Less slowdown while unzipped. Still bulky, but it won't halve your movement speed in an active combat situation.
 	zip_slowdown = 0.3
 	// Faster unzipping. Utilizes the same noise as zipping up to fit the unzip duration.
 	unzip_duration = 0.5 SECONDS
 	unzip_sfx = 'sound/items/zip/zip_up.ogg'
-	storage_type = /datum/storage/duffel/syndicate
 
 /obj/item/storage/backpack/duffelbag/syndie/hitman
 	desc = "A large duffel bag for holding extra things. There is a Nanotrasen logo on the back."
@@ -255,16 +251,14 @@
 	inhand_icon_state = "duffel-syndieammo"
 
 /obj/item/storage/backpack/duffelbag/syndie/hitman/PopulateContents()
-	return list(
-		/obj/item/clothing/under/costume/buttondown/slacks/service,
-		/obj/item/clothing/neck/tie/red/hitman,
-		/obj/item/clothing/accessory/waistcoat,
-		/obj/item/clothing/suit/toggle/lawyer/black,
-		/obj/item/clothing/shoes/laceup,
-		/obj/item/clothing/gloves/color/black,
-		/obj/item/clothing/glasses/sunglasses,
-		/obj/item/clothing/head/fedora,
-	)
+	new /obj/item/clothing/under/costume/buttondown/slacks/service(src)
+	new /obj/item/clothing/neck/tie/red/hitman(src)
+	new /obj/item/clothing/accessory/waistcoat(src)
+	new /obj/item/clothing/suit/toggle/lawyer/black(src)
+	new /obj/item/clothing/shoes/laceup(src)
+	new /obj/item/clothing/gloves/color/black(src)
+	new /obj/item/clothing/glasses/sunglasses(src)
+	new /obj/item/clothing/head/fedora(src)
 
 /obj/item/storage/backpack/duffelbag/syndie/med
 	name = "medical duffel bag"
@@ -279,21 +273,19 @@
 	inhand_icon_state = "duffel-syndiemed"
 
 /obj/item/storage/backpack/duffelbag/syndie/surgery/PopulateContents()
-	return list(
-		/obj/item/scalpel/advanced,
-		/obj/item/retractor/advanced,
-		/obj/item/cautery/advanced,
-		/obj/item/surgical_drapes,
-		/obj/item/reagent_containers/medigel/sterilizine,
-		/obj/item/bonesetter,
-		/obj/item/blood_filter,
-		/obj/item/stack/medical/bone_gel,
-		/obj/item/stack/sticky_tape/surgical,
-		/obj/item/emergency_bed,
-		/obj/item/clothing/suit/jacket/straight_jacket,
-		/obj/item/clothing/mask/muzzle,
-		/obj/item/mmi/syndie,
-	)
+	new /obj/item/scalpel/advanced(src)
+	new /obj/item/retractor/advanced(src)
+	new /obj/item/cautery/advanced(src)
+	new /obj/item/surgical_drapes(src)
+	new /obj/item/reagent_containers/medigel/sterilizine(src)
+	new /obj/item/bonesetter(src)
+	new /obj/item/blood_filter(src)
+	new /obj/item/stack/medical/bone_gel(src)
+	new /obj/item/stack/sticky_tape/surgical(src)
+	new /obj/item/emergency_bed(src)
+	new /obj/item/clothing/suit/jacket/straight_jacket(src)
+	new /obj/item/clothing/mask/muzzle(src)
+	new /obj/item/mmi/syndie(src)
 
 /obj/item/storage/backpack/duffelbag/syndie/ammo
 	name = "ammunition duffel bag"
@@ -303,102 +295,108 @@
 
 /obj/item/storage/backpack/duffelbag/syndie/ammo/mech
 	desc = "A large duffel bag, packed to the brim with various exosuit ammo."
-	storage_type = /datum/storage/duffel/syndicate/ammo_mech
 
 /obj/item/storage/backpack/duffelbag/syndie/ammo/mech/PopulateContents()
-	return list(
-		/obj/item/mecha_ammo/scattershot,
-		/obj/item/mecha_ammo/scattershot,
-		/obj/item/mecha_ammo/scattershot,
-		/obj/item/mecha_ammo/scattershot,
-		/obj/item/storage/belt/utility/syndicate,
-	)
+	new /obj/item/mecha_ammo/scattershot(src)
+	new /obj/item/mecha_ammo/scattershot(src)
+	new /obj/item/mecha_ammo/scattershot(src)
+	new /obj/item/mecha_ammo/scattershot(src)
+	new /obj/item/storage/belt/utility/syndicate(src)
 
 /obj/item/storage/backpack/duffelbag/syndie/ammo/mauler
 	desc = "A large duffel bag, packed to the brim with various exosuit ammo."
-	storage_type = /datum/storage/duffel/syndicate/ammo_mauler
 
 /obj/item/storage/backpack/duffelbag/syndie/ammo/mauler/PopulateContents()
-	return list(
-		/obj/item/mecha_ammo/lmg,
-		/obj/item/mecha_ammo/lmg,
-		/obj/item/mecha_ammo/lmg,
-		/obj/item/mecha_ammo/scattershot,
-		/obj/item/mecha_ammo/scattershot,
-		/obj/item/mecha_ammo/scattershot,
-		/obj/item/mecha_ammo/missiles_srm,
-		/obj/item/mecha_ammo/missiles_srm,
-		/obj/item/mecha_ammo/missiles_srm,
-	)
+	new /obj/item/mecha_ammo/lmg(src)
+	new /obj/item/mecha_ammo/lmg(src)
+	new /obj/item/mecha_ammo/lmg(src)
+	new /obj/item/mecha_ammo/scattershot(src)
+	new /obj/item/mecha_ammo/scattershot(src)
+	new /obj/item/mecha_ammo/scattershot(src)
+	new /obj/item/mecha_ammo/missiles_srm(src)
+	new /obj/item/mecha_ammo/missiles_srm(src)
+	new /obj/item/mecha_ammo/missiles_srm(src)
 
 /obj/item/storage/backpack/duffelbag/syndie/med/medicalbundle
 	desc = "A large duffel bag containing a medical equipment, a Donksoft LMG, a big jumbo box of riot darts, and a magboot MODsuit module."
 
 /obj/item/storage/backpack/duffelbag/syndie/med/medicalbundle/PopulateContents()
-	return list(
-		/obj/item/mod/module/magboot,
-		/obj/item/storage/medkit/tactical/premium,
-		/obj/item/gun/ballistic/automatic/l6_saw/toy,
-		/obj/item/ammo_box/foambox/riot,
-	)
+	new /obj/item/mod/module/magboot(src)
+	new /obj/item/storage/medkit/tactical/premium(src)
+	new /obj/item/gun/ballistic/automatic/l6_saw/toy(src)
+	new /obj/item/ammo_box/foambox/riot(src)
 
 /obj/item/storage/backpack/duffelbag/syndie/med/bioterrorbundle
 	desc = "A large duffel bag containing deadly chemicals, a handheld chem sprayer, Bioterror foam grenade, a Donksoft assault rifle, box of riot grade darts, a dart pistol, and a box of syringes."
 
 /obj/item/storage/backpack/duffelbag/syndie/med/bioterrorbundle/PopulateContents()
-	var/list/obj/item/stuff = list(
-		/obj/item/reagent_containers/spray/chemsprayer/bioterror,
-		/obj/item/storage/box/syndie_kit/chemical,
-		/obj/item/gun/syringe/syndicate,
-		/obj/item/gun/ballistic/automatic/c20r/toy,
-		/obj/item/storage/box/syringes,
-		/obj/item/ammo_box/foambox/riot,
-		/obj/item/grenade/chem_grenade/bioterrorfoam,
-	)
-
+	new /obj/item/reagent_containers/spray/chemsprayer/bioterror(src)
+	new /obj/item/storage/box/syndie_kit/chemical(src)
+	new /obj/item/gun/syringe/syndicate(src)
+	new /obj/item/gun/ballistic/automatic/c20r/toy(src)
+	new /obj/item/storage/box/syringes(src)
+	new /obj/item/ammo_box/foambox/riot(src)
+	new /obj/item/grenade/chem_grenade/bioterrorfoam(src)
 	if(prob(5))
-		stuff += /obj/item/food/pizza/pineapple
-
-	return stuff
+		new /obj/item/food/pizza/pineapple(src)
 
 /obj/item/storage/backpack/duffelbag/syndie/c4/PopulateContents()
-	. = list()
-	for(var/_ in 1 to 10)
-		. += /obj/item/grenade/c4
+	for(var/i in 1 to 10)
+		new /obj/item/grenade/c4(src)
 
 /obj/item/storage/backpack/duffelbag/syndie/x4/PopulateContents()
-	. = list()
-	for(var/_ in 1 to 10)
-		. += /obj/item/grenade/c4/x4
+	for(var/i in 1 to 3)
+		new /obj/item/grenade/c4/x4(src)
 
 /obj/item/storage/backpack/duffelbag/syndie/firestarter
 	desc = "A large duffel bag containing a New Russian pyro backpack sprayer, Elite MODsuit, a Stechkin APS pistol, minibomb, ammo, and other equipment."
-	storage_type = /datum/storage/duffel/syndicate/firestarter
 
-/obj/item/storage/backpack/duffelbag/syndie/firestarter/PopulateContents(datum/storage_config/config)
-	config.compute_max_item_weight = TRUE
-
-	return list(
-		/obj/item/clothing/under/syndicate/soviet,
-		/obj/item/mod/control/pre_equipped/elite/flamethrower,
-		/obj/item/gun/ballistic/automatic/pistol/aps,
-		/obj/item/ammo_box/magazine/m9mm_aps/fire,
-		/obj/item/ammo_box/magazine/m9mm_aps/fire,
-		/obj/item/reagent_containers/cup/glass/bottle/vodka/badminka,
-		/obj/item/reagent_containers/hypospray/medipen/stimulants,
-		/obj/item/grenade/syndieminibomb,
-	)
+/obj/item/storage/backpack/duffelbag/syndie/firestarter/PopulateContents()
+	new /obj/item/clothing/under/syndicate/soviet(src)
+	new /obj/item/mod/control/pre_equipped/elite/flamethrower(src)
+	new /obj/item/gun/ballistic/automatic/pistol/aps(src)
+	new /obj/item/ammo_box/magazine/m9mm_aps/fire(src)
+	new /obj/item/ammo_box/magazine/m9mm_aps/fire(src)
+	new /obj/item/reagent_containers/cup/glass/bottle/vodka/badminka(src)
+	new /obj/item/reagent_containers/hypospray/medipen/stimulants(src)
+	new /obj/item/grenade/syndieminibomb(src)
 
 // For ClownOps.
 /obj/item/storage/backpack/duffelbag/clown/syndie
 	storage_type = /datum/storage/duffel/syndicate
 
 /obj/item/storage/backpack/duffelbag/clown/syndie/PopulateContents()
-	return list(
-		/obj/item/modular_computer/pda/clown,
-		/obj/item/clothing/under/rank/civilian/clown,
-		/obj/item/clothing/shoes/clown_shoes,
-		/obj/item/clothing/mask/gas/clown_hat,
-		/obj/item/bikehorn,
-		/obj/item/implanter/sad_trombone,
-	)
+	new /obj/item/modular_computer/pda/clown(src)
+	new /obj/item/clothing/under/rank/civilian/clown(src)
+	new /obj/item/clothing/shoes/clown_shoes(src)
+	new /obj/item/clothing/mask/gas/clown_hat(src)
+	new /obj/item/bikehorn(src)
+	new /obj/item/implanter/sad_trombone(src)
+
+/obj/item/storage/backpack/henchmen
+	name = "wings"
+	desc = "Granted to the henchmen who deserve it. This probably doesn't include you."
+	icon_state = "henchmen"
+	inhand_icon_state = null
+
+/obj/item/storage/backpack/duffelbag/cops
+	name = "police bag"
+	desc = "A large duffel bag for holding extra police gear."
+
+/obj/item/storage/backpack/duffelbag/mining_conscript
+	name = "mining conscription kit"
+	desc = "A duffel bag containing everything a crewmember needs to support a shaft miner in the field."
+	icon_state = "duffel-explorer"
+	inhand_icon_state = "duffel-explorer"
+
+/obj/item/storage/backpack/duffelbag/mining_conscript/PopulateContents()
+	new /obj/item/clothing/glasses/meson(src)
+	new /obj/item/t_scanner/adv_mining_scanner/lesser(src)
+	new /obj/item/storage/bag/ore(src)
+	new /obj/item/clothing/suit/hooded/explorer(src)
+	new /obj/item/encryptionkey/headset_mining(src)
+	new /obj/item/clothing/mask/gas/explorer(src)
+	new /obj/item/card/id/advanced/mining(src)
+	new /obj/item/gun/energy/recharge/kinetic_accelerator(src)
+	new /obj/item/knife/combat/survival(src)
+	new /obj/item/flashlight/seclite(src)

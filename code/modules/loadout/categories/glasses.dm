@@ -8,25 +8,24 @@
 /datum/loadout_item/glasses
 	abstract_type = /datum/loadout_item/glasses
 
-/datum/loadout_item/glasses/insert_path_into_outfit(datum/outfit/outfit, mob/living/carbon/human/equipper, visuals_only = FALSE)
-	if(outfit.glasses)
+/datum/loadout_item/glasses/insert_path_into_outfit(datum/outfit/outfit, mob/living/carbon/human/equipper, visuals_only = FALSE, loadout_preference = LOADOUT_OVERRIDE_BACKPACK)
+	if(loadout_preference != LOADOUT_OVERRIDE_JOB && outfit.glasses) // EffigyEdit Change - Loadout override preference - Original: if(outfit.glasses)
 		LAZYADD(outfit.backpack_contents, outfit.glasses)
 	outfit.glasses = item_path
 
-/datum/loadout_item/glasses/prescription_glasses
+/datum/loadout_item/glasses/regular
 	name = "Glasses"
 	item_path = /obj/item/clothing/glasses/regular
-	additional_displayed_text = list("Prescription")
 
-/datum/loadout_item/glasses/prescription_glasses/circle_glasses
+/datum/loadout_item/glasses/circle_glasses
 	name = "Circle Glasses"
 	item_path = /obj/item/clothing/glasses/regular/circle
 
-/datum/loadout_item/glasses/prescription_glasses/hipster_glasses
+/datum/loadout_item/glasses/hipster_glasses
 	name = "Hipster Glasses"
 	item_path = /obj/item/clothing/glasses/regular/hipster
 
-/datum/loadout_item/glasses/prescription_glasses/jamjar_glasses
+/datum/loadout_item/glasses/jamjar_glasses
 	name = "Jamjar Glasses"
 	item_path = /obj/item/clothing/glasses/regular/jamjar
 
@@ -58,7 +57,7 @@
 	name = "Medical Eyepatch"
 	item_path = /obj/item/clothing/glasses/eyepatch/medical
 
-/datum/loadout_item/glasses/prescription_glasses/kim
+/datum/loadout_item/glasses/kim
 	name = "Thin Glasses"
 	item_path = /obj/item/clothing/glasses/regular/kim
 

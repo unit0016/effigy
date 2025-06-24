@@ -14,21 +14,19 @@
 
 /obj/item/storage/drone_tools/PopulateContents()
 	var/list/builtintools = list()
-	builtintools += new /obj/item/crowbar/drone(null)
-	builtintools += new /obj/item/screwdriver/drone(null)
-	builtintools += new /obj/item/wrench/drone(null)
-	builtintools += new /obj/item/weldingtool/drone(null)
-	builtintools += new /obj/item/wirecutters/drone(null)
-	builtintools += new /obj/item/multitool/drone(null)
-	builtintools += new /obj/item/pipe_dispenser/drone(null)
-	builtintools += new /obj/item/t_scanner/drone(null)
-	builtintools += new /obj/item/analyzer/drone(null)
-	builtintools += new /obj/item/soap/drone(null)
+	builtintools += new /obj/item/crowbar/drone(src)
+	builtintools += new /obj/item/screwdriver/drone(src)
+	builtintools += new /obj/item/wrench/drone(src)
+	builtintools += new /obj/item/weldingtool/drone(src)
+	builtintools += new /obj/item/wirecutters/drone(src)
+	builtintools += new /obj/item/multitool/drone(src)
+	builtintools += new /obj/item/pipe_dispenser/drone(src)
+	builtintools += new /obj/item/t_scanner/drone(src)
+	builtintools += new /obj/item/analyzer/drone(src)
+	builtintools += new /obj/item/soap/drone(src)
 
 	for(var/obj/item/tool as anything in builtintools)
 		tool.AddComponent(/datum/component/holderloving, src)
-
-	return builtintools
 
 /obj/item/crowbar/drone
 	name = "built-in crowbar"
@@ -44,10 +42,12 @@
 	desc = "A screwdriver built into your chassis."
 	icon = 'icons/obj/items_cyborg.dmi'
 	icon_state = "toolkit_engiborg_screwdriver"
+	post_init_icon_state = null
 	inhand_icon_state = "screwdriver"
 	item_flags = NO_MAT_REDEMPTION
 	random_color = FALSE
-
+	greyscale_config = null
+	greyscale_colors = null
 
 /obj/item/screwdriver/drone/separate_worn_overlays(mutable_appearance/standing, mutable_appearance/draw_target, isinhands = FALSE, icon_file)
 	. = ..()

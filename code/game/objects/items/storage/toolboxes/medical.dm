@@ -12,14 +12,16 @@
 	/// Tray we steal the og contents from.
 	var/obj/item/surgery_tray/tray_type = /obj/item/surgery_tray
 
-/obj/item/storage/toolbox/medical/PopulateContents(datum/storage_config/config)
-	config.compute_max_values()
+/obj/item/storage/toolbox/medical/PopulateContents()
+	atom_storage.max_slots = 0
+	atom_storage.max_total_storage = 0
 
-	. = list()
-	var/atom/fake_tray =  new tray_type(null) // not in src lest it fill storage that we need for its tools later
-	for(var/atom/movable/thingy in fake_tray)
-		thingy.moveToNullspace()
-		. += thingy
+	var/atom/fake_tray = new tray_type(null)
+	for(var/obj/item/tool in fake_tray)
+		tool.forceMove(src)
+		atom_storage.max_slots += 1
+		atom_storage.max_total_storage += tool.w_class
+
 	qdel(fake_tray)
 
 /obj/item/storage/toolbox/medical/full

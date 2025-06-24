@@ -34,7 +34,7 @@
 
 	var/space = should_have_space_before_emote(html_decode(whisper_emote)[1]) ? " " : ""
 
-	emote_content = span_emote("<b>[user]</b>[space]<i>[user.say_emphasis(emote_content)]</i>")
+	emote_content = span_emote("<b>[user]</b>[space]<i>[user.apply_message_emphasis(emote_content)]</i>")
 
 	var/list/viewers = get_hearers_in_view(1, user)
 
@@ -54,3 +54,21 @@
 		receiver.show_message(emote_content, alt_msg = emote_content)
 
 	return TRUE
+
+/datum/emote/living/bow
+	targets_person = TRUE
+
+/datum/emote/living/glare
+	targets_person = TRUE
+
+/datum/emote/living/look
+	targets_person = TRUE
+
+/datum/emote/living/nod
+	targets_person = TRUE
+
+/datum/emote/living/point
+	targets_person = TRUE
+
+/datum/emote/living/stare
+	targets_person = TRUE

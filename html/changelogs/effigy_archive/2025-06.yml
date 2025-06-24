@@ -1,0 +1,32 @@
+2025-06-02:
+  TealSeer:
+  - rscadd: Added a preference to choose where your loadout items go
+  unit0016:
+  - balance: Rimpoint's lightning no longer damages objects or turfs.
+  - bugfix: Wizard rainstorms now are properly dangerous again
+2025-06-08:
+  TealSeer:
+  - rscadd: target mouth and disarm to slap someone in the face
+  - rscadd: tail coiling
+  - rscadd: scream and laugh sound preferences
+  - rscadd: ctrl shift click menu for targeted emotes
+  unit0016:
+  - map: WHAT IF IT - AND BY IT I MEAN CRYOPODS - WERE PURPLE!?
+2025-06-10:
+  LT3:
+  - bugfix: Fixed mislabelled engineering override console button
+  - bugfix: Fixed incorrect font color for newscaster wanted channel
+  - bugfix: Fixed window height of text input dialogs
+  - bugfix: Fixed font color of RCD access selection
+  - bugfix: Fixed font color of candystriped list entries
+  - bugfix: Blue alert console button is now blue, not black
+  - bugfix: Lobby name display updates correctly when renaming without changing slots
+2025-06-11:
+  TealSeer:
+  - bugfix: fixed TGUI color picker input box being really big and broken
+2025-06-15:
+  unit0016:
+  - balance: All the tiny fans on all of Effigy's maps have been replaced with atmos
+      shields; including shuttle bay shields in arrivals on Foxhole and Sigma Octantis.
+      Don't take too long setting up the Supermatter...
+  - bugfix: T5 Stock parts now properly eat up a lot of power.

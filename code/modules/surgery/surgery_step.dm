@@ -25,6 +25,8 @@
 	var/datum/mood_event/surgery/surgery_success_mood_event = /datum/mood_event/surgery/success
 	///Which mood event to give the consious patient when surgery fails. Lasts muuuuuch longer.
 	var/datum/mood_event/surgery/surgery_failure_mood_event = /datum/mood_event/surgery/failure
+	/// Information about the result of the last cycle of the surgery step
+	var/feedback_value = null // EffigyEdit Add - Enhanced Surgery
 
 
 /datum/surgery_step/proc/try_op(mob/user, mob/living/target, target_zone, obj/item/tool, datum/surgery/surgery, try_to_fail = FALSE)
@@ -85,7 +87,9 @@
 ///Modifier given to users with TRAIT_MORBID on certain surgeries
 #define SURGERY_SPEED_MORBID_CURIOSITY 0.7
 ///Modifier given to patients with TRAIT_ANALGESIA
-#define SURGERY_SPEED_TRAIT_ANALGESIA 0.8
+#define SURGERY_SPEED_TRAIT_ANALGESIA 0.92 // EffigyEdit Change - Enhanced Surgery - Original: 0.8
+///Modifier given to patients with sterilization spray
+#define SURGERY_SPEED_TRAIT_STERILE 0.84 // EffigyEdit Add - Enhanced Surgery
 
 /datum/surgery_step/proc/initiate(mob/living/user, mob/living/target, target_zone, obj/item/tool, datum/surgery/surgery, try_to_fail = FALSE)
 	// Only followers of Asclepius have the ability to use Healing Touch and perform miracle feats of surgery.
@@ -119,8 +123,20 @@
 	if(check_morbid_curiosity(user, tool, surgery))
 		speed_mod *= SURGERY_SPEED_MORBID_CURIOSITY
 
+	// EffigyEdit Change - Enhanced Surgery
+	/*
 	if(HAS_TRAIT(target, TRAIT_ANALGESIA))
 		speed_mod *= SURGERY_SPEED_TRAIT_ANALGESIA
+	*/
+	if(isandroid(target))
+		speed_mod *= SURGERY_SPEED_TRAIT_STERILE
+	else
+		if((HAS_TRAIT(target, TRAIT_ANALGESIA) && !(HAS_TRAIT(target, TRAIT_STASIS))) || target.stat == DEAD)
+			speed_mod *= SURGERY_SPEED_TRAIT_ANALGESIA
+
+		if(target.has_sterilizine())
+			speed_mod *= SURGERY_SPEED_TRAIT_STERILE
+	// EffigyEdit Change End
 
 	var/implement_speed_mod = 1
 	if(implement_type) //this means it isn't a require hand or any item step.
@@ -144,6 +160,13 @@
 			if(success(user, target, target_zone, tool, surgery))
 				update_surgery_mood(target, SURGERY_STATE_SUCCESS)
 				play_success_sound(user, target, target_zone, tool, surgery)
+				// EffigyEdit Add - Enhanced Surgery
+				var/feedback_bubble = get_feedback_message(user, target, speed_mod)
+				if(!isnull(feedback_bubble))
+					user.balloon_alert(user, feedback_bubble)
+				else
+					user.balloon_alert(user, "[round(1 / speed_mod, 0.1)]x speed")
+				// EffigyEdit Add End
 				advance = TRUE
 		else
 			if(failure(user, target, target_zone, tool, surgery, fail_prob))
@@ -174,8 +197,13 @@
 		CRASH("Not passed a target, how did we get here?")
 	if(!surgery_effects_mood)
 		return
-	if(HAS_TRAIT(target, TRAIT_ANALGESIA))
-		target.clear_mood_event(SURGERY_MOOD_CATEGORY) //incase they gained the trait mid-surgery. has the added side effect that if someone has a bad surgical memory/mood and gets drunk & goes back to surgery, they'll forget they hated it, which is kinda funny imo.
+	// Determine how drunk our patient is
+	var/drunken_patient = target.get_drunk_amount()
+	// Create a probability to ignore the pain based on drunkenness level
+	var/drunken_ignorance_probability = clamp(drunken_patient, 0, 90)
+
+	if(HAS_TRAIT(target, TRAIT_ANALGESIA) || drunken_patient && prob(drunken_ignorance_probability))
+		target.clear_mood_event(SURGERY_MOOD_CATEGORY) //incase they gained the trait mid-surgery (or became drunk). has the added side effect that if someone has a bad surgical memory/mood and gets drunk & goes back to surgery, they'll forget they hated it, which is kinda funny imo.
 		return
 	if(target.stat >= UNCONSCIOUS)
 		var/datum/mood_event/surgery/target_mood_event = target.mob_mood?.mood_events[SURGERY_MOOD_CATEGORY]
@@ -224,6 +252,11 @@
 			span_notice("[user] succeeds!"),
 			span_notice("[user] finishes."),
 		)
+	if(ishuman(user))
+		var/mob/living/carbon/human/surgeon = user
+		surgeon.add_blood_DNA_to_items(target.get_blood_dna_list(), ITEM_SLOT_GLOVES)
+	else
+		user.add_mob_blood(target)
 	return TRUE
 
 /datum/surgery_step/proc/play_success_sound(mob/user, mob/living/carbon/target, target_zone, obj/item/tool, datum/surgery/surgery)
@@ -315,8 +348,13 @@
  * * mechanical_surgery - Boolean flag that represents if a surgery step is done on a mechanical limb (therefore does not force scream)
  */
 /datum/surgery_step/proc/display_pain(mob/living/target, pain_message, mechanical_surgery = FALSE)
+	// Determine how drunk our patient is
+	var/drunken_patient = target.get_drunk_amount()
+	// Create a probability to ignore the pain based on drunkenness level
+	var/drunken_ignorance_probability = clamp(drunken_patient, 0, 90)
+
 	if(target.stat < UNCONSCIOUS)
-		if(HAS_TRAIT(target, TRAIT_ANALGESIA))
+		if(HAS_TRAIT(target, TRAIT_ANALGESIA) || drunken_patient && prob(drunken_ignorance_probability))
 			if(!pain_message)
 				return
 			to_chat(target, span_notice("You feel a dull, numb sensation as your body is surgically operated on."))
@@ -335,3 +373,4 @@
 #undef SURGERY_STATE_FAILURE
 #undef SURGERY_STATE_SUCCESS
 #undef SURGERY_MOOD_CATEGORY
+#undef SURGERY_SPEED_TRAIT_STERILE // EffigyEdit Add - Enhanced Surgery

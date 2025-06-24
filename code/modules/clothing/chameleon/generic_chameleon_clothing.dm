@@ -18,12 +18,15 @@ do { \
 /obj/item/clothing/under/chameleon
 	name = "black jumpsuit"
 	desc = "It's a plain jumpsuit. It has a small dial on the wrist."
-	icon_state = "jumpsuit"
-	greyscale_colors = "#3f3f3f"
+	icon = 'icons/map_icons/clothing/under/color.dmi'
+	icon_state = "/obj/item/clothing/under/color"
+	post_init_icon_state = "jumpsuit"
+	flags_1 = parent_type::flags_1 | NO_NEW_GAGS_PREVIEW_1
 	greyscale_config = /datum/greyscale_config/jumpsuit
 	greyscale_config_worn = /datum/greyscale_config/jumpsuit/worn
 	greyscale_config_inhand_left = /datum/greyscale_config/jumpsuit/inhand_left
 	greyscale_config_inhand_right = /datum/greyscale_config/jumpsuit/inhand_right
+	greyscale_colors = "#3f3f3f"
 	sensor_mode = SENSOR_OFF //Hey who's this guy on the Syndicate Shuttle??
 	random_sensor = FALSE
 	resistance_flags = NONE
@@ -31,6 +34,8 @@ do { \
 	armor_type = /datum/armor/clothing_under/chameleon
 	actions_types = list(/datum/action/item_action/chameleon/change/jumpsuit)
 	action_slots = ALL
+
+/obj/item/clothing/under/chameleon/broken
 
 /obj/item/clothing/under/chameleon/broken/Initialize(mapload)
 	. = ..()
@@ -147,7 +152,6 @@ do { \
 
 /obj/item/clothing/head/chameleon/drone
 	actions_types = list(/datum/action/item_action/chameleon/change/hat, /datum/action/item_action/chameleon/drone/togglehatmask, /datum/action/item_action/chameleon/drone/randomise)
-	action_slots = ALL
 	item_flags = DROPDEL
 	// The camohat, I mean, holographic hat projection, is part of the drone itself.
 	armor_type = /datum/armor/none
@@ -196,7 +200,6 @@ do { \
 
 /obj/item/clothing/mask/chameleon/drone
 	actions_types = list(/datum/action/item_action/chameleon/change/mask, /datum/action/item_action/chameleon/drone/togglehatmask, /datum/action/item_action/chameleon/drone/randomise)
-	action_slots = ALL
 	item_flags = DROPDEL
 	//Same as the drone chameleon hat, undroppable and no protection
 	armor_type = /datum/armor/none
@@ -223,14 +226,16 @@ do { \
 /obj/item/clothing/shoes/chameleon
 	name = "black shoes"
 	desc = "A pair of black shoes."
-	icon_state = "sneakers"
+	icon = 'icons/map_icons/clothing/shoes.dmi'
+	icon_state = "/obj/item/clothing/shoes/chameleon"
+	post_init_icon_state = "sneakers"
 	inhand_icon_state = "sneakers_back"
 	body_parts_covered = FEET|LEGS
-	greyscale_colors = "#545454#ffffff"
 	greyscale_config = /datum/greyscale_config/sneakers
 	greyscale_config_worn = /datum/greyscale_config/sneakers/worn
 	greyscale_config_inhand_left = /datum/greyscale_config/sneakers/inhand_left
 	greyscale_config_inhand_right = /datum/greyscale_config/sneakers/inhand_right
+	greyscale_colors = "#545454#ffffff"
 	resistance_flags = NONE
 	armor_type = /datum/armor/shoes_chameleon
 	actions_types = list(/datum/action/item_action/chameleon/change/shoes)
@@ -241,12 +246,14 @@ do { \
 	create_storage(storage_type = /datum/storage/pockets/shoes)
 
 /obj/item/clothing/shoes/chameleon/broken
+	flags_1 = parent_type::flags_1 | NO_NEW_GAGS_PREVIEW_1
 
 /obj/item/clothing/shoes/chameleon/broken/Initialize(mapload)
 	. = ..()
 	BREAK_CHAMELEON_ACTION(src)
 
 /obj/item/clothing/shoes/chameleon/noslip
+	flags_1 = parent_type::flags_1 | NO_NEW_GAGS_PREVIEW_1
 	clothing_traits = list(TRAIT_NO_SLIP_WATER)
 	can_be_bloody = FALSE
 
@@ -260,13 +267,13 @@ do { \
 /obj/item/storage/backpack/chameleon
 	name = "backpack"
 	actions_types = list(/datum/action/item_action/chameleon/change/backpack)
-	action_slots = ALL
 
 /obj/item/storage/backpack/chameleon/Initialize(mapload)
 	. = ..()
 	ADD_TRAIT(src, TRAIT_CONTRABAND_BLOCKER, INNATE_TRAIT)
 
 /obj/item/storage/backpack/chameleon/broken
+	flags_1 = parent_type::flags_1 | NO_NEW_GAGS_PREVIEW_1
 
 /obj/item/storage/backpack/chameleon/broken/Initialize(mapload)
 	. = ..()
@@ -277,8 +284,12 @@ do { \
 	name = "toolbelt"
 	desc = "Holds tools."
 	actions_types = list(/datum/action/item_action/chameleon/change/belt)
-	action_slots = ALL
-	storage_type = /datum/storage/chameleon_belt
+
+/obj/item/storage/belt/chameleon/Initialize(mapload)
+	. = ..()
+	atom_storage.silent = TRUE
+
+/obj/item/storage/belt/chameleon/broken
 
 /obj/item/storage/belt/chameleon/broken/Initialize(mapload)
 	. = ..()
@@ -290,6 +301,7 @@ do { \
 	actions_types = list(/datum/action/item_action/chameleon/change/headset)
 	action_slots = ALL
 
+/obj/item/radio/headset/chameleon/broken
 
 /obj/item/radio/headset/chameleon/broken/Initialize(mapload)
 	. = ..()
@@ -299,7 +311,10 @@ do { \
 /obj/item/modular_computer/pda/chameleon
 	name = "tablet"
 	actions_types = list(/datum/action/item_action/chameleon/change/tablet)
-	action_slots = ALL
+	flags_1 = parent_type::flags_1 | NO_NEW_GAGS_PREVIEW_1
+
+/obj/item/modular_computer/pda/chameleon/broken
+	flags_1 = parent_type::flags_1 | NO_NEW_GAGS_PREVIEW_1
 
 /obj/item/modular_computer/pda/chameleon/broken/Initialize(mapload)
 	. = ..()
@@ -309,6 +324,8 @@ do { \
 /obj/item/stamp/chameleon
 	actions_types = list(/datum/action/item_action/chameleon/change/stamp)
 	action_slots = ALL
+
+/obj/item/stamp/chameleon/broken
 
 /obj/item/stamp/chameleon/broken/Initialize(mapload)
 	. = ..()
@@ -328,6 +345,8 @@ do { \
 	w_class = WEIGHT_CLASS_SMALL
 	actions_types = list(/datum/action/item_action/chameleon/change/neck)
 	action_slots = ALL
+
+/obj/item/clothing/neck/chameleon/broken
 
 /obj/item/clothing/neck/chameleon/broken/Initialize(mapload)
 	. = ..()

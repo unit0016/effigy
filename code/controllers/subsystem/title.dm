@@ -1,9 +1,7 @@
 SUBSYSTEM_DEF(title)
 	name = "Title Screen"
 	flags = SS_NO_FIRE
-	init_order = INIT_ORDER_TITLE
 	init_stage = INITSTAGE_EARLY
-
 	var/file_path
 	var/icon/icon
 	var/icon/previous_icon
@@ -32,7 +30,7 @@ SUBSYSTEM_DEF(title)
 		file_path = "[global.config.directory]/title_screens/images/[pick(title_screens)]"
 
 	if(!file_path)
-		file_path = "icons/runtime/default_title.dmi"
+		file_path = "local/icons/runtime/default_title.dmi" // EffigyEdit Change
 
 	ASSERT(fexists(file_path))
 

@@ -86,6 +86,7 @@
 	icon_state = "giftbag0"
 	inhand_icon_state = "giftbag"
 	w_class = WEIGHT_CLASS_BULKY
+	storage_type = /datum/storage/backpack/santabag
 
 /obj/item/storage/backpack/santabag/Initialize(mapload)
 	. = ..()
@@ -238,30 +239,30 @@
 	icon = 'icons/obj/storage/ethereal.dmi'
 	worn_icon = 'icons/mob/clothing/back/ethereal.dmi'
 	icon_state = "saddlepack"
-	storage_type = /datum/storage/backpack/sadle_bag
+	storage_type = /datum/storage/backpack/saddle
 
-/// MEAT MEAT MEAT MEAT MEAT
+// MEAT MEAT MEAT MEAT MEAT
+
+///This nullifies the force malus from the meat material while not touching other stats.
+#define INVERSE_MEAT_STRENTGH (1 / /datum/material/meat::strength_modifier)
+
 /obj/item/storage/backpack/meat
 	name = "\improper MEAT"
 	desc = "MEAT MEAT MEAT MEAT MEAT MEAT"
 	icon_state = "meatmeatmeat"
 	inhand_icon_state = "meatmeatmeat"
-	force = 15
-	throwforce = 15
+	force = 15 * INVERSE_MEAT_STRENTGH
+	throwforce = 15 * INVERSE_MEAT_STRENTGH
+	material_flags = MATERIAL_EFFECTS | MATERIAL_AFFECT_STATISTICS
 	attack_verb_continuous = list("MEATS", "MEAT MEATS")
 	attack_verb_simple = list("MEAT", "MEAT MEAT")
-	custom_materials = list(/datum/material/meat = SHEET_MATERIAL_AMOUNT * 25) // MEAT
+	custom_materials = list(/datum/material/meat = SHEET_MATERIAL_AMOUNT * 15) // MEAT
 	///Sounds used in the squeak component
 	var/list/meat_sounds = list('sound/effects/blob/blobattack.ogg' = 1)
-	///Reagents added to the edible component, ingested when you EAT the MEAT
+	///Reagents added to the edible component on top of the meat material, ingested when you EAT the MEAT
 	var/list/meat_reagents = list(
-		/datum/reagent/consumable/nutriment/protein = 10,
-		/datum/reagent/consumable/nutriment/vitamin = 10,
+		/datum/reagent/consumable/nutriment/vitamin = 15,
 	)
-	///The food types of the edible component
-	var/foodtypes = MEAT | RAW
-	///How our MEAT tastes. It tastes like MEAT
-	var/list/tastes = list("MEAT" = 1)
 	///Eating verbs when consuming the MEAT
 	var/list/eatverbs = list("MEAT", "absorb", "gnaw", "consume")
 
@@ -271,23 +272,13 @@
 		SOURCE_EDIBLE_INNATE, \
 		/datum/component/edible,\
 		initial_reagents = meat_reagents,\
-		foodtypes = foodtypes,\
-		tastes = tastes,\
+		tastes = list("meat" = 1),\
 		eatverbs = eatverbs,\
 	)
+
 	AddComponent(/datum/component/squeak, meat_sounds)
-	AddComponent(
-		/datum/component/blood_walk,\
-		blood_type = /obj/effect/decal/cleanable/blood,\
-		blood_spawn_chance = 15,\
-		max_blood = custom_materials[custom_materials[1]] / SHEET_MATERIAL_AMOUNT,\
-	)
-	AddComponent(
-		/datum/component/bloody_spreader,\
-		blood_left = custom_materials[custom_materials[1]] / SHEET_MATERIAL_AMOUNT,\
-		blood_dna = list("MEAT DNA" = "MT+"),\
-		diseases = null,\
-	)
+
+#undef INVERSE_MEAT_STRENTGH
 
 /*
  * Satchel Types
@@ -298,7 +289,6 @@
 	desc = "A trendy looking satchel."
 	icon_state = "satchel-norm"
 	inhand_icon_state = "satchel-norm"
-	storage_type = /datum/storage/backpack/satchel
 
 /obj/item/storage/backpack/satchel/leather
 	name = "leather satchel"
@@ -307,7 +297,7 @@
 	inhand_icon_state = "satchel"
 
 /obj/item/storage/backpack/satchel/leather/withwallet/PopulateContents()
-	return /obj/item/storage/wallet/random
+	new /obj/item/storage/wallet/random(src)
 
 /obj/item/storage/backpack/satchel/fireproof
 	resistance_flags = FIRE_PROOF
@@ -385,61 +375,28 @@
 	icon_state = "satchel-flat"
 	inhand_icon_state = "satchel-flat"
 	w_class = WEIGHT_CLASS_NORMAL //Can fit in backpacks itself.
+	storage_type = /datum/storage/backpack/satchel_flat
 
-/obj/item/storage/backpack/satchel/flat/PopulateContents(datum/storage_config/config)
-	config.contents_are_exceptions = TRUE
+/obj/item/storage/backpack/satchel/flat/Initialize(mapload)
+	. = ..()
+	AddElement(/datum/element/undertile, TRAIT_T_RAY_VISIBLE, INVISIBILITY_MAXIMUM, use_anchor = TRUE) // EffigyEdit Change - Hide from observers - Original: INVISIBILITY_OBSERVER
+	ADD_TRAIT(src, TRAIT_CONTRABAND_BLOCKER, INNATE_TRAIT)
 
-	for(var/_ in 1 to 4)
+/obj/item/storage/backpack/satchel/flat/PopulateContents()
+	for(var/items in 1 to 4)
 		new /obj/effect/spawner/random/contraband(src)
 
-	. = list()
-	for(var/obj/item/insert as anything in src)
-		insert.moveToNullspace()
-		. += insert
-
 /obj/item/storage/backpack/satchel/flat/with_tools/PopulateContents()
-	return list(
-		/obj/item/stack/tile/iron/base,
-		/obj/item/crowbar,
-	)
+	new /obj/item/stack/tile/iron/base(src)
+	new /obj/item/crowbar(src)
+
+	..()
 
 /obj/item/storage/backpack/satchel/flat/empty/PopulateContents()
-	return NONE
+	return
 
-/obj/item/storage/backpack/henchmen
-	name = "wings"
-	desc = "Granted to the henchmen who deserve it. This probably doesn't include you."
-	icon_state = "henchmen"
-	inhand_icon_state = null
 
-/obj/item/storage/backpack/duffelbag/cops
-	name = "police bag"
-	desc = "A large duffel bag for holding extra police gear."
-
-/obj/item/storage/backpack/duffelbag/mining_conscript
-	name = "mining conscription kit"
-	desc = "A duffel bag containing everything a crewmember needs to support a shaft miner in the field."
-	icon_state = "duffel-explorer"
-	inhand_icon_state = "duffel-explorer"
-
-/obj/item/storage/backpack/duffelbag/mining_conscript/PopulateContents()
-	return list(
-		/obj/item/clothing/glasses/meson,
-		/obj/item/t_scanner/adv_mining_scanner/lesser,
-		/obj/item/storage/bag/ore,
-		/obj/item/clothing/suit/hooded/explorer,
-		/obj/item/encryptionkey/headset_mining,
-		/obj/item/clothing/mask/gas/explorer,
-		/obj/item/card/id/advanced/mining,
-		/obj/item/gun/energy/recharge/kinetic_accelerator,
-		/obj/item/knife/combat/survival,
-		/obj/item/flashlight/seclite,
-	)
-
-/*
- * Messenger Bag Types
- */
-
+/// Messenger Bag Types
 /obj/item/storage/backpack/messenger
 	name = "messenger bag"
 	desc = "A trendy looking messenger bag; sometimes known as a courier bag. Fashionable and portable."

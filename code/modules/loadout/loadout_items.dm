@@ -35,6 +35,9 @@ GLOBAL_LIST_INIT(all_loadout_categories, init_loadout_categories())
 	/// Displayed name of the loadout item.
 	/// Defaults to the item's name if unset.
 	var/name
+	/// Title of a group that this item will be bundled under
+	/// Defaults to parent category's title if unset
+	var/group = null
 	/// Whether this item has greyscale support.
 	/// Only works if the item is compatible with the GAGS system of coloring.
 	/// Set automatically to TRUE for all items that have the flag [IS_PLAYER_COLORABLE_1].
@@ -50,8 +53,6 @@ GLOBAL_LIST_INIT(all_loadout_categories, init_loadout_categories())
 	var/abstract_type = /datum/loadout_item
 	/// The actual item path of the loadout item.
 	var/obj/item/item_path
-	/// Lazylist of additional "information" text to display about this item.
-	var/list/additional_displayed_text
 	/// Icon file (DMI) for the UI to use for preview icons.
 	/// Set automatically if null
 	var/ui_icon
@@ -60,6 +61,15 @@ GLOBAL_LIST_INIT(all_loadout_categories, init_loadout_categories())
 	var/ui_icon_state
 	/// Reskin options of this item if it can be reskinned.
 	VAR_FINAL/list/cached_reskin_options
+
+	// EffigyEdit Add - Custom Loadouts
+	/// If set, is a list of job names of which can get the loadout item
+	var/list/restricted_roles
+	/// If set, is a list of job names of which can't get the loadout item
+	var/list/blacklisted_roles
+	/// If set, is a list of species which can get the loadout item
+	var/list/restricted_species
+	// EffigyEdit Add End
 
 /datum/loadout_item/New(category)
 	src.category = category
@@ -122,7 +132,7 @@ GLOBAL_LIST_INIT(all_loadout_categories, init_loadout_categories())
 	if(manager.menu)
 		return FALSE
 
-	var/list/loadout = manager.preferences.read_preference(/datum/preference/loadout)
+	var/list/loadout = manager.get_current_loadout() // EffigyEdit Change - Custom Loadouts - Original: manager.preferences.read_preference(/datum/preference/loadout)
 	var/list/allowed_configs = list()
 	if(initial(item_path.greyscale_config))
 		allowed_configs += "[initial(item_path.greyscale_config)]"
@@ -152,7 +162,7 @@ GLOBAL_LIST_INIT(all_loadout_categories, init_loadout_categories())
 	if(!istype(open_menu))
 		CRASH("set_slot_greyscale called without a greyscale menu!")
 
-	var/list/loadout = manager.preferences.read_preference(/datum/preference/loadout)
+	var/list/loadout = manager.get_current_loadout() // EffigyEdit Change - Custom Loadouts - Original: manager.preferences.read_preference(/datum/preference/loadout)
 	if(!loadout?[item_path])
 		return FALSE
 
@@ -161,7 +171,7 @@ GLOBAL_LIST_INIT(all_loadout_categories, init_loadout_categories())
 		return FALSE
 
 	loadout[item_path][INFO_GREYSCALE] = colors.Join("")
-	manager.preferences.update_preference(GLOB.preference_entries[/datum/preference/loadout], loadout)
+	manager.save_current_loadout(loadout) // EffigyEdit Change - Custom Loadouts - Original: preferences.update_preference(GLOB.preference_entries[/datum/preference/loadout], loadout)
 	return TRUE // update UI
 
 /// Sets the name of the item.
@@ -177,7 +187,7 @@ GLOBAL_LIST_INIT(all_loadout_categories, init_loadout_categories())
 	if(QDELETED(src) || QDELETED(user) || QDELETED(manager) || QDELETED(manager.preferences))
 		return FALSE
 
-	loadout = manager.preferences.read_preference(/datum/preference/loadout) // Make sure no shenanigans happened
+	loadout = manager.get_current_loadout() // EffigyEdit Change - Custom Loadouts - Original: manager.preferences.read_preference(/datum/preference/loadout)
 	if(!loadout?[item_path])
 		return FALSE
 
@@ -186,7 +196,7 @@ GLOBAL_LIST_INIT(all_loadout_categories, init_loadout_categories())
 	else if(input_name == "")
 		loadout[item_path] -= INFO_NAMED
 
-	manager.preferences.update_preference(GLOB.preference_entries[/datum/preference/loadout], loadout)
+	manager.save_current_loadout(loadout) // EffigyEdit Change - Custom Loadouts - Original: manager.preferences.update_preference(GLOB.preference_entries[/datum/preference/loadout], loadout)
 	return FALSE // no update needed
 
 /// Used for reskinning an item to an alt skin.
@@ -198,12 +208,12 @@ GLOBAL_LIST_INIT(all_loadout_categories, init_loadout_categories())
 	if(!cached_reskin_options[reskin_to])
 		return FALSE
 
-	var/list/loadout = manager.preferences.read_preference(/datum/preference/loadout)
+	var/list/loadout = manager.get_current_loadout() // EffigyEdit Change - Custom Loadouts - Original: manager.preferences.read_preference(/datum/preference/loadout)
 	if(!loadout?[item_path])
 		return FALSE
 
 	loadout[item_path][INFO_RESKIN] = reskin_to
-	manager.preferences.update_preference(GLOB.preference_entries[/datum/preference/loadout], loadout)
+	manager.save_current_loadout(loadout) // EffigyEdit Change - Custom Loadouts - Original: manager.preferences.update_preference(GLOB.preference_entries[/datum/preference/loadout], loadout)
 	return TRUE // always update UI
 
 /**
@@ -216,7 +226,7 @@ GLOBAL_LIST_INIT(all_loadout_categories, init_loadout_categories())
  * * equipper - If we're equipping out outfit onto a mob at the time, this is the mob it is equipped on. Can be null.
  * * visual - If TRUE, then our outfit is only for visual use (for example, a preview).
  */
-/datum/loadout_item/proc/insert_path_into_outfit(datum/outfit/outfit, mob/living/carbon/human/equipper, visuals_only = FALSE)
+/datum/loadout_item/proc/insert_path_into_outfit(datum/outfit/outfit, mob/living/carbon/human/equipper, visuals_only = FALSE, loadout_preference = LOADOUT_OVERRIDE_BACKPACK) // EffigyEdit Change - Loadout override preference - Original: /datum/loadout_item/proc/insert_path_into_outfit(datum/outfit/outfit, mob/living/carbon/human/equipper, visuals_only = FALSE)
 	if(!visuals_only)
 		LAZYADD(outfit.backpack_contents, item_path)
 
@@ -285,9 +295,18 @@ GLOBAL_LIST_INIT(all_loadout_categories, init_loadout_categories())
 	SHOULD_CALL_PARENT(TRUE)
 
 	var/list/formatted_item = list()
+	var/list/information = list()
+	var/list/fetched_info = get_item_information()
+	for (var/icon_name in fetched_info)
+		information += list(list(
+			"icon" = icon_name,
+			"tooltip" = fetched_info[icon_name]
+		))
+
 	formatted_item["name"] = name
+	formatted_item["group"] = group || category.category_name
 	formatted_item["path"] = item_path
-	formatted_item["information"] = get_item_information()
+	formatted_item["information"] = information
 	formatted_item["buttons"] = get_ui_buttons()
 	formatted_item["reskins"] = get_reskin_options()
 	formatted_item["icon"] = ui_icon
@@ -296,24 +315,18 @@ GLOBAL_LIST_INIT(all_loadout_categories, init_loadout_categories())
 
 /**
  * Returns a list of information to display about this item in the loadout UI.
- *
- * These should be short strings, sub 14 characters generally.
+ * Icon -> tooltip displayed when its hovered over
  */
 /datum/loadout_item/proc/get_item_information() as /list
 	SHOULD_CALL_PARENT(TRUE)
 
+	// Mothblocks is hellbent on recolorable and reskinnable being only tooltips for items for visual clarity, so ask her before changing these
 	var/list/displayed_text = list()
-
-	displayed_text += (additional_displayed_text || list())
-
 	if(can_be_greyscale)
-		displayed_text += "Recolorable"
-
-	if(can_be_named)
-		displayed_text += "Renamable"
+		displayed_text[FA_ICON_PALETTE] = "Recolorable"
 
 	if(can_be_reskinned)
-		displayed_text += "Reskinnable"
+		displayed_text[FA_ICON_SWATCHBOOK] = "Reskinnable"
 
 	return displayed_text
 

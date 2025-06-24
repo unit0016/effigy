@@ -72,12 +72,3 @@
 	span_hear("You hear someone rustle around in a plastic bag, and remove something."))
 	playsound(src,'sound/items/evidence_bag/evidence_bag_unzip.ogg', 50, TRUE, SHORT_RANGE_SOUND_EXTRARANGE, ignore_walls = FALSE)
 	atom_storage.remove_all()
-
-/obj/item/storage/box/evidence
-	name = "evidence bag box"
-	desc = "A box claiming to contain evidence bags."
-
-/obj/item/storage/box/evidence/PopulateContents()
-	. = list()
-	for(var/i in 1 to 6)
-		. += /obj/item/evidencebag

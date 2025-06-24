@@ -20,11 +20,11 @@
 	drop_sound = 'sound/items/handling/toolbox/toolbox_drop.ogg'
 	pickup_sound = 'sound/items/handling/toolbox/toolbox_pickup.ogg'
 	material_flags = MATERIAL_EFFECTS | MATERIAL_COLOR | MATERIAL_AFFECT_STATISTICS
+	wound_bonus = 5
 	storage_type = /datum/storage/toolbox
 
 	var/latches = "single_latch"
 	var/has_latches = TRUE
-	wound_bonus = 5
 	/// How many interactions are we currently performing
 	var/current_interactions = 0
 	/// Items we should not interact with when left clicking
@@ -96,7 +96,7 @@
 
 /obj/item/storage/toolbox/proc/use_tool_on(atom/interacting_with, mob/living/user, list/modifiers, obj/item/picked_tool)
 	current_interactions += 1
-	picked_tool.melee_attack_chain(user, interacting_with, list2params(modifiers))
+	picked_tool.melee_attack_chain(user, interacting_with, modifiers)
 	current_interactions -= 1
 
 	if (QDELETED(picked_tool) || picked_tool.loc != user || !user.CanReach(picked_tool))
@@ -126,9 +126,9 @@
 /obj/item/storage/toolbox/tool_act(mob/living/user, obj/item/tool, list/modifiers)
 	if(!istype(tool, /obj/item/assembly/prox_sensor))
 		return ..()
-
 	var/static/list/allowed_toolbox = list(
 		/obj/item/storage/toolbox/artistic,
+		/obj/item/storage/toolbox/crafter,
 		/obj/item/storage/toolbox/electrical,
 		/obj/item/storage/toolbox/emergency,
 		/obj/item/storage/toolbox/mechanical,
@@ -145,12 +145,13 @@
 		/obj/item/storage/toolbox/emergency = "#445eb3",
 		/obj/item/storage/toolbox/electrical = "#b77931",
 		/obj/item/storage/toolbox/artistic = "#378752",
+		/obj/item/storage/toolbox/crafter = "#9D3282",
 		/obj/item/storage/toolbox/syndicate = "#3d3d3d",
 	)
-	var/obj/item/bot_assembly/repairbot/repair = new(src)
+	var/obj/item/bot_assembly/repairbot/repair = new
 	repair.toolbox = type
-	var/_color = toolbox_colors[type] || "#445eb3"
-	repair.set_color(_color)
+	var/new_color = toolbox_colors[type] || "#445eb3"
+	repair.set_color(new_color)
 	user.put_in_hands(repair)
 	repair.update_appearance()
 	repair.balloon_alert(user, "sensor added!")

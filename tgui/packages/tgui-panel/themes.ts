@@ -10,15 +10,16 @@ const COLORS = {
   DARK: {
     BG_BASE: '#1a1c23', // EffigyEdit Change - TGUI - Original: #212020
     BG_SECOND: '#22252f', // EffigyEdit Change - TGUI - Original: #161515
-    BUTTON: '#dcdee5', // EffigyEdit Change - TGUI - Original: #414040
-    TEXT: '#f3f4f6', // EffigyEdit Change - TGUI - Original: #161515
+    BUTTON: '#3a4050', // EffigyEdit Change - TGUI - Original: #414040
+    TEXT: '#e7e9ee', // EffigyEdit Change - TGUI - Original: #161515
     TEXT_DARK: '#22252f', // EffigyEdit Add - TGUI
   },
   LIGHT: {
-    BG_BASE: '#EFEEEE',
+    BG_BASE: '#EEEEEE',
     BG_SECOND: '#FFFFFF',
-    BUTTON: '#FFFEFE',
+    BUTTON: '#FFFFFF',
     TEXT: '#000000',
+    TEXT_DARK: '#000000', // EffigyEdit Add - TGUI
   },
 };
 
@@ -50,8 +51,11 @@ export const setClientTheme = (name) => {
 
   return Byond.winset({
     // Main windows
+    'infobuttons.background-color': themeColor.BG_BASE,
+    'infobuttons.text-color': themeColor.TEXT,
     'infowindow.background-color': themeColor.BG_BASE,
     'infowindow.text-color': themeColor.TEXT,
+    'info_and_buttons.background-color': themeColor.BG_BASE,
     'info.background-color': themeColor.BG_BASE,
     'info.text-color': themeColor.TEXT,
     'browseroutput.background-color': themeColor.BG_BASE,
@@ -62,19 +66,25 @@ export const setClientTheme = (name) => {
     'split.background-color': themeColor.BG_BASE,
     // Buttons
     'changelog.background-color': themeColor.BUTTON,
-    'changelog.text-color': themeColor.TEXT_DARK, // EffigyEdit Change - TGUI - Original: TEXT
+    'changelog.text-color': themeColor.TEXT,
     'rules.background-color': themeColor.BUTTON,
-    'rules.text-color': themeColor.TEXT_DARK, // EffigyEdit Change - TGUI - Original: TEXT
+    'rules.text-color': themeColor.TEXT,
     'wiki.background-color': themeColor.BUTTON,
-    'wiki.text-color': themeColor.TEXT_DARK, // EffigyEdit Change - TGUI - Original: TEXT
-    'forum.background-color': '#2ccaff', // EffigyEdit Change - TGUI - Original: BUTTON
-    'forum.text-color': themeColor.TEXT_DARK, // EffigyEdit Change - TGUI - Original: TEXT
-    'github.background-color': '#2ccaff', // EffigyEdit Change - TGUI - Original: BUTTON
-    'github.text-color': themeColor.TEXT_DARK, // EffigyEdit Change - TGUI - Original: TEXT
-    'report-issue.background-color': '#f0197d', // EffigyEdit Change - TGUI - Original: BUTTON
-    'report-issue.text-color': themeColor.TEXT_DARK, // EffigyEdit Change - TGUI - Original: TEXT
+    'wiki.text-color': themeColor.TEXT,
+    'forum.background-color': themeColor.BUTTON,
+    'forum.text-color': themeColor.TEXT,
+    'github.background-color': themeColor.BUTTON,
+    'github.text-color': themeColor.TEXT,
+    'report-issue.background-color': themeColor.BUTTON,
+    'report-issue.text-color': themeColor.TEXT,
     'fullscreen-toggle.background-color': themeColor.BUTTON,
-    'fullscreen-toggle.text-color': themeColor.TEXT_DARK, // EffigyEdit Change - TGUI - Original: TEXT
+    'fullscreen-toggle.text-color': themeColor.TEXT,
+    // EffigyEdit Add Start
+    'adminhelp.background-color': themeColor.BUTTON,
+    'adminhelp.text-color': themeColor.TEXT,
+    'discord.background-color': themeColor.BUTTON,
+    'discord.text-color': themeColor.TEXT,
+    // EffigyEdit Add End
     // Status and verb tabs
     'output.background-color': themeColor.BG_BASE,
     'output.text-color': themeColor.TEXT,

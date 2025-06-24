@@ -1,0 +1,16 @@
+2025-04-02:
+  unit0016:
+  - refactor: All anthro-offshoot species merged into Animalid, disabled felinid.
+2025-04-07:
+  TealSeer, LT3:
+  - refactor: Improved changelog processing and formatting
+2025-04-12:
+  unit0016:
+  - rscdel: Rimpoint now uses /tg/ rain.
+2025-04-17:
+  unit0016:
+  - bugfix: Everyone has stopped being CRAZY and wearing their underwear over their
+      jumpsuits.
+2025-04-24:
+  unit0016:
+  - bugfix: You can now properly remove LUNA's upgrades; should you wish to.

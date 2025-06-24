@@ -13,6 +13,8 @@
 
 	var/obj/item/surgery_tool = parent
 	surgery_tool.item_flags |= ITEM_HAS_CONTEXTUAL_SCREENTIPS
+	///Make sure we can use the surgery UI while laying down
+	surgery_tool.interaction_flags_atom |= INTERACT_ATOM_IGNORE_MOBILITY
 
 /datum/component/surgery_initiator/Destroy(force)
 	last_user_ref = null
@@ -314,6 +316,8 @@
 	)
 
 	log_combat(user, target, "operated on", null, "(OPERATION TYPE: [procedure.name]) (TARGET AREA: [selected_zone])")
+
+	return TRUE // EffigyEdit Add - Enhanced Surgery
 
 /datum/component/surgery_initiator/proc/surgery_needs_exposure(datum/surgery/surgery, mob/living/target)
 	var/mob/living/user = last_user_ref?.resolve()

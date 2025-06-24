@@ -21,7 +21,7 @@ export const MechpadControl = (props) => {
         <Input
           value={pad_name}
           width="200px"
-          onChange={(e, value) =>
+          onBlur={(value) =>
             act('rename', {
               name: value,
             })
@@ -61,8 +61,7 @@ export const MechpadConsole = (props) => {
   const { act, data } = useBackend();
   const { mechpads = [], selected_id } = data;
   return (
-    // EffigyEdit Change - TGUI - Original: width={475} height={130}
-    <Window width={475} height={150}>
+    <Window width={475} height={130}>
       <Window.Content>
         {(mechpads.length === 0 && (
           <NoticeBox>No Pads Connected</NoticeBox>

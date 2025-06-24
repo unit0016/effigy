@@ -175,10 +175,12 @@ GLOBAL_LIST_EMPTY(virtual_pets_list)
 /datum/computer_file/program/virtual_pet/proc/post_cleaned(mob/source, mob/user)
 	SIGNAL_HANDLER
 
+	. = NONE
 	source.spin(spintime = 2 SECONDS, speed = 1) //celebrate!
 	happiness = min(happiness + PET_CLEAN_BONUS, max_happiness)
 	COOLDOWN_START(src, on_clean_cooldown, 1 MINUTES)
 	START_PROCESSING(SSprocessing, src)
+	. |= COMPONENT_CLEANED|COMPONENT_CLEANED_GAIN_XP
 
 ///manage the pet's hat offsets when he changes direction
 /datum/computer_file/program/virtual_pet/proc/on_change_dir(datum/source, old_dir, new_dir)
@@ -222,7 +224,7 @@ GLOBAL_LIST_EMPTY(virtual_pets_list)
 	if(length(selected_hat))
 		var/mutable_appearance/our_selected_hat = selected_hat["appearance"]
 		var/mutable_appearance/hat_preview = mutable_appearance(our_selected_hat.icon, our_selected_hat.icon_state, appearance_flags = RESET_COLOR|KEEP_APART)
-		hat_preview.pixel_y = -9 + selected_hat["worn_offset"]
+		hat_preview.pixel_z = -9 + selected_hat["worn_offset"]
 		var/list/spec_hat = special_hat_placement[selected_hat["type"]]?["south"]
 		if(spec_hat)
 			hat_preview.pixel_w += spec_hat[1]

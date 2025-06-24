@@ -257,7 +257,10 @@
 	name = "\improper Nanotrasen banner backpack"
 	desc = "It's a backpack with lots of extra room.  A banner with Nanotrasen's logo is attached, that can't be removed."
 	icon_state = "backpack-banner"
-	storage_type = /datum/storage/backpack/bannerpack
+
+/obj/item/storage/backpack/bannerpack/Initialize(mapload)
+	. = ..()
+	atom_storage.max_total_storage = 27 //6 more then normal, for the tradeoff of declaring yourself an antag at all times.
 
 /obj/item/storage/backpack/bannerpack/red
 	name = "red banner backpack"

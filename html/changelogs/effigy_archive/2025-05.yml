@@ -1,0 +1,17 @@
+2025-05-01:
+  unit0016:
+  - bugfix: Everyone's ears are back!!!!!
+2025-05-02:
+  unit0016:
+  - bugfix: Attempting to latejoin via cryo while no cryopods exist will no longer
+      destroy you with hammers.
+  - bugfix: It is no longer comedically easy to tide the spare ID on Rimpoint.
+2025-05-09:
+  unit0016:
+  - balance: The RD's office now has windows on Sigma Octantis.
+2025-05-21:
+  unit0016:
+  - balance: Rimpoint has been adjusted slightly. Most lake and ocean water is now
+      deep water, and will drown you after some trudging. Atmospherics has received
+      a proper project space on the roof, cordoned off from maintenance - and maintenance
+      has consequently shifted to be directly against the Captain's office. Sad!

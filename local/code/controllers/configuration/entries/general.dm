@@ -1,30 +1,19 @@
+/datum/config_entry/string/discordlink
+	default = "https://tgstation13.org/phpBB/viewforum.php?f=60"
+
 /// manifest preview in pre-lobby
 /datum/config_entry/flag/show_manifest_preview
 	default = TRUE
 
+/datum/config_entry/flag/setup_bypass_player_check
+
 /// File where fluff status messages are stored
 /datum/config_entry/string/fluff_status_file
+	default = "config/effigy_splash_fluff.txt"
 
-/// Use the Effigy API
-/datum/config_entry/flag/effigy_api_enabled
-	default = FALSE
-
-/// API configuration
-/datum/config_entry/string/effigy_api_url
-	protection = CONFIG_ENTRY_LOCKED | CONFIG_ENTRY_HIDDEN
-
-/// API auth method
-/datum/config_entry/string/effigy_api_auth
-	protection = CONFIG_ENTRY_LOCKED | CONFIG_ENTRY_HIDDEN
-	default = "Bearer"
-
-/// API key
-/datum/config_entry/string/effigy_api_key
-	protection = CONFIG_ENTRY_LOCKED | CONFIG_ENTRY_HIDDEN
-
-/// New account registration URL
-/datum/config_entry/string/account_registration_url
-	protection = CONFIG_ENTRY_LOCKED | CONFIG_ENTRY_HIDDEN
+/// Use the new lobby track scheduler, disable to use old lobby music system
+/datum/config_entry/flag/use_scheduled_lobby_track
+	default = TRUE
 
 /// Lobby music track ID
 /datum/config_entry/string/pregame_lobby_track

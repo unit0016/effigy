@@ -341,7 +341,7 @@ function JoblessRoleDropdown(props) {
   )!.displayText;
 
   return (
-    <Box position="absolute" right={0} width="30%">
+    <Box position="absolute" right={1} width="30%">
       <Dropdown
         width="100%"
         selected={selection}
@@ -357,40 +357,41 @@ export function JobsPage() {
     <>
       <JoblessRoleDropdown />
 
-      <Stack vertical fill>
+      <Stack vertical fill mr="7px">
         <Gap amount={22} />
 
         <Stack.Item>
-          <Stack fill className="PreferencesMenu__Jobs">
+          <Stack fill className="PreferencesMenu__Jobs" mr="5px">
             <Stack.Item mr={1}>
               <Gap amount={36} />
 
               <PriorityHeaders />
 
               <Department department="Engineering">
-                <Gap amount={6} />
+                <Gap amount={18} />
               </Department>
 
               <Department department="Science">
-                <Gap amount={6} />
+                <Gap amount={18} />
               </Department>
 
               <Department department="Silicon">
-                <Gap amount={12} />
+                <Gap amount={18} />
               </Department>
 
               <Department department="Assistant" />
             </Stack.Item>
 
             <Stack.Item mr={1}>
+              <Gap amount={36} />
               <PriorityHeaders />
 
               <Department department="Captain">
-                <Gap amount={6} />
+                <Gap amount={18} />
               </Department>
 
               <Department department="Service">
-                <Gap amount={6} />
+                <Gap amount={18} />
               </Department>
 
               <Department department="Cargo" />
@@ -402,7 +403,7 @@ export function JobsPage() {
               <PriorityHeaders />
 
               <Department department="Security">
-                <Gap amount={6} />
+                <Gap amount={18} />
               </Department>
 
               <Department department="Medical" />

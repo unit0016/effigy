@@ -522,6 +522,7 @@
 		if(!HAS_TRAIT(breather, TRAIT_ANOSMIA))
 			breather.throw_alert(ALERT_TOO_MUCH_N2O, /atom/movable/screen/alert/too_much_n2o)
 	n2o_euphoria = EUPHORIA_ACTIVE
+	ADD_TRAIT(breather, TRAIT_ANALGESIA, OXYLOSS_TRAIT) // EffigyEdit Add - Enhanced Surgery
 
 	// give them one second of grace to wake up and run away a bit!
 	if(!HAS_TRAIT(breather, TRAIT_SLEEPIMMUNE))
@@ -534,6 +535,7 @@
 /obj/item/organ/lungs/proc/safe_n2o(mob/living/carbon/breather, datum/gas_mixture/breath, old_n2o_pp)
 	n2o_euphoria = EUPHORIA_INACTIVE
 	breather.clear_alert(ALERT_TOO_MUCH_N2O)
+	REMOVE_TRAIT(breather, TRAIT_ANALGESIA, OXYLOSS_TRAIT) // EffigyEdit Add - Enhanced Surgery
 
 // Breathe in nitrium. It's helpful, but has nasty side effects
 /obj/item/organ/lungs/proc/too_much_nitrium(mob/living/carbon/breather, datum/gas_mixture/breath, nitrium_pp, old_nitrium_pp)
@@ -553,7 +555,7 @@
 		breather.reagents.add_reagent(/datum/reagent/nitrium_low_metabolization, max(0, 2 - existing))
 	if (nitrium_pp > 10)
 		var/existing = breather.reagents.get_reagent_amount(/datum/reagent/nitrium_high_metabolization)
-		breather.reagents.add_reagent(/datum/reagent/nitrium_high_metabolization, max(0, 1 - existing))
+		breather.reagents.add_reagent(/datum/reagent/nitrium_high_metabolization, max(0, 2 - existing))
 
 /// Radioactive, green gas. Toxin damage, and a radiation chance
 /obj/item/organ/lungs/proc/too_much_tritium(mob/living/carbon/breather, datum/gas_mixture/breath, trit_pp, old_trit_pp)

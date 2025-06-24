@@ -395,7 +395,7 @@ GLOBAL_LIST_EMPTY(station_turfs)
 			C.wiringGuiUpdate(user)
 		C.is_empty(user)
 
-/turf/attackby(obj/item/C, mob/user, params)
+/turf/attackby(obj/item/C, mob/user, list/modifiers, list/attack_modifiers)
 	if(..())
 		return TRUE
 	if(can_lay_cable() && istype(C, /obj/item/stack/cable_coil))
@@ -539,7 +539,7 @@ GLOBAL_LIST_EMPTY(station_turfs)
 /turf/singularity_act()
 	if(underfloor_accessibility < UNDERFLOOR_INTERACTABLE)
 		for(var/obj/on_top in contents) //this is for deleting things like wires contained in the turf
-			if(HAS_TRAIT(on_top, TRAIT_T_RAY_VISIBLE))
+			if(HAS_TRAIT(on_top, TRAIT_UNDERFLOOR))
 				on_top.singularity_act()
 	ScrapeAway(flags = CHANGETURF_INHERIT_AIR)
 	return(2)
@@ -712,7 +712,7 @@ GLOBAL_LIST_EMPTY(station_turfs)
 	. = ..()
 	for(var/atom/movable/to_clean as anything in src)
 		if(all_contents || HAS_TRAIT(to_clean, TRAIT_MOPABLE))
-			to_clean.wash(clean_types)
+			. |= to_clean.wash(clean_types)
 
 /turf/set_density(new_value)
 	var/old_density = density
@@ -793,9 +793,9 @@ GLOBAL_LIST_EMPTY(station_turfs)
 	return TRUE
 
 /**
- * the following are some hacky fishing-related optimizations to shave off
+ * the following are some fishing-related optimizations to shave off as much
  * time we spend implementing the fishing as possible, even if that means
- * doing hackier code, because we've hundreds of turfs like lava, water etc every round,
+ * hackier code, because we've hundreds of turfs like lava, water etc every round,
  */
 /turf/proc/add_lazy_fishing(fish_source_path)
 	RegisterSignal(src, COMSIG_FISHING_ROD_CAST, PROC_REF(add_fishing_spot_comp))
@@ -829,7 +829,7 @@ GLOBAL_LIST_EMPTY(station_turfs)
 
 /turf/proc/on_fish_release_into(datum/source, obj/item/fish/fish, mob/living/releaser)
 	SIGNAL_HANDLER
-	GLOB.preset_fish_sources[fish_source].readd_fish(fish, releaser)
+	GLOB.preset_fish_sources[fish_source].readd_fish(src, fish, releaser)
 
 /turf/examine(mob/user)
 	. = ..()

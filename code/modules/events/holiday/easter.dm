@@ -42,6 +42,12 @@
 			new /mob/living/basic/rabbit/easter/space(spawn_point.loc)
 		CHECK_TICK
 
+
+//Easter Baskets
+/obj/item/storage/basket/easter
+	name = "Easter Basket"
+	storage_type = /datum/storage/basket/easter
+
 //Bunny Suit
 /obj/item/clothing/head/costume/bunnyhead
 	name = "Easter Bunny head"
@@ -154,6 +160,7 @@
 	icon = 'icons/obj/food/egg.dmi'
 	icon_state = "scotchegg"
 	bite_consumption = 3
+	custom_materials = list(/datum/material/meat = MEATDISH_MATERIAL_AMOUNT)
 	food_reagents = list(/datum/reagent/consumable/nutriment = 6, /datum/reagent/consumable/nutriment/vitamin = 2)
 	crafting_complexity = FOOD_COMPLEXITY_2
 	foodtypes = MEAT

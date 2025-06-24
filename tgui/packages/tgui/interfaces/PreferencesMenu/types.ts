@@ -165,8 +165,9 @@ export type PreferencesMenuData = {
       gender: Gender;
       joblessrole: JoblessRole;
       species: string;
-      loadout_list: LoadoutList;
+      loadout_lists: LoadoutList; // EffigyEdit Change - Custom Loadouts - Original: loadout_list: LoadoutList;
       job_clothes: BooleanLike;
+      loadout_index: string; // EffigyEdit Add - Custom Loadouts
     };
 
     randomization: Record<string, RandomSetting>;
@@ -188,6 +189,7 @@ export type PreferencesMenuData = {
   keybindings: Record<string, string[]>;
   overflow_role: string;
   selected_quirks: string[];
+  species_disallowed_quirks: string[];
 
   antag_bans?: string[];
   antag_days_left?: Record<string, number>;

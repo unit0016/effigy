@@ -28,8 +28,7 @@ export const Fabricator = (props) => {
   }
 
   return (
-    // EffigyEdit Change - TGUI - Original: width={670} height={600}
-    <Window title={fabName} width={730} height={600}>
+    <Window title={fabName} width={670} height={600}>
       <Window.Content>
         <Stack vertical fill>
           <Stack.Item grow>
@@ -134,16 +133,15 @@ const CustomPrint = (props: CustomPrintProps) => {
       ])}
     >
       <Button.Input
+        buttonText={`[Max: ${maxMult}]`}
         color="transparent"
-        onCommit={(_e, value: string) =>
+        onCommit={(value) =>
           act('build', {
             ref: design.id,
             amount: value,
           })
         }
-      >
-        [Max: {maxMult}]
-      </Button.Input>
+      />
     </div>
   );
 };

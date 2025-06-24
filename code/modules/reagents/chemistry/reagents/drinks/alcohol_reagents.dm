@@ -7,7 +7,7 @@
 	color = "#404030" // rgb: 64, 64, 48
 	nutriment_factor = 0
 	taste_description = "alcohol"
-	metabolization_rate = 0.5 * REAGENTS_METABOLISM
+	metabolization_rate = 0.3 * REAGENTS_METABOLISM // EffigyEdit Change - Alcohol Processing - Original: 0.5 * REAGENTS_METABOLISM
 	creation_purity = 1 // impure base reagents are a big no-no
 	ph = 7.33
 	burning_temperature = 2193//ethanol burns at 1970C (at its peak)
@@ -58,7 +58,7 @@
 		if(HAS_TRAIT(drinker, TRAIT_ALCOHOL_TOLERANCE)) // we're an accomplished drinker
 			booze_power *= 0.7
 		if(HAS_TRAIT(drinker, TRAIT_LIGHT_DRINKER))
-			booze_power *= 2
+			booze_power *= 1.33 // EffigyEdit Change - Alcohol Processing - Original: 2
 
 		// water will dilute alcohol effects
 		var/total_water_volume = 0
@@ -74,12 +74,12 @@
 			booze_power *= (total_alcohol_volume / combined_dilute_volume)
 
 		// Volume, power, and server alcohol rate effect how quickly one gets drunk
-		drinker.adjust_drunk_effect(sqrt(volume) * booze_power * ALCOHOL_RATE * REM * seconds_per_tick)
+		drinker.adjust_drunk_effect(booze_power * ALCOHOL_RATE * REM * seconds_per_tick) // EffigyEdit Change - Alcohol Processing - Original: sqrt(volume) * booze_power * ALCOHOL_RATE * REM * seconds_per_tick
 		if(boozepwr > 0)
 			var/obj/item/organ/liver/liver = drinker.get_organ_slot(ORGAN_SLOT_LIVER)
 			var/heavy_drinker_multiplier = (HAS_TRAIT(drinker, TRAIT_HEAVY_DRINKER) ? 0.5 : 1)
 			if (istype(liver))
-				if(liver.apply_organ_damage(((max(sqrt(volume) * (boozepwr ** ALCOHOL_EXPONENT) * liver.alcohol_tolerance * heavy_drinker_multiplier * seconds_per_tick, 0))/150)))
+				if(liver.apply_organ_damage(((max(sqrt(volume) * (boozepwr ** ALCOHOL_EXPONENT) * liver.alcohol_tolerance * heavy_drinker_multiplier * seconds_per_tick, 0))/300))) // EffigyEdit Change - Alcohol Processing - Original: /150)))
 					return UPDATE_MOB_HEALTH
 
 /datum/reagent/consumable/ethanol/expose_obj(obj/exposed_obj, reac_volume, methods=TOUCH, show_message=TRUE)
@@ -278,8 +278,7 @@
 		drinker.set_jitter_if_lower(700 SECONDS)
 
 	if(SPT_PROB(0.5, seconds_per_tick) && iscarbon(drinker))
-		var/datum/disease/heart_attack = new /datum/disease/heart_failure
-		drinker.ForceContractDisease(heart_attack)
+		drinker.apply_status_effect(/datum/status_effect/heart_attack)
 		to_chat(drinker, span_userdanger("You're pretty sure you just felt your heart stop for a second there.."))
 		drinker.playsound_local(drinker, 'sound/effects/singlebeat.ogg', 100, 0)
 
@@ -393,10 +392,10 @@
 	glass_price = DRINK_PRICE_STOCK
 	default_container = /obj/item/reagent_containers/cup/glass/bottle/wine
 
-/datum/reagent/consumable/ethanol/wine/on_merge(data)
+/datum/reagent/consumable/ethanol/wine/on_merge(list/mix_data, amount)
 	. = ..()
-	if(src.data && data && data["vintage"] != src.data["vintage"])
-		src.data["vintage"] = "mixed wine"
+	if(data && mix_data && data["vintage"] != mix_data["vintage"])
+		data["vintage"] = "mixed wine"
 
 /datum/reagent/consumable/ethanol/wine/get_taste_description(mob/living/taster)
 	if(HAS_TRAIT(taster,TRAIT_WINE_TASTER))
@@ -1972,25 +1971,25 @@
 	color = data["color"]
 	generate_data_info(data)
 
-/datum/reagent/consumable/ethanol/fruit_wine/on_merge(list/data, amount)
-	..()
+/datum/reagent/consumable/ethanol/fruit_wine/on_merge(list/mix_data, amount)
+	. = ..()
 	var/diff = (amount/volume)
 	if(diff < 1)
-		color = BlendRGB(color, data["color"], diff/2) //The percentage difference over two, so that they take average if equal.
+		color = BlendRGB(color, mix_data["color"], diff/2) //The percentage difference over two, so that they take average if equal.
 	else
-		color = BlendRGB(color, data["color"], (1/diff)/2) //Adjust so it's always blending properly.
+		color = BlendRGB(color, mix_data["color"], (1/diff)/2) //Adjust so it's always blending properly.
 	var/oldvolume = volume-amount
 
-	var/list/cachednames = data["names"]
+	var/list/cachednames = mix_data["names"]
 	for(var/name in names | cachednames)
 		names[name] = ((names[name] * oldvolume) + (cachednames[name] * amount)) / volume
 
-	var/list/cachedtastes = data["tastes"]
+	var/list/cachedtastes = mix_data["tastes"]
 	for(var/taste in tastes | cachedtastes)
 		tastes[taste] = ((tastes[taste] * oldvolume) + (cachedtastes[taste] * amount)) / volume
 
 	boozepwr *= oldvolume
-	var/newzepwr = data["boozepwr"] * amount
+	var/newzepwr = mix_data["boozepwr"] * amount
 	boozepwr += newzepwr
 	boozepwr /= volume //Blending boozepwr to volume.
 	generate_data_info(data)

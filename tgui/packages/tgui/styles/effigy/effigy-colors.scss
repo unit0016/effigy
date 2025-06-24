@@ -1,0 +1,82 @@
+/**
+ * TGUI
+ * Main Colors
+ *
+ * This file contains all the main colors that are
+ * used elsewhere and are mixed/modified to
+ * suit the needs of the components/ui's.
+ *
+ * The main goal is to standardize colors.
+ * When adding new independent colors, you should add them here.
+ *
+ * Overwriting these variables will have an extreme impact
+ * on the global appearance of the entire TGUI, as they are used everywhere.
+ * For finer customization of components, use vars-components.scss
+ *
+ * Original Made with love by Aylong (https://github.com/AyIong)
+ * Effigy adaptation by LT3  (https://github.com/lessthnthree)
+ */
+
+:root {
+  /* Background colors */
+  --color-base: hsl(224, 16%, 16%);
+
+  /* Base colors */
+  --color-red: hsl(332, 88%, 52%);
+  --color-orange: hsl(16, 100%, 66%);
+  --color-yellow: hsl(50, 100%, 68%);
+  --color-olive: hsl(151, 96%, 40%);
+  --color-green: hsl(151, 96%, 55%);
+  --color-teal: hsl(183, 100%, 75%);
+  --color-blue: hsl(195, 100%, 59%);
+  --color-violet: hsl(257, 67%, 60%);
+  --color-purple: hsl(281, 100%, 56%);
+  --color-pink: hsl(330, 100%, 68%);
+  --color-brown: hsl(13, 20%, 48%);
+
+  /* Grayscale colors */
+  --color-black: hsl(224, 16%, 8%);
+  --color-white: hsl(224, 16%, 92%);
+  --color-grey: hsl(224, 16%, 32%);
+  --color-light-grey: hsl(224, 16%, 88%);
+  --color-gray: var(--color-grey);
+  --color-light-gray: var(--color-light-grey);
+
+  /* Action colors */
+  --color-action: var(--color-light-grey);
+  --color-hover: var(--color-grey);
+  --color-active: var(--color-grey);
+  --color-selected: var(--color-primary);
+
+  /* Semantic colors */
+  --primary-hue: 195;
+  --primary-saturation: 100%;
+  --primary-lightness: 59%;
+  /* prettier-ignore */
+  --color-primary: hsl(var(--primary-hue), var(--primary-saturation), var(--primary-lightness));
+  --color-good: hsl(
+    var(--primary-hue),
+    var(--primary-saturation),
+    var(--primary-lightness)
+  );
+  --color-average: hsl(50, 100%, 68%);
+  --color-bad: hsl(332, 88%, 52%);
+  --color-label: hsl(224, 16%, 92%);
+
+  /* Text colors */
+  --color-text: var(--color-white);
+  --color-text-translucent: var(--color-grey);
+  --color-text-translucent-light: var(--color-grey);
+  --color-text-fixed-white: var(--color-white);
+  --color-text-fixed-black: var(--color-black);
+
+  /* Link colors */
+  --color-hyperlink: var(--color-primary);
+  --color-hyperlink-visited: var(--color-violet);
+  --color-hyperlink-new: var(--color-pink);
+  --color-hyperlink-new-visited: var(--color-pink);
+
+  /* Border */
+  --color-border: var(--color-base);
+  --color-border-dark: hsla(0, 0%, 0%, 0);
+}

@@ -7,14 +7,12 @@
 	var/has_soul = FALSE
 
 /obj/item/storage/toolbox/mechanical/PopulateContents()
-	return list(
-		/obj/item/screwdriver,
-		/obj/item/wrench,
-		/obj/item/weldingtool,
-		/obj/item/crowbar,
-		/obj/item/analyzer,
-		/obj/item/wirecutters,
-	)
+	new /obj/item/screwdriver(src)
+	new /obj/item/wrench(src)
+	new /obj/item/weldingtool(src)
+	new /obj/item/crowbar(src)
+	new /obj/item/analyzer(src)
+	new /obj/item/wirecutters(src)
 
 /obj/item/storage/toolbox/mechanical/old
 	name = "rusty blue toolbox"
@@ -27,10 +25,10 @@
 	desc = "It's seen better days."
 	force = 5
 	w_class = WEIGHT_CLASS_NORMAL
-	storage_type = /datum/storage/toolbox/old_heirloom
+	storage_type = /datum/storage/toolbox/heirloom
 
 /obj/item/storage/toolbox/mechanical/old/heirloom/PopulateContents()
-	return NONE
+	return
 
 // version of below that isn't a traitor item
 /obj/item/storage/toolbox/mechanical/old/cleaner
@@ -54,21 +52,19 @@
 	force = initial(force) + power
 	throwforce = initial(throwforce) + power
 
-/obj/item/storage/toolbox/mechanical/old/clean/attack(mob/target, mob/living/user)
+/obj/item/storage/toolbox/mechanical/old/clean/pre_attack(atom/target, mob/living/user, list/modifiers, list/attack_modifiers)
 	calc_damage()
-	..()
+	return ..()
 
 /obj/item/storage/toolbox/mechanical/old/clean/throw_impact(atom/hit_atom, datum/thrownthing/throwingdatum)
 	calc_damage()
-	..()
+	return ..()
 
 /obj/item/storage/toolbox/mechanical/old/clean/PopulateContents()
-	return list(
-		/obj/item/screwdriver,
-		/obj/item/wrench,
-		/obj/item/weldingtool,
-		/obj/item/crowbar,
-		/obj/item/wirecutters,
-		/obj/item/multitool,
-		/obj/item/clothing/gloves/color/yellow,
-	)
+	new /obj/item/screwdriver(src)
+	new /obj/item/wrench(src)
+	new /obj/item/weldingtool(src)
+	new /obj/item/crowbar(src)
+	new /obj/item/wirecutters(src)
+	new /obj/item/multitool(src)
+	new /obj/item/clothing/gloves/color/yellow(src)

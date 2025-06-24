@@ -3,8 +3,6 @@
 	var/launch_queued = FALSE
 	/// Did we broadcast the start time?
 	var/hr_announce_fired = FALSE
-	/// UTC time of round start
-	var/round_utc_start_time = 0
 	/// Have we started the lobby music
 	var/lobby_track_fired = FALSE
 	/// What is the lobby track this round
@@ -12,7 +10,7 @@
 	/// How long is the lobby track
 	var/lobby_track_duration
 
-/datum/controller/subsystem/ticker/proc/load_effigy_lobby_tracks()
+/datum/controller/subsystem/ticker/proc/load_lobby_tracks()
 	lobby_track_id = CONFIG_GET(string/pregame_lobby_track)
 	if(isnull(lobby_track_id))
 		log_game("No lobby music track ID configuration found!")
@@ -46,5 +44,4 @@
 	var/finalized_announcement = create_announcement_div(jointext(announcement_strings, ""), PURPLE)
 	to_chat(world, finalized_announcement)
 	for(var/mob/player in GLOB.player_list)
-		//if(player.client?.prefs.read_preference(/datum/preference/toggle/sound_announcements))
 		SEND_SOUND(player, sound('sound/announcer/default/attention.ogg'))

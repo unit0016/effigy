@@ -416,7 +416,7 @@
 	var/obj/item/modular_computer/pda/pda = equipped.get_item_by_slot(pda_slot)
 
 	if(istype(pda))
-		pda.imprint_id(equipped.real_name, equipped_job.title, card)
+		pda.imprint_id(equipped.real_name, equipped_job.title)
 		pda.update_ringtone(equipped_job.job_tone)
 		pda.UpdateDisplay()
 
@@ -504,7 +504,9 @@
 		var/their_latejoin_pref = potential_alt_spawner?.client.prefs.read_preference(/datum/preference/choiced/latejoin_location)
 		if(their_latejoin_pref)
 			if(their_latejoin_pref == JOB_LATEJOINPREF_CRYO)
-				return pick(SSjob.latejoin_cryo_trackers)
+				var/possible_spawn = pick(SSjob.latejoin_cryo_trackers)
+				if(possible_spawn) // Sanitycheck - if there aren't any cryopods anymore; pass them onto arrivals as normal.
+					return pick(SSjob.latejoin_cryo_trackers)
 	// EffigyEdit Change End
 	if(length(SSjob.latejoin_trackers))
 		return pick(SSjob.latejoin_trackers)

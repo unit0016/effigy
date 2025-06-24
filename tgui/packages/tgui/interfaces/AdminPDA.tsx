@@ -32,8 +32,7 @@ export function AdminPDA(props) {
   const invisibleState = useState<BooleanLike>(0);
 
   return (
-    // EffigyEdit Change - TGUI - Original: width={300} height={575}
-    <Window title="Send PDA Message" width={300} height={650} theme="admin">
+    <Window title="Send PDA Message" width={300} height={575} theme="admin">
       <Window.Content>
         <ReceiverChoice
           invisibleState={invisibleState}
@@ -117,22 +116,10 @@ function SenderInfo(props: SenderInfoProps) {
   return (
     <Section title="From Who?" textAlign="center">
       <Box fontSize="14px">
-        <Input
-          placeholder="Sender name..."
-          fluid
-          onChange={(e, value) => {
-            setName(value);
-          }}
-        />
+        <Input placeholder="Sender name..." fluid onChange={setName} />
       </Box>
       <Box fontSize="14px" pt="10px">
-        <Input
-          placeholder="Sender's job..."
-          fluid
-          onChange={(e, value) => {
-            setJob(value);
-          }}
-        />
+        <Input placeholder="Sender's job..." fluid onChange={setJob} />
       </Box>
     </Section>
   );
@@ -178,12 +165,11 @@ function MessageInput(props: MessageInputProps) {
     <Section title="Message" textAlign="center">
       <Box>
         <TextArea
+          fluid
           placeholder="Type the message you want to send..."
           height="200px"
           mb={1}
-          onInput={(e, value) => {
-            setMessageText(value);
-          }}
+          onChange={setMessageText}
         />
       </Box>
       <Box>
