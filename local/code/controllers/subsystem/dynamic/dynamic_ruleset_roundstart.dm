@@ -1,5 +1,5 @@
 /datum/dynamic_ruleset/roundstart/traitor
-	protected_roles = list(
+	blacklisted_roles = list(
 		JOB_CAPTAIN,
 		JOB_CHIEF_ENGINEER,
 		JOB_CHIEF_MEDICAL_OFFICER,
@@ -14,8 +14,8 @@
 	)
 
 
-/datum/dynamic_ruleset/roundstart/traitorbro
-	protected_roles = list(
+/datum/dynamic_ruleset/roundstart/blood_brother
+	blacklisted_roles = list(
 		JOB_CAPTAIN,
 		JOB_CHIEF_ENGINEER,
 		JOB_CHIEF_MEDICAL_OFFICER,
@@ -30,7 +30,7 @@
 	)
 
 /datum/dynamic_ruleset/roundstart/changeling
-	protected_roles = list(
+	blacklisted_roles = list(
 		JOB_CAPTAIN,
 		JOB_CHIEF_ENGINEER,
 		JOB_CHIEF_MEDICAL_OFFICER,
@@ -44,8 +44,8 @@
 		JOB_WARDEN,
 	)
 
-/datum/dynamic_ruleset/roundstart/heretics
-	protected_roles = list(
+/datum/dynamic_ruleset/roundstart/heretic
+	blacklisted_roles = list(
 		JOB_CAPTAIN,
 		JOB_CHIEF_ENGINEER,
 		JOB_CHIEF_MEDICAL_OFFICER,
@@ -59,8 +59,8 @@
 		JOB_WARDEN,
 	)
 
-/datum/dynamic_ruleset/roundstart/bloodcult
-	restricted_roles = list(
+/datum/dynamic_ruleset/roundstart/blood_cult
+	blacklisted_roles = list(
 		JOB_AI,
 		JOB_CAPTAIN,
 		JOB_CHAPLAIN,
@@ -77,8 +77,8 @@
 		JOB_WARDEN,
 	)
 
-/datum/dynamic_ruleset/roundstart/revs
-	restricted_roles = list(
+/datum/dynamic_ruleset/roundstart/revolution
+	blacklisted_roles = list(
 		JOB_AI,
 		JOB_CAPTAIN,
 		JOB_CHIEF_ENGINEER,
