@@ -16,10 +16,8 @@
 	boltUp = 'local/sound/machines/bolts_up.ogg'
 	boltDown = 'local/sound/machines/bolts_down.ogg'
 	light_dir = NONE
-	/// Use legacy airlock animation timings
-	var/use_legacy_animations = FALSE
-	/// Does this airlock emit a light?
-	var/has_environment_lights = TRUE
+	///Airlock features such as lights, access restrictions, animation type
+	var/airlock_features = ENV_LIGHTS
 	var/light_color_poweron = COLOR_STARLIGHT
 	var/light_color_bolts = LIGHT_COLOR_INTENSE_RED
 	var/light_color_emergency = LIGHT_COLOR_DIM_YELLOW
@@ -38,15 +36,28 @@
 /obj/machinery/door/airlock/shuttle
 	external = TRUE
 
-/obj/machinery/door/airlock/multi_tile
-	has_environment_lights = FALSE
+/obj/machinery/door/airlock/Initialize(mapload)
+	. = ..()
+	if(mapload)
+		RegisterSignal(SSticker, COMSIG_TICKER_ENTER_PREGAME, PROC_REF(set_animation_type))
+
+/obj/machinery/door/airlock/proc/set_animation_type()
+	SIGNAL_HANDLER
+	UnregisterSignal(SSticker, COMSIG_TICKER_ENTER_PREGAME)
+	if(airlock_features & LEGACY_ANIMATIONS)
+		return
+
+	if(length(req_access) || length(req_one_access))
+		airlock_features = airlock_features | ACCESS_RESTRICTED
+	else
+		airlock_features = airlock_features & ~ACCESS_RESTRICTED
 
 /obj/machinery/door/airlock/power_change()
 	..()
 	update_icon()
 
 /obj/machinery/door/airlock/animation_length(animation)
-	if(use_legacy_animations)
+	if(airlock_features & LEGACY_ANIMATIONS)
 		return legacy_animation_length(animation)
 
 	switch(animation)
@@ -56,8 +67,8 @@
 			return 2.1 SECONDS
 
 /obj/machinery/door/airlock/animation_segment_delay(animation)
-	if(use_legacy_animations)
-		return legacy_animation_segment_delay(animation)
+	if(airlock_features & LEGACY_ANIMATIONS)
+		return legacy_segment_delay(animation)
 
 	switch(animation)
 		if(AIRLOCK_OPENING_TRANSPARENT)
@@ -80,7 +91,7 @@
 		if(DOOR_CLOSING_ANIMATION)
 			return 2.0 SECONDS
 
-/obj/machinery/door/airlock/proc/legacy_animation_segment_delay(animation)
+/obj/machinery/door/airlock/proc/legacy_segment_delay(animation)
 	switch(animation)
 		if(AIRLOCK_OPENING_TRANSPARENT)
 			return 0.1 SECONDS
@@ -162,7 +173,7 @@
 	else
 		. += get_airlock_overlay("fill_[frame_state + fill_state_suffix]", icon, src, em_block = TRUE)
 
-	if(lights && hasPower() && has_environment_lights)
+	if(lights && hasPower() && (airlock_features & ENV_LIGHTS))
 		. += get_airlock_overlay("lights_[light_state]", overlays_file, src, em_block = FALSE)
 
 		if(multi_tile && filler)
@@ -311,7 +322,7 @@
 
 /obj/machinery/door/airlock/public/glass/no_lights
 	flags_1 = parent_type::flags_1 | NO_NEW_GAGS_PREVIEW_1
-	has_environment_lights = FALSE
+	airlock_features = parent_type::airlock_features & ~ENV_LIGHTS
 
 /**
  * External
@@ -353,7 +364,7 @@
 	post_init_icon_state = null
 	greyscale_config = null
 	greyscale_colors = null
-	use_legacy_animations = TRUE
+	airlock_features = parent_type::airlock_features | LEGACY_ANIMATIONS
 
 /obj/machinery/door/airlock/survival_pod
 	icon = 'local/icons/obj/doors/airlocks/external/external.dmi'
@@ -397,7 +408,7 @@
 	post_init_icon_state = null
 	greyscale_config = null
 	greyscale_colors = null
-	use_legacy_animations = TRUE
+	airlock_features = parent_type::airlock_features | LEGACY_ANIMATIONS
 
 /obj/machinery/door/airlock/maintenance_hatch
 	icon = 'icons/obj/doors/airlocks/hatch/maintenance.dmi'
@@ -406,7 +417,7 @@
 	post_init_icon_state = null
 	greyscale_config = null
 	greyscale_colors = null
-	use_legacy_animations = TRUE
+	airlock_features = parent_type::airlock_features | LEGACY_ANIMATIONS
 
 /obj/machinery/door/airlock/highsecurity
 	icon = 'icons/obj/doors/airlocks/highsec/highsec.dmi'
@@ -415,7 +426,7 @@
 	post_init_icon_state = null
 	greyscale_config = null
 	greyscale_colors = null
-	use_legacy_animations = TRUE
+	airlock_features = parent_type::airlock_features | LEGACY_ANIMATIONS
 
 /obj/machinery/door/airlock/shuttle
 	icon = 'icons/obj/doors/airlocks/shuttle/shuttle.dmi'
@@ -424,7 +435,7 @@
 	post_init_icon_state = null
 	greyscale_config = null
 	greyscale_colors = null
-	use_legacy_animations = TRUE
+	airlock_features = parent_type::airlock_features | LEGACY_ANIMATIONS
 
 /obj/machinery/door/airlock/abductor
 	icon = 'icons/obj/doors/airlocks/abductor/abductor_airlock.dmi'
@@ -434,7 +445,7 @@
 	post_init_icon_state = null
 	greyscale_config = null
 	greyscale_colors = null
-	use_legacy_animations = TRUE
+	airlock_features = parent_type::airlock_features | LEGACY_ANIMATIONS
 
 /obj/machinery/door/airlock/cult
 	name = "cult airlock"
@@ -444,7 +455,7 @@
 	post_init_icon_state = null
 	greyscale_config = null
 	greyscale_colors = null
-	use_legacy_animations = TRUE
+	airlock_features = parent_type::airlock_features | LEGACY_ANIMATIONS
 
 /obj/machinery/door/airlock/cult/unruned
 	icon = 'icons/obj/doors/airlocks/cult/unruned/cult.dmi'
@@ -457,7 +468,7 @@
 	post_init_icon_state = null
 	greyscale_config = null
 	greyscale_colors = null
-	use_legacy_animations = TRUE
+	airlock_features = parent_type::airlock_features | LEGACY_ANIMATIONS
 
 /obj/machinery/door/airlock/grunge
 	icon = 'icons/obj/doors/airlocks/centcom/centcom.dmi'
@@ -466,7 +477,7 @@
 	post_init_icon_state = null
 	greyscale_config = null
 	greyscale_colors = null
-	use_legacy_animations = TRUE
+	airlock_features = parent_type::airlock_features | LEGACY_ANIMATIONS
 
 /obj/machinery/door/airlock/freezer
 	icon = 'icons/obj/doors/airlocks/station/freezer.dmi'
@@ -474,7 +485,7 @@
 	post_init_icon_state = null
 	greyscale_config = null
 	greyscale_colors = null
-	use_legacy_animations = TRUE
+	airlock_features = parent_type::airlock_features | LEGACY_ANIMATIONS
 
 /**
  * Multi-tile
@@ -486,7 +497,7 @@
 	post_init_icon_state = null
 	greyscale_config = null
 	greyscale_colors = null
-	use_legacy_animations = TRUE
+	airlock_features = LEGACY_ANIMATIONS
 
 /**
  * Tram
@@ -521,7 +532,7 @@
 	post_init_icon_state = null
 	greyscale_config = null
 	greyscale_colors = null
-	use_legacy_animations = TRUE
+	airlock_features = parent_type::airlock_features | LEGACY_ANIMATIONS
 
 /obj/machinery/door/airlock/diamond
 	icon = 'icons/obj/doors/airlocks/station/diamond.dmi'
@@ -530,7 +541,7 @@
 	post_init_icon_state = null
 	greyscale_config = null
 	greyscale_colors = null
-	use_legacy_animations = TRUE
+	airlock_features = parent_type::airlock_features | LEGACY_ANIMATIONS
 
 /obj/machinery/door/airlock/uranium
 	icon = 'icons/obj/doors/airlocks/station/uranium.dmi'
@@ -539,7 +550,7 @@
 	post_init_icon_state = null
 	greyscale_config = null
 	greyscale_colors = null
-	use_legacy_animations = TRUE
+	airlock_features = parent_type::airlock_features | LEGACY_ANIMATIONS
 
 /obj/machinery/door/airlock/plasma
 	icon = 'icons/obj/doors/airlocks/station/plasma.dmi'
@@ -548,7 +559,7 @@
 	post_init_icon_state = null
 	greyscale_config = null
 	greyscale_colors = null
-	use_legacy_animations = TRUE
+	airlock_features = parent_type::airlock_features | LEGACY_ANIMATIONS
 
 /obj/machinery/door/airlock/bananium
 	icon = 'icons/obj/doors/airlocks/station/bananium.dmi'
@@ -558,7 +569,7 @@
 	post_init_icon_state = null
 	greyscale_config = null
 	greyscale_colors = null
-	use_legacy_animations = TRUE
+	airlock_features = parent_type::airlock_features | LEGACY_ANIMATIONS
 
 /obj/machinery/door/airlock/sandstone
 	icon = 'icons/obj/doors/airlocks/station/sandstone.dmi'
@@ -567,7 +578,7 @@
 	post_init_icon_state = null
 	greyscale_config = null
 	greyscale_colors = null
-	use_legacy_animations = TRUE
+	airlock_features = parent_type::airlock_features | LEGACY_ANIMATIONS
 
 /obj/machinery/door/airlock/wood
 	icon = 'local/icons/obj/doors/airlocks/station/wood.dmi'
@@ -576,7 +587,7 @@
 	post_init_icon_state = null
 	greyscale_config = null
 	greyscale_colors = null
-	use_legacy_animations = TRUE
+	airlock_features = parent_type::airlock_features | LEGACY_ANIMATIONS
 
 /obj/machinery/door/airlock/titanium
 	icon = 'icons/obj/doors/airlocks/shuttle/shuttle.dmi'
@@ -585,7 +596,7 @@
 	post_init_icon_state = null
 	greyscale_config = null
 	greyscale_colors = null
-	use_legacy_animations = TRUE
+	airlock_features = parent_type::airlock_features | LEGACY_ANIMATIONS
 
 /obj/machinery/door/airlock/bronze
 	icon = 'icons/obj/doors/airlocks/clockwork/pinion_airlock.dmi'
@@ -594,7 +605,7 @@
 	post_init_icon_state = null
 	greyscale_config = null
 	greyscale_colors = null
-	use_legacy_animations = TRUE
+	airlock_features = parent_type::airlock_features | LEGACY_ANIMATIONS
 
 /**
  * Effigy
