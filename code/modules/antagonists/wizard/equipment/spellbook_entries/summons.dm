@@ -21,7 +21,7 @@
 
 /datum/spellbook_entry/summon/guns/can_be_purchased()
 	// Must be a high chaos round + Also must be config enabled
-	return SSdynamic.current_tier.tier == DYNAMIC_TIER_HIGH && !CONFIG_GET(flag/no_summon_guns)
+	return !CONFIG_GET(flag/no_summon_guns) // EffigyEdit Change - Storyteller
 
 /datum/spellbook_entry/summon/guns/buy_spell(mob/living/carbon/human/user, obj/item/spellbook/book, log_buy = TRUE)
 	summon_guns(user, 10)
@@ -35,7 +35,7 @@
 
 /datum/spellbook_entry/summon/magic/can_be_purchased()
 	// Must be a high chaos round + Also must be config enabled
-	return SSdynamic.current_tier.tier == DYNAMIC_TIER_HIGH && !CONFIG_GET(flag/no_summon_magic)
+	return !CONFIG_GET(flag/no_summon_magic) // EffigyEdit Change - Storyteller
 
 /datum/spellbook_entry/summon/magic/buy_spell(mob/living/carbon/human/user, obj/item/spellbook/book, log_buy = TRUE)
 	summon_magic(user, 10)
@@ -52,7 +52,7 @@
 
 /datum/spellbook_entry/summon/events/can_be_purchased()
 	// Must be a high chaos round + Also must be config enabled
-	return SSdynamic.current_tier.tier == DYNAMIC_TIER_HIGH && !CONFIG_GET(flag/no_summon_events)
+	return !CONFIG_GET(flag/no_summon_events) // EffigyEdit Change - Storyteller
 
 /datum/spellbook_entry/summon/events/buy_spell(mob/living/carbon/human/user, obj/item/spellbook/book, log_buy = TRUE)
 	summon_events(user)
@@ -126,8 +126,10 @@
 	return ..()
 
 /datum/spellbook_entry/summon/specific_spell/can_be_purchased()
+	/* EffigyEdit Remove - Storyteller
 	if(SSdynamic.current_tier.tier != DYNAMIC_TIER_HIGH)
 		return FALSE
+	*/// EffigyEdit Remove End
 	if(GLOB.mass_teaching)
 		return FALSE
 	return ..()

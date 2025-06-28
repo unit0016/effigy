@@ -367,11 +367,11 @@ GLOBAL_LIST_INIT(achievements_unlocked, list())
 			//ignore this comment, it fixes the broken sytax parsing caused by the " above
 			else
 				parts += "[FOURSPACES]<i>Nobody died this shift!</i>"
-
+	/* EffigyEdit Remove - Storyteller
 	parts += "[FOURSPACES]Round: [SSdynamic.current_tier.name]"
 	for(var/datum/dynamic_ruleset/rule as anything in SSdynamic.executed_rulesets - SSdynamic.unreported_rulesets)
 		parts += "[FOURSPACES][FOURSPACES]- <b>[rule.name]</b> ([rule.config_tag])"
-
+	*/// EffigyEdit Remove End
 	return parts.Join("<br>")
 
 /client/proc/roundend_report_file()
