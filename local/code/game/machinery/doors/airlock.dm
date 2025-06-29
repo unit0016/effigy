@@ -51,10 +51,11 @@
 		airlock_features = airlock_features | ACCESS_RESTRICTED
 	else
 		airlock_features = airlock_features & ~ACCESS_RESTRICTED
+		set_greyscale(new_config = text2path("[initial(greyscale_config)]/unres"))
 
 /obj/machinery/door/airlock/power_change()
 	..()
-	update_icon()
+	set_animation()
 
 /obj/machinery/door/airlock/animation_length(animation)
 	if(airlock_features & LEGACY_ANIMATIONS)
