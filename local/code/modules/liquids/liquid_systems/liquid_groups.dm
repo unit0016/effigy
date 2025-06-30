@@ -206,11 +206,12 @@ GLOBAL_VAR_INIT(liquid_debug_colors, FALSE)
 			cached_liquids.ExposeMyTurf()
 
 /datum/liquid_group/proc/process_cell(turf/T)
-	if(T.liquids.height <= 1) //Causes a bug when the liquid hangs in the air and is supposed to fall down a level
+	if(T.liquids.height <= 1)
 		return FALSE
+
 	for(var/tur in T.get_atmos_adjacent_turfs())
 		var/turf/T2 = tur
-		//Immutable check thing
+		// Case: T2 has an immutable liquid
 		if(T2.liquids && T2.liquids.immutable)
 			if(T.z != T2.z)
 				var/turf/Z_turf_below = GET_TURF_BELOW(T)
@@ -220,13 +221,13 @@ GLOBAL_VAR_INIT(liquid_debug_colors, FALSE)
 				else
 					continue
 
-			//CHECK DIFFERENT TURF HEIGHT THING
+			// Different liquid height
 			if(T.liquid_height != T2.liquid_height)
 				var/my_liquid_height = T.liquid_height + T.liquids.height
 				var/target_liquid_height = T2.liquid_height + T2.liquids.height
-				if(my_liquid_height > target_liquid_height+2)
+				if(my_liquid_height > target_liquid_height + 2)
 					var/coeff = (T.liquids.height / (T.liquids.height + abs(T.liquid_height)))
-					var/height_diff = min(0.4,abs((target_liquid_height / my_liquid_height)-1)*coeff)
+					var/height_diff = min(0.4, abs((target_liquid_height / my_liquid_height) - 1) * coeff)
 					T.liquid_fraction_delete(height_diff)
 					. = TRUE
 				continue
@@ -235,7 +236,27 @@ GLOBAL_VAR_INIT(liquid_debug_colors, FALSE)
 				SSliquids.active_immutables[T2] = TRUE
 				. = TRUE
 				continue
-		//END OF IMMUTABLE MADNESS
+
+		/// SHOG NOTE: I'm preserving this for a moment but I'm really; really; really not sure about it. immutable liquids are; well, yanno; immutable. while this could be a good optimization i'm not really convinced it's good for the game.
+		/// I'm going to play with it a bit and then remove this if I can't justify it.
+		// === New Behavior: Immutable liquid floods downward ===
+		else if(T.liquids.immutable && !T2.liquids && T.z != T2.z)
+			var/turf/Z_turf_below = GET_TURF_BELOW(T)
+			if(Z_turf_below == T2)
+				T2.liquids = new(T2)
+				T2.liquids.reagent_list = T.liquids.reagent_list.Copy()
+				T2.liquids.total_reagents = T.liquids.total_reagents
+				T2.liquids.height = T.liquids.height
+				T2.liquids.temp = T.liquids.temp
+				T2.liquids.immutable = TRUE
+				T2.liquids.set_height(T.liquids.height)
+				T2.liquids.set_new_liquid_state(T.liquids.liquid_state)
+				T2.liquids.ExposeMyTurf()
+				SSliquids.add_active_turf(T2)
+				. = TRUE
+			continue
+
+		// === Regular downward sharing ===
 
 		if(T.z != T2.z)
 			var/turf/Z_turf_below = GET_TURF_BELOW(T)
@@ -245,26 +266,28 @@ GLOBAL_VAR_INIT(liquid_debug_colors, FALSE)
 					qdel(T.liquids, TRUE)
 					. = TRUE
 			continue
-		//CHECK DIFFERENT TURF HEIGHT THING
+		// Turf height difference handling
 		if(T.liquid_height != T2.liquid_height)
 			var/my_liquid_height = T.liquid_height + T.liquids.height
 			var/target_liquid_height = T2.liquid_height + (T2.liquids ? T2.liquids.height : 0)
-			if(my_liquid_height > target_liquid_height+1)
+			if(my_liquid_height > target_liquid_height + 1)
 				var/coeff = (T.liquids.height / (T.liquids.height + abs(T.liquid_height)))
 				var/height_diff = min(0.4,abs((target_liquid_height / my_liquid_height)-1)*coeff)
 				T.liquid_fraction_share(T2, height_diff)
 				. = TRUE
 			continue
-		//END OF TURF HEIGHT
+
 		if(!T.can_share_liquids_with(T2))
 			continue
+
 		if(!T2.lgroup)
 			add_to_group(T2)
-		//Try merge groups if possible
 		else if(T2.lgroup != T.lgroup && T.lgroup.can_merge_group(T2.lgroup))
 			T.lgroup.merge_group(T2.lgroup)
+
 		. = TRUE
 		SSliquids.add_active_turf(T2)
+
 	if(.)
 		dirty = TRUE
 			//return //Do we want it to spread once per process or many times?

@@ -238,8 +238,12 @@
 		lgroup.dirty = TRUE
 
 /turf/proc/can_share_liquids_with(turf/T)
-	if(T.z != z) //No Z here handling currently
-		return FALSE
+	if(T.z != z)
+		// Only allow downward flow from open/openspace into turf/open
+		if(T.z == z - 1 && istype(src, /turf/open/openspace) && istype(T, /turf/open))
+			return TRUE
+		else
+			return FALSE
 
 	if(T.liquids && T.liquids.immutable)
 		return FALSE
@@ -296,17 +300,34 @@
 
 /turf/proc/process_immutable_liquid()
 	var/any_share = FALSE
+
+	// First check downward into Z-1 (if we're on an openspace)
+	var/turf/turf_below = GET_TURF_BELOW(src)
+	if(turf_below && can_share_liquids_with(turf_below))
+		// Don't overflow up
+		if(turf_below.liquids?.immutable) // prevent propagation into immutable
+			return
+		if(turf_below.liquids && turf_below.liquids.height > liquids.height)
+			return
+
+		any_share = TRUE
+		turf_below.add_liquid_list(liquids.reagent_list, TRUE, liquids.temp)
+
+	// Then check standard adjacent turfs on the same level
 	for(var/tur in get_atmos_adjacent_turfs())
 		var/turf/T = tur
+		if(T.liquids?.immutable)
+			continue
 		if(can_share_liquids_with(T))
-			//Move this elsewhere sometime later?
 			if(T.liquids && T.liquids.height > liquids.height)
 				continue
 
 			any_share = TRUE
 			T.add_liquid_list(liquids.reagent_list, TRUE, liquids.temp)
+
 	if(!any_share)
 		SSliquids.active_immutables -= src
+
 
 /*
 *	OPEN TURFS

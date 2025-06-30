@@ -194,8 +194,12 @@ GLOBAL_LIST_INIT(bitflags, list(1, 2, 4, 8, 16, 32, 64, 128, 256, 512, 1024, 204
 #define PHASING (1<<4)
 /// The mob is walking on the ceiling. Or is generally just, upside down.
 #define UPSIDE_DOWN (1<<5)
+///	EffigyEdit Add - Sigma Octantis / Ocean
+/// Swimming movement type; used for swimming in liquid turf effects (see local/code/modules/liquids).
+#define SWIMMING (1<<6)
+///	EffigyEdit Add End - Sigma Octantis / Ocean
 /// Combination flag for movetypes which, for all intents and purposes, mean the mob is not touching the ground
-#define MOVETYPES_NOT_TOUCHING_GROUND (FLYING|FLOATING|UPSIDE_DOWN)
+#define MOVETYPES_NOT_TOUCHING_GROUND (FLYING|FLOATING|UPSIDE_DOWN|SWIMMING) // EffigyEdit Change : Added SWIMMING
 /// Trait source for stuff movetypes applies
 #define SOURCE_MOVETYPES "movetypes"
 

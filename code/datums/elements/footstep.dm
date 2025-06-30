@@ -68,7 +68,7 @@
 	if(!istype(turf))
 		return
 
-	if(source.buckled || source.throwing || source.movement_type & (VENTCRAWLING | FLYING) || HAS_TRAIT(source, TRAIT_IMMOBILIZED) || CHECK_MOVE_LOOP_FLAGS(source, MOVEMENT_LOOP_OUTSIDE_CONTROL))
+	if(source.buckled || source.throwing || source.movement_type & (VENTCRAWLING | FLYING | SWIMMING) || HAS_TRAIT(source, TRAIT_IMMOBILIZED) || CHECK_MOVE_LOOP_FLAGS(source, MOVEMENT_LOOP_OUTSIDE_CONTROL)) // EffigyEdit Change - Added "SWIMMING" to source.movement_type
 		return
 
 	if(source.body_position == LYING_DOWN) //play crawling sound if we're lying

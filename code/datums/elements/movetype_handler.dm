@@ -23,7 +23,7 @@
 	RegisterSignal(movable_target, SIGNAL_REMOVETRAIT(TRAIT_NO_FLOATING_ANIM), PROC_REF(on_no_floating_anim_trait_loss))
 	attached_atoms[movable_target] = TRUE
 
-	if(movable_target.movement_type & (FLOATING|FLYING) && !HAS_TRAIT(movable_target, TRAIT_NO_FLOATING_ANIM))
+	if(movable_target.movement_type & (FLOATING|FLYING|SWIMMING) && !HAS_TRAIT(movable_target, TRAIT_NO_FLOATING_ANIM)) // EffigyEdit Change - Added SWIMMING to movable_taget.movement_type
 		DO_FLOATING_ANIM(movable_target)
 
 /datum/element/movetype_handler/Detach(datum/source)
@@ -47,7 +47,7 @@
 		return
 	var/old_state = source.movement_type
 	source.movement_type |= flag
-	if(!(old_state & (FLOATING|FLYING)) && (source.movement_type & (FLOATING|FLYING)) && !HAS_TRAIT(source, TRAIT_NO_FLOATING_ANIM))
+	if(!(old_state & (FLOATING|FLYING|SWIMMING)) && (source.movement_type & (FLOATING|FLYING)) && !HAS_TRAIT(source, TRAIT_NO_FLOATING_ANIM)) // EffigyEdit Change - Added SWIMMING
 		DO_FLOATING_ANIM(source)
 	if(source.movement_type & UPSIDE_DOWN)
 		ADD_TRAIT(source, TRAIT_IGNORE_ELEVATION, SOURCE_MOVETYPES)
@@ -61,7 +61,7 @@
 		return
 	var/old_state = source.movement_type
 	source.movement_type &= ~flag
-	if((old_state & (FLOATING|FLYING)) && !(source.movement_type & (FLOATING|FLYING)))
+	if((old_state & (FLOATING|FLYING|SWIMMING)) && !(source.movement_type & (FLOATING|FLYING|SWIMMING))) // EffigyEdit Change - Added SWIMMING
 		STOP_FLOATING_ANIM(source)
 		var/turf/pitfall = source.loc //Things that don't fly fall in open space.
 		if(istype(pitfall))
@@ -73,11 +73,11 @@
 /// Called when the TRAIT_NO_FLOATING_ANIM trait is added to the movable. Stops it from bobbing up and down.
 /datum/element/movetype_handler/proc/on_no_floating_anim_trait_gain(atom/movable/source, trait)
 	SIGNAL_HANDLER
-	if(source.movement_type & (FLOATING|FLYING))
+	if(source.movement_type & (FLOATING|FLYING|SWIMMING)) // EffigyEdit Change - Added SWIMMING
 		STOP_FLOATING_ANIM(source)
 
 /// Called when the TRAIT_NO_FLOATING_ANIM trait is removed from the mob. Restarts the bobbing animation.
 /datum/element/movetype_handler/proc/on_no_floating_anim_trait_loss(atom/movable/source, trait)
 	SIGNAL_HANDLER
-	if(source.movement_type & (FLOATING|FLYING))
+	if(source.movement_type & (FLOATING|FLYING|SWIMMING)) // EffigyEdit Change - Added SWIMMING
 		DO_FLOATING_ANIM(source)

@@ -317,6 +317,9 @@ DEFINE_BITFIELD(movement_type, list(
 	"PHASING" = PHASING,
 	"VENTCRAWLING" = VENTCRAWLING,
 	"UPSIDE_DOWN" = UPSIDE_DOWN,
+	// EffigyEdit Add - Swimming
+	"SWIMMING" = SWIMMING,
+	// EffigyEdit Add End - Swimming
 ))
 
 DEFINE_BITFIELD(obj_flags, list(

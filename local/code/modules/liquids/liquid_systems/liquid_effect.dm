@@ -237,7 +237,22 @@
 	liquid_state = new_state
 	if(!isnull(my_turf))
 		my_turf.liquids_change(new_state)
+		update_lightrays()
 	update_icon(UPDATE_OVERLAYS)
+
+/obj/effect/abstract/liquid_turf/proc/update_lightrays()
+	if(isopenturf(my_turf))
+		if(liquid_state == LIQUID_STATE_FULLTILE) // We're fulltile and have a turf above us!
+			var/turf/above_turf = GET_TURF_ABOVE(my_turf)
+			if(isclosedturf(above_turf) || !above_turf?.liquids || above_turf?.liquids?.liquid_state != LIQUID_STATE_FULLTILE) // We're not valid here
+				for(var/obj/effect/overlay/lightray/found_killable_lightray in my_turf.vis_contents)
+					qdel(found_killable_lightray)
+					return // We're done here
+			else
+				for(var/obj/effect/overlay/lightray/L in my_turf.vis_contents)
+					return // Already present, do nothing
+				var/obj/effect/overlay/lightray/newray = new /obj/effect/overlay/lightray
+				my_turf.vis_contents += newray
 
 /obj/effect/abstract/liquid_turf/update_overlays()
 	. = ..()
@@ -444,7 +459,7 @@
 			C.apply_status_effect(/datum/status_effect/water_affected)
 	else if (isliving(AM))
 		var/mob/living/L = AM
-		if(prob(7) && !(L.movement_type & FLYING))
+		if(prob(7) && !(L.movement_type & FLYING | SWIMMING))
 			L.slip(1 SECONDS, T, NO_SLIP_WHEN_WALKING, 20, TRUE)
 	if(fire_state)
 		AM.fire_act((T20C+50) + (50*fire_state), 125)
@@ -478,12 +493,13 @@
 	. = ..()
 	if(!SSliquids)
 		CRASH("Liquid Turf created with the liquids sybsystem not yet initialized!")
-	if(!immutable)
+	if(loc)
 		my_turf = loc
 		RegisterSignal(my_turf, COMSIG_ATOM_ENTERED, PROC_REF(movable_entered))
 		RegisterSignal(my_turf, COMSIG_TURF_MOB_FALL, PROC_REF(mob_fall))
 		RegisterSignal(my_turf, COMSIG_ATOM_EXAMINE, PROC_REF(examine_turf))
-		SSliquids.add_active_turf(my_turf)
+		if(!immutable)
+			SSliquids.add_active_turf(my_turf)
 
 		SEND_SIGNAL(my_turf, COMSIG_TURF_LIQUIDS_CREATION, src)
 
@@ -491,6 +507,10 @@
 	if(z)
 		QUEUE_SMOOTH(src)
 		QUEUE_SMOOTH_NEIGHBORS(src)
+	if(isopenturf(my_turf))
+		my_turf.AddElement(/datum/element/swimmable_turf)
+		update_lightrays()
+
 
 	/* //Cant do it immediately, hmhm
 	if(isspaceturf(my_turf))
