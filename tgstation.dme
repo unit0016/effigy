@@ -6825,6 +6825,7 @@
 #include "local\code\game\machinery\status_display.dm"
 #include "local\code\game\machinery\doors\airlock.dm"
 #include "local\code\game\machinery\doors\airlock_override.dm"
+#include "local\code\game\machinery\doors\door.dm"
 #include "local\code\game\machinery\doors\firedoor.dm"
 #include "local\code\game\machinery\doors\poddoor.dm"
 #include "local\code\game\machinery\doors\shutters.dm"

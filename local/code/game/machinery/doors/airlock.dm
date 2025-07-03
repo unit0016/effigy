@@ -34,7 +34,6 @@
 	var/door_light_power = AIRLOCK_LIGHT_POWER_IDLE
 	///Is this door external? E.g. does it lead to space? Shuttle docking systems bolt doors with this flag.
 	var/external = FALSE
-	var/rapid_open = FALSE
 
 /obj/machinery/door/airlock/external
 	external = TRUE
@@ -76,9 +75,6 @@
 		return
 	operating = FALSE
 	set_animation()
-
-/obj/machinery/door/airlock/proc/post_rapid_open()
-	rapid_open = FALSE
 
 /obj/machinery/door/airlock/animation_length(animation)
 	if(airlock_features & LEGACY_ANIMATIONS)
@@ -242,6 +238,12 @@
 			if(!(unres_sides & heading))
 				continue
 			. += get_airlock_overlay("unres_[heading]", overlays_file, src, em_block = FALSE)
+
+/obj/machinery/door/airlock/open(forced = DEFAULT_DOOR_CHECKS)
+	if(!(airlock_features & LEGACY_ANIMATIONS) && !(airlock_features & ACCESS_RESTRICTED))
+		rapid_open()
+
+	return ..()
 
 /obj/machinery/door/airlock
 	icon = 'icons/map_icons/airlocks.dmi'
