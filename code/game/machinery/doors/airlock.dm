@@ -513,7 +513,8 @@
 	airlock_state = new_state
 	if(animated)
 		operating = TRUE
-		run_animation(airlock_state, force_type)
+		//run_animation(airlock_state, force_type) // EffigyEdit Change - Custom Airlocks
+		run_animation(rapid_open ? "[airlock_state]_unres" : airlock_state, force_type)
 		return
 	operating = FALSE
 	set_animation()
@@ -638,6 +639,11 @@
 		if(DOOR_DENY_ANIMATION)
 			playsound(src, soundin = doorDeni, vol = 50, vary = FALSE, extrarange = 3)
 			addtimer(CALLBACK(src, PROC_REF(handle_deny_end)), AIRLOCK_DENY_ANIMATION_TIME)
+		// EffigyEdit Add - Custom Airlocks
+		if(DOOR_OPENING_UNRES_ANIMATION)
+			use_energy(50 JOULES)
+			playsound(src, soundin = doorOpenRapid, vol = 30, vary = FALSE)
+		// EffigyEdit Add End
 
 /obj/machinery/door/airlock/proc/handle_deny_end()
 	if(airlock_state == AIRLOCK_DENY)

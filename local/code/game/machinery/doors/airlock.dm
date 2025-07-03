@@ -9,15 +9,14 @@
 #define AIRLOCK_LIGHT_FIRE "fire"
 
 #define AIRLOCK_FRAME_OPENING_UNRES "opening_unres"
-#define DOOR_OPENING_UNRES_ANIMATION "opening_unres"
-
 
 /obj/machinery/door/airlock
 	/// For those airlocks you might want to have varying "fillings" for, without having to
 	/// have an icon file per door with a different filling.
 	var/fill_state_suffix = null
-	doorOpen = 'local/sound/machines/airlock/airlock_open_restricted.ogg'
+	doorOpen = 'local/sound/machines/airlock/airlock_open.ogg'
 	doorClose = 'local/sound/machines/airlock/airlock_close.ogg'
+	var/doorOpenRapid = 'local/sound/machines/airlock/airlock_open_rapid.ogg'
 	boltUp = 'local/sound/machines/airlock/bolts_up.ogg'
 	boltDown = 'local/sound/machines/airlock/bolts_down.ogg'
 	light_dir = NONE
@@ -59,21 +58,6 @@
 
 /obj/machinery/door/airlock/power_change()
 	..()
-	set_animation()
-
-/**
- * Set the airlock state to a new value, change the icon state
- * and run the associated animation if required.
- */
-/obj/machinery/door/airlock/set_airlock_state(new_state, animated = FALSE)
-	if(!new_state)
-		new_state = density ? AIRLOCK_CLOSED : AIRLOCK_OPEN
-	airlock_state = new_state
-	if(animated)
-		operating = TRUE
-		run_animation(rapid_open ? "[airlock_state]_unres" : airlock_state)
-		return
-	operating = FALSE
 	set_animation()
 
 /obj/machinery/door/airlock/animation_length(animation)
@@ -789,4 +773,3 @@
 #undef AIRLOCK_LIGHT_FIRE
 
 #undef AIRLOCK_FRAME_OPENING_UNRES
-#undef DOOR_OPENING_UNRES_ANIMATION
