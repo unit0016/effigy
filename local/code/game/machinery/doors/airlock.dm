@@ -3,18 +3,23 @@
 #define AIRLOCK_LIGHT_RANGE 1.4
 
 // Airlock light states, used for generating the light overlays
+#define AIRLOCK_LIGHT_OPENING_UNRES "opening_unres"
 #define AIRLOCK_LIGHT_POWERON "poweron"
 #define AIRLOCK_LIGHT_ENGINEERING "engineering"
 #define AIRLOCK_LIGHT_FIRE "fire"
+
+#define AIRLOCK_FRAME_OPENING_UNRES "opening_unres"
+#define DOOR_OPENING_UNRES_ANIMATION "opening_unres"
+
 
 /obj/machinery/door/airlock
 	/// For those airlocks you might want to have varying "fillings" for, without having to
 	/// have an icon file per door with a different filling.
 	var/fill_state_suffix = null
-	doorOpen = 'local/sound/machines/airlockopen.ogg'
-	doorClose = 'local/sound/machines/airlockclose.ogg'
-	boltUp = 'local/sound/machines/bolts_up.ogg'
-	boltDown = 'local/sound/machines/bolts_down.ogg'
+	doorOpen = 'local/sound/machines/airlock/airlock_open_restricted.ogg'
+	doorClose = 'local/sound/machines/airlock/airlock_close.ogg'
+	boltUp = 'local/sound/machines/airlock/bolts_up.ogg'
+	boltDown = 'local/sound/machines/airlock/bolts_down.ogg'
 	light_dir = NONE
 	///Airlock features such as lights, access restrictions, animation type
 	var/airlock_features = ENV_LIGHTS
@@ -29,6 +34,7 @@
 	var/door_light_power = AIRLOCK_LIGHT_POWER_IDLE
 	///Is this door external? E.g. does it lead to space? Shuttle docking systems bolt doors with this flag.
 	var/external = FALSE
+	var/rapid_open = FALSE
 
 /obj/machinery/door/airlock/external
 	external = TRUE
@@ -51,11 +57,28 @@
 		airlock_features = airlock_features | ACCESS_RESTRICTED
 	else
 		airlock_features = airlock_features & ~ACCESS_RESTRICTED
-		set_greyscale(new_config = text2path("[initial(greyscale_config)]/unres"))
 
 /obj/machinery/door/airlock/power_change()
 	..()
 	set_animation()
+
+/**
+ * Set the airlock state to a new value, change the icon state
+ * and run the associated animation if required.
+ */
+/obj/machinery/door/airlock/set_airlock_state(new_state, animated = FALSE)
+	if(!new_state)
+		new_state = density ? AIRLOCK_CLOSED : AIRLOCK_OPEN
+	airlock_state = new_state
+	if(animated)
+		operating = TRUE
+		run_animation(rapid_open ? "[airlock_state]_unres" : airlock_state)
+		return
+	operating = FALSE
+	set_animation()
+
+/obj/machinery/door/airlock/proc/post_rapid_open()
+	rapid_open = FALSE
 
 /obj/machinery/door/airlock/animation_length(animation)
 	if(airlock_features & LEGACY_ANIMATIONS)
@@ -66,9 +89,11 @@
 			return 1.3 SECONDS
 		if(DOOR_CLOSING_ANIMATION)
 			return 2.1 SECONDS
+		if(DOOR_OPENING_UNRES_ANIMATION)
+			return 0.6 SECONDS
 
 /obj/machinery/door/airlock/animation_segment_delay(animation)
-	if(airlock_features & LEGACY_ANIMATIONS)
+	if(airlock_features & LEGACY_ANIMATIONS || rapid_open)
 		return legacy_segment_delay(animation)
 
 	switch(animation)
@@ -163,8 +188,12 @@
 				new_light_color = COLOR_STARLIGHT
 			light_state += "_open"
 		if(AIRLOCK_OPENING)
-			frame_state = AIRLOCK_FRAME_OPENING
-			light_state = AIRLOCK_LIGHT_OPENING
+			if(rapid_open)
+				frame_state = AIRLOCK_FRAME_OPENING_UNRES
+				light_state = AIRLOCK_LIGHT_OPENING_UNRES
+			else
+				frame_state = AIRLOCK_FRAME_OPENING
+				light_state = AIRLOCK_LIGHT_OPENING
 			new_light_power = AIRLOCK_LIGHT_POWER_ACTIVE
 			new_light_color = COLOR_CYAN_STARLIGHT
 
@@ -752,6 +781,10 @@
 #undef AIRLOCK_LIGHT_POWER_ACTIVE
 #undef AIRLOCK_LIGHT_RANGE
 
+#undef AIRLOCK_LIGHT_OPENING_UNRES
 #undef AIRLOCK_LIGHT_POWERON
 #undef AIRLOCK_LIGHT_ENGINEERING
 #undef AIRLOCK_LIGHT_FIRE
+
+#undef AIRLOCK_FRAME_OPENING_UNRES
+#undef DOOR_OPENING_UNRES_ANIMATION
