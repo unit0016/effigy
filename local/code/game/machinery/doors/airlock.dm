@@ -3,12 +3,12 @@
 #define AIRLOCK_LIGHT_RANGE 1.4
 
 // Airlock light states, used for generating the light overlays
-#define AIRLOCK_LIGHT_OPENING_UNRES "opening_unres"
+#define AIRLOCK_LIGHT_OPENING_RAPID "opening_rapid"
 #define AIRLOCK_LIGHT_POWERON "poweron"
 #define AIRLOCK_LIGHT_ENGINEERING "engineering"
 #define AIRLOCK_LIGHT_FIRE "fire"
 
-#define AIRLOCK_FRAME_OPENING_UNRES "opening_unres"
+#define AIRLOCK_FRAME_OPENING_RAPID "opening_rapid"
 
 /obj/machinery/door/airlock
 	/// For those airlocks you might want to have varying "fillings" for, without having to
@@ -69,7 +69,7 @@
 			return 1.3 SECONDS
 		if(DOOR_CLOSING_ANIMATION)
 			return 2.1 SECONDS
-		if(DOOR_OPENING_UNRES_ANIMATION)
+		if(DOOR_OPENING_RAPID_ANIMATION)
 			return 0.6 SECONDS
 
 /obj/machinery/door/airlock/animation_segment_delay(animation)
@@ -169,8 +169,8 @@
 			light_state += "_open"
 		if(AIRLOCK_OPENING)
 			if(rapid_open)
-				frame_state = AIRLOCK_FRAME_OPENING_UNRES
-				light_state = AIRLOCK_LIGHT_OPENING_UNRES
+				frame_state = AIRLOCK_FRAME_OPENING_RAPID
+				light_state = AIRLOCK_LIGHT_OPENING_RAPID
 			else
 				frame_state = AIRLOCK_FRAME_OPENING
 				light_state = AIRLOCK_LIGHT_OPENING
@@ -767,9 +767,9 @@
 #undef AIRLOCK_LIGHT_POWER_ACTIVE
 #undef AIRLOCK_LIGHT_RANGE
 
-#undef AIRLOCK_LIGHT_OPENING_UNRES
+#undef AIRLOCK_LIGHT_OPENING_RAPID
 #undef AIRLOCK_LIGHT_POWERON
 #undef AIRLOCK_LIGHT_ENGINEERING
 #undef AIRLOCK_LIGHT_FIRE
 
-#undef AIRLOCK_FRAME_OPENING_UNRES
+#undef AIRLOCK_FRAME_OPENING_RAPID

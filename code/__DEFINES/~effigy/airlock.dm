@@ -5,7 +5,7 @@
 ///Does this door have access checks?
 #define ACCESS_RESTRICTED (1<<2)
 
-#define DOOR_OPENING_UNRES_ANIMATION "opening_unres"
+#define DOOR_OPENING_RAPID_ANIMATION "opening_rapid"
 
 DEFINE_BITFIELD(airlock_features, list(
 	"ENV_LIGHTS" = ENV_LIGHTS,
