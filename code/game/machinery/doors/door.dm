@@ -497,7 +497,6 @@
 	if(operating)
 		return FALSE
 	operating = TRUE
-	update_appearance() // EffigyEdit Add - Customized Airlocks
 	use_energy(active_power_usage)
 	run_animation(DOOR_OPENING_ANIMATION)
 	set_opacity(0)

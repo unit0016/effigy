@@ -65,12 +65,12 @@
 		return legacy_animation_length(animation)
 
 	switch(animation)
+		if(DOOR_OPENING_RAPID_ANIMATION)
+			return 0.8 SECONDS
 		if(DOOR_OPENING_ANIMATION)
 			return 1.3 SECONDS
 		if(DOOR_CLOSING_ANIMATION)
 			return 2.1 SECONDS
-		if(DOOR_OPENING_RAPID_ANIMATION)
-			return 0.6 SECONDS
 
 /obj/machinery/door/airlock/animation_segment_delay(animation)
 	if(airlock_features & LEGACY_ANIMATIONS || rapid_open)

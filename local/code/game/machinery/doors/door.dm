@@ -11,7 +11,7 @@
 		return
 
 	rapid_open = TRUE
-	addtimer(CALLBACK(src, PROC_REF(post_rapid_open)), 0.6 SECONDS, TIMER_UNIQUE|TIMER_OVERRIDE)
+	addtimer(CALLBACK(src, PROC_REF(post_rapid_open)), 0.8 SECONDS, TIMER_UNIQUE|TIMER_OVERRIDE)
 
 /obj/machinery/door/proc/post_rapid_open()
 	rapid_open = FALSE
