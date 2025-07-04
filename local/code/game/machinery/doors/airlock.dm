@@ -73,8 +73,11 @@
 			return 2.1 SECONDS
 
 /obj/machinery/door/airlock/animation_segment_delay(animation)
-	if(airlock_features & LEGACY_ANIMATIONS || rapid_open)
+	if(airlock_features & LEGACY_ANIMATIONS)
 		return legacy_segment_delay(animation)
+
+	if(rapid_open)
+		return rapid_segment_delay(animation)
 
 	switch(animation)
 		if(AIRLOCK_OPENING_TRANSPARENT)
@@ -111,6 +114,21 @@
 			return 0.6 SECONDS
 		if(AIRLOCK_CLOSING_FINISHED)
 			return 2.0 SECONDS
+
+/obj/machinery/door/airlock/proc/rapid_segment_delay(animation)
+	switch(animation)
+		if(AIRLOCK_OPENING_TRANSPARENT)
+			return 0.1 SECONDS
+		if(AIRLOCK_OPENING_PASSABLE)
+			return 0.4 SECONDS
+		if(AIRLOCK_OPENING_FINISHED)
+			return 0.8 SECONDS
+		if(AIRLOCK_CLOSING_UNPASSABLE)
+			return 1.2 SECONDS
+		if(AIRLOCK_CLOSING_OPAQUE)
+			return 1.5 SECONDS
+		if(AIRLOCK_CLOSING_FINISHED)
+			return 2.1 SECONDS
 
 /obj/machinery/door/airlock/update_overlays()
 	. = ..()
