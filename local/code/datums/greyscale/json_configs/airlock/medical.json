@@ -172,6 +172,12 @@
 			"icon_state": "fill_opening_right_rapid",
 			"blend_mode": "overlay",
 			"color_ids": [2]
+		},
+		{
+			"type": "icon_state",
+			"icon_state": "medical_opening_rapid",
+			"blend_mode": "overlay",
+			"color_ids": [3]
 		}
 	],
 	"fill_closing": [
