@@ -1,6 +1,8 @@
-#define AIRLOCK_LIGHT_POWER_IDLE 0.7
-#define AIRLOCK_LIGHT_POWER_ACTIVE 2.4
-#define AIRLOCK_LIGHT_RANGE 1.4
+#define AIRLOCK_LIGHT_POWER_LOW 1
+#define AIRLOCK_LIGHT_POWER_MID 1.4
+#define AIRLOCK_LIGHT_POWER_HIGH 2.1
+#define AIRLOCK_LIGHT_RANGE_LOW 1.4
+#define AIRLOCK_LIGHT_RANGE_HIGH 1.5
 
 // Airlock light states, used for generating the light overlays
 #define AIRLOCK_LIGHT_OPENING_RAPID "opening_rapid"
@@ -11,9 +13,6 @@
 #define AIRLOCK_FRAME_OPENING_RAPID "opening_rapid"
 
 /obj/machinery/door/airlock
-	/// For those airlocks you might want to have varying "fillings" for, without having to
-	/// have an icon file per door with a different filling.
-	var/fill_state_suffix = null
 	doorOpen = 'local/sound/machines/airlock/airlock_open.ogg'
 	doorClose = 'local/sound/machines/airlock/airlock_close.ogg'
 	var/doorOpenRapid = 'local/sound/machines/airlock/airlock_open_rapid.ogg'
@@ -22,15 +21,6 @@
 	light_dir = NONE
 	///Airlock features such as lights, access restrictions, animation type
 	var/airlock_features = ENV_LIGHTS
-	var/light_color_poweron = COLOR_STARLIGHT
-	var/light_color_bolts = LIGHT_COLOR_INTENSE_RED
-	var/light_color_emergency = LIGHT_COLOR_DIM_YELLOW
-	var/light_color_engineering = LIGHT_COLOR_PINK
-	var/light_color_permit = LIGHT_COLOR_ELECTRIC_CYAN
-	var/light_color_deny = LIGHT_COLOR_INTENSE_RED
-	var/light_color_warn = LIGHT_COLOR_PINK
-	var/door_light_range = AIRLOCK_LIGHT_RANGE
-	var/door_light_power = AIRLOCK_LIGHT_POWER_IDLE
 	///Is this door external? E.g. does it lead to space? Shuttle docking systems bolt doors with this flag.
 	var/external = FALSE
 
@@ -134,8 +124,9 @@
 	. = ..()
 	var/frame_state
 	var/light_state = AIRLOCK_LIGHT_POWERON
-	var/new_light_power = AIRLOCK_LIGHT_POWER_IDLE
-	var/new_light_color
+	var/new_light_power = AIRLOCK_LIGHT_POWER_LOW
+	var/new_light_range = AIRLOCK_LIGHT_RANGE_HIGH
+	var/new_light_color = COLOR_STARLIGHT
 	if(machine_stat & MAINT) // in the process of being emagged
 		frame_state = AIRLOCK_FRAME_CLOSED
 	else switch(airlock_state)
@@ -143,47 +134,53 @@
 			frame_state = AIRLOCK_FRAME_CLOSED
 			if(locked)
 				light_state = AIRLOCK_LIGHT_BOLTS
-				new_light_color = LIGHT_COLOR_INTENSE_RED
+				new_light_power = AIRLOCK_LIGHT_POWER_MID
+				new_light_range = AIRLOCK_LIGHT_RANGE_HIGH
+				new_light_color = LIGHT_COLOR_BUBBLEGUM
 			else if(!normalspeed)
 				light_state = AIRLOCK_LIGHT_ENGINEERING
-				new_light_color = LIGHT_COLOR_PINK
+				new_light_color = COLOR_EFFIGY_HOT_PINK
 			else if(emergency)
 				light_state = AIRLOCK_LIGHT_EMERGENCY
-				new_light_color = LIGHT_COLOR_ELECTRIC_CYAN
+				new_light_color = COLOR_EFFIGY_SPRING_GREEN
 			else if(fire_active)
 				light_state = AIRLOCK_LIGHT_FIRE
-				new_light_color = LIGHT_COLOR_DEFAULT
+				new_light_power = AIRLOCK_LIGHT_POWER_MID
+				new_light_range = AIRLOCK_LIGHT_RANGE_LOW
+				new_light_color = LIGHT_COLOR_PINK
 			else if(engineering_override)
 				light_state = AIRLOCK_LIGHT_ENGINEERING
-				new_light_color = LIGHT_COLOR_PINK
-			else
-				new_light_color = COLOR_STARLIGHT
+				new_light_color = COLOR_EFFIGY_HOT_PINK
 		if(AIRLOCK_DENY)
 			frame_state = AIRLOCK_FRAME_CLOSED
 			light_state = AIRLOCK_LIGHT_DENIED
-			new_light_color = LIGHT_COLOR_INTENSE_RED
+			new_light_power = AIRLOCK_LIGHT_POWER_MID
+			new_light_range = AIRLOCK_LIGHT_RANGE_LOW
+			new_light_color = LIGHT_COLOR_BUBBLEGUM
 		if(AIRLOCK_CLOSING)
 			frame_state = AIRLOCK_FRAME_CLOSING
 			light_state = AIRLOCK_LIGHT_CLOSING
-			new_light_power = AIRLOCK_LIGHT_POWER_ACTIVE
-			new_light_color = LIGHT_COLOR_PINK
+			new_light_power = AIRLOCK_LIGHT_POWER_HIGH
+			new_light_range = AIRLOCK_LIGHT_RANGE_LOW
+			new_light_color = COLOR_EFFIGY_HOT_PINK
 		if(AIRLOCK_OPEN)
 			frame_state = AIRLOCK_FRAME_OPEN
-			new_light_power = AIRLOCK_LIGHT_POWER_ACTIVE
+			new_light_power = AIRLOCK_LIGHT_POWER_MID
+			new_light_range = AIRLOCK_LIGHT_RANGE_LOW
 			if(locked)
 				light_state = AIRLOCK_LIGHT_BOLTS
-				new_light_color = LIGHT_COLOR_INTENSE_RED
+				new_light_color = LIGHT_COLOR_BUBBLEGUM
 			else if(emergency)
 				light_state = AIRLOCK_LIGHT_EMERGENCY
-				new_light_color = LIGHT_COLOR_ELECTRIC_CYAN
+				new_light_color = COLOR_EFFIGY_SPRING_GREEN
 			else if(fire_active)
 				light_state = AIRLOCK_LIGHT_FIRE
 				new_light_color = LIGHT_COLOR_DEFAULT
 			else if(engineering_override)
 				light_state = AIRLOCK_LIGHT_ENGINEERING
-				new_light_color = LIGHT_COLOR_PINK
+				new_light_color = COLOR_EFFIGY_HOT_PINK
 			else
-				new_light_color = COLOR_STARLIGHT
+				new_light_color = COLOR_EFFIGY_SPRING_GREEN
 			light_state += "_open"
 		if(AIRLOCK_OPENING)
 			if(rapid_open)
@@ -192,22 +189,23 @@
 			else
 				frame_state = AIRLOCK_FRAME_OPENING
 				light_state = AIRLOCK_LIGHT_OPENING
-			new_light_power = AIRLOCK_LIGHT_POWER_ACTIVE
-			new_light_color = COLOR_CYAN_STARLIGHT
+			new_light_power = AIRLOCK_LIGHT_POWER_HIGH
+			new_light_range = AIRLOCK_LIGHT_RANGE_LOW
+			new_light_color = COLOR_EFFIGY_SPRING_GREEN
 
 	. += get_airlock_overlay(frame_state, icon, src, em_block = TRUE)
 	if(airlock_material)
 		. += get_airlock_overlay("[airlock_material]_[frame_state]", overlays_file, src, em_block = TRUE)
 	else
-		. += get_airlock_overlay("fill_[frame_state + fill_state_suffix]", icon, src, em_block = TRUE)
+		. += get_airlock_overlay("fill_[frame_state]", icon, src, em_block = TRUE)
 
 	if(lights && hasPower() && (airlock_features & ENV_LIGHTS))
 		. += get_airlock_overlay("lights_[light_state]", overlays_file, src, em_block = FALSE)
 
 		if(multi_tile && filler)
-			filler.set_light(l_range = AIRLOCK_LIGHT_RANGE, l_power = new_light_power, l_color = new_light_color, l_on = TRUE)
+			filler.set_light(l_range = new_light_range, l_power = new_light_power, l_color = new_light_color, l_on = TRUE)
 
-		set_light(l_range = AIRLOCK_LIGHT_RANGE, l_power = new_light_power, l_color = new_light_color, l_on = TRUE)
+		set_light(l_range = new_light_range, l_power = new_light_power, l_color = new_light_color, l_on = TRUE)
 	else
 		set_light(l_on = FALSE)
 
@@ -781,9 +779,11 @@
 /obj/structure/door_assembly/door_assembly_extmai
 	icon = 'local/icons/obj/doors/airlocks/station/maint-ext.dmi'
 
-#undef AIRLOCK_LIGHT_POWER_IDLE
-#undef AIRLOCK_LIGHT_POWER_ACTIVE
-#undef AIRLOCK_LIGHT_RANGE
+#undef AIRLOCK_LIGHT_POWER_LOW
+#undef AIRLOCK_LIGHT_POWER_MID
+#undef AIRLOCK_LIGHT_POWER_HIGH
+#undef AIRLOCK_LIGHT_RANGE_LOW
+#undef AIRLOCK_LIGHT_RANGE_HIGH
 
 #undef AIRLOCK_LIGHT_OPENING_RAPID
 #undef AIRLOCK_LIGHT_POWERON
