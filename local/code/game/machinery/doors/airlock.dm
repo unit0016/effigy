@@ -170,12 +170,15 @@
 			if(locked)
 				light_state = AIRLOCK_LIGHT_BOLTS
 				new_light_color = LIGHT_COLOR_BUBBLEGUM
-			else if(emergency)
-				light_state = AIRLOCK_LIGHT_EMERGENCY
-				new_light_color = COLOR_EFFIGY_SPRING_GREEN
 			else if(fire_active)
 				light_state = AIRLOCK_LIGHT_FIRE
 				new_light_color = LIGHT_COLOR_DEFAULT
+			else if(!normalspeed)
+				light_state = AIRLOCK_LIGHT_ENGINEERING
+				new_light_color = COLOR_EFFIGY_HOT_PINK
+			else if(emergency)
+				light_state = AIRLOCK_LIGHT_EMERGENCY
+				new_light_color = COLOR_EFFIGY_SPRING_GREEN
 			else if(engineering_override)
 				light_state = AIRLOCK_LIGHT_ENGINEERING
 				new_light_color = COLOR_EFFIGY_HOT_PINK
@@ -193,7 +196,6 @@
 			new_light_range = AIRLOCK_LIGHT_RANGE_LOW
 			new_light_color = COLOR_EFFIGY_SPRING_GREEN
 
-	. += get_airlock_overlay(frame_state, icon, src, em_block = TRUE)
 	if(airlock_material)
 		. += get_airlock_overlay("[airlock_material]_[frame_state]", overlays_file, src, em_block = TRUE)
 	else
