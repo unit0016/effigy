@@ -255,9 +255,6 @@
 	greyscale_config = /datum/greyscale_config/airlock_effigy
 	greyscale_colors = "#757278#757278"
 
-/obj/structure/door_assembly
-	overlays_file = 'local/icons/obj/doors/airlocks/station/overlays.dmi'
-
 /obj/machinery/door/airlock/atmos
 	icon = 'icons/map_icons/airlocks.dmi'
 	icon_state = "/obj/machinery/door/airlock/atmos"
@@ -705,17 +702,6 @@
 	opacity = FALSE
 	glass = TRUE
 
-/obj/structure/door_assembly/door_assembly_cce
-	name = "central command airlock assembly"
-	icon = 'icons/map_icons/objects.dmi'
-	icon_state = "/obj/structure/door_assembly/door_assembly_cce"
-	post_init_icon_state = "construction"
-	greyscale_config = /obj/machinery/door/airlock/central_command::greyscale_config
-	greyscale_colors = /obj/machinery/door/airlock/central_command::greyscale_colors
-	base_name = "central command airlock"
-	glass_type = /obj/machinery/door/airlock/central_command/glass
-	airlock_type = /obj/machinery/door/airlock/central_command
-
 // Variant that's indestructible and unhackable. Oorah.
 /obj/machinery/door/airlock/central_command/indestructible_and_unhackable_not_fun_for_players_do_not_map_off_a_centcom_z_level // I'm sensing a pattern with this PR
 	flags_1 = parent_type::flags_1 | NO_NEW_GAGS_PREVIEW_1
@@ -729,57 +715,6 @@
 
 /obj/machinery/door/airlock/central_command/indestructible_and_unhackable_not_fun_for_players_do_not_map_off_a_centcom_z_level/screwdriver_act(mob/living/user, obj/item/tool)
 	return ITEM_INTERACT_SKIP_TO_ATTACK // Prevents opening the panel. Admins can varedit panel_open to muck with the wires still; if they really want.
-
-/**
- * Effigy Door Assemblies
- */
-
-/obj/structure/door_assembly
-	icon = 'local/icons/obj/doors/airlocks/station/generic.dmi'
-	overlays_file = 'local/icons/obj/doors/airlocks/station/overlays.dmi'
-
-/obj/structure/door_assembly/door_assembly_public
-	icon = 'icons/obj/doors/airlocks/public/glass.dmi'
-	overlays_file = 'local/icons/obj/doors/airlocks/station/overlays.dmi'
-
-/obj/structure/door_assembly/door_assembly_com
-	icon = 'local/icons/obj/doors/airlocks/station/com.dmi'
-
-/obj/structure/door_assembly/door_assembly_sec
-	icon = 'local/icons/obj/doors/airlocks/station/sec.dmi'
-
-/obj/structure/door_assembly/door_assembly_eng
-	icon = 'local/icons/obj/doors/airlocks/station/engi.dmi'
-
-/obj/structure/door_assembly/door_assembly_min
-	icon = 'local/icons/obj/doors/airlocks/station/cargo.dmi'
-
-/obj/structure/door_assembly/door_assembly_atmo
-	icon = 'local/icons/obj/doors/airlocks/station/atmos.dmi'
-
-/obj/structure/door_assembly/door_assembly_research
-	icon = 'local/icons/obj/doors/airlocks/station/rnd.dmi'
-
-/obj/structure/door_assembly/door_assembly_science
-	icon = 'local/icons/obj/doors/airlocks/station/sci.dmi'
-
-/obj/structure/door_assembly/door_assembly_med
-	icon = 'local/icons/obj/doors/airlocks/station/med.dmi'
-
-/obj/structure/door_assembly/door_assembly_hydro
-	icon = 'local/icons/obj/doors/airlocks/station/hydro.dmi'
-
-/obj/structure/door_assembly/door_assembly_viro
-	icon = 'local/icons/obj/doors/airlocks/station/viro.dmi'
-
-/obj/structure/door_assembly/door_assembly_silver
-	icon = 'local/icons/obj/doors/airlocks/station/silver.dmi'
-
-/obj/structure/door_assembly/door_assembly_mai
-	icon = 'local/icons/obj/doors/airlocks/station/maint-int.dmi'
-
-/obj/structure/door_assembly/door_assembly_extmai
-	icon = 'local/icons/obj/doors/airlocks/station/maint-ext.dmi'
 
 #undef AIRLOCK_LIGHT_POWER_LOW
 #undef AIRLOCK_LIGHT_POWER_MID
