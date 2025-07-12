@@ -556,60 +556,42 @@
 	greyscale_colors = "#757278"
 	assemblytype = /obj/structure/door_assembly/door_assembly_material
 
+/obj/machinery/door/airlock/bananium
+	icon = 'icons/map_icons/airlocks.dmi'
+	icon_state = "/obj/machinery/door/airlock/bananium"
+	greyscale_config = /datum/greyscale_config/airlock_effigy/material
+	greyscale_colors = "#FFFF69"
+	doorOpen = 'sound/items/bikehorn.ogg'
+
 /obj/machinery/door/airlock/gold
-	icon = 'icons/obj/doors/airlocks/station/gold.dmi'
-	overlays_file = 'local/icons/obj/doors/airlocks/station/overlays.dmi'
-	icon_state = "closed"
-	post_init_icon_state = null
-	greyscale_config = null
-	greyscale_colors = null
-	airlock_features = parent_type::airlock_features | LEGACY_ANIMATIONS
+	icon = 'icons/map_icons/airlocks.dmi'
+	icon_state = "/obj/machinery/door/airlock/gold"
+	greyscale_config = /datum/greyscale_config/airlock_effigy/material
+	greyscale_colors = "#EDBB31"
 
 /obj/machinery/door/airlock/diamond
-	icon = 'icons/obj/doors/airlocks/station/diamond.dmi'
-	overlays_file = 'local/icons/obj/doors/airlocks/station/overlays.dmi'
-	icon_state = "closed"
-	post_init_icon_state = null
-	greyscale_config = null
-	greyscale_colors = null
-	airlock_features = parent_type::airlock_features | LEGACY_ANIMATIONS
+	icon = 'icons/map_icons/airlocks.dmi'
+	icon_state = "/obj/machinery/door/airlock/diamond"
+	greyscale_config = /datum/greyscale_config/airlock_effigy/material
+	greyscale_colors = "#7DF9FF"
 
 /obj/machinery/door/airlock/uranium
-	icon = 'icons/obj/doors/airlocks/station/uranium.dmi'
-	overlays_file = 'local/icons/obj/doors/airlocks/station/overlays.dmi'
-	icon_state = "closed"
-	post_init_icon_state = null
-	greyscale_config = null
-	greyscale_colors = null
-	airlock_features = parent_type::airlock_features | LEGACY_ANIMATIONS
+	icon = 'icons/map_icons/airlocks.dmi'
+	icon_state = "/obj/machinery/door/airlock/uranium"
+	greyscale_config = /datum/greyscale_config/airlock_effigy/material
+	greyscale_colors = "#21FA90"
 
 /obj/machinery/door/airlock/plasma
-	icon = 'icons/obj/doors/airlocks/station/plasma.dmi'
-	overlays_file = 'local/icons/obj/doors/airlocks/station/overlays.dmi'
-	icon_state = "closed"
-	post_init_icon_state = null
-	greyscale_config = null
-	greyscale_colors = null
-	airlock_features = parent_type::airlock_features | LEGACY_ANIMATIONS
-
-/obj/machinery/door/airlock/bananium
-	icon = 'icons/obj/doors/airlocks/station/bananium.dmi'
-	overlays_file = 'local/icons/obj/doors/airlocks/station/overlays.dmi'
-	doorOpen = 'sound/items/bikehorn.ogg'
-	icon_state = "closed"
-	post_init_icon_state = null
-	greyscale_config = null
-	greyscale_colors = null
-	airlock_features = parent_type::airlock_features | LEGACY_ANIMATIONS
+	icon = 'icons/map_icons/airlocks.dmi'
+	icon_state = "/obj/machinery/door/airlock/plasma"
+	greyscale_config = /datum/greyscale_config/airlock_effigy/material
+	greyscale_colors = "#F0197D"
 
 /obj/machinery/door/airlock/sandstone
-	icon = 'icons/obj/doors/airlocks/station/sandstone.dmi'
-	overlays_file = 'local/icons/obj/doors/airlocks/station/overlays.dmi'
-	icon_state = "closed"
-	post_init_icon_state = null
-	greyscale_config = null
-	greyscale_colors = null
-	airlock_features = parent_type::airlock_features | LEGACY_ANIMATIONS
+	icon = 'icons/map_icons/airlocks.dmi'
+	icon_state = "/obj/machinery/door/airlock/sandstone"
+	greyscale_config = /datum/greyscale_config/airlock_effigy/material
+	greyscale_colors = "#DFCEAC"
 
 /obj/machinery/door/airlock/wood
 	icon = 'local/icons/obj/doors/airlocks/station/wood.dmi'
