@@ -24,12 +24,6 @@
 	///Is this door external? E.g. does it lead to space? Shuttle docking systems bolt doors with this flag.
 	var/external = FALSE
 
-/obj/machinery/door/airlock/external
-	external = TRUE
-
-/obj/machinery/door/airlock/shuttle
-	external = TRUE
-
 /obj/machinery/door/airlock/Initialize(mapload)
 	. = ..()
 	if(mapload)
@@ -356,6 +350,97 @@
 	airlock_features = parent_type::airlock_features & ~ENV_LIGHTS
 
 /**
+ * Misc
+ */
+/obj/machinery/door/airlock/vault
+	icon = 'local/icons/obj/doors/airlocks/vault/vault.dmi'
+	overlays_file = 'local/icons/obj/doors/airlocks/vault/overlays.dmi'
+	icon_state = "closed"
+	post_init_icon_state = null
+	greyscale_config = null
+	greyscale_colors = null
+
+/obj/machinery/door/airlock/hatch
+	icon = 'local/icons/obj/doors/airlocks/hatch/centcom.dmi'
+	overlays_file = 'local/icons/obj/doors/airlocks/hatch/overlays.dmi'
+	note_overlay_file = 'icons/obj/doors/airlocks/hatch/overlays.dmi'
+	icon_state = "closed"
+	post_init_icon_state = null
+	greyscale_config = null
+	greyscale_colors = null
+
+/obj/machinery/door/airlock/maintenance_hatch
+	icon = 'local/icons/obj/doors/airlocks/hatch/maintenance.dmi'
+	overlays_file = 'local/icons/obj/doors/airlocks/hatch/overlays.dmi'
+	icon_state = "closed"
+	post_init_icon_state = null
+	greyscale_config = null
+	greyscale_colors = null
+
+/obj/machinery/door/airlock/highsecurity
+	icon = 'local/icons/obj/doors/airlocks/highsec/highsec.dmi'
+	overlays_file = 'local/icons/obj/doors/airlocks/highsec/overlays.dmi'
+	icon_state = "closed"
+	post_init_icon_state = null
+	greyscale_config = null
+	greyscale_colors = null
+
+/obj/machinery/door/airlock/shuttle
+	icon = 'local/icons/obj/doors/airlocks/shuttle/shuttle.dmi'
+	overlays_file = 'local/icons/obj/doors/airlocks/shuttle/overlays.dmi'
+	icon_state = "closed"
+	post_init_icon_state = null
+	greyscale_config = null
+	greyscale_colors = null
+	external = TRUE
+
+/obj/machinery/door/airlock/abductor
+	icon = 'local/icons/obj/doors/airlocks/abductor/abductor_airlock.dmi'
+	overlays_file = 'local/icons/obj/doors/airlocks/abductor/overlays.dmi'
+	note_overlay_file = 'icons/obj/doors/airlocks/external/overlays.dmi'
+	icon_state = "closed"
+	post_init_icon_state = null
+	greyscale_config = null
+	greyscale_colors = null
+
+/obj/machinery/door/airlock/cult
+	name = "cult airlock"
+	icon = 'local/icons/obj/doors/airlocks/cult/runed/cult.dmi'
+	overlays_file = 'local/icons/obj/doors/airlocks/cult/runed/overlays.dmi'
+	icon_state = "closed"
+	post_init_icon_state = null
+	greyscale_config = null
+	greyscale_colors = null
+
+/obj/machinery/door/airlock/cult/unruned
+	icon = 'local/icons/obj/doors/airlocks/cult/unruned/cult.dmi'
+	overlays_file = 'local/icons/obj/doors/airlocks/cult/unruned/overlays.dmi'
+
+/obj/machinery/door/airlock/centcom
+	icon = 'local/icons/obj/doors/airlocks/centcom/centcom.dmi'
+	overlays_file = 'local/icons/obj/doors/airlocks/centcom/overlays.dmi'
+	icon_state = "closed"
+	post_init_icon_state = null
+	greyscale_config = null
+	greyscale_colors = null
+
+/obj/machinery/door/airlock/grunge
+	icon = 'local/icons/obj/doors/airlocks/centcom/centcom.dmi'
+	overlays_file = 'local/icons/obj/doors/airlocks/centcom/overlays.dmi'
+	icon_state = "closed"
+	post_init_icon_state = null
+	greyscale_config = null
+	greyscale_colors = null
+
+/obj/machinery/door/airlock/freezer
+	icon = 'local/icons/obj/doors/airlocks/station/freezer.dmi'
+	overlays_file = 'local/icons/obj/doors/airlocks/station/overlays.dmi'
+	icon_state = "closed"
+	post_init_icon_state = null
+	greyscale_config = null
+	greyscale_colors = null
+
+/**
  * External
  */
 /obj/machinery/door/airlock/external
@@ -365,37 +450,7 @@
 	post_init_icon_state = null
 	greyscale_config = null
 	greyscale_colors = null
-
-/obj/machinery/door/airlock/external/animation_length(animation)
-	switch(animation)
-		if(DOOR_OPENING_ANIMATION)
-			return 1.1 SECONDS
-		if(DOOR_CLOSING_ANIMATION)
-			return 2.0 SECONDS
-
-/obj/machinery/door/airlock/external/animation_segment_delay(animation)
-	switch(animation)
-		if(AIRLOCK_OPENING_TRANSPARENT)
-			return 0.7 SECONDS
-		if(AIRLOCK_OPENING_PASSABLE)
-			return 0.8 SECONDS
-		if(AIRLOCK_OPENING_FINISHED)
-			return 1.1 SECONDS
-		if(AIRLOCK_CLOSING_UNPASSABLE)
-			return 1.4 SECONDS
-		if(AIRLOCK_CLOSING_OPAQUE)
-			return 1.8 SECONDS
-		if(AIRLOCK_CLOSING_FINISHED)
-			return 2.0 SECONDS
-
-/obj/machinery/door/airlock/vault
-	icon = 'icons/obj/doors/airlocks/vault/vault.dmi'
-	overlays_file = 'local/icons/obj/doors/airlocks/vault/overlays.dmi'
-	icon_state = "closed"
-	post_init_icon_state = null
-	greyscale_config = null
-	greyscale_colors = null
-	airlock_features = parent_type::airlock_features | LEGACY_ANIMATIONS
+	external = TRUE
 
 /obj/machinery/door/airlock/survival_pod
 	icon = 'local/icons/obj/doors/airlocks/external/external.dmi'
@@ -405,130 +460,18 @@
 	greyscale_config = null
 	greyscale_colors = null
 
-/obj/machinery/door/airlock/survival_pod/animation_length(animation)
-	switch(animation)
-		if(DOOR_OPENING_ANIMATION)
-			return 1.1 SECONDS
-		if(DOOR_CLOSING_ANIMATION)
-			return 2.0 SECONDS
-
-/obj/machinery/door/airlock/survival_pod/animation_segment_delay(animation)
-	switch(animation)
-		if(AIRLOCK_OPENING_TRANSPARENT)
-			return 0.7 SECONDS
-		if(AIRLOCK_OPENING_PASSABLE)
-			return 0.8 SECONDS
-		if(AIRLOCK_OPENING_FINISHED)
-			return 1.1 SECONDS
-		if(AIRLOCK_CLOSING_UNPASSABLE)
-			return 1.4 SECONDS
-		if(AIRLOCK_CLOSING_OPAQUE)
-			return 1.8 SECONDS
-		if(AIRLOCK_CLOSING_FINISHED)
-			return 2.0 SECONDS
-
-/**
- * Misc
- */
-
-/obj/machinery/door/airlock/hatch
-	icon = 'icons/obj/doors/airlocks/hatch/centcom.dmi'
-	overlays_file = 'local/icons/obj/doors/airlocks/hatch/overlays.dmi'
-	note_overlay_file = 'icons/obj/doors/airlocks/hatch/overlays.dmi'
-	icon_state = "closed"
-	post_init_icon_state = null
-	greyscale_config = null
-	greyscale_colors = null
-	airlock_features = parent_type::airlock_features | LEGACY_ANIMATIONS
-
-/obj/machinery/door/airlock/maintenance_hatch
-	icon = 'icons/obj/doors/airlocks/hatch/maintenance.dmi'
-	overlays_file = 'local/icons/obj/doors/airlocks/hatch/overlays.dmi'
-	icon_state = "closed"
-	post_init_icon_state = null
-	greyscale_config = null
-	greyscale_colors = null
-	airlock_features = parent_type::airlock_features | LEGACY_ANIMATIONS
-
-/obj/machinery/door/airlock/highsecurity
-	icon = 'icons/obj/doors/airlocks/highsec/highsec.dmi'
-	overlays_file = 'local/icons/obj/doors/airlocks/highsec/overlays.dmi'
-	icon_state = "closed"
-	post_init_icon_state = null
-	greyscale_config = null
-	greyscale_colors = null
-	airlock_features = parent_type::airlock_features | LEGACY_ANIMATIONS
-
-/obj/machinery/door/airlock/shuttle
-	icon = 'icons/obj/doors/airlocks/shuttle/shuttle.dmi'
-	overlays_file = 'local/icons/obj/doors/airlocks/shuttle/overlays.dmi'
-	icon_state = "closed"
-	post_init_icon_state = null
-	greyscale_config = null
-	greyscale_colors = null
-	airlock_features = parent_type::airlock_features | LEGACY_ANIMATIONS
-
-/obj/machinery/door/airlock/abductor
-	icon = 'icons/obj/doors/airlocks/abductor/abductor_airlock.dmi'
-	overlays_file = 'local/icons/obj/doors/airlocks/abductor/overlays.dmi'
-	note_overlay_file = 'icons/obj/doors/airlocks/external/overlays.dmi'
-	icon_state = "closed"
-	post_init_icon_state = null
-	greyscale_config = null
-	greyscale_colors = null
-	airlock_features = parent_type::airlock_features | LEGACY_ANIMATIONS
-
-/obj/machinery/door/airlock/cult
-	name = "cult airlock"
-	icon = 'icons/obj/doors/airlocks/cult/runed/cult.dmi'
-	overlays_file = 'local/icons/obj/doors/airlocks/cult/runed/overlays.dmi'
-	icon_state = "closed"
-	post_init_icon_state = null
-	greyscale_config = null
-	greyscale_colors = null
-	airlock_features = parent_type::airlock_features | LEGACY_ANIMATIONS
-
-/obj/machinery/door/airlock/cult/unruned
-	icon = 'icons/obj/doors/airlocks/cult/unruned/cult.dmi'
-	overlays_file = 'local/icons/obj/doors/airlocks/cult/unruned/overlays.dmi'
-
-/obj/machinery/door/airlock/centcom
-	icon = 'icons/obj/doors/airlocks/centcom/centcom.dmi'
-	overlays_file = 'local/icons/obj/doors/airlocks/centcom/overlays.dmi'
-	icon_state = "closed"
-	post_init_icon_state = null
-	greyscale_config = null
-	greyscale_colors = null
-	airlock_features = parent_type::airlock_features | LEGACY_ANIMATIONS
-
-/obj/machinery/door/airlock/grunge
-	icon = 'icons/obj/doors/airlocks/centcom/centcom.dmi'
-	overlays_file = 'local/icons/obj/doors/airlocks/centcom/overlays.dmi'
-	icon_state = "closed"
-	post_init_icon_state = null
-	greyscale_config = null
-	greyscale_colors = null
-	airlock_features = parent_type::airlock_features | LEGACY_ANIMATIONS
-
-/obj/machinery/door/airlock/freezer
-	icon = 'icons/obj/doors/airlocks/station/freezer.dmi'
-	icon_state = "closed"
-	post_init_icon_state = null
-	greyscale_config = null
-	greyscale_colors = null
-	airlock_features = parent_type::airlock_features | LEGACY_ANIMATIONS
-
 /**
  * Multi-tile
  */
 
 /obj/machinery/door/airlock/multi_tile
+	icon = 'local/icons/obj/doors/airlocks/multi_tile/public/glass.dmi'
 	overlays_file = 'local/icons/obj/doors/airlocks/multi_tile/public/overlays.dmi'
 	icon_state = "closed"
 	post_init_icon_state = null
 	greyscale_config = null
 	greyscale_colors = null
-	airlock_features = LEGACY_ANIMATIONS
+	airlock_features = NONE
 
 /**
  * Tram
@@ -600,25 +543,22 @@
 	post_init_icon_state = null
 	greyscale_config = null
 	greyscale_colors = null
-	airlock_features = parent_type::airlock_features | LEGACY_ANIMATIONS
 
 /obj/machinery/door/airlock/titanium
-	icon = 'icons/obj/doors/airlocks/shuttle/shuttle.dmi'
+	icon = 'local/icons/obj/doors/airlocks/shuttle/shuttle.dmi'
 	overlays_file = 'local/icons/obj/doors/airlocks/shuttle/overlays.dmi'
 	icon_state = "closed"
 	post_init_icon_state = null
 	greyscale_config = null
 	greyscale_colors = null
-	airlock_features = parent_type::airlock_features | LEGACY_ANIMATIONS
 
 /obj/machinery/door/airlock/bronze
-	icon = 'icons/obj/doors/airlocks/clockwork/pinion_airlock.dmi'
+	icon = 'local/icons/obj/doors/airlocks/clockwork/pinion_airlock.dmi'
 	overlays_file = 'local/icons/obj/doors/airlocks/clockwork/overlays.dmi'
 	icon_state = "closed"
 	post_init_icon_state = null
 	greyscale_config = null
 	greyscale_colors = null
-	airlock_features = parent_type::airlock_features | LEGACY_ANIMATIONS
 
 /**
  * Effigy
