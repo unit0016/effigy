@@ -1294,7 +1294,7 @@
 		return FALSE
 
 	if(autoclose)
-		autoclose_in(normalspeed ? 8 SECONDS : 3.5 SECONDS) // EffigyEdit Change - Custom Airlocks - Original: Rapid 1.5 SECONDS
+		autoclose_in(normalspeed ? 8 SECONDS : 2.2 SECONDS) // EffigyEdit Change - Custom Airlocks - Original: Rapid 1.5 SECONDS
 
 	if(closeOther != null && istype(closeOther, /obj/machinery/door/airlock))
 		addtimer(CALLBACK(closeOther, PROC_REF(close)), BYPASS_DOOR_CHECKS)
