@@ -1,0 +1,4 @@
+author: "LT3"
+delete-after: True
+changes:
+  - code_imp: "Unrestricted and emergency access airlocks no longer play the ID card check sound,"
