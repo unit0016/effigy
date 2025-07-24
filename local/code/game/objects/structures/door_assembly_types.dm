@@ -66,6 +66,10 @@
 	greyscale_config = /obj/machinery/door/airlock/maintenance/external::greyscale_config
 	greyscale_colors = /obj/machinery/door/airlock/maintenance/external::greyscale_colors
 
+/obj/structure/door_assembly/door_assembly_material
+	greyscale_config = /obj/machinery/door/airlock/material::greyscale_config
+	greyscale_colors = /obj/machinery/door/airlock/material::greyscale_colors
+
 /obj/structure/door_assembly/door_assembly_abductor
 	icon = 'icons/obj/doors/airlocks/abductor/abductor_airlock.dmi'
 	overlays_file = 'local/icons/obj/doors/airlocks/abductor/overlays.dmi'
