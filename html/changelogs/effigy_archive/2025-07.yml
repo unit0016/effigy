@@ -1,0 +1,4 @@
+2025-07-24:
+  LT3:
+  - code_imp: Unrestricted and emergency access airlocks no longer play the ID card
+      check sound,
