@@ -265,8 +265,8 @@
 
 	// EffigyEdit Change - Character Preferences
 	/* Original:
-	var/mutable_appearance/eye_left = mutable_appearance('icons/mob/human/human_face.dmi', "[eye_icon_state]_l", -BODY_LAYER, parent)
-	var/mutable_appearance/eye_right = mutable_appearance('icons/mob/human/human_face.dmi', "[eye_icon_state]_r", -BODY_LAYER, parent)
+	var/mutable_appearance/eye_left = mutable_appearance('icons/mob/human/human_face.dmi', "[eye_icon_state]_l", -EYES_LAYER, parent)
+	var/mutable_appearance/eye_right = mutable_appearance('icons/mob/human/human_face.dmi', "[eye_icon_state]_r", -EYES_LAYER, parent)
 	*/
 	var/obj/item/bodypart/head/my_head = parent.get_bodypart(BODY_ZONE_HEAD)
 	var/eye_icon = my_head?.eyes_icon || 'icons/mob/human/human_face.dmi'
@@ -279,8 +279,8 @@
 
 	var/obscured = parent.check_obscured_slots()
 	if(overlay_ignore_lighting && !(obscured & ITEM_SLOT_EYES))
-		overlays += emissive_appearance(eye_left.icon, eye_left.icon_state, parent, -BODY_LAYER, alpha = eye_left.alpha)
-		overlays += emissive_appearance(eye_right.icon, eye_right.icon_state, parent, -BODY_LAYER, alpha = eye_right.alpha)
+		overlays += emissive_appearance(eye_left.icon, eye_left.icon_state, parent, -EYES_LAYER, alpha = eye_left.alpha)
+		overlays += emissive_appearance(eye_right.icon, eye_right.icon_state, parent, -EYES_LAYER, alpha = eye_right.alpha)
 
 	// var/obj/item/bodypart/head/my_head = parent.get_bodypart(BODY_ZONE_HEAD) // EffigyEdit Remove - Character Preferences
 
@@ -295,12 +295,12 @@
 			overlays += eyelids
 
 	if (scarring & RIGHT_EYE_SCAR)
-		var/mutable_appearance/right_scar = mutable_appearance('icons/mob/human/human_face.dmi', "eye_scar_right", -BODY_LAYER, parent)
+		var/mutable_appearance/right_scar = mutable_appearance('icons/mob/human/human_face.dmi', "eye_scar_right", -EYES_LAYER, parent)
 		right_scar.color = my_head.draw_color
 		overlays += right_scar
 
 	if (scarring & LEFT_EYE_SCAR)
-		var/mutable_appearance/left_scar = mutable_appearance('icons/mob/human/human_face.dmi', "eye_scar_left", -BODY_LAYER, parent)
+		var/mutable_appearance/left_scar = mutable_appearance('icons/mob/human/human_face.dmi', "eye_scar_left", -EYES_LAYER, parent)
 		left_scar.color = my_head.draw_color
 		overlays += left_scar
 
@@ -455,8 +455,8 @@
 	parent.vis_contents += eyelid_left
 	parent.vis_contents += eyelid_right
 	animate_eyelids(parent)
-	var/mutable_appearance/left_eyelid_overlay = mutable_appearance(layer = -BODY_LAYER, offset_spokesman = parent)
-	var/mutable_appearance/right_eyelid_overlay = mutable_appearance(layer = -BODY_LAYER, offset_spokesman = parent)
+	var/mutable_appearance/left_eyelid_overlay = mutable_appearance(layer = -EYES_LAYER, offset_spokesman = parent)
+	var/mutable_appearance/right_eyelid_overlay = mutable_appearance(layer = -EYES_LAYER, offset_spokesman = parent)
 	left_eyelid_overlay.render_source = "*[REF(parent)]_eyelid_left"
 	right_eyelid_overlay.render_source = "*[REF(parent)]_eyelid_right"
 	return list(left_eyelid_overlay, right_eyelid_overlay)
@@ -531,7 +531,7 @@
 /obj/effect/abstract/eyelid_effect
 	name = "eyelid"
 	icon = 'icons/mob/human/human_face.dmi'
-	layer = -BODY_LAYER
+	layer = -EYES_LAYER
 	vis_flags = VIS_INHERIT_DIR | VIS_INHERIT_PLANE | VIS_INHERIT_ID
 
 /obj/effect/abstract/eyelid_effect/Initialize(mapload, new_state)
