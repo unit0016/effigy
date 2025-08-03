@@ -10820,7 +10820,7 @@
 /obj/item/airlock_painter/decal{
 	pixel_y = 5
 	},
-/obj/item/airlock_painter/decal/tile{
+/obj/item/airlock_painter/decal{
 	pixel_y = 1
 	},
 /obj/item/paint_palette,
@@ -38525,7 +38525,7 @@
 	pixel_x = 3;
 	pixel_y = 4
 	},
-/obj/item/airlock_painter/decal/tile{
+/obj/item/airlock_painter/decal{
 	pixel_y = -2
 	},
 /obj/item/storage/belt/utility{
