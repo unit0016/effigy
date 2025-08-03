@@ -50,7 +50,7 @@ export const ExaminePanel = (props) => {
   } = data;
   return (
     <Window
-      title={character_name + "'s Examine Panel"}
+      title={`${character_name}'s Examine Panel`}
       width={900}
       height={670}
     >

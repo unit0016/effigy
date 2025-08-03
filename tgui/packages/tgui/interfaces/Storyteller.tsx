@@ -107,7 +107,7 @@ export const StorytellerRoundData = (props) => {
         <LabeledList.Item label="Event Tracks Status">
           <Button
             color={storyteller_halt ? 'red' : 'green'}
-            tooltip={(storyteller_halt ? 'Unhalt' : 'Halt') + ' storyteller'}
+            tooltip={`${storyteller_halt ? 'Unhalt' : 'Halt'} storyteller`}
             onClick={() => act('halt_storyteller')}
             textAlign="center"
           >
@@ -131,7 +131,7 @@ export const StorytellerRoundData = (props) => {
               bad: [antag_cap, Infinity],
             }}
           >
-            {antag_count + ' / ' + antag_cap}
+            {`${antag_count} / ${antag_cap}`}
           </ProgressBar>
         </LabeledList.Item>
       </LabeledList>
@@ -190,14 +190,14 @@ export const StorytellerTrackData = (props) => {
                     average: [max_points, Infinity],
                   }}
                 >
-                  {current_points + ' / ' + max_points}
+                  {`${current_points} / ${max_points}`}
                   {' (' +
                     Math.floor((current_points * 100) / max_points) +
                     '%) '}
                 </ProgressBar>
               </Table.Cell>
               <Table.Cell textAlign="center">
-                {storyteller_halt ? 'N/A' : '~' + track_data.next + 'min'}
+                {storyteller_halt ? 'N/A' : `~${track_data.next}min`}
               </Table.Cell>
               <Table.Cell>{forced ? forced.name : ''}</Table.Cell>
               <Table.Cell>
@@ -235,7 +235,7 @@ export const StorytellerScheduledData = (props) => {
             <Table.Row key={event_name}>
               <Table.Cell>{event_name}</Table.Cell>
               <Table.Cell>{event_data.track}</Table.Cell>
-              <Table.Cell>{timeNum ? timeNum + ' s' : 'Roundstart'}</Table.Cell>
+              <Table.Cell>{timeNum ? `${timeNum} s` : 'Roundstart'}</Table.Cell>
               <Table.Cell>
                 <Button
                   color="red"
@@ -413,7 +413,7 @@ export const StorytellerEvent = (props: Event_Props) => {
       </Table.Cell>
       <Table.Cell>
         {Object.values(event.tags).map((tag) => {
-          return tag + ' ';
+          return `${tag} `;
         })}
       </Table.Cell>
       <Table.Cell textAlign="center">
@@ -428,7 +428,7 @@ export const StorytellerEvent = (props: Event_Props) => {
       <Table.Cell textAlign="center">{event.can_run ? 'Yes' : 'No'}</Table.Cell>
       <Table.Cell textAlign="center">
         {event.weight}
-        {' (' + event.weight_raw + ')'}
+        {` (${event.weight_raw})`}
       </Table.Cell>
       <Table.Cell>
         <Button

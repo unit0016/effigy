@@ -135,7 +135,7 @@ const ColorPresets: React.FC<ColorPresetsProps> = React.memo(
                         onClick={() => setColor(hexToHsva(entry))}
                       >
                         <Box
-                          backgroundColor={'#' + entry}
+                          backgroundColor={`#${entry}`}
                           width="21px"
                           height="14px"
                         />
