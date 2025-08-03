@@ -7571,7 +7571,6 @@
 "cEV" = (
 /obj/structure/safe/floor,
 /obj/item/clothing/head/costume/maid_headband,
-/obj/item/clothing/accessory/maidcorset,
 /obj/item/clothing/under/costume/maid,
 /turf/open/floor/wood/parquet,
 /area/station/command/heads_quarters/rd)
