@@ -25,7 +25,7 @@
 	ears_list_humanoid = init_sprite_accessory_subtypes(/datum/sprite_accessory/ears_anthro/humanoid)["default_sprites"]
 	ears_list_synthetic = init_sprite_accessory_subtypes(/datum/sprite_accessory/ears_anthro/cybernetic)["default_sprites"]
 
-/datum/species/regenerate_organs(mob/living/carbon/target, datum/species/old_species, replace_current = TRUE, list/excluded_zones, visual_only = FALSE)
+/datum/species/regenerate_organs(mob/living/carbon/target, datum/species/old_species, replace_current = TRUE, list/excluded_zones, visual_only = FALSE, replace_missing = TRUE)
 	. = ..()
 	if(target.dna.features["ears"] && (type in GLOB.bodypart_allowed_species[EARS]))
 		if(target.dna.ear_type == NO_VARIATION)

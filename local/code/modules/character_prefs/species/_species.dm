@@ -49,7 +49,7 @@
 /datum/species/proc/spec_revival(mob/living/carbon/human/target)
 	return
 
-/mob/living/carbon/set_species(datum/species/mrace, icon_update = TRUE, pref_load = FALSE)
+/mob/living/carbon/set_species(datum/species/mrace, icon_update = TRUE, pref_load = FALSE, replace_missing = TRUE)
 	. = ..()
 	dna.update_effigy_body_size()
 
