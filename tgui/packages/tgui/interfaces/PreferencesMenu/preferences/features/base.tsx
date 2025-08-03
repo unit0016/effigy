@@ -6,7 +6,7 @@ import {
   useEffect,
   useState,
 } from 'react';
-import { sendAct, useBackend } from 'tgui/backend'; // EffigyEdit Change - TGUI Color Picker - add sendAct
+import { type sendAct, useBackend } from 'tgui/backend'; // EffigyEdit Change - TGUI Color Picker - add sendAct
 import {
   Box,
   Button,

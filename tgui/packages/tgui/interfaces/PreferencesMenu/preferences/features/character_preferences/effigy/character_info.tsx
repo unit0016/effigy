@@ -1,5 +1,5 @@
 import {
-  Feature,
+  type Feature,
   FeatureShortTextInput,
   FeatureTextAreaInput,
 } from '../../base';

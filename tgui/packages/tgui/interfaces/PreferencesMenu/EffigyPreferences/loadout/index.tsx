@@ -17,7 +17,7 @@ import {
 
 import { SideDropdown } from '../../../../effigy/SideDropdown';
 import { removeAllSkiplines } from '../../../TextInputModal';
-import { PreferencesMenuData } from '../../types';
+import type { PreferencesMenuData } from '../../types';
 import { useServerPrefs } from '../../useServerPrefs';
 import type {
   LoadoutCategory,

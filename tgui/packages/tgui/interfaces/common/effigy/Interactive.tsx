@@ -11,7 +11,8 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-import React, { Component, createRef, ReactNode, RefObject } from 'react';
+import type React from 'react';
+import { Component, createRef, type ReactNode, type RefObject } from 'react'
 import { clamp } from 'tgui-core/math';
 
 export interface Interaction {
