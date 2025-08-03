@@ -4256,7 +4256,7 @@
 "aUs" = (
 /obj/effect/decal/cleanable/dirt/dust,
 /obj/structure/bed/maint,
-/obj/item/clothing/under/costume/schoolgirl,
+/obj/item/clothing/under/costume/seifuku,
 /turf/open/floor/eighties,
 /area/station/maintenance/department/engine/atmos)
 "aUt" = (
