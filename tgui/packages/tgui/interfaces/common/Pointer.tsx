@@ -15,7 +15,7 @@
  * EffigyEdit - This is an Effigy TGUI file
  */
 
-import React from 'react';
+import type React from 'react';
 import { classes } from 'tgui-core/react';
 
 interface PointerProps {

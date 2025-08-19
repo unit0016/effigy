@@ -1,4 +1,4 @@
-import { ReactNode, useRef, useState } from 'react';
+import { type ReactNode, useRef, useState } from 'react';
 import { Button } from 'tgui-core/components';
 import { Icon } from 'tgui-core/components';
 import { Floating } from 'tgui-core/components';

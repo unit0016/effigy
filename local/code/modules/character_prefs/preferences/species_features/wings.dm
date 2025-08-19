@@ -9,7 +9,7 @@
 	. = ..()
 	wings_list_more = init_sprite_accessory_subtypes(/datum/sprite_accessory/wings_anthro)["default_sprites"] // FLAKY DEFINE: this should be using DEFAULT_SPRITE_LIST
 
-/datum/species/regenerate_organs(mob/living/carbon/target, datum/species/old_species, replace_current = TRUE, list/excluded_zones, visual_only = FALSE)
+/datum/species/regenerate_organs(mob/living/carbon/target, datum/species/old_species, replace_current = TRUE, list/excluded_zones, visual_only = FALSE, replace_missing = TRUE)
 	. = ..()
 	if(target == null)
 		return

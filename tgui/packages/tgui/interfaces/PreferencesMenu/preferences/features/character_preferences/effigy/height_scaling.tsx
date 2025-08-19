@@ -1,4 +1,4 @@
-import { FeatureChoiced, FeatureNumeric, FeatureSliderInput } from '../../base';
+import { type FeatureChoiced, type FeatureNumeric, FeatureSliderInput } from '../../base';
 import { FeatureDropdownInput } from '../../dropdowns';
 
 export const height_scaling: FeatureChoiced = {

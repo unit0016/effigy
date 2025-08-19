@@ -1,8 +1,8 @@
 import {
   CheckboxInput,
-  Feature,
-  FeatureChoiced,
-  FeatureToggle,
+  type Feature,
+  type FeatureChoiced,
+  type FeatureToggle,
   FeatureTriColorInput,
 } from '../../base';
 import { FeatureDropdownInput } from '../../dropdowns';

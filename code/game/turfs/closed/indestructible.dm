@@ -156,7 +156,7 @@ INITIALIZE_IMMEDIATE(/turf/closed/indestructible/splashscreen)
 	icon_state = "plastinum_wall-0"
 	base_icon_state = "plastinum_wall"
 	smoothing_flags = SMOOTH_BITMASK | SMOOTH_DIAGONAL_CORNERS
-	smoothing_groups = SMOOTH_GROUP_WALLS + SMOOTH_GROUP_PLASTINUM_WALLS + SMOOTH_GROUP_CLOSED_TURFS
+	smoothing_groups = SMOOTH_GROUP_WALLS + SMOOTH_GROUP_CLOSED_TURFS + SMOOTH_GROUP_PLASTINUM_WALLS
 	canSmoothWith = SMOOTH_GROUP_PLASTINUM_WALLS
 
 /turf/closed/indestructible/riveted/plastinum/nodiagonal
@@ -216,8 +216,8 @@ INITIALIZE_IMMEDIATE(/turf/closed/indestructible/splashscreen)
 
 /turf/closed/indestructible/fakeglass/Initialize(mapload)
 	. = ..()
-	underlays += mutable_appearance('icons/obj/structures.dmi', "grille", layer - 0.01) //add a grille underlay
-	underlays += mutable_appearance(EFFIGY_TURFS_ICON_FILE, "plating", layer - 0.02) //add the plating underlay, below the grille // EffigyEdit Change - Floors
+	underlays += mutable_appearance('icons/obj/structures.dmi', "grille", layer - 0.01, src) //add a grille underlay
+	underlays += mutable_appearance(EFFIGY_TURFS_ICON_FILE, "plating", layer - 0.02, src) //add the plating underlay, below the grille // EffigyEdit Change - Floors
 
 /turf/closed/indestructible/opsglass
 	name = "window"
@@ -231,9 +231,8 @@ INITIALIZE_IMMEDIATE(/turf/closed/indestructible/splashscreen)
 
 /turf/closed/indestructible/opsglass/Initialize(mapload)
 	. = ..()
-	icon_state = null
-	underlays += mutable_appearance('icons/obj/structures.dmi', "grille", layer - 0.01)
-	underlays += mutable_appearance(EFFIGY_TURFS_ICON_FILE, "plating", layer - 0.02) // EffigyEdit Change - Floors
+	underlays += mutable_appearance('icons/obj/structures.dmi', "grille", layer - 0.01, src)
+	underlays += mutable_appearance(EFFIGY_TURFS_ICON_FILE, "plating", layer - 0.02, src) // EffigyEdit Change - Floors
 
 /turf/closed/indestructible/fakedoor
 	name = "airlock"
@@ -370,7 +369,7 @@ INITIALIZE_IMMEDIATE(/turf/closed/indestructible/splashscreen)
 
 /turf/closed/indestructible/resin/membrane/Initialize(mapload)
 	. = ..()
-	underlays += mutable_appearance(EFFIGY_TURFS_ICON_FILE, "engine") // add the reinforced floor underneath // EffigyEdit Change - Floors
+	underlays += mutable_appearance(EFFIGY_TURFS_ICON_FILE, "engine", layer - 0.01, src) // add the reinforced floor underneath // EffigyEdit Change - Floors
 
 /turf/closed/indestructible/grille
 	name = "grille"
@@ -380,7 +379,7 @@ INITIALIZE_IMMEDIATE(/turf/closed/indestructible/splashscreen)
 
 /turf/closed/indestructible/grille/Initialize(mapload)
 	. = ..()
-	underlays += mutable_appearance(EFFIGY_TURFS_ICON_FILE, "plating") // EffigyEdit Change - Floors
+	underlays += mutable_appearance(EFFIGY_TURFS_ICON_FILE, "plating", layer - 0.01, src) // EffigyEdit Change - Floors
 
 /turf/closed/indestructible/meat
 	name = "dense meat wall"

@@ -67,11 +67,3 @@ directory = "_maps/effigy/templates/automapper/tramstation/"
 required_map = "tramstation.dmm"
 coordinates = [68, 102, 2]
 trait_name = "Station"
-
-# Tramstation Interlink
-[templates.tramstation_interlink]
-map_files = ["tramstation_interlink.dmm"]
-directory = "_maps/effigy/templates/automapper/tramstation/"
-required_map = "tramstation.dmm"
-coordinates = [42, 114, 2]
-trait_name = "Station"

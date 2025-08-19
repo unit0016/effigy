@@ -10,7 +10,7 @@
 import {
   colorList,
   hexToHsva,
-  HsvaColor,
+  type HsvaColor,
   hsvaToHex,
   hsvaToHslString,
   hsvaToRgba,
@@ -34,7 +34,7 @@ import { classes } from 'tgui-core/react';
 
 import { useBackend } from '../backend';
 import { Window } from '../layouts';
-import { Interaction, Interactive } from './common/effigy/Interactive';
+import { type Interaction, Interactive } from './common/effigy/Interactive';
 import { InputButtons } from './common/InputButtons';
 import { Loader } from './common/Loader';
 import { Pointer } from './common/Pointer';
@@ -50,7 +50,7 @@ interface ColorPickerData {
   default_color: string;
 }
 
-interface ColorPickerModalProps {}
+type ColorPickerModalProps = any
 
 export const ColorPickerModal: React.FC<ColorPickerModalProps> = () => {
   const { data } = useBackend<ColorPickerData>();
@@ -135,7 +135,7 @@ const ColorPresets: React.FC<ColorPresetsProps> = React.memo(
                         onClick={() => setColor(hexToHsva(entry))}
                       >
                         <Box
-                          backgroundColor={'#' + entry}
+                          backgroundColor={`#${entry}`}
                           width="21px"
                           height="14px"
                         />

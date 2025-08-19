@@ -310,6 +310,7 @@
 /obj/machinery/camera/directional/west{
 	c_tag = "Fitness Room Stairwell"
 	},
+/obj/machinery/firealarm/directional/west,
 /turf/open/floor/iron/dark/corner{
 	dir = 8
 	},

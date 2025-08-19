@@ -182,12 +182,12 @@ const ChangelogEntry = (props) => {
                     color={
                       icons[changeType]
                         ? icons[changeType].color
-                        : icons['unknown'].color
+                        : icons.unknown.color
                     }
                     name={
                       icons[changeType]
                         ? icons[changeType].icon
-                        : icons['unknown'].icon
+                        : icons.unknown.icon
                     }
                     verticalAlign="middle"
                   />
@@ -231,12 +231,12 @@ const EffigyChangelogEntry = (props) => {
                     color={
                       icons[changeType]
                         ? icons[changeType].color
-                        : icons['unknown'].color
+                        : icons.unknown.color
                     }
                     name={
                       icons[changeType]
                         ? icons[changeType].icon
-                        : icons['unknown'].icon
+                        : icons.unknown.icon
                     }
                     verticalAlign="middle"
                   />
@@ -271,15 +271,15 @@ export const EffigyChangelog = (props) => {
     const maxAttempts = 6;
 
     if (attemptNumber > maxAttempts) {
-      setContents('Failed to load data after ' + maxAttempts + ' attempts.');
+      setContents(`Failed to load data after ${maxAttempts} attempts.`);
       return;
     }
 
     act('get_month', { date });
 
     Promise.all([
-      fetch(resolveAsset(date + '.yml')),
-      fetch(resolveAsset('effigy_' + date + '.yml')),
+      fetch(resolveAsset(`${date}.yml`)),
+      fetch(resolveAsset(`effigy_${date}.yml`)),
     ]).then(async (links) => {
       const result = await links[0].text();
       const effigyResult = await links[1].text();
@@ -287,9 +287,9 @@ export const EffigyChangelog = (props) => {
       if (links[0].status !== 200 && links[1].status !== 200) {
         const timeout = 50 + attemptNumber * 50;
 
-        setContents('Loading changelog data' + '.'.repeat(attemptNumber + 3));
+        setContents(`Loading changelog data${'.'.repeat(attemptNumber + 3)}`);
         setEffigyContents(
-          'Loading changelog data' + '.'.repeat(attemptNumber + 3),
+          `Loading changelog data${'.'.repeat(attemptNumber + 3)}`,
         );
         setTimeout(() => {
           getData(date, attemptNumber + 1);

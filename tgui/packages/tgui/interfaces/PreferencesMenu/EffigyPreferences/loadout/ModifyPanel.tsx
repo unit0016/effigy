@@ -11,7 +11,7 @@ import {
   Stack,
 } from 'tgui-core/components';
 
-import { FAIcon, LoadoutItem, LoadoutManagerData, ReskinOption } from './base';
+import type { FAIcon, LoadoutItem, LoadoutManagerData, ReskinOption } from './base';
 import { ItemIcon } from './ItemDisplay';
 
 // Used in LoadoutItem to make buttons relating to how an item can be edited
@@ -86,8 +86,8 @@ function LoadoutModifyButtons(props: ButtonsProps) {
   const { modifyItemDimmer } = props;
 
   function isActive(item: LoadoutItem, reskin: ReskinOption) {
-    return loadout_list && loadout_list[item.path]['reskin']
-      ? loadout_list[item.path]['reskin'] === reskin.name
+    return loadout_list?.[item.path].reskin
+      ? loadout_list[item.path].reskin === reskin.name
       : item.icon_state === reskin.skin_icon_state;
   }
 

@@ -1,12 +1,12 @@
-import { sortBy } from 'common/collections';
+import { sortBy } from 'es-toolkit';
 import {
-  ComponentType,
+  type ComponentType,
   createElement,
-  ReactNode,
+  type ReactNode,
   useEffect,
   useState,
 } from 'react';
-import { sendAct, useBackend } from 'tgui/backend'; // EffigyEdit Change - TGUI Color Picker - add sendAct
+import { type sendAct, useBackend } from 'tgui/backend'; // EffigyEdit Change - TGUI Color Picker - add sendAct
 import {
   Box,
   Button,
@@ -17,13 +17,13 @@ import {
   Stack,
   TextArea,
 } from 'tgui-core/components';
-import { BooleanLike } from 'tgui-core/react';
+import type { BooleanLike } from 'tgui-core/react';
 
-import { createSetPreference, PreferencesMenuData } from '../../types';
+import { createSetPreference, type PreferencesMenuData } from '../../types';
 import { useServerPrefs } from '../../useServerPrefs';
 
 export function sortChoices(array: [string, ReactNode][]) {
-  return sortBy(array, ([name]) => name);
+  return sortBy(array, [([name]) => name]);
 }
 
 export type Feature<
