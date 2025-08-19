@@ -72,6 +72,10 @@
 // Effigy Interface Specific Overrides
 @include meta.load-css('./effigy/interfaces/NtosMessenger.scss');
 
+// Effigy Theme Overrides
+@include meta.load-css('./effigy/themes/ntos.scss');
+@include meta.load-css('./effigy/themes/ntos_darkmode.scss');
+
 // NT Theme
 .Layout__content {
   //background-image: url('tgui-core/assets/bg-nanotrasen.svg'); // EffigyEdit Remove - TGUI
