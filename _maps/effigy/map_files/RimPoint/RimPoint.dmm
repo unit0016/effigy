@@ -9138,7 +9138,6 @@
 "dht" = (
 /obj/structure/table/wood,
 /obj/item/papercutter,
-/obj/item/paper/fluff/ids_for_dummies,
 /obj/effect/turf_decal/tile/dark_blue/half/contrasted{
 	dir = 1
 	},
