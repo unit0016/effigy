@@ -1,0 +1,5 @@
+2025-08-21:
+  TealSeer:
+  - bugfix: fixed buggy behavior in the forward and back buttons of the changelog
+      UI
+  - bugfix: fixed broken icons in crafting menu for airlock assemblies
