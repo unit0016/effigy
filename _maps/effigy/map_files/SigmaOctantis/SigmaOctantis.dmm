@@ -37298,7 +37298,7 @@
 /turf/open/floor/iron/smooth_large,
 /area/station/hallway/floor2/fore)
 "iuJ" = (
-/obj/structure/filingcabinet/filingcabinet,
+/obj/structure/filingcabinet/white,
 /obj/effect/turf_decal/trimline/brown/warning{
 	dir = 10
 	},
@@ -75363,7 +75363,7 @@
 /turf/open/floor/iron/lowered,
 /area/station/maintenance/department/cargo)
 "rbS" = (
-/obj/structure/filingcabinet/filingcabinet,
+/obj/structure/filingcabinet/white,
 /turf/open/floor/wood/large,
 /area/station/medical/psychology)
 "rbX" = (
