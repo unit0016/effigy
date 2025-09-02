@@ -22188,7 +22188,7 @@
 /area/station/service/chapel)
 "lUV" = (
 /obj/item/radio/intercom/directional/east,
-/obj/structure/filingcabinet/filingcabinet,
+/obj/structure/filingcabinet/white,
 /turf/open/floor/carpet/black,
 /area/station/medical/psychology)
 "lVd" = (

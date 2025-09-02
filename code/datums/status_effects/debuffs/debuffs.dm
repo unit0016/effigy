@@ -361,7 +361,7 @@
 	boosted = was_boosted
 
 /datum/status_effect/crusher_mark/on_apply()
-	if(owner.mob_size < MOB_SIZE_LARGE && !HAS_TRAIT(owner, TRAIT_OVERSIZED)) // EFFIGY EDIT CHANGE - Original: if(owner.mob_size >= MOB_SIZE_LARGE)
+	if(owner.mob_size < MOB_SIZE_LARGE && !HAS_TRAIT(owner, TRAIT_OVERSIZED)) // EFFIGY EDIT CHANGE - Original: if(owner.mob_size < MOB_SIZE_LARGE)
 		return FALSE
 
 	marked_underlay = new()
@@ -398,9 +398,7 @@
 	stack_threshold = 10
 	max_stacks = 10
 	overlay_file = 'icons/effects/bleed.dmi'
-	underlay_file = 'icons/effects/bleed.dmi'
 	overlay_state = "bleed"
-	underlay_state = "bleed"
 	var/bleed_damage = 200
 
 /datum/status_effect/stacking/saw_bleed/fadeout_effect()
