@@ -1,5 +1,0 @@
-author: "LT3"
-delete-after: True
-changes:
-  - image: "Improved light tube blending overlays"
-  - bugfix: "Fixed missing flickering light overlay"
