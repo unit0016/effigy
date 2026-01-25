@@ -5,3 +5,8 @@
   LT3:
   - image: Improved light tube blending overlays
   - bugfix: Fixed missing flickering light overlay
+2026-01-25:
+  TealSeer:
+  - bugfix: fixed title screen crew manifest button sometimes not appearing
+  - map: fixed Rimpoint elevator doors
+  - map: Fixed Foxhole air pump
