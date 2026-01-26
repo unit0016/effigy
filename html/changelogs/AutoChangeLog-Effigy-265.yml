@@ -1,4 +1,0 @@
-author: "LT3"
-delete-after: True
-changes:
-  - sound: "Reduced volume of airlock authentication sound"

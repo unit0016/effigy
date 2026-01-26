@@ -10,3 +10,6 @@
   - bugfix: fixed title screen crew manifest button sometimes not appearing
   - map: fixed Rimpoint elevator doors
   - map: Fixed Foxhole air pump
+2026-01-26:
+  LT3:
+  - sound: Reduced volume of airlock authentication sound
