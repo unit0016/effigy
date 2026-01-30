@@ -25,3 +25,6 @@
   TealSeer:
   - bugfix: fixed not being able to pass pixel shifted mobs without bumping them
   - bugfix: fixed hypovials missing from chemmaster container options
+2026-01-30:
+  TealSeer:
+  - bugfix: fixed both rotate buttons in character setup doing the same thing
