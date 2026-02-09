@@ -1,3 +1,5 @@
 2026-02-09:
+  LT3:
+  - rscadd: Players can add a Discord role to receive new game notifications
   Melbert:
   - bugfix: Drains and pumps go on floor plane
