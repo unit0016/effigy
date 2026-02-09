@@ -226,8 +226,7 @@ MAPPING_DIRECTIONAL_HELPERS(/obj/machinery/computer/cryopod, 32)
 		close_machine(joining_mob)
 
 /obj/machinery/cryopod/proc/find_control_computer(urgent = FALSE)
-	for(var/cryo_console as anything in GLOB.cryopod_computers)
-		var/obj/machinery/computer/cryopod/console = cryo_console
+	for(var/obj/machinery/computer/cryopod/console as anything in GLOB.cryopod_computers)
 		if(get_area(console) == get_area(src))
 			control_computer_weakref = WEAKREF(console)
 			break
@@ -421,7 +420,7 @@ MAPPING_DIRECTIONAL_HELPERS(/obj/machinery/computer/cryopod, 32)
 	GLOB.prev_favor = GLOB.religious_sect.favor
 	GLOB.prev_sect_type = GLOB.religious_sect.type
 
- // set the altar references to the old religious_sect to null
+	// set the altar references to the old religious_sect to null
 	for(var/obj/structure/altar/of_gods/altar in GLOB.chaplain_altars)
 		altar.GetComponent(/datum/component/religious_tool).easy_access_sect = null
 		altar.sect_to_altar = null
