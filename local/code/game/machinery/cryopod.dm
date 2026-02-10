@@ -210,10 +210,7 @@ MAPPING_DIRECTIONAL_HELPERS(/obj/machinery/computer/cryopod, 32)
 		var/mob/living/comedy_target = joining_mob
 		playsound(get_turf(src), 'sound/effects/meteorimpact.ogg', 100, TRUE)
 		playsound(src, 'sound/effects/smoke.ogg', 50, TRUE, -3)
-		var/datum/effect_system/fluid_spread/smoke/bad/smoke = new
-		smoke.set_up(1, holder = src, location = src)
-		smoke.start()
-		qdel(smoke) // We're done with you
+		do_smoke(1, src, src, smoke_type = /datum/effect_system/fluid_spread/smoke/bad)
 		comedy_target.Paralyze(8 SECONDS)
 		comedy_target.adjust_stamina_loss(40)
 		step_away(comedy_target, src)

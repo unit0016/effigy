@@ -467,6 +467,8 @@
 #define COLOR_AMMO_ARMORPIERCE "#d9d9d9"
 #define COLOR_AMMO_HOLLOWPOINT "#ff9900"
 
+#define COLOR_DMI_MASK "#a0a0a000"
+
 // EffigyEdit Add - Effigy Colors
 #define COLOR_EFFIGY_ELECTRIC_BLUE "#7DF9FF"
 #define COLOR_EFFIGY_SKY_BLUE "#2CCAFF"

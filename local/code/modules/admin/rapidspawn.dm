@@ -102,10 +102,7 @@
 	if(teleport_option == teleport_options[1])
 		new_player.forceMove(current_turf)
 		playsound(new_player, 'sound/effects/magic/Disable_Tech.ogg', 100, FALSE)
-		var/datum/effect_system/spark_spread/quantum/sparks = new
-		sparks.set_up(10, 1, new_player)
-		sparks.attach(get_turf(new_player))
-		sparks.start()
+		do_sparks(10, TRUE, new_player, spark_type = /datum/effect_system/basic/spark_spread/quantum)
 	else if(teleport_option == teleport_options[2])
 		var/obj/structure/closet/supplypod/podspawn/empty_pod = new(null, pod_style)
 		new_player.forceMove(empty_pod)
@@ -131,11 +128,7 @@
 		return
 
 	var/mob/dead/observer/ghost = user.ghostize(FALSE)
-
-	var/datum/effect_system/spark_spread/quantum/sparks = new
-	sparks.set_up(10, 1, user)
-	sparks.attach(user.loc)
-	sparks.start()
+	do_sparks(10, TRUE, user, user.loc, /datum/effect_system/basic/spark_spread/quantum)
 
 	qdel(user)
 
