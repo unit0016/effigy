@@ -152,8 +152,11 @@ const EditableCanvas = (props: EditableCanvasProps) => {
   const shouldRenderSidebar = sidebarItems.length > 0;
   return (
     <Window
-      width={shouldRenderSidebar ? Math.max(width, 250) + 400 : width + 90}
-      height={shouldRenderSidebar ? Math.max(height + 110, 350) : height + 110}
+    //  EffigyEdit Change - TGUI - Original:
+    //  width={shouldRenderSidebar ? Math.max(width, 250) + 400 : width + 90}
+    //  height={shouldRenderSidebar ? Math.max(height + 110, 350) : height + 110}
+      width={shouldRenderSidebar ? Math.max(width, 400) + 540 : width + 135}
+      height={shouldRenderSidebar ? Math.max(height + 215, 450) : height + 215}
     >
       <Window.Content>
         <Stack fill>
