@@ -52,9 +52,6 @@ export const title_labels = {
   Refactor: {
     keywords: ["refactor"],
   },
-  "Unit Tests": {
-    keywords: ["unit test"],
-  },
   "April Fools": {
     keywords: ["[april fools]"],
   },
