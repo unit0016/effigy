@@ -158,6 +158,9 @@ export type CharacterPreferencesData = {
   };
   secondary_features: Record<string, unknown>;
   supplemental_features: Record<string, unknown>;
+  markings: Record<string, unknown> /* EffigyEdit Add */;
+  profile: Record<string, unknown> /* EffigyEdit Add */;
+  augments: Record<string, unknown> /* EffigyEdit Add */;
   manually_rendered_features: Record<string, string>;
 
   names: Record<string, string>;
@@ -166,8 +169,9 @@ export type CharacterPreferencesData = {
     gender: Gender;
     joblessrole: JoblessRole;
     species: string;
-    loadout_list: LoadoutList;
+    loadout_lists: LoadoutList; // EffigyEdit Change - Custom Loadouts - Original: loadout_list: LoadoutList;
     job_clothes: BooleanLike;
+    loadout_index: string; // EffigyEdit Add - Custom Loadouts
   };
 
   randomization: Record<string, RandomSetting>;
