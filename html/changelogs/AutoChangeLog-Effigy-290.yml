@@ -1,4 +1,0 @@
-author: "LT3"
-delete-after: True
-changes:
-  - config: "Server can now automatically reboot after a TGS deployment"
