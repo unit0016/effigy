@@ -31,13 +31,11 @@
 			if(victim.IsSleeping() && SPT_PROB(30, seconds_per_tick))
 				regen_time_elapsed += 1 SECONDS
 
-		var/effective_damage = ((gel_damage / (regen_time_needed / 10)) * seconds_per_tick)
-		var/obj/item/stack/gauze = limb.current_gauze
-		if(gauze)
-			effective_damage *= gauze.splint_factor
+		var/effective_damage = ((gel_damage / (regen_time_needed / 10)) * seconds_per_tick) * limb.get_splint_factor()
 		limb.receive_damage(effective_damage, wound_bonus = CANT_WOUND, damage_source = src)
 		if(effective_damage && prob(33))
-			var/gauze_text = (gauze?.splint_factor ? ", although the [gauze] helps to prevent some of the leakage" : "")
+			var/obj/item/stack/medical/wrap/current_gauze = LAZYACCESS(limb.applied_items, LIMB_ITEM_GAUZE)
+			var/gauze_text = (current_gauze ? ", although the [current_gauze] helps to prevent some of the leakage" : "")
 			to_chat(victim, span_danger("Your [limb.plaintext_zone] sizzles as some gel leaks and warps the exterior metal[gauze_text]..."))
 
 		if(regen_time_elapsed > regen_time_needed)
@@ -54,16 +52,17 @@
 	. = ..()
 
 	var/use_exclamation = FALSE
-
-	if(!limb.current_gauze) // gauze covers it up
-		if(crowbarred_open)
-			. += ", [span_notice("and is violently torn open, internals visible to the outside")]"
-			use_exclamation = TRUE
-		if(gelled)
-			. += ", [span_notice("with fizzling blue surgical gel leaking out of the cracks")]"
-			use_exclamation = TRUE
-		if(use_exclamation)
-			. += "!"
+	var/current_gauze = LAZYACCESS(limb.applied_items, LIMB_ITEM_GAUZE)
+	if(current_gauze) // gauze covers it up
+		return
+	if(crowbarred_open)
+		. += ", [span_notice("and is violently torn open, internals visible to the outside")]"
+		use_exclamation = TRUE
+	if(gelled)
+		. += ", [span_notice("with fizzling blue surgical gel leaking out of the cracks")]"
+		use_exclamation = TRUE
+	if(use_exclamation)
+		. += "!"
 
 /datum/wound/blunt/robotic/secures_internals/get_scanner_description(mob/user)
 	. = ..()
@@ -209,9 +208,7 @@
 			if(user != victim)
 				victim_message = span_userdanger("[user] is shocked by your [limb.plaintext_zone] in [user.p_their()] efforts to tear it open!")
 
-		var/shock_damage = CROWBAR_OPEN_SHOCK_POWER
-		if(limb.current_gauze)
-			shock_damage *= limb.current_gauze.splint_factor // always good to let gauze do something
+		var/shock_damage = CROWBAR_OPEN_SHOCK_POWER * limb.get_splint_factor() // always good to let gauze do something
 		user.electrocute_act(shock_damage, limb, flags = electrocute_flags)
 
 	if(!stunned)

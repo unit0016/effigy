@@ -22484,7 +22484,7 @@
 	dir = 1
 	},
 /obj/structure/table/glass,
-/obj/item/stack/medical/gauze,
+/obj/item/stack/medical/wrap/gauze,
 /turf/open/floor/iron/white/side,
 /area/station/medical/treatment_center)
 "hPx" = (
@@ -25537,7 +25537,7 @@
 /area/station/engineering/supermatter/room)
 "iQp" = (
 /obj/item/stack/sheet/iron/five,
-/obj/item/stack/sticky_tape,
+/obj/item/stack/medical/wrap/sticky_tape,
 /obj/effect/decal/cleanable/dirt/dust,
 /obj/machinery/atmospherics/pipe/smart/simple/scrubbers/hidden/layer2,
 /turf/open/floor/plating,
@@ -46928,7 +46928,7 @@
 /obj/structure/table,
 /obj/item/stack/medical/mesh,
 /obj/item/stack/medical/suture,
-/obj/item/stack/medical/gauze,
+/obj/item/stack/medical/wrap/gauze,
 /obj/machinery/airalarm/directional/south,
 /obj/machinery/camera/directional/west{
 	c_tag = "Medbay - Office"
@@ -56156,7 +56156,7 @@
 /obj/effect/decal/cleanable/dirt,
 /obj/structure/curtain/cloth,
 /obj/structure/closet,
-/obj/item/stack/sticky_tape,
+/obj/item/stack/medical/wrap/sticky_tape,
 /obj/item/crowbar,
 /turf/open/floor/plating/rust,
 /area/station/security/prison/safe)
@@ -70005,7 +70005,7 @@
 /area/station/science/ordnance/burnchamber)
 "yha" = (
 /obj/structure/table/reinforced,
-/obj/item/stack/sticky_tape/surgical,
+/obj/item/stack/medical/wrap/sticky_tape/surgical,
 /obj/item/stack/medical/bone_gel,
 /obj/structure/window/reinforced/spawner/directional/south,
 /obj/effect/turf_decal/tile/blue/fourcorners,

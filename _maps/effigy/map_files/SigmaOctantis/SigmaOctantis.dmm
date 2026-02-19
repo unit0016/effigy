@@ -55851,7 +55851,7 @@
 	req_access = list("surgery")
 	},
 /obj/structure/table/reinforced,
-/obj/item/stack/sticky_tape/surgical,
+/obj/item/stack/medical/wrap/sticky_tape/surgical,
 /obj/item/stack/medical/bone_gel,
 /obj/structure/window/reinforced/spawner/directional/north,
 /obj/effect/turf_decal/siding/wideplating_new/light{
@@ -59833,7 +59833,7 @@
 /area/station/engineering/main)
 "nAA" = (
 /obj/structure/closet/crate/freezer,
-/obj/item/stack/medical/gauze/twelve,
+/obj/item/stack/medical/wrap/gauze/twelve,
 /obj/item/stack/medical/bone_gel,
 /obj/effect/decal/cleanable/dirt/dust,
 /obj/effect/mapping_helpers/broken_floor,
@@ -101532,7 +101532,7 @@
 	pixel_x = -4;
 	pixel_y = 8
 	},
-/obj/item/stack/medical/gauze{
+/obj/item/stack/medical/wrap/gauze{
 	pixel_x = 8
 	},
 /obj/item/reagent_containers/syringe,

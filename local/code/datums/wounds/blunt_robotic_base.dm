@@ -181,11 +181,7 @@
 	if(!victim)
 		return
 
-	var/effective_damage = (damage - blocked)
-
-	var/obj/item/stack/gauze = limb.current_gauze
-	if(gauze)
-		effective_damage *= gauze.splint_factor
+	var/effective_damage = (damage - blocked) * limb.get_splint_factor()
 
 	switch(limb.body_zone)
 		if(BODY_ZONE_CHEST)
@@ -335,11 +331,8 @@
 /datum/wound/blunt/robotic/proc/victim_moved(datum/source, atom/old_loc, dir, forced, list/old_locs)
 	SIGNAL_HANDLER
 
-	var/overall_mult = 1
+	var/overall_mult = limb.get_splint_factor()
 
-	var/obj/item/stack/gauze = limb.current_gauze
-	if(gauze)
-		overall_mult *= gauze.splint_factor
 	if(!victim.has_gravity(get_turf(victim)))
 		overall_mult *= VICTIM_MOVED_NO_GRAVITY_EFFECT_MULT
 	else if(victim.body_position == LYING_DOWN || (!forced && victim.move_intent == MOVE_INTENT_WALK))
