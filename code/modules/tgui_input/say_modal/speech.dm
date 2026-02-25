@@ -53,7 +53,8 @@
 			return TRUE
 		// EffigyEdit Add - LOOC
 		if(LOOC_CHANNEL)
-			client.looc(entry)
+			ASYNC
+				client.looc(entry)
 			return TRUE
 		if(WHIS_CHANNEL)
 			client.mob.whisper_verb(entry)
