@@ -48,7 +48,7 @@
 	. = ..()
 	mat_container = new ( \
 		src, \
-		SSmaterials.materials_by_category[MAT_CATEGORY_ITEM_MATERIAL], \
+		SSmaterials.get_materials_by_flag(MATERIAL_SILO_STORED), \
 		0, \
 		MATCONTAINER_EXAMINE | MATCONTAINER_NO_INSERT \
 	)
