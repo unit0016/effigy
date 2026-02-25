@@ -934,7 +934,8 @@
 			[ROUND_TIME()] in<br />"
 		new_maptext += "</span>"
 	else
-
+		// EffigyEdit Change - Custom Lobby - Original:
+		/*
 		if(hud.mymob.client?.holder)
 			new_maptext = "<span style='text-align: center; vertical-align: middle'>[time_remaining_str()]<br /> \
 				[LAZYLEN(GLOB.clients)] player\s<br /> \
@@ -957,7 +958,6 @@
 			font_size = "9px"
 
 		if(hud.mymob.client?.holder)
-			// EffigyEdit Change - Original: <span style='text-align: center; vertical-align: middle'>Starting in [time_remaining]<br />
 			new_maptext = "<span style='text-align: center; vertical-align: middle'>[time_remaining]<br /> \
 				[SSticker.totalPlayersReady] / [LAZYLEN(GLOB.clients)] players ready<br /> \
 				[SSticker.total_admins_ready] / [length(GLOB.admins)] admins ready</span>"
