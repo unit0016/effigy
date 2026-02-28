@@ -6,3 +6,6 @@
 2026-02-17:
   LT3:
   - config: Server can now automatically reboot after a TGS deployment
+2026-02-28:
+  TealSeer:
+  - bugfix: fixed missing emitter lights
