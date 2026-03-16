@@ -173,7 +173,7 @@
 				packaging_category = CAT_PATCHES
 			else if(ispath(packaging_type, /obj/item/reagent_containers/applicator/pill))
 				packaging_category = CAT_PILLS
-			else if(ispath(container, /obj/item/reagent_containers/cup/hypovial)) // EffigyEdit Add - Hyposprays
+			else if(ispath(packaging_type, /obj/item/reagent_containers/cup/hypovial)) // EffigyEdit Add - Hyposprays
 				packaging_category = CAT_HYPOS
 			else
 				packaging_category = "Bottles"
