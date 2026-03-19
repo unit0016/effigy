@@ -9,3 +9,7 @@
   TealSeer:
   - bugfix: fixed species subtypes (e.g. ashwalkers) not being eligible for mutant
       bodyparts
+2026-03-19:
+  unit0016:
+  - rscadd: Service's maintenance has been expanded on Rimpoint; and there's now a
+      dedicated trail to the escape pods.
