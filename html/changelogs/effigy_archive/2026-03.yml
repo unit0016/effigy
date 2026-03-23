@@ -16,3 +16,6 @@
 2026-03-20:
   TealSeer:
   - bugfix: fixed medical airlock closing icon having the wrong symbol
+2026-03-23:
+  LT3:
+  - bugfix: Fixed desynced elevator door sound
