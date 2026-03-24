@@ -19,3 +19,6 @@
 2026-03-23:
   LT3:
   - bugfix: Fixed desynced elevator door sound
+2026-03-24:
+  TealSeer:
+  - bugfix: fixed organ manipulation surgery not working for synth organs
