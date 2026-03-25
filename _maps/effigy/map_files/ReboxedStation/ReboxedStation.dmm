@@ -98,7 +98,14 @@
 /area/station/service/lawoffice)
 "ahK" = (
 /obj/machinery/piratepad/civilian,
-/turf/open/floor/mineral/plastitanium,
+/obj/effect/turf_decal/tile/brown/opposingcorners,
+/obj/effect/turf_decal/tile/light_peach/opposingcorners{
+	dir = 1
+	},
+/obj/effect/turf_decal/siding/wideplating_new/end{
+	dir = 8
+	},
+/turf/open/floor/iron,
 /area/station/cargo/lobby)
 "aiX" = (
 /obj/structure/cable,
@@ -214,6 +221,12 @@
 "avp" = (
 /turf/closed/wall/r_wall,
 /area/station/security/prison/shower)
+"avs" = (
+/obj/effect/turf_decal/siding/wideplating_new{
+	dir = 5
+	},
+/turf/open/floor/iron/textured_large,
+/area/station/cargo/lobby)
 "avA" = (
 /obj/structure/table/reinforced,
 /obj/machinery/recharger,
@@ -287,6 +300,16 @@
 	},
 /turf/open/floor/iron,
 /area/station/hallway/primary/fore)
+"aBo" = (
+/obj/effect/turf_decal/trimline/dark_blue/corner{
+	dir = 1
+	},
+/obj/effect/turf_decal/siding/wideplating_new{
+	dir = 1
+	},
+/obj/structure/extinguisher_cabinet/directional/north,
+/turf/open/floor/iron,
+/area/station/hallway/primary/central)
 "aBG" = (
 /obj/effect/turf_decal/tile/neutral/opposingcorners,
 /obj/effect/decal/cleanable/dirt/dust,
@@ -1151,6 +1174,7 @@
 /obj/effect/turf_decal/siding/wideplating_new,
 /obj/machinery/door/airlock/grunge,
 /obj/effect/mapping_helpers/airlock/autoname,
+/obj/machinery/door/firedoor,
 /turf/open/floor/iron/smooth_large,
 /area/station/security/courtroom)
 "bRS" = (
@@ -1334,6 +1358,12 @@
 /obj/effect/landmark/start/hangover,
 /turf/open/floor/iron,
 /area/station/hallway/primary/central)
+"coD" = (
+/obj/effect/turf_decal/siding/wideplating_new{
+	dir = 4
+	},
+/turf/open/floor/iron,
+/area/station/cargo/lobby)
 "cpk" = (
 /obj/effect/turf_decal/trimline/dark_red/corner{
 	dir = 4
@@ -1375,6 +1405,9 @@
 "crK" = (
 /obj/effect/turf_decal/trimline/purple/filled/corner,
 /obj/effect/turf_decal/trimline/brown/corner,
+/obj/effect/turf_decal/siding/wideplating_new{
+	dir = 8
+	},
 /turf/open/floor/iron,
 /area/station/cargo/lobby)
 "crU" = (
@@ -1633,10 +1666,14 @@
 /turf/open/floor/iron/dark/diagonal,
 /area/station/command/heads_quarters/hop)
 "cPT" = (
-/obj/structure/extinguisher_cabinet/directional/south,
-/obj/effect/turf_decal/siding/wideplating_new,
-/turf/open/floor/iron,
-/area/station/hallway/primary/central)
+/obj/effect/turf_decal/trimline/brown/line{
+	dir = 9
+	},
+/obj/effect/turf_decal/trimline/beige/warning{
+	dir = 1
+	},
+/turf/open/floor/mineral/plastitanium,
+/area/station/cargo/lobby)
 "cQk" = (
 /obj/effect/turf_decal/siding/wood{
 	dir = 5
@@ -1705,6 +1742,30 @@
 	},
 /turf/open/floor/iron,
 /area/station/security/courtroom)
+"cSY" = (
+/obj/effect/turf_decal/siding/wideplating_new{
+	dir = 4
+	},
+/obj/effect/turf_decal/siding/wideplating_new{
+	dir = 8
+	},
+/obj/machinery/door/firedoor,
+/obj/structure/table/reinforced,
+/obj/machinery/door/window/right/directional/east{
+	name = "Office Desk";
+	req_access = list("cargo")
+	},
+/turf/open/floor/iron/smooth_large,
+/area/station/cargo/lobby)
+"cWu" = (
+/obj/effect/turf_decal/trimline/brown/line{
+	dir = 1
+	},
+/obj/effect/turf_decal/trimline/beige/warning{
+	dir = 1
+	},
+/turf/open/floor/mineral/plastitanium,
+/area/station/cargo/lobby)
 "cWY" = (
 /obj/effect/turf_decal/siding/thinplating_new{
 	dir = 5
@@ -2182,7 +2243,14 @@
 /area/station/security/prison)
 "dRL" = (
 /obj/machinery/vending/custom,
-/turf/open/floor/mineral/plastitanium,
+/obj/effect/turf_decal/tile/brown/opposingcorners,
+/obj/effect/turf_decal/tile/light_peach/opposingcorners{
+	dir = 1
+	},
+/obj/effect/turf_decal/siding/wideplating_new/end{
+	dir = 8
+	},
+/turf/open/floor/iron,
 /area/station/cargo/lobby)
 "dUz" = (
 /obj/effect/mapping_helpers/broken_floor,
@@ -3964,6 +4032,15 @@
 	},
 /turf/open/floor/iron/dark,
 /area/station/command/bridge)
+"gVT" = (
+/obj/effect/turf_decal/trimline/brown/arrow_ccw{
+	dir = 6
+	},
+/obj/structure/railing/corner/end{
+	dir = 8
+	},
+/turf/open/floor/mineral/plastitanium,
+/area/station/cargo/lobby)
 "gVX" = (
 /obj/effect/turf_decal/siding/wideplating_new{
 	dir = 4
@@ -4154,6 +4231,9 @@
 /obj/effect/turf_decal/siding/wideplating_new{
 	dir = 1
 	},
+/obj/machinery/camera/directional/north{
+	c_tag = "Central Hallway South-West"
+	},
 /turf/open/floor/iron,
 /area/station/hallway/primary/central)
 "hmF" = (
@@ -4242,7 +4322,14 @@
 /area/station/hallway/primary/central)
 "htB" = (
 /obj/machinery/vending/cigarette,
-/turf/open/floor/mineral/plastitanium,
+/obj/effect/turf_decal/tile/brown/opposingcorners,
+/obj/effect/turf_decal/tile/light_peach/opposingcorners{
+	dir = 1
+	},
+/obj/effect/turf_decal/siding/wideplating_new/end{
+	dir = 4
+	},
+/turf/open/floor/iron,
 /area/station/cargo/lobby)
 "htL" = (
 /obj/structure/sign/picture_frame/showroom/one{
@@ -4489,6 +4576,15 @@
 /obj/effect/turf_decal/siding/wideplating_new,
 /turf/open/floor/iron,
 /area/station/security/brig/entrance)
+"hOm" = (
+/obj/structure/railing/corner/end/flip{
+	dir = 4
+	},
+/obj/effect/turf_decal/siding/wideplating_new{
+	dir = 4
+	},
+/turf/open/floor/iron,
+/area/station/cargo/lobby)
 "hOX" = (
 /obj/structure/cable,
 /turf/open/floor/catwalk_floor/iron,
@@ -4992,6 +5088,14 @@
 /obj/structure/cable,
 /turf/open/floor/iron/smooth_large,
 /area/station/security/prison/visit)
+"iLC" = (
+/obj/effect/turf_decal/siding/wideplating_new{
+	dir = 1
+	},
+/obj/effect/turf_decal/siding/wideplating_new,
+/obj/machinery/door/airlock/mining/glass,
+/turf/open/floor/iron/smooth_large,
+/area/station/hallway/primary/central)
 "iNv" = (
 /obj/effect/turf_decal/tile/bar/opposingcorners,
 /turf/open/floor/iron,
@@ -5142,6 +5246,12 @@
 /obj/structure/window/spawner/directional/south,
 /turf/open/floor/mineral/plastitanium,
 /area/station/security/armory)
+"jdY" = (
+/obj/effect/turf_decal/siding/wideplating_new{
+	dir = 8
+	},
+/turf/open/floor/iron,
+/area/station/cargo/lobby)
 "jdZ" = (
 /obj/effect/turf_decal/siding/wideplating_new{
 	dir = 4
@@ -5745,6 +5855,7 @@
 /obj/effect/mapping_helpers/airlock/access/all/service/lawyer,
 /obj/effect/mapping_helpers/airlock/autoname,
 /obj/structure/cable,
+/obj/machinery/door/firedoor,
 /turf/open/floor/iron/smooth_large,
 /area/station/service/lawoffice)
 "koU" = (
@@ -6261,6 +6372,9 @@
 /obj/effect/turf_decal/trimline/brown/arrow_ccw{
 	dir = 5
 	},
+/obj/effect/turf_decal/trimline/beige/warning{
+	dir = 1
+	},
 /turf/open/floor/mineral/plastitanium,
 /area/station/cargo/lobby)
 "lhv" = (
@@ -6274,6 +6388,7 @@
 /obj/effect/turf_decal/trimline/brown/arrow_ccw{
 	dir = 6
 	},
+/obj/effect/turf_decal/trimline/beige/warning,
 /turf/open/floor/mineral/plastitanium,
 /area/station/cargo/lobby)
 "lig" = (
@@ -7012,6 +7127,7 @@
 	dir = 8
 	},
 /obj/structure/cable,
+/obj/machinery/door/firedoor,
 /turf/open/floor/iron/smooth_large,
 /area/station/security/processing)
 "mxE" = (
@@ -7054,9 +7170,6 @@
 /area/station/command/gateway)
 "mzX" = (
 /obj/effect/landmark/start/hangover,
-/obj/machinery/camera/directional/south{
-	c_tag = "Central Hallway South-West"
-	},
 /obj/effect/turf_decal/siding/wideplating_new,
 /turf/open/floor/iron,
 /area/station/hallway/primary/central)
@@ -7800,6 +7913,15 @@
 /obj/machinery/hydroponics/constructable,
 /turf/open/misc/dirt/station,
 /area/station/security/prison/garden)
+"nJm" = (
+/obj/effect/turf_decal/siding/wideplating_new{
+	dir = 9
+	},
+/obj/machinery/computer/cargo/request{
+	dir = 1
+	},
+/turf/open/floor/iron/textured_large,
+/area/station/cargo/lobby)
 "nKb" = (
 /obj/effect/spawner/random/decoration/showcase,
 /obj/effect/turf_decal/trimline/dark_purple/line{
@@ -8027,6 +8149,12 @@
 	},
 /turf/open/floor/iron/white/textured,
 /area/station/security/prison/workout)
+"ofw" = (
+/obj/effect/turf_decal/trimline/brown/line{
+	dir = 10
+	},
+/turf/open/floor/mineral/plastitanium,
+/area/station/cargo/lobby)
 "ogx" = (
 /obj/structure/chair/stool/directional/east,
 /turf/open/floor/wood/large,
@@ -8786,6 +8914,7 @@
 /obj/machinery/door/airlock/wood/glass,
 /obj/effect/mapping_helpers/airlock/access/all/security/detective,
 /obj/effect/mapping_helpers/airlock/autoname,
+/obj/machinery/door/firedoor,
 /turf/open/floor/iron/smooth_large,
 /area/station/security/detectives_office)
 "pvi" = (
@@ -9123,6 +9252,9 @@
 /area/station/hallway/primary/central)
 "pXx" = (
 /obj/effect/turf_decal/trimline/brown/arrow_ccw{
+	dir = 1
+	},
+/obj/effect/turf_decal/trimline/beige/warning{
 	dir = 1
 	},
 /turf/open/floor/mineral/plastitanium,
@@ -10477,6 +10609,15 @@
 /obj/structure/window/spawner/directional/west,
 /turf/open/floor/mineral/plastitanium,
 /area/station/security/armory)
+"scR" = (
+/obj/effect/turf_decal/siding/wideplating_new{
+	dir = 1
+	},
+/obj/effect/turf_decal/siding/wideplating_new,
+/obj/machinery/door/airlock/mining/glass,
+/obj/effect/mapping_helpers/airlock/access/all/supply/general,
+/turf/open/floor/iron/smooth_large,
+/area/station/hallway/primary/central)
 "sdM" = (
 /obj/machinery/airalarm/directional/north,
 /turf/open/floor/iron/dark,
@@ -10577,6 +10718,7 @@
 /obj/machinery/door/airlock/public/glass,
 /obj/effect/mapping_helpers/airlock/access/all/security/court,
 /obj/effect/mapping_helpers/airlock/autoname,
+/obj/machinery/door/firedoor,
 /turf/open/floor/iron/smooth_large,
 /area/station/security/courtroom)
 "sme" = (
@@ -10609,7 +10751,14 @@
 /area/station/security/medical)
 "soh" = (
 /obj/machinery/computer/piratepad_control/civilian,
-/turf/open/floor/mineral/plastitanium,
+/obj/effect/turf_decal/tile/brown/opposingcorners,
+/obj/effect/turf_decal/tile/light_peach/opposingcorners{
+	dir = 1
+	},
+/obj/effect/turf_decal/siding/wideplating_new/end{
+	dir = 4
+	},
+/turf/open/floor/iron,
 /area/station/cargo/lobby)
 "spv" = (
 /obj/structure/chair/comfy/shuttle{
@@ -10960,6 +11109,8 @@
 	dir = 1
 	},
 /obj/effect/turf_decal/siding/wideplating_new,
+/obj/machinery/door/airlock/mining/glass,
+/obj/machinery/door/firedoor,
 /turf/open/floor/iron/smooth_large,
 /area/station/cargo/lobby)
 "sTM" = (
@@ -10981,6 +11132,7 @@
 /obj/machinery/door/airlock/service,
 /obj/effect/mapping_helpers/airlock/access/all/service/lawyer,
 /obj/effect/mapping_helpers/airlock/autoname,
+/obj/machinery/door/firedoor,
 /turf/open/floor/iron/smooth_large,
 /area/station/service/lawoffice)
 "sVr" = (
@@ -11278,6 +11430,10 @@
 /turf/open/floor/iron,
 /area/station/security/execution/transfer)
 "twj" = (
+/obj/effect/turf_decal/trimline/brown/line{
+	dir = 10
+	},
+/obj/effect/turf_decal/trimline/beige/warning,
 /turf/open/floor/mineral/plastitanium,
 /area/station/cargo/lobby)
 "twH" = (
@@ -12113,6 +12269,15 @@
 	dir = 1
 	},
 /area/station/command/bridge)
+"uRt" = (
+/obj/effect/turf_decal/trimline/brown/corner{
+	dir = 8
+	},
+/obj/effect/turf_decal/tile/brown{
+	dir = 4
+	},
+/turf/open/floor/mineral/plastitanium,
+/area/station/cargo/lobby)
 "uTz" = (
 /obj/effect/turf_decal/trimline/blue/filled/warning/corner,
 /obj/effect/turf_decal/trimline/dark/warning{
@@ -12419,6 +12584,17 @@
 	},
 /turf/open/floor/iron/dark/small,
 /area/station/command/heads_quarters/hos)
+"vCD" = (
+/obj/machinery/door/airlock/mining/glass,
+/obj/effect/turf_decal/siding/wideplating_new{
+	dir = 4
+	},
+/obj/effect/turf_decal/siding/wideplating_new{
+	dir = 8
+	},
+/obj/machinery/door/firedoor,
+/turf/open/floor/iron/smooth_large,
+/area/station/cargo/lobby)
 "vDg" = (
 /obj/machinery/door/firedoor,
 /obj/effect/turf_decal/stripes/white/line,
@@ -12523,6 +12699,9 @@
 	},
 /obj/effect/turf_decal/trimline/purple/corner{
 	dir = 8
+	},
+/obj/effect/turf_decal/siding/wideplating_new{
+	dir = 4
 	},
 /turf/open/floor/iron,
 /area/station/cargo/lobby)
@@ -12631,6 +12810,21 @@
 /obj/effect/turf_decal/siding/wideplating_new,
 /turf/open/floor/iron/diagonal,
 /area/station/hallway/primary/central)
+"vXO" = (
+/obj/effect/turf_decal/siding/wideplating_new{
+	dir = 4
+	},
+/obj/effect/turf_decal/siding/wideplating_new{
+	dir = 8
+	},
+/obj/machinery/door/firedoor,
+/obj/structure/table/reinforced,
+/obj/machinery/door/window/left/directional/east{
+	name = "Office Desk";
+	req_access = list("cargo")
+	},
+/turf/open/floor/iron/smooth_large,
+/area/station/cargo/lobby)
 "vXV" = (
 /obj/effect/turf_decal/siding/dark{
 	dir = 10
@@ -13191,6 +13385,9 @@
 /obj/effect/decal/cleanable/dirt/dust,
 /turf/open/floor/wood/large,
 /area/station/security/detectives_office)
+"wPh" = (
+/turf/open/floor/catwalk_floor/iron,
+/area/station/cargo/lobby)
 "wPx" = (
 /obj/machinery/shower/directional/west,
 /obj/structure/drain,
@@ -13608,6 +13805,7 @@
 /obj/effect/mapping_helpers/airlock/autoname,
 /obj/structure/cable,
 /obj/machinery/atmospherics/pipe/smart/simple/supply/hidden/layer4,
+/obj/machinery/door/firedoor,
 /turf/open/floor/iron/smooth_large,
 /area/station/command/eva)
 "xBp" = (
@@ -13744,6 +13942,12 @@
 /area/station/security/courtroom)
 "xLv" = (
 /obj/effect/turf_decal/trimline/brown/corner,
+/obj/structure/railing{
+	dir = 1
+	},
+/obj/effect/turf_decal/tile/brown{
+	dir = 1
+	},
 /turf/open/floor/mineral/plastitanium,
 /area/station/cargo/lobby)
 "xLw" = (
@@ -45307,7 +45511,7 @@ mYJ
 hmi
 pRd
 mzX
-qeP
+vfc
 hGx
 hGx
 hGx
@@ -45564,7 +45768,7 @@ xAn
 xLG
 vKm
 mQo
-qeP
+iLC
 hGx
 hGx
 hGx
@@ -45818,10 +46022,10 @@ hpI
 jqh
 jBx
 mYJ
-asA
+aBo
 vKm
-cPT
-qeP
+mQo
+vfc
 hGx
 hGx
 hGx
@@ -46080,10 +46284,10 @@ vKm
 eqr
 mOA
 mOA
-sPR
+vCD
 sPR
 mOA
-hGx
+mOA
 hGx
 hGx
 hGx
@@ -46337,9 +46541,9 @@ nBz
 mQo
 sPR
 ahK
-twj
-twj
-mOA
+cPT
+ofw
+avs
 mOA
 hGx
 hGx
@@ -46594,8 +46798,8 @@ pIf
 hbj
 sPR
 soh
-twj
-twj
+cWu
+uRt
 twj
 sPR
 hGx
@@ -46851,8 +47055,8 @@ mOx
 tFw
 mOA
 mOA
-wDo
-wDo
+jdY
+jdY
 crK
 mOA
 hGx
@@ -47109,7 +47313,7 @@ kGB
 lWB
 wMg
 wDo
-wDo
+wPh
 udY
 sSN
 hGx
@@ -47366,7 +47570,7 @@ bea
 hJL
 wMR
 wDo
-wDo
+wPh
 rCY
 sPR
 hGx
@@ -47623,7 +47827,7 @@ dnS
 vXa
 iUp
 wDo
-wDo
+wPh
 frh
 sSN
 hGx
@@ -47879,8 +48083,8 @@ mOx
 bZI
 mOA
 mOA
-wDo
-wDo
+coD
+hOm
 vPK
 mOA
 hGx
@@ -48394,8 +48598,8 @@ mQo
 sPR
 htB
 lgA
-lhx
-mOA
+gVT
+nJm
 mOA
 hGx
 hGx
@@ -48650,10 +48854,10 @@ vKm
 aSG
 mOA
 mOA
-sPR
-sPR
+vXO
+cSY
 mOA
-hGx
+mOA
 hGx
 hGx
 hGx
@@ -48905,7 +49109,7 @@ oFf
 pTa
 vKm
 mQo
-qeP
+vfc
 hGx
 hGx
 hGx
@@ -49162,7 +49366,7 @@ nwY
 meT
 vKm
 mQo
-qeP
+scR
 hGx
 hGx
 hGx
@@ -49419,7 +49623,7 @@ oFf
 asA
 vKm
 mQo
-qeP
+vfc
 hGx
 hGx
 hGx
