@@ -115,7 +115,7 @@
 /obj/structure/window/spawner/directional/west,
 /obj/structure/cable,
 /turf/open/floor/mineral/plastitanium,
-/area/station/ai_monitored/security/armory)
+/area/station/security/armory)
 "alF" = (
 /obj/effect/turf_decal/siding/wideplating_new{
 	dir = 1
@@ -380,7 +380,7 @@
 	},
 /obj/structure/cable,
 /turf/open/floor/iron/smooth,
-/area/station/ai_monitored/command/storage/eva)
+/area/station/command/eva)
 "aJf" = (
 /obj/structure/curtain,
 /obj/effect/turf_decal/siding/white{
@@ -396,7 +396,7 @@
 /obj/effect/turf_decal/trimline/dark/warning,
 /obj/effect/turf_decal/siding/wideplating_new,
 /turf/open/floor/iron/smooth,
-/area/station/ai_monitored/command/storage/eva)
+/area/station/command/eva)
 "aJi" = (
 /obj/structure/cable,
 /obj/structure/chair/stool/directional/west,
@@ -441,7 +441,7 @@
 	},
 /obj/structure/cable,
 /turf/open/floor/iron/dark/textured,
-/area/station/ai_monitored/security/armory)
+/area/station/security/armory)
 "aMX" = (
 /obj/effect/decal/cleanable/dirt/dust,
 /turf/open/floor/plating,
@@ -461,7 +461,7 @@
 	},
 /obj/machinery/light/directional/east,
 /turf/open/floor/circuit,
-/area/station/ai_monitored/turret_protected/ai_upload)
+/area/station/ai/upload/chamber)
 "aPs" = (
 /obj/structure/table/reinforced,
 /obj/item/flashlight/lamp,
@@ -495,14 +495,14 @@
 	dir = 5
 	},
 /turf/open/floor/iron/dark/diagonal,
-/area/station/ai_monitored/turret_protected/ai_upload)
+/area/station/ai/upload/chamber)
 "aRs" = (
 /obj/effect/turf_decal/siding/thinplating_new/dark{
 	dir = 1
 	},
 /obj/effect/turf_decal/siding/thinplating_new/dark,
 /turf/open/floor/iron/dark/smooth_half,
-/area/station/ai_monitored/security/armory)
+/area/station/security/armory)
 "aSG" = (
 /obj/machinery/camera/directional/south{
 	c_tag = "Central Hallway South"
@@ -521,7 +521,7 @@
 /turf/open/floor/iron/dark/smooth_half{
 	dir = 1
 	},
-/area/station/ai_monitored/security/armory)
+/area/station/security/armory)
 "aUA" = (
 /obj/effect/turf_decal/tile/dark_blue{
 	dir = 1
@@ -933,7 +933,7 @@
 	},
 /obj/structure/secure_safe/directional/north,
 /turf/open/floor/mineral/plastitanium,
-/area/station/ai_monitored/security/armory)
+/area/station/security/armory)
 "bxD" = (
 /obj/effect/turf_decal/trimline/dark_blue/corner{
 	dir = 4
@@ -1000,7 +1000,7 @@
 /obj/effect/spawner/random/aimodule/harmless,
 /obj/structure/cable,
 /turf/open/floor/circuit/green,
-/area/station/ai_monitored/turret_protected/ai_upload)
+/area/station/ai/upload/chamber)
 "bDw" = (
 /obj/machinery/bluespace_beacon,
 /obj/effect/turf_decal/stripes/corner{
@@ -1240,7 +1240,7 @@
 	dir = 4
 	},
 /turf/open/floor/iron/smooth,
-/area/station/ai_monitored/command/storage/eva)
+/area/station/command/eva)
 "bZB" = (
 /turf/closed/wall/r_wall,
 /area/station/command/heads_quarters/hos)
@@ -1295,7 +1295,7 @@
 /obj/machinery/flasher/portable,
 /obj/effect/turf_decal/bot_white,
 /turf/open/floor/mineral/plastitanium,
-/area/station/ai_monitored/security/armory)
+/area/station/security/armory)
 "ciC" = (
 /obj/structure/chair/office,
 /obj/effect/turf_decal/siding/wideplating_new{
@@ -1576,7 +1576,7 @@
 	dir = 4
 	},
 /turf/open/floor/circuit/green,
-/area/station/ai_monitored/turret_protected/ai_upload)
+/area/station/ai/upload/chamber)
 "cNK" = (
 /turf/closed/wall,
 /area/station/security/brig/entrance)
@@ -1651,7 +1651,7 @@
 	},
 /obj/machinery/light/directional/south,
 /turf/open/floor/iron/dark/textured_large,
-/area/station/ai_monitored/command/storage/eva)
+/area/station/command/eva)
 "cQI" = (
 /obj/effect/turf_decal/siding/wood{
 	dir = 1
@@ -1749,7 +1749,7 @@
 /obj/structure/table/reinforced,
 /obj/effect/spawner/random/armory/barrier_grenades,
 /turf/open/floor/mineral/plastitanium,
-/area/station/ai_monitored/security/armory)
+/area/station/security/armory)
 "cXY" = (
 /obj/item/reagent_containers/cup/bucket,
 /obj/item/mop,
@@ -2109,7 +2109,7 @@
 	req_access = list("eva")
 	},
 /turf/open/floor/iron/dark/textured_large,
-/area/station/ai_monitored/command/storage/eva)
+/area/station/command/eva)
 "dMT" = (
 /obj/effect/turf_decal/trimline/red/filled/corner{
 	dir = 1
@@ -2184,7 +2184,7 @@
 /obj/effect/mapping_helpers/broken_floor,
 /obj/effect/decal/cleanable/dirt/dust,
 /obj/structure/rack,
-/obj/item/stack/sticky_tape,
+/obj/item/stack/medical/wrap/sticky_tape,
 /turf/open/floor/wood/large,
 /area/station/security/detectives_office)
 "dUB" = (
@@ -2343,7 +2343,7 @@
 /obj/machinery/atmospherics/pipe/smart/simple/scrubbers/hidden/layer2,
 /obj/effect/landmark/start/cyborg,
 /turf/open/floor/iron/dark/textured_large,
-/area/station/ai_monitored/turret_protected/ai_upload)
+/area/station/ai/upload/chamber)
 "eeq" = (
 /obj/structure/table/wood,
 /obj/item/folder/red{
@@ -2589,7 +2589,7 @@
 	dir = 4
 	},
 /turf/open/floor/iron/dark,
-/area/station/ai_monitored/turret_protected/ai_upload)
+/area/station/ai/upload/chamber)
 "eBv" = (
 /obj/effect/spawner/liquids_spawner,
 /turf/open/floor/iron/lowered,
@@ -2849,7 +2849,7 @@
 	},
 /obj/item/gun/grenadelauncher,
 /turf/open/floor/mineral/plastitanium,
-/area/station/ai_monitored/security/armory)
+/area/station/security/armory)
 "eYF" = (
 /obj/effect/turf_decal/tile/dark_red/opposingcorners{
 	dir = 1
@@ -2872,7 +2872,7 @@
 	pixel_y = 6
 	},
 /turf/open/floor/mineral/plastitanium,
-/area/station/ai_monitored/security/armory)
+/area/station/security/armory)
 "eZv" = (
 /obj/effect/turf_decal/siding/dark{
 	dir = 1
@@ -2940,7 +2940,7 @@
 /obj/structure/cable,
 /obj/machinery/power/apc/auto_name/directional/north,
 /turf/open/floor/iron/dark/textured,
-/area/station/ai_monitored/security/armory)
+/area/station/security/armory)
 "fjp" = (
 /obj/structure/cable,
 /turf/open/floor/wood/tile,
@@ -3011,7 +3011,7 @@
 	dir = 8
 	},
 /turf/open/floor/iron/dark/textured,
-/area/station/ai_monitored/security/armory)
+/area/station/security/armory)
 "fsq" = (
 /obj/structure/closet/crate/hydroponics,
 /obj/structure/railing{
@@ -3165,7 +3165,6 @@
 /turf/open/floor/eighties,
 /area/station/security/prison/rec)
 "fIe" = (
-/obj/machinery/bluespace_vendor/directional/west,
 /turf/open/floor/catwalk_floor/iron,
 /area/station/hallway/primary/fore)
 "fIl" = (
@@ -3251,7 +3250,7 @@
 	},
 /obj/structure/reagent_dispensers/wall/peppertank/directional/north,
 /turf/open/floor/mineral/plastitanium,
-/area/station/ai_monitored/security/armory)
+/area/station/security/armory)
 "fMi" = (
 /obj/machinery/door/firedoor,
 /obj/effect/turf_decal/stripes/white/line,
@@ -3298,7 +3297,7 @@
 	},
 /obj/machinery/firealarm/directional/east,
 /turf/open/floor/iron/dark/diagonal,
-/area/station/ai_monitored/turret_protected/ai_upload)
+/area/station/ai/upload/chamber)
 "fQh" = (
 /obj/structure/cable,
 /obj/effect/turf_decal/trimline/dark_red/warning{
@@ -3341,7 +3340,7 @@
 /obj/structure/cable,
 /obj/machinery/atmospherics/pipe/smart/simple/supply/hidden/layer4,
 /turf/open/floor/catwalk_floor/iron,
-/area/station/ai_monitored/command/storage/eva)
+/area/station/command/eva)
 "fTn" = (
 /obj/effect/turf_decal/siding/wideplating_new/dark{
 	dir = 1
@@ -3366,7 +3365,7 @@
 /turf/open/floor/iron/dark/smooth_half{
 	dir = 1
 	},
-/area/station/ai_monitored/security/armory)
+/area/station/security/armory)
 "fVG" = (
 /obj/structure/bed/double{
 	dir = 4
@@ -3541,7 +3540,7 @@
 	dir = 5
 	},
 /turf/open/floor/circuit/green,
-/area/station/ai_monitored/turret_protected/ai_upload)
+/area/station/ai/upload/chamber)
 "gsM" = (
 /obj/machinery/light/directional/south,
 /obj/effect/turf_decal/siding/wideplating_new,
@@ -3627,7 +3626,7 @@
 /obj/effect/turf_decal/tile/neutral/fourcorners,
 /obj/effect/turf_decal/siding/wideplating_new,
 /turf/open/floor/glass/reinforced,
-/area/station/ai_monitored/command/storage/eva)
+/area/station/command/eva)
 "gBN" = (
 /obj/effect/spawner/structure/window/reinforced,
 /obj/structure/cable,
@@ -3732,7 +3731,7 @@
 	},
 /obj/structure/table/reinforced,
 /turf/open/floor/mineral/plastitanium,
-/area/station/ai_monitored/security/armory)
+/area/station/security/armory)
 "gGN" = (
 /obj/effect/turf_decal/siding/wideplating_new/light{
 	dir = 1
@@ -4179,7 +4178,7 @@
 	dir = 8
 	},
 /turf/open/floor/iron/dark/textured_large,
-/area/station/ai_monitored/command/storage/eva)
+/area/station/command/eva)
 "hql" = (
 /obj/structure/table/wood,
 /obj/effect/turf_decal/siding/dark,
@@ -4219,7 +4218,7 @@
 	dir = 8
 	},
 /turf/open/floor/iron/dark/diagonal,
-/area/station/ai_monitored/turret_protected/ai_upload)
+/area/station/ai/upload/chamber)
 "hsx" = (
 /obj/structure/closet/secure_closet/warden,
 /obj/effect/turf_decal/siding/wideplating_new/dark/end{
@@ -4310,7 +4309,7 @@
 /obj/item/restraints/handcuffs,
 /obj/item/assembly/flash/handheld,
 /turf/open/floor/mineral/plastitanium,
-/area/station/ai_monitored/security/armory)
+/area/station/security/armory)
 "hAI" = (
 /obj/effect/mapping_helpers/broken_floor,
 /turf/open/floor/wood/large,
@@ -4509,7 +4508,7 @@
 /area/station/security/prison/visit)
 "hWh" = (
 /turf/open/floor/catwalk_floor/iron_dark,
-/area/station/ai_monitored/turret_protected/ai_upload)
+/area/station/ai/upload/chamber)
 "hWs" = (
 /obj/structure/table/wood,
 /obj/effect/turf_decal/siding/wood{
@@ -4617,7 +4616,7 @@
 	dir = 6
 	},
 /turf/open/floor/iron/dark/diagonal,
-/area/station/ai_monitored/turret_protected/ai_upload)
+/area/station/ai/upload/chamber)
 "ifx" = (
 /obj/machinery/computer/security{
 	dir = 1
@@ -4865,7 +4864,7 @@
 /area/station/security/brig)
 "iAT" = (
 /turf/closed/wall/r_wall,
-/area/station/ai_monitored/security/armory)
+/area/station/security/armory)
 "iDs" = (
 /obj/effect/turf_decal/siding/wideplating_new{
 	dir = 1
@@ -4883,7 +4882,7 @@
 /obj/machinery/door/firedoor,
 /obj/structure/cable,
 /turf/open/floor/iron/smooth_large,
-/area/station/ai_monitored/security/armory)
+/area/station/security/armory)
 "iDL" = (
 /obj/effect/turf_decal/trimline/dark_red/corner{
 	dir = 1
@@ -5044,7 +5043,7 @@
 /obj/effect/turf_decal/bot_white,
 /obj/machinery/firealarm/directional/west,
 /turf/open/floor/mineral/plastitanium,
-/area/station/ai_monitored/security/armory)
+/area/station/security/armory)
 "iVC" = (
 /obj/machinery/firealarm/directional/east,
 /turf/open/floor/carpet/red,
@@ -5117,7 +5116,7 @@
 /obj/structure/window/spawner/directional/east,
 /obj/structure/window/spawner/directional/south,
 /turf/open/floor/mineral/plastitanium,
-/area/station/ai_monitored/security/armory)
+/area/station/security/armory)
 "jdZ" = (
 /obj/effect/turf_decal/siding/wideplating_new{
 	dir = 4
@@ -5239,7 +5238,7 @@
 	dir = 8
 	},
 /turf/open/floor/iron/dark/textured_large,
-/area/station/ai_monitored/command/storage/eva)
+/area/station/command/eva)
 "jqw" = (
 /obj/effect/turf_decal/trimline/dark_purple/line{
 	dir = 5
@@ -5319,7 +5318,7 @@
 "jxv" = (
 /obj/effect/turf_decal/trimline/dark/warning,
 /turf/open/floor/iron/smooth,
-/area/station/ai_monitored/command/storage/eva)
+/area/station/command/eva)
 "jyg" = (
 /obj/effect/turf_decal/trimline/dark_red/corner{
 	dir = 1
@@ -5335,7 +5334,7 @@
 /area/station/security/processing)
 "jzg" = (
 /turf/closed/wall/r_wall,
-/area/station/ai_monitored/turret_protected/ai_upload)
+/area/station/ai/upload/chamber)
 "jAS" = (
 /obj/machinery/atmospherics/pipe/smart/simple/dark/hidden{
 	dir = 5
@@ -5357,7 +5356,7 @@
 	},
 /obj/machinery/firealarm/directional/east,
 /turf/open/floor/iron/dark/textured_large,
-/area/station/ai_monitored/command/storage/eva)
+/area/station/command/eva)
 "jCq" = (
 /obj/structure/cable,
 /turf/open/floor/catwalk_floor/iron_white,
@@ -5369,12 +5368,12 @@
 /obj/machinery/light/floor,
 /obj/structure/cable,
 /turf/open/floor/circuit/green,
-/area/station/ai_monitored/turret_protected/ai_upload)
+/area/station/ai/upload/chamber)
 "jEm" = (
 /obj/effect/turf_decal/trimline/dark/warning,
 /obj/effect/turf_decal/siding/wideplating_new/corner,
 /turf/open/floor/iron/smooth,
-/area/station/ai_monitored/command/storage/eva)
+/area/station/command/eva)
 "jEQ" = (
 /obj/effect/turf_decal/tile/neutral/fourcorners,
 /obj/structure/chair/comfy/black{
@@ -5420,13 +5419,13 @@
 	dir = 1
 	},
 /turf/open/floor/iron/dark,
-/area/station/ai_monitored/turret_protected/ai_upload)
+/area/station/ai/upload/chamber)
 "jKg" = (
 /obj/effect/turf_decal/siding/wideplating_new/dark{
 	dir = 9
 	},
 /turf/open/floor/circuit/green,
-/area/station/ai_monitored/turret_protected/ai_upload)
+/area/station/ai/upload/chamber)
 "jKo" = (
 /obj/effect/turf_decal/siding/wideplating_new{
 	dir = 6
@@ -5504,7 +5503,7 @@
 /obj/structure/window/spawner/directional/east,
 /obj/structure/window/spawner/directional/north,
 /turf/open/floor/mineral/plastitanium,
-/area/station/ai_monitored/security/armory)
+/area/station/security/armory)
 "jRc" = (
 /obj/machinery/computer/security/telescreen/prison/directional/north,
 /turf/open/floor/wood,
@@ -5578,7 +5577,7 @@
 	name = "EVA Shutters"
 	},
 /turf/open/floor/iron/smooth_large,
-/area/station/ai_monitored/command/storage/eva)
+/area/station/command/eva)
 "kaZ" = (
 /obj/effect/turf_decal/siding/wideplating_new{
 	dir = 8
@@ -5624,7 +5623,7 @@
 /turf/open/floor/iron/small,
 /area/station/security/prison/garden)
 "kfq" = (
-/obj/effect/decal/cleanable/oil,
+/obj/effect/decal/cleanable/blood/oil,
 /obj/structure/cable,
 /obj/effect/decal/cleanable/dirt/dust,
 /turf/open/floor/iron,
@@ -5786,7 +5785,7 @@
 	dir = 1
 	},
 /turf/open/floor/iron/dark,
-/area/station/ai_monitored/turret_protected/ai_upload)
+/area/station/ai/upload/chamber)
 "kxR" = (
 /obj/effect/turf_decal/siding/wideplating_new{
 	dir = 6
@@ -5807,7 +5806,7 @@
 	dir = 1
 	},
 /turf/open/floor/circuit,
-/area/station/ai_monitored/turret_protected/ai_upload)
+/area/station/ai/upload/chamber)
 "kCC" = (
 /obj/machinery/vending/sustenance,
 /obj/effect/turf_decal/siding/wideplating_new/dark/end,
@@ -5864,7 +5863,7 @@
 	},
 /obj/machinery/light/directional/west,
 /turf/open/floor/circuit/red,
-/area/station/ai_monitored/turret_protected/ai_upload)
+/area/station/ai/upload/chamber)
 "kGX" = (
 /obj/effect/turf_decal/siding/wideplating_new/dark{
 	dir = 4
@@ -5965,7 +5964,7 @@
 /obj/effect/mapping_helpers/airlock/access/all/security/armory,
 /obj/effect/mapping_helpers/airlock/autoname,
 /turf/open/floor/iron/smooth_large,
-/area/station/ai_monitored/security/armory)
+/area/station/security/armory)
 "kQT" = (
 /obj/effect/turf_decal/tile/dark_purple,
 /turf/open/floor/iron,
@@ -6018,11 +6017,11 @@
 	dir = 4
 	},
 /turf/open/floor/circuit/red,
-/area/station/ai_monitored/turret_protected/ai_upload)
+/area/station/ai/upload/chamber)
 "kXb" = (
 /obj/machinery/status_display/evac/directional/south,
 /turf/open/floor/circuit,
-/area/station/ai_monitored/turret_protected/ai_upload)
+/area/station/ai/upload/chamber)
 "kXh" = (
 /obj/effect/turf_decal/siding/wood{
 	dir = 6
@@ -6043,7 +6042,7 @@
 	dir = 4
 	},
 /turf/open/floor/catwalk_floor/iron,
-/area/station/ai_monitored/command/storage/eva)
+/area/station/command/eva)
 "kZc" = (
 /obj/effect/turf_decal/trimline/dark_red/filled/line{
 	dir = 1
@@ -6056,7 +6055,7 @@
 	},
 /obj/effect/turf_decal/siding/thinplating_new/dark,
 /turf/open/floor/iron/dark/textured,
-/area/station/ai_monitored/security/armory)
+/area/station/security/armory)
 "kZE" = (
 /obj/structure/chair/office{
 	dir = 4
@@ -6184,7 +6183,7 @@
 /obj/effect/turf_decal/trimline/dark_blue/end,
 /obj/effect/turf_decal/siding/wideplating_new,
 /turf/open/floor/iron/dark/textured_large,
-/area/station/ai_monitored/command/storage/eva)
+/area/station/command/eva)
 "lee" = (
 /obj/structure/cable,
 /obj/effect/turf_decal/trimline/dark_red/warning{
@@ -6567,7 +6566,7 @@
 /turf/open/floor/iron/dark/smooth_corner{
 	dir = 1
 	},
-/area/station/ai_monitored/security/armory)
+/area/station/security/armory)
 "lEX" = (
 /obj/effect/turf_decal/trimline/dark_red/warning{
 	dir = 8
@@ -6712,7 +6711,7 @@
 /obj/effect/spawner/random/armory/disablers,
 /obj/structure/window/spawner/directional/east,
 /turf/open/floor/mineral/plastitanium,
-/area/station/ai_monitored/security/armory)
+/area/station/security/armory)
 "lXe" = (
 /obj/structure/closet{
 	name = "evidence closet"
@@ -7096,7 +7095,7 @@
 	req_access = list("eva")
 	},
 /turf/open/floor/iron/dark/textured_large,
-/area/station/ai_monitored/command/storage/eva)
+/area/station/command/eva)
 "mFr" = (
 /turf/closed/wall,
 /area/station/security/prison/garden)
@@ -7161,7 +7160,7 @@
 "mKd" = (
 /obj/effect/turf_decal/siding/wideplating_new,
 /turf/open/floor/glass/reinforced,
-/area/station/ai_monitored/command/storage/eva)
+/area/station/command/eva)
 "mKT" = (
 /obj/structure/closet/crate/trashcart,
 /obj/effect/spawner/random/contraband/prison,
@@ -7327,7 +7326,7 @@
 /area/station/security/brig/entrance)
 "mYJ" = (
 /turf/closed/wall/r_wall,
-/area/station/ai_monitored/command/storage/eva)
+/area/station/command/eva)
 "nbc" = (
 /obj/effect/spawner/random/decoration/showcase,
 /obj/effect/turf_decal/trimline/dark_purple/line{
@@ -7371,7 +7370,7 @@
 	dir = 4
 	},
 /turf/open/floor/iron/dark/textured,
-/area/station/ai_monitored/security/armory)
+/area/station/security/armory)
 "nen" = (
 /obj/effect/decal/cleanable/dirt/dust,
 /turf/open/floor/plating,
@@ -7511,7 +7510,7 @@
 	dir = 8
 	},
 /turf/open/floor/iron/dark/textured,
-/area/station/ai_monitored/security/armory)
+/area/station/security/armory)
 "nwy" = (
 /obj/structure/cable,
 /obj/effect/turf_decal/trimline/red/filled/line{
@@ -7588,7 +7587,7 @@
 	dir = 1
 	},
 /turf/open/floor/iron/dark/textured,
-/area/station/ai_monitored/security/armory)
+/area/station/security/armory)
 "nzn" = (
 /obj/effect/turf_decal/siding/wood{
 	dir = 10
@@ -7885,7 +7884,7 @@
 	dir = 1
 	},
 /turf/open/floor/iron/dark/smooth_half,
-/area/station/ai_monitored/security/armory)
+/area/station/security/armory)
 "nYl" = (
 /obj/item/kirbyplants/random,
 /obj/effect/turf_decal/tile/neutral/opposingcorners,
@@ -7907,7 +7906,7 @@
 	},
 /obj/machinery/airalarm/directional/south,
 /turf/open/floor/iron/dark/textured,
-/area/station/ai_monitored/security/armory)
+/area/station/security/armory)
 "oac" = (
 /obj/machinery/camera/directional/north{
 	c_tag = "Bridge Conference Room"
@@ -7956,7 +7955,7 @@
 	dir = 4
 	},
 /turf/open/floor/glass/reinforced,
-/area/station/ai_monitored/command/storage/eva)
+/area/station/command/eva)
 "obY" = (
 /obj/structure/cable,
 /turf/open/floor/plating,
@@ -7975,7 +7974,7 @@
 /obj/vehicle/ridden/secway,
 /obj/item/key/security,
 /turf/open/floor/mineral/plastitanium,
-/area/station/ai_monitored/security/armory)
+/area/station/security/armory)
 "oeX" = (
 /obj/effect/turf_decal/siding/dark{
 	dir = 9
@@ -8067,7 +8066,7 @@
 	dir = 8
 	},
 /turf/open/floor/iron/dark/textured,
-/area/station/ai_monitored/security/armory)
+/area/station/security/armory)
 "okO" = (
 /obj/effect/turf_decal/trimline/dark_red/warning,
 /obj/effect/turf_decal/siding/wideplating_new{
@@ -8398,7 +8397,7 @@
 	dir = 4
 	},
 /turf/open/floor/iron/smooth,
-/area/station/ai_monitored/command/storage/eva)
+/area/station/command/eva)
 "oRV" = (
 /obj/structure/cable,
 /obj/effect/turf_decal/trimline/dark_red/warning,
@@ -8478,7 +8477,7 @@
 	dir = 5
 	},
 /turf/open/floor/circuit/red,
-/area/station/ai_monitored/turret_protected/ai_upload)
+/area/station/ai/upload/chamber)
 "pch" = (
 /obj/effect/landmark/start/hangover,
 /turf/open/floor/iron,
@@ -9077,7 +9076,7 @@
 	dir = 10
 	},
 /turf/open/floor/iron/dark/diagonal,
-/area/station/ai_monitored/turret_protected/ai_upload)
+/area/station/ai/upload/chamber)
 "pXb" = (
 /obj/item/radio/intercom/directional/west,
 /turf/open/floor/iron,
@@ -9115,7 +9114,7 @@
 	},
 /obj/effect/turf_decal/tile/neutral/fourcorners,
 /turf/open/floor/glass/reinforced,
-/area/station/ai_monitored/command/storage/eva)
+/area/station/command/eva)
 "qaD" = (
 /obj/effect/turf_decal/trimline/dark_red/corner{
 	dir = 1
@@ -9260,7 +9259,7 @@
 	},
 /obj/item/radio/intercom/directional/east,
 /turf/open/floor/iron/dark/textured_large,
-/area/station/ai_monitored/command/storage/eva)
+/area/station/command/eva)
 "qqn" = (
 /obj/structure/cable,
 /obj/effect/decal/cleanable/dirt/dust,
@@ -9565,7 +9564,7 @@
 /obj/structure/window/spawner/directional/north,
 /obj/structure/cable,
 /turf/open/floor/mineral/plastitanium,
-/area/station/ai_monitored/security/armory)
+/area/station/security/armory)
 "qTa" = (
 /turf/closed/wall,
 /area/station/security/courtroom)
@@ -9612,7 +9611,7 @@
 /area/station/security/prison/shower)
 "qVJ" = (
 /turf/open/floor/catwalk_floor/iron,
-/area/station/ai_monitored/command/storage/eva)
+/area/station/command/eva)
 "qWE" = (
 /obj/effect/turf_decal/siding/wood{
 	dir = 4
@@ -9816,7 +9815,7 @@
 /turf/open/floor/iron/dark/smooth_corner{
 	dir = 8
 	},
-/area/station/ai_monitored/security/armory)
+/area/station/security/armory)
 "rmU" = (
 /turf/closed/wall,
 /area/station/security/prison/shower)
@@ -10013,7 +10012,7 @@
 	},
 /obj/structure/cable,
 /turf/open/floor/iron/smooth,
-/area/station/ai_monitored/command/storage/eva)
+/area/station/command/eva)
 "rAD" = (
 /obj/machinery/newscaster/directional/east,
 /obj/machinery/atmospherics/components/unary/vent_pump/on/layer4,
@@ -10085,7 +10084,7 @@
 /obj/machinery/atmospherics/pipe/smart/simple/supply/hidden/layer4,
 /obj/machinery/atmospherics/pipe/smart/simple/scrubbers/hidden/layer2,
 /turf/open/floor/catwalk_floor/iron_dark,
-/area/station/ai_monitored/turret_protected/ai_upload)
+/area/station/ai/upload/chamber)
 "rDx" = (
 /obj/effect/turf_decal/siding/wideplating_new/dark{
 	dir = 4
@@ -10167,7 +10166,7 @@
 	dir = 9
 	},
 /turf/open/floor/iron/dark,
-/area/station/ai_monitored/turret_protected/ai_upload)
+/area/station/ai/upload/chamber)
 "rHw" = (
 /turf/open/floor/glass/reinforced,
 /area/station/security/office)
@@ -10279,7 +10278,7 @@
 	dir = 1
 	},
 /turf/open/floor/circuit,
-/area/station/ai_monitored/turret_protected/ai_upload)
+/area/station/ai/upload/chamber)
 "rTw" = (
 /obj/structure/cable,
 /obj/effect/turf_decal/trimline/dark_red/warning{
@@ -10395,8 +10394,7 @@
 /turf/open/floor/iron/dark/herringbone,
 /area/station/security/range)
 "san" = (
-/obj/structure/filingcabinet/filingcabinet,
-/obj/item/paper/fluff/ids_for_dummies,
+/obj/structure/filingcabinet/white,
 /obj/effect/turf_decal/siding/wideplating_new/dark,
 /obj/machinery/airalarm/directional/south,
 /turf/open/floor/iron/dark/diagonal,
@@ -10438,7 +10436,7 @@
 /obj/effect/spawner/random/armory/riot_shield,
 /obj/structure/window/spawner/directional/west,
 /turf/open/floor/mineral/plastitanium,
-/area/station/ai_monitored/security/armory)
+/area/station/security/armory)
 "sdM" = (
 /obj/machinery/airalarm/directional/north,
 /turf/open/floor/iron/dark,
@@ -10594,7 +10592,7 @@
 	dir = 4
 	},
 /turf/open/floor/iron/dark/textured,
-/area/station/ai_monitored/security/armory)
+/area/station/security/armory)
 "sra" = (
 /obj/effect/spawner/random/decoration/showcase,
 /obj/effect/turf_decal/trimline/dark_purple/line{
@@ -10780,7 +10778,7 @@
 	dir = 4
 	},
 /turf/open/floor/iron/dark,
-/area/station/ai_monitored/turret_protected/ai_upload)
+/area/station/ai/upload/chamber)
 "sGj" = (
 /obj/machinery/gateway/centerstation,
 /turf/open/floor/iron/dark/smooth_large,
@@ -10802,7 +10800,7 @@
 "sIz" = (
 /obj/machinery/status_display/ai/directional/south,
 /turf/open/floor/circuit/red,
-/area/station/ai_monitored/turret_protected/ai_upload)
+/area/station/ai/upload/chamber)
 "sIH" = (
 /obj/effect/turf_decal/siding/wideplating_new,
 /turf/open/floor/iron,
@@ -10878,7 +10876,7 @@
 /obj/structure/table/reinforced,
 /obj/machinery/recharger,
 /turf/open/floor/mineral/plastitanium,
-/area/station/ai_monitored/security/armory)
+/area/station/security/armory)
 "sPR" = (
 /obj/effect/spawner/structure/window,
 /turf/open/floor/plating,
@@ -10944,7 +10942,7 @@
 	},
 /obj/effect/turf_decal/siding/thinplating_new/dark/corner,
 /turf/open/floor/iron/dark/textured,
-/area/station/ai_monitored/security/armory)
+/area/station/security/armory)
 "sVs" = (
 /obj/structure/cable,
 /obj/machinery/power/apc/auto_name/directional/north,
@@ -11036,7 +11034,7 @@
 	},
 /obj/machinery/airalarm/directional/north,
 /turf/open/floor/glass/reinforced,
-/area/station/ai_monitored/command/storage/eva)
+/area/station/command/eva)
 "teH" = (
 /turf/closed/wall/r_wall,
 /area/station/security/brig/entrance)
@@ -11145,7 +11143,7 @@
 /obj/structure/window/spawner/directional/west,
 /obj/structure/cable,
 /turf/open/floor/mineral/plastitanium,
-/area/station/ai_monitored/security/armory)
+/area/station/security/armory)
 "tnR" = (
 /obj/structure/cable,
 /turf/open/floor/iron,
@@ -11249,7 +11247,7 @@
 /obj/item/stock_parts/power_store/cell/high,
 /obj/machinery/light/directional/north,
 /turf/open/floor/glass/reinforced,
-/area/station/ai_monitored/command/storage/eva)
+/area/station/command/eva)
 "tyE" = (
 /obj/structure/chair/sofa/bench/solo,
 /obj/structure/cable,
@@ -11529,7 +11527,7 @@
 /area/station/security/lockers)
 "tWA" = (
 /turf/open/floor/catwalk_floor/iron_dark,
-/area/station/ai_monitored/security/armory)
+/area/station/security/armory)
 "tWL" = (
 /obj/effect/turf_decal/siding/wideplating_new{
 	dir = 1
@@ -12070,7 +12068,7 @@
 	dir = 1
 	},
 /turf/open/floor/iron/dark,
-/area/station/ai_monitored/turret_protected/ai_upload)
+/area/station/ai/upload/chamber)
 "uTD" = (
 /obj/structure/chair/sofa/bench/left{
 	dir = 8
@@ -12203,7 +12201,7 @@
 	dir = 1
 	},
 /turf/open/floor/iron/dark/textured,
-/area/station/ai_monitored/security/armory)
+/area/station/security/armory)
 "vev" = (
 /obj/machinery/door/firedoor,
 /obj/effect/turf_decal/stripes/white/line{
@@ -12278,7 +12276,7 @@
 /obj/effect/spawner/structure/window/reinforced,
 /obj/structure/cable,
 /turf/open/floor/plating,
-/area/station/ai_monitored/command/storage/eva)
+/area/station/command/eva)
 "vnV" = (
 /obj/structure/cable,
 /obj/effect/turf_decal/trimline/blue/warning{
@@ -12292,7 +12290,7 @@
 "vqe" = (
 /obj/structure/cable,
 /turf/open/floor/catwalk_floor/iron_dark,
-/area/station/ai_monitored/security/armory)
+/area/station/security/armory)
 "vql" = (
 /obj/structure/table/wood,
 /obj/item/flashlight/lamp/green{
@@ -12321,7 +12319,7 @@
 	dir = 4
 	},
 /turf/open/floor/iron/dark/diagonal,
-/area/station/ai_monitored/turret_protected/ai_upload)
+/area/station/ai/upload/chamber)
 "vuv" = (
 /obj/item/kirbyplants/random,
 /obj/machinery/button/door/directional/south{
@@ -12682,7 +12680,7 @@
 	dir = 8
 	},
 /turf/open/floor/circuit/green,
-/area/station/ai_monitored/turret_protected/ai_upload)
+/area/station/ai/upload/chamber)
 "wfX" = (
 /obj/effect/mapping_helpers/broken_floor,
 /obj/effect/decal/cleanable/dirt/dust,
@@ -12770,7 +12768,7 @@
 	dir = 8
 	},
 /turf/open/floor/iron/dark,
-/area/station/ai_monitored/turret_protected/ai_upload)
+/area/station/ai/upload/chamber)
 "wnO" = (
 /obj/structure/closet/firecloset,
 /obj/effect/turf_decal/trimline/dark_red/end{
@@ -13224,7 +13222,7 @@
 /obj/machinery/atmospherics/pipe/smart/simple/supply/hidden/layer4,
 /obj/machinery/atmospherics/pipe/smart/simple/scrubbers/hidden/layer2,
 /turf/open/floor/iron/smooth_large,
-/area/station/ai_monitored/turret_protected/ai_upload)
+/area/station/ai/upload/chamber)
 "wXw" = (
 /obj/machinery/camera/directional/north{
 	c_tag = "Central Hallway North-East"
@@ -13323,7 +13321,7 @@
 	dir = 9
 	},
 /turf/open/floor/circuit,
-/area/station/ai_monitored/turret_protected/ai_upload)
+/area/station/ai/upload/chamber)
 "xdU" = (
 /obj/machinery/computer/records/security{
 	dir = 1
@@ -13416,7 +13414,7 @@
 /obj/effect/spawner/random/armory/rubbershot,
 /obj/structure/window/spawner/directional/west,
 /turf/open/floor/mineral/plastitanium,
-/area/station/ai_monitored/security/armory)
+/area/station/security/armory)
 "xqR" = (
 /obj/effect/turf_decal/bot_white/left,
 /obj/effect/turf_decal/tile/neutral/fourcorners,
@@ -13537,7 +13535,7 @@
 /obj/effect/turf_decal/siding/wideplating_new,
 /obj/effect/landmark/event_spawn,
 /turf/open/floor/iron/smooth,
-/area/station/ai_monitored/command/storage/eva)
+/area/station/command/eva)
 "xAa" = (
 /obj/effect/turf_decal/siding/wideplating_new{
 	dir = 5
@@ -13557,7 +13555,7 @@
 /obj/structure/cable,
 /obj/machinery/atmospherics/pipe/smart/simple/supply/hidden/layer4,
 /turf/open/floor/iron/smooth_large,
-/area/station/ai_monitored/command/storage/eva)
+/area/station/command/eva)
 "xBp" = (
 /obj/machinery/door/firedoor,
 /obj/effect/turf_decal/stripes/white/line,
@@ -13585,7 +13583,7 @@
 	dir = 8
 	},
 /turf/open/floor/iron/dark,
-/area/station/ai_monitored/turret_protected/ai_upload)
+/area/station/ai/upload/chamber)
 "xCJ" = (
 /turf/open/floor/catwalk_floor/iron,
 /area/station/security/courtroom)
@@ -13663,7 +13661,7 @@
 	dir = 4
 	},
 /turf/open/floor/circuit/red,
-/area/station/ai_monitored/turret_protected/ai_upload)
+/area/station/ai/upload/chamber)
 "xJz" = (
 /obj/structure/mirror/directional/east,
 /obj/structure/chair/stool/directional/east,
@@ -13722,7 +13720,7 @@
 /obj/effect/spawner/random/armory/laser_gun,
 /obj/structure/window/spawner/directional/east,
 /turf/open/floor/mineral/plastitanium,
-/area/station/ai_monitored/security/armory)
+/area/station/security/armory)
 "xNX" = (
 /obj/machinery/computer/crew{
 	dir = 8
@@ -13808,7 +13806,7 @@
 	dir = 6
 	},
 /turf/open/floor/glass/reinforced,
-/area/station/ai_monitored/command/storage/eva)
+/area/station/command/eva)
 "xTK" = (
 /obj/structure/closet/secure_closet/personal/cabinet,
 /obj/effect/turf_decal/trimline/dark/filled/warning{
@@ -13884,7 +13882,7 @@
 	dir = 4
 	},
 /turf/open/floor/iron/dark,
-/area/station/ai_monitored/turret_protected/ai_upload)
+/area/station/ai/upload/chamber)
 "ybG" = (
 /obj/structure/rack,
 /obj/item/tank/jetpack/carbondioxide{
@@ -13905,7 +13903,7 @@
 	req_access = list("eva")
 	},
 /turf/open/floor/iron/dark/textured_large,
-/area/station/ai_monitored/command/storage/eva)
+/area/station/command/eva)
 "ycW" = (
 /obj/effect/turf_decal/tile/neutral{
 	dir = 1
@@ -13930,7 +13928,7 @@
 /obj/item/gun/energy/temperature/security,
 /obj/item/clothing/suit/hooded/ablative,
 /turf/open/floor/mineral/plastitanium,
-/area/station/ai_monitored/security/armory)
+/area/station/security/armory)
 "yeE" = (
 /obj/effect/turf_decal/siding/wideplating_new{
 	dir = 4
@@ -13983,7 +13981,7 @@
 /obj/structure/table/reinforced,
 /obj/item/storage/lockbox/loyalty,
 /turf/open/floor/mineral/plastitanium,
-/area/station/ai_monitored/security/armory)
+/area/station/security/armory)
 "yjW" = (
 /obj/structure/hedge,
 /obj/effect/turf_decal/trimline/dark_purple/line{
