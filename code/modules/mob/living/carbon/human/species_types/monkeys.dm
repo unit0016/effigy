@@ -8,9 +8,9 @@
 	)
 	mutanttongue = /obj/item/organ/tongue/monkey
 	mutantbrain = /obj/item/organ/brain/primate
-	skinned_type = /obj/item/stack/sheet/animalhide/monkey
+	skinned_type = /obj/item/stack/sheet/animalhide/carbon/monkey
 	meat = /obj/item/food/meat/slab/monkey
-	knife_butcher_results = list(/obj/item/food/meat/slab/monkey = 5, /obj/item/stack/sheet/animalhide/monkey = 1)
+	knife_butcher_results = list(/obj/item/food/meat/slab/monkey = 5, /obj/item/stack/sheet/animalhide/carbon/monkey = 1)
 	inherent_traits = list(
 		TRAIT_NO_AUGMENTS,
 		TRAIT_NO_BLOOD_OVERLAY,
@@ -176,7 +176,7 @@
 	crossing_mob.knockOver(owner)
 
 /obj/item/organ/brain/primate/get_attacking_limb(mob/living/carbon/human/target)
-	if(!HAS_TRAIT(owner, TRAIT_ADVANCEDTOOLUSER))
+	if(!HAS_TRAIT(owner, TRAIT_ADVANCEDTOOLUSER) || HAS_TRAIT(owner, TRAIT_FERAL_BITER))
 		return owner.get_bodypart(BODY_ZONE_HEAD)
 	return ..()
 

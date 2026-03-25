@@ -79,12 +79,16 @@ GLOBAL_LIST_INIT(paper_blanks, init_paper_blanks())
 	var/mob/living/ass
 	/// A reference to the toner cartridge that's inserted into the copier. Null if there is no cartridge.
 	var/obj/item/toner/toner_cartridge
+	/// Type path of toner this photocopier should starts with. Null if he should start without it.
+	var/obj/item/toner/starting_toner
 	/// How many copies will be printed with one click of the "copy" button.
 	var/num_copies = 1
 	/// Used with photos. Determines if the copied photo will be in greyscale or color.
 	var/color_mode = PHOTO_COLOR
 	/// Indicates whether the printer is currently busy copying or not.
 	var/busy = FALSE
+	/// How much does it cost to use this photocopier.
+	var/usage_cost = PHOTOCOPIER_FEE
 	/// Variable that holds a reference to any object supported for photocopying inside the photocopier
 	var/obj/object_copy
 	/// Variable for the UI telling us how many copies are in the queue.
@@ -111,11 +115,8 @@ GLOBAL_LIST_INIT(paper_blanks, init_paper_blanks())
 	)
 
 /obj/machinery/photocopier/prebuilt
+	starting_toner = /obj/item/toner
 	starting_paper = 30
-
-/obj/machinery/photocopier/prebuilt/Initialize(mapload)
-	toner_cartridge = new(src)
-	return ..()
 
 /obj/machinery/photocopier/get_save_vars()
 	. = ..()
@@ -124,15 +125,16 @@ GLOBAL_LIST_INIT(paper_blanks, init_paper_blanks())
 
 /obj/machinery/photocopier/Initialize(mapload)
 	. = ..()
-	RefreshParts()
 	setup_components()
 	AddElement(/datum/element/elevation, pixel_shift = 8) //enough to look like your bums are on the machine.
 	if(starting_paper)
 		paper_stack[created_paper] = starting_paper
+	if(starting_toner)
+		toner_cartridge = new starting_toner(src)
 
 /// Simply adds the necessary components for this to function.
 /obj/machinery/photocopier/proc/setup_components()
-	AddComponent(/datum/component/payment, PHOTOCOPIER_FEE, SSeconomy.get_dep_account(ACCOUNT_CIV), PAYMENT_CLINICAL)
+	AddComponent(/datum/component/payment, usage_cost, SSeconomy.get_dep_account(ACCOUNT_CIV), PAYMENT_CLINICAL)
 
 /obj/machinery/photocopier/RefreshParts()
 	. = ..()
@@ -421,9 +423,6 @@ GLOBAL_LIST_INIT(paper_blanks, init_paper_blanks())
 	if(get_paper_count(created_paper) < paper_use * copies_amount)
 		copies_amount = FLOOR(get_paper_count(created_paper) / paper_use, 1)
 		error_message = span_warning("An error message flashes across \the [src]'s screen: \"Not enough paper to perform [copies_amount >= 1 ? "full " : ""]operation.\"")
-	if(!(obj_flags & EMAGGED) && (copies_amount > 0) && (attempt_charge(src, user, (copies_amount - 1) * PHOTOCOPIER_FEE) & COMPONENT_OBJ_CANCEL_CHARGE))
-		copies_amount = 0
-		error_message = span_warning("An error message flashes across \the [src]'s screen: \"Failed to charge bank account. Aborting.\"")
 
 	copies_left = copies_amount
 
@@ -436,6 +435,7 @@ GLOBAL_LIST_INIT(paper_blanks, init_paper_blanks())
 		to_chat(user, error_message)
 
 	// if you managed to cancel the copy operation, tough luck. you aren't getting your money back.
+	var/list/copies_made = list()
 	for(var/i in 1 to copies_amount)
 		if(machine_stat & (BROKEN|NOPOWER))
 			break
@@ -452,9 +452,21 @@ GLOBAL_LIST_INIT(paper_blanks, init_paper_blanks())
 		sleep(time_to_print)
 
 		// reveal our copied item
-		copied_obj.forceMove(drop_location())
-		give_pixel_offset(copied_obj)
+		if(!QDELETED(copied_obj))
+			copied_obj.forceMove(drop_location())
+			give_pixel_offset(copied_obj)
+			copies_made += copied_obj
 		copies_left--
+
+	if(copies_made.len)
+		if(!(obj_flags & EMAGGED) && attempt_charge(src, user, (copies_made.len - 1) * usage_cost) & COMPONENT_OBJ_CANCEL_CHARGE)
+			visible_message(
+				span_warning("An error message flashes across \the [src]'s screen."), \
+				span_warning("Failed to charge bank account. Scrapping copies.") \
+			)
+			QDEL_LIST(copies_made)
+	else
+		to_chat(user, span_warning("Failed to copy object!"))
 
 	copies_left = 0
 	reset_busy()
@@ -854,10 +866,11 @@ GLOBAL_LIST_INIT(paper_blanks, init_paper_blanks())
 /// Subtype of photocopier that is free to use.
 /obj/machinery/photocopier/gratis
 	desc = "Does the same important paperwork, but it's free to use! The best type of free."
+	usage_cost = 0 // it's free! no charge! very cool and gratis-pilled.
 
-/obj/machinery/photocopier/gratis/setup_components()
-	// it's free! no charge! very cool and gratis-pilled.
-	AddComponent(/datum/component/payment, 0, SSeconomy.get_dep_account(ACCOUNT_CIV), PAYMENT_CLINICAL)
+/obj/machinery/photocopier/gratis/prebuilt
+	starting_toner = /obj/item/toner
+	starting_paper = 30
 
 /*
  * Toner cartridge
@@ -868,9 +881,11 @@ GLOBAL_LIST_INIT(paper_blanks, init_paper_blanks())
 	icon = 'icons/obj/service/bureaucracy.dmi'
 	icon_state = "tonercartridge"
 	w_class = WEIGHT_CLASS_SMALL
-	grind_results = list(/datum/reagent/iodine = 40, /datum/reagent/iron = 10)
 	var/charges = 5
 	var/max_charges = 5
+
+/obj/item/toner/grind_results()
+	return list(/datum/reagent/iodine = 40, /datum/reagent/iron = 10)
 
 /obj/item/toner/examine(mob/user)
 	. = ..()
@@ -879,15 +894,23 @@ GLOBAL_LIST_INIT(paper_blanks, init_paper_blanks())
 /obj/item/toner/large
 	name = "large toner cartridge"
 	desc = "A hefty cartridge of Nanotrasen ValueBrand toner. Fits photocopiers and autopainters alike."
-	grind_results = list(/datum/reagent/iodine = 90, /datum/reagent/iron = 10)
 	charges = 25
 	max_charges = 25
+
+/obj/item/toner/large/grind_results()
+	return list(/datum/reagent/iodine = 90, /datum/reagent/iron = 10)
 
 /obj/item/toner/extreme
 	name = "extremely large toner cartridge"
 	desc = "Why would ANYONE need THIS MUCH TONER?"
 	charges = 200
 	max_charges = 200
+
+/obj/item/toner/infinite
+	name = "infinite toner cartridge"
+	desc = "...are you satisfied now?"
+	charges = INFINITY
+	max_charges = INFINITY
 
 #undef PHOTOCOPIER_FEE
 #undef BLANKS_FILE_NAME

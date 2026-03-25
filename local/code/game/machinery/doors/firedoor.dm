@@ -12,12 +12,12 @@
 		return
 	if(animation)
 		. += mutable_appearance(icon, "firelock_door_[animation]")
-		. += emissive_appearance(icon, "firelock_door_[animation]", src, alpha = src.alpha, apply_bloom = FALSE)
+		. += emissive_appearance(icon, "firelock_door_[animation]", src, alpha = src.alpha, effect_type = EMISSIVE_NO_BLOOM)
 		. += emissive_appearance(icon, "firelock_operating", src, alpha = src.alpha)
 		return
 	if(!density)
 		return
-	. += emissive_appearance(icon, "firelock_decal", src, alpha = src.alpha, apply_bloom = FALSE)
+	. += emissive_appearance(icon, "firelock_decal", src, alpha = src.alpha, effect_type = EMISSIVE_NO_BLOOM)
 	if(powered())
 		. += mutable_appearance(icon, "firelock_solid")
 		. += emissive_appearance(icon, "firelock_solid", src, alpha = src.alpha)

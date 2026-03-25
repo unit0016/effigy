@@ -44,6 +44,7 @@
 	damage_examines = list(BRUTE = ROBOTIC_BRUTE_EXAMINE_TEXT, BURN = ROBOTIC_BURN_EXAMINE_TEXT)
 	disabling_threshold_percentage = 1
 	bodypart_flags = BODYPART_UNHUSKABLE
+	butcher_replacement = null
 
 /obj/item/bodypart/arm/right/robot
 	name = "cyborg right arm"
@@ -79,6 +80,7 @@
 
 	damage_examines = list(BRUTE = ROBOTIC_BRUTE_EXAMINE_TEXT, BURN = ROBOTIC_BURN_EXAMINE_TEXT)
 	bodypart_flags = BODYPART_UNHUSKABLE
+	butcher_replacement = null
 
 /obj/item/bodypart/leg/left/robot
 	name = "cyborg left leg"
@@ -114,6 +116,7 @@
 
 	damage_examines = list(BRUTE = ROBOTIC_BRUTE_EXAMINE_TEXT, BURN = ROBOTIC_BURN_EXAMINE_TEXT)
 	bodypart_flags = BODYPART_UNHUSKABLE
+	butcher_replacement = null
 
 /obj/item/bodypart/leg/left/robot/emp_effect(severity, protection)
 	. = ..()
@@ -163,6 +166,7 @@
 
 	damage_examines = list(BRUTE = ROBOTIC_BRUTE_EXAMINE_TEXT, BURN = ROBOTIC_BURN_EXAMINE_TEXT)
 	bodypart_flags = BODYPART_UNHUSKABLE
+	butcher_replacement = null
 
 /obj/item/bodypart/leg/right/robot/emp_effect(severity, protection)
 	. = ..()
@@ -194,8 +198,8 @@
 	change_exempt_flags = BP_BLOCK_CHANGE_SPECIES
 	dmg_overlay_type = "robotic"
 
-	brute_modifier = 0.8
-	burn_modifier = 0.8
+	brute_modifier = 1 // EffigyEdit Change - Synths - Original: 0.8
+	burn_modifier = 1 // EffigyEdit Change - Synths - Original: 0.8
 
 	light_brute_msg = ROBOTIC_LIGHT_BRUTE_MSG
 	medium_brute_msg = ROBOTIC_MEDIUM_BRUTE_MSG
@@ -209,6 +213,7 @@
 
 	damage_examines = list(BRUTE = ROBOTIC_BRUTE_EXAMINE_TEXT, BURN = ROBOTIC_BURN_EXAMINE_TEXT)
 	bodypart_flags = BODYPART_UNHUSKABLE
+	butcher_replacement = null
 
 	robotic_emp_paralyze_damage_percent_threshold = 0.6
 
@@ -222,6 +227,8 @@
 	if(!. || isnull(owner))
 		return
 
+	// EffigyEdit Change - Synths
+	/*
 	var/stun_time = 0
 	var/shift_x = 3
 	var/shift_y = 0
@@ -239,6 +246,20 @@
 		owner.Stun(stun_time)
 	owner.Shake(pixelshiftx = shift_x, pixelshifty = shift_y, duration = shake_duration)
 	return
+	*/
+	switch(severity)
+		if(EMP_HEAVY)
+			owner.set_jitter_if_lower(SYNTH_BAD_EFFECT_DURATION * SYNTH_HEAVY_EMP_MULTIPLIER)
+			owner.set_dizzy_if_lower(SYNTH_BAD_EFFECT_DURATION * SYNTH_HEAVY_EMP_MULTIPLIER)
+			owner.set_derpspeech_if_lower(SYNTH_BAD_EFFECT_DURATION * SYNTH_HEAVY_EMP_MULTIPLIER)
+			owner.set_confusion_if_lower(SYNTH_BAD_EFFECT_DURATION * 0.5)
+
+		if(EMP_LIGHT)
+			owner.set_jitter_if_lower(SYNTH_BAD_EFFECT_DURATION)
+			owner.set_dizzy_if_lower(SYNTH_BAD_EFFECT_DURATION)
+			owner.set_derpspeech_if_lower(SYNTH_BAD_EFFECT_DURATION)
+			owner.set_confusion_if_lower(SYNTH_BAD_EFFECT_DURATION * 0.25)
+	// EffigyEdit Change End
 
 /obj/item/bodypart/chest/robot/get_cell()
 	return cell
@@ -275,6 +296,8 @@
 	for(var/obj/item/bodypart/part in owner.bodyparts)
 		all_robotic = all_robotic && IS_ROBOTIC_LIMB(part)
 
+	// EffigyEdit Change - Synths
+	/*
 	if(all_robotic)
 		owner.add_traits(list(
 			TRAIT_RESISTCOLD,
@@ -289,29 +312,52 @@
 			TRAIT_RESISTLOWPRESSURE,
 			TRAIT_RESISTHIGHPRESSURE,
 			), AUGMENTATION_TRAIT)
-
-/obj/item/bodypart/chest/robot/attackby(obj/item/weapon, mob/user, list/modifiers, list/attack_modifiers)
-	if(istype(weapon, /obj/item/stock_parts/power_store/cell))
-		if(cell)
-			to_chat(user, span_warning("You have already inserted a cell!"))
-			return
-		else
-			if(!user.transferItemToLoc(weapon, src))
-				return
-			cell = weapon
-			to_chat(user, span_notice("You insert the cell."))
-	else if(istype(weapon, /obj/item/stack/cable_coil))
-		if(wired)
-			to_chat(user, span_warning("You have already inserted wire!"))
-			return
-		var/obj/item/stack/cable_coil/coil = weapon
-		if (coil.use(1))
-			wired = TRUE
-			to_chat(user, span_notice("You insert the wire."))
-		else
-			to_chat(user, span_warning("You need one length of coil to wire it!"))
+	*/
+	if(all_robotic)
+		owner.add_traits(list(
+			TRAIT_RESISTLOWPRESSURE,
+			TRAIT_RESISTHIGHPRESSURE,
+			), AUGMENTATION_TRAIT)
+		if(!(HAS_TRAIT(owner, TRAIT_SYNTH)))
+			owner.add_traits(list(
+				TRAIT_RESISTCOLD,
+				TRAIT_RESISTHEAT,
+				), AUGMENTATION_TRAIT)
 	else
-		return ..()
+		owner.remove_traits(list(
+			TRAIT_RESISTLOWPRESSURE,
+			TRAIT_RESISTHIGHPRESSURE,
+			), AUGMENTATION_TRAIT)
+		if(!(HAS_TRAIT(owner, TRAIT_SYNTH)))
+			owner.remove_traits(list(
+				TRAIT_RESISTCOLD,
+				TRAIT_RESISTHEAT,
+				), AUGMENTATION_TRAIT)
+	// EffigyEdit Change End
+
+/obj/item/bodypart/chest/robot/item_interaction(mob/living/user, obj/item/tool, list/modifiers)
+	if(istype(tool, /obj/item/stock_parts/power_store/cell))
+		if(cell)
+			to_chat(user, span_warning("A cell is already present in [src]!"))
+			return ITEM_INTERACT_BLOCKING
+		if(!user.transferItemToLoc(tool, src))
+			return ITEM_INTERACT_BLOCKING
+		cell = tool
+		to_chat(user, span_notice("You insert [cell] into [src]."))
+		return ITEM_INTERACT_SUCCESS
+
+	if(istype(tool, /obj/item/stack/cable_coil))
+		if(wired)
+			to_chat(user, span_warning("[src] is already wired up!"))
+			return ITEM_INTERACT_BLOCKING
+		var/obj/item/stack/cable_coil/coil = tool
+		if (!coil.use(1))
+			to_chat(user, span_warning("You need one length of coil to wire it!"))
+			return ITEM_INTERACT_BLOCKING
+		wired = TRUE
+		to_chat(user, span_notice("You wire the cell inside of [src]."))
+		return ITEM_INTERACT_SUCCESS
+	return NONE
 
 /obj/item/bodypart/chest/robot/wirecutter_act(mob/living/user, obj/item/cutter)
 	. = ..()
@@ -387,6 +433,7 @@
 
 	head_flags = HEAD_EYESPRITES
 	bodypart_flags = BODYPART_UNHUSKABLE
+	butcher_replacement = null
 
 	var/obj/item/assembly/flash/handheld/flash1 = null
 	var/obj/item/assembly/flash/handheld/flash2 = null
@@ -434,25 +481,28 @@
 			. += "It has two eye sockets occupied by flashes."
 		. += span_notice("You can remove the seated flash[single_flash ? "":"es"] with a <b>crowbar</b>.")
 
-/obj/item/bodypart/head/robot/attackby(obj/item/weapon, mob/user, list/modifiers, list/attack_modifiers)
-	if(istype(weapon, /obj/item/assembly/flash/handheld))
-		var/obj/item/assembly/flash/handheld/flash = weapon
-		if(flash1 && flash2)
-			to_chat(user, span_warning("You have already inserted the eyes!"))
-			return
-		else if(flash.burnt_out)
-			to_chat(user, span_warning("You can't use a broken flash!"))
-			return
-		else
-			if(!user.transferItemToLoc(flash, src))
-				return
-			if(flash1)
-				flash2 = flash
-			else
-				flash1 = flash
-			to_chat(user, span_notice("You insert the flash into the eye socket."))
-			return
-	return ..()
+/obj/item/bodypart/head/robot/item_interaction(mob/living/user, obj/item/tool, list/modifiers)
+	if(!istype(tool, /obj/item/assembly/flash/handheld))
+		return NONE
+
+	var/obj/item/assembly/flash/handheld/flash = tool
+	if(flash1 && flash2)
+		to_chat(user, span_warning("[src] already has both flash-eyes present!"))
+		return ITEM_INTERACT_BLOCKING
+
+	if(flash.burnt_out)
+		to_chat(user, span_warning("You can't use a broken flash!"))
+		return ITEM_INTERACT_BLOCKING
+
+	if(!user.transferItemToLoc(flash, src))
+		return ITEM_INTERACT_BLOCKING
+
+	if(flash1)
+		flash2 = flash
+	else
+		flash1 = flash
+	to_chat(user, span_notice("You insert the flash into the eye socket."))
+	return ITEM_INTERACT_SUCCESS
 
 /obj/item/bodypart/head/robot/crowbar_act(mob/living/user, obj/item/prytool)
 	..()

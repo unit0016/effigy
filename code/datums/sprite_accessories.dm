@@ -50,7 +50,7 @@
 
 /datum/sprite_accessory/blank
 	name = SPRITE_ACCESSORY_NONE
-	icon_state = "None"
+	icon_state = SPRITE_ACCESSORY_NONE
 
 ////////////////
 // Hair Masks //
@@ -64,7 +64,7 @@
 	var/strict_coverage_zones = NONE
 
 /datum/hair_mask/standard_hat_middle
-	icon_state = "hide_above_45deg_medium"
+	icon_state = "hide_above_45deg"
 	strict_coverage_zones = HAIR_APPENDAGE_TOP
 
 /datum/hair_mask/standard_hat_low
@@ -1910,6 +1910,8 @@ GLOBAL_LIST_EMPTY(blended_hair_icons_cache)
 	em_block = TRUE
 	/// Describes which tail spine sprites to use, if any.
 	var/spine_key = NONE
+	/// Does this sprite have wagging animations?
+	var/can_wag = FALSE // EffigyEdit Add - Character Preferences
 
 // EffigyEdit Remove - Character Preferences - Moved to local/code/modules/character_prefs/sprite_accessories/tails/tails_aquatic.dm
 /*
@@ -2146,6 +2148,11 @@ GLOBAL_LIST_EMPTY(blended_hair_icons_cache)
 	name = "Round"
 	icon_state = "round"
 */
+
+/datum/sprite_accessory/ears/cat/cybernetic
+	name = "Cybernetic"
+	icon_state = "cyber"
+	locked = TRUE
 
 /datum/sprite_accessory/ears/fox
 	icon = 'icons/mob/human/fox_features.dmi'

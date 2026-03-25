@@ -2,6 +2,10 @@
 #define SHUTTER_WAIT_DURATION 0.2 SECONDS
 /// Maximum number of station trait buttons we will display, please think hard before creating scenarios where there are more than this
 #define MAX_STATION_TRAIT_BUTTONS_VERTICAL 3
+#define TRAIT_BUTTON_Y_ORIGIN 376 // EffigyEdit Change - Original: 397
+#define TRAIT_BUTTON_X_ORIGIN 485 // EffigyEdit Change - Original: 233
+#define TRAIT_BUTTON_OFFSET 27
+#define SQUARE_VIEWPORT_OFFSET 64
 
 // EffigyEdit Add - Custom Lobby
 #define LOBBY_MAPTEXT_HEIGHT 56
@@ -46,6 +50,10 @@
 	start_button.RegisterSignal(src, COMSIG_HUD_LOBBY_COLLAPSED, TYPE_PROC_REF(/atom/movable/screen/lobby, collapse_button))
 	start_button.RegisterSignal(src, COMSIG_HUD_LOBBY_EXPANDED, TYPE_PROC_REF(/atom/movable/screen/lobby, expand_button))
 
+/datum/hud/new_player/on_viewdata_update()
+	. = ..()
+	place_station_trait_buttons()
+
 /// Load and then display the buttons for relevant station traits
 /datum/hud/new_player/proc/show_station_trait_buttons()
 	if (!mymob?.client || mymob.client.interviewee || !length(GLOB.lobby_station_traits))
@@ -66,14 +74,17 @@
 
 /// Display the buttosn for relevant station traits.
 /datum/hud/new_player/proc/place_station_trait_buttons()
+	SIGNAL_HANDLER
 	if(hud_version != HUD_STYLE_STANDARD || !mymob?.client)
 		return
 
-	var/y_offset = 397
-	var/x_offset = 233
-	var/y_button_offset = 27
-	var/x_button_offset = -27
+	var/y_offset = TRAIT_BUTTON_Y_ORIGIN
+	var/x_offset = TRAIT_BUTTON_X_ORIGIN
+	var/y_button_offset = TRAIT_BUTTON_OFFSET
+	var/x_button_offset = -TRAIT_BUTTON_OFFSET
 	var/iteration = 0
+	if(mymob.client.view == SQUARE_VIEWPORT_SIZE)
+		x_offset -= SQUARE_VIEWPORT_OFFSET
 	for(var/trait in shown_station_trait_buttons)
 		var/atom/movable/screen/lobby/button/sign_up/sign_up_button = shown_station_trait_buttons[trait]
 		iteration++
@@ -81,7 +92,7 @@
 		mymob.client.screen |= sign_up_button
 		if (iteration >= MAX_STATION_TRAIT_BUTTONS_VERTICAL)
 			iteration = 0
-			y_offset = 397
+			y_offset = TRAIT_BUTTON_Y_ORIGIN
 			x_offset += x_button_offset
 		else
 			y_offset += y_button_offset
@@ -291,8 +302,6 @@
 	icon_state = "not_ready"
 	base_icon_state = "not_ready"
 	*/
-	///Whether we are readied up for the round or not
-	var/ready = FALSE
 	name = "Toggle Ready Status"
 	icon = 'local/icons/hud/lobby/lobby_315x32.dmi'
 	icon_state = "button"
@@ -330,8 +339,9 @@
 	if(!.)
 		return
 	var/mob/dead/new_player/new_player = hud.mymob
-	ready = !ready
-	if(ready)
+
+	// switch based on the user, if they aren't ready then we change them to ready, and vice versa
+	if(new_player.ready == PLAYER_NOT_READY)
 		new_player.auto_deadmin_on_ready_or_latejoin()
 		new_player.ready = PLAYER_READY_TO_PLAY
 		// base_icon_state = "ready" // EffigyEdit Remove - Custom Lobby
@@ -340,6 +350,7 @@
 		new_player.ready = PLAYER_NOT_READY
 		// base_icon_state = "not_ready" // EffigyEdit Remove - Custom Lobby
 		maptext = "<span style='font-family: \"Chakra Petch\"; font-size: 18pt; line-height: 0.90; -dm-text-outline: 1px #22252f'>Not Ready</span>"
+
 	update_appearance(UPDATE_ICON)
 	SEND_SIGNAL(hud, COMSIG_HUD_PLAYER_READY_TOGGLE)
 
@@ -533,6 +544,7 @@
 	screen_loc = "TOP:-122,CENTER:+2"
 	name = "Observe"
 	*/
+	enabled = null // set in init
 	name = "Crew Manifest"
 	icon = 'local/icons/hud/lobby/lobby_315x32.dmi'
 	icon_state = "button_disabled"
@@ -717,7 +729,7 @@
 	var/blip_icon_state = "ready_blip"
 	if(blip_enabled && hud)
 		var/mob/dead/new_player/new_player = hud.mymob
-		blip_icon_state += "_[new_player.ready ? "" : "not_"]ready"
+		blip_icon_state += "_[new_player.is_ready_to_play() ? "" : "not_"]ready"
 	else
 		blip_icon_state += "_disabled"
 	var/mutable_appearance/ready_blip = mutable_appearance(icon, blip_icon_state)
@@ -791,13 +803,15 @@
 /atom/movable/screen/lobby/button/start_now/Initialize(mapload, datum/hud/hud_owner)
 	. = ..()
 	if(SSticker?.current_state > GAME_STATE_PREGAME)
-		qdel(src)
+		set_button_status(FALSE)
+		return
 
 	RegisterSignal(SSticker, COMSIG_TICKER_ROUND_STARTING, PROC_REF(enter_pregame))
 
 /atom/movable/screen/lobby/button/start_now/proc/enter_pregame(source)
 	SIGNAL_HANDLER
-	qdel(src)
+	set_button_status(FALSE)
+	UnregisterSignal(SSticker, COMSIG_TICKER_ROUND_STARTING)
 // EffigyEdit Add End
 
 /atom/movable/screen/lobby/button/start_now/Click(location, control, params)
@@ -826,15 +840,41 @@
 
 	///Boolean on whether or not we should have our static overlay, so we 'turn' the TV off when collapsing.
 	var/show_static = TRUE
+	///Static mutable appearance of a job icon we're displaying on the TV for overflow job.
+	var/static/mutable_appearance/job_overlay
 
 /atom/movable/screen/lobby/new_player_info/Initialize(mapload, datum/hud/hud_owner)
 	. = ..()
 	START_PROCESSING(SSnewplayer_info, src)
 	update_text()
+
+	//only go if the station trait is selected, otherwise it'll show "Assistant" every round.
+	var/datum/station_trait/overflow_job_bureaucracy/overflow_job = locate() in SSstation.station_traits
+	if(overflow_job && isnull(job_overlay))
+		var/icon/job_icon = get_job_hud_icon(SSjob.overflow_role)
+		if(isnull(job_icon))
+			stack_trace("[SSjob.overflow_role::title] was selected as the Job Overflow but has no icon!")
+		else
+			job_icon.Scale(ICON_SIZE_X / 2, ICON_SIZE_X / 2)
+			job_overlay = mutable_appearance(job_icon, offset_spokesman = src, alpha = 120, layer = src.layer+0.02)
+			var/matrix/job_matrix = matrix()
+			job_matrix.Translate(6, 14) //this is completely arbitruary just what I thought looked good.
+			job_overlay.transform = job_matrix
+
 	update_appearance(UPDATE_ICON)
 
 /atom/movable/screen/lobby/new_player_info/Destroy()
 	STOP_PROCESSING(SSnewplayer_info, src)
+	return ..()
+
+/atom/movable/screen/lobby/new_player_info/MouseEntered(location, control, params)
+	. = ..()
+	if(QDELETED(src) || isnull(job_overlay))
+		return
+	openToolTip(usr, src, params, title = "[SSjob.overflow_role::title] overflow", content = "The overflow for the round has been set as [SSjob.overflow_role::title].")
+
+/atom/movable/screen/lobby/new_player_info/MouseExited()
+	closeToolTip(usr)
 	return ..()
 
 /atom/movable/screen/lobby/new_player_info/update_icon_state()
@@ -843,13 +883,15 @@
 
 /atom/movable/screen/lobby/new_player_info/update_overlays()
 	. = ..()
-	. += mutable_appearance(icon, "[base_icon_state]_overlay", layer = src.layer+0.03)
+	. += mutable_appearance(icon, "[base_icon_state]_overlay", layer = src.layer+0.01)
 	if(!show_static)
 		return .
-	. += mutable_appearance(icon, "static_base", alpha = 20, layer = src.layer+0.01)
+	if(job_overlay)
+		. += job_overlay
+	. += mutable_appearance(icon, "static_base", alpha = 20, layer = src.layer+0.03)
 	//we have this in a separate file because `generate_icon_alpha_mask` puts lighting even on non-existent pixels,
 	//giving the icon a weird background color.
-	var/mutable_appearance/scanline = mutable_appearance(generate_icon_alpha_mask('icons/hud/lobby/newplayer_scanline.dmi', "scanline"), alpha = 20, layer = src.layer+0.02)
+	var/mutable_appearance/scanline = mutable_appearance(generate_icon_alpha_mask('icons/hud/lobby/newplayer_scanline.dmi', "scanline"), alpha = 20, layer = src.layer+0.04)
 	scanline.pixel_y = OVERLAY_X_DIFF
 	scanline.pixel_x = OVERLAY_Y_DIFF
 	. += scanline
@@ -875,8 +917,10 @@
 	if(!hud || !show_static)
 		maptext = null
 		return
+
+	var/round_started = SSticker.HasRoundStarted()
 	if(!MC_RUNNING())
-		maptext = MAPTEXT("<span style='text-align: center; vertical-align: middle'>Loading...</span>")
+		maptext = MAPTEXT("<span style='text-align: center; vertical-align: middle'>[(round_started ? null : "Starting in [time_remaining_str()]<br />")]Loading...</span>")
 		return
 	if(SSticker.IsPostgame())
 		maptext = MAPTEXT("<span style='text-align: center; vertical-align: middle'>Game ended, <br /> \
@@ -884,37 +928,75 @@
 		return
 
 	var/new_maptext
-	var/round_started = SSticker.HasRoundStarted()
 	if(round_started)
 		new_maptext = "<span style='text-align: center; vertical-align: middle'>[SSmapping.current_map.map_name]<br /> \
 			[LAZYLEN(GLOB.clients)] player\s online<br /> \
 			[ROUND_TIME()] in<br />"
-		var/datum/station_trait/overflow_job_bureaucracy/overflow = locate() in SSstation.station_traits
-		if(overflow)
-			new_maptext += "[overflow.chosen_job_name] overflow"
 		new_maptext += "</span>"
 	else
-		var/time_remaining = SSticker.GetTimeLeft()
-		if(time_remaining > 0)
-			time_remaining = "[round(time_remaining/10)]s"
-		else if(time_remaining == -10)
-			time_remaining = "DELAYED"
-		else
-			time_remaining = "SOON"
-
+		// EffigyEdit Change - Custom Lobby - Original:
+		/*
 		if(hud.mymob.client?.holder)
-			new_maptext = "<span style='text-align: center; vertical-align: middle'>Starting in [time_remaining]<br /> \
+			new_maptext = "<span style='text-align: center; vertical-align: middle'>Starting in [time_remaining_str()]<br /> \
 				[LAZYLEN(GLOB.clients)] player\s<br /> \
 				[SSticker.totalPlayersReady] players ready<br /> \
 				[SSticker.total_admins_ready] / [length(GLOB.admins)] admins ready</span>"
 		else
-			new_maptext = "<span style='text-align: center; vertical-align: middle; font-size: 18px'>[time_remaining]</span><br /> \
+			new_maptext = "<span style='text-align: center; vertical-align: middle; font-size: 18px'>[time_remaining_str()]</span><br /> \
 				<span style='text-align: center; vertical-align: middle'>[LAZYLEN(GLOB.clients)] player\s</span>"
+		*/
+		var/font_size
+		var/time_remaining = SSticker.GetTimeLeft()
+		if(time_remaining > 0)
+			time_remaining = "[round(time_remaining/10)]s"
+			font_size = "18px"
+		else if(time_remaining == -10)
+			time_remaining = "DELAYED<br />by admin"
+			font_size = "9px"
+		else
+			time_remaining = "Starting<br />SOON"
+			font_size = "9px"
+
+		if(hud.mymob.client?.holder)
+			new_maptext = "<span style='text-align: center; vertical-align: middle'>[time_remaining]<br /> \
+				[SSticker.totalPlayersReady] / [LAZYLEN(GLOB.clients)] players ready<br /> \
+				[SSticker.total_admins_ready] / [length(GLOB.admins)] admins ready</span>"
+		else
+			new_maptext = "<span style='text-align: center; vertical-align: middle; line-height: 1.1; [font_size ? "font-size: [font_size]" : ""]'>[time_remaining]</span><br /> \
+				<span style='text-align: center; vertical-align: middle'>[SSticker.totalPlayersReady] players ready</span>"
+		// EffigyEdit Change End
 
 	maptext = MAPTEXT(new_maptext)
 
+/atom/movable/screen/lobby/new_player_info/proc/time_remaining_str()
+	var/time_remaining = SSticker.GetTimeLeft()
+	if(time_remaining > 0)
+		time_remaining = "[round(time_remaining/10)]s"
+	else if(time_remaining == -10)
+		time_remaining = "DELAYED"
+	else
+		time_remaining = "SOON"
+
+	return time_remaining
+
 // EffigyEdit Add - Custom Lobby
-///Antagonist Toggle - TODO, add toggle for global antag disable
+/atom/movable/screen/lobby/logo
+	name = "Space Station 13"
+	icon = 'local/icons/runtime/logo.dmi'
+	icon_state = "logo_title"
+	screen_loc = "TOP-1.2,LEFT+1.2"
+
+/atom/movable/screen/lobby/logo/Click(location, control, params)
+	if(usr != get_mob())
+		return
+
+	if(!usr.client || usr.client.interviewee)
+		return
+
+	. = ..()
+	var/matrix/transform_matrix = transform
+	transform = transform_matrix.Turn(24)
+
 /atom/movable/screen/lobby/button/antagonist
 	enabled = FALSE
 	name = "Toggle Antag Status"
@@ -930,16 +1012,40 @@
 	// We display it at the same time as character preferences
 	if(SSearly_assets.initialized == INITIALIZATION_INNEW_REGULAR || SSatoms.initialized == INITIALIZATION_INNEW_REGULAR)
 		set_button_status(TRUE)
+		update_antag_status()
 	else
 		set_button_status(FALSE)
 		RegisterSignal(SSearly_assets, COMSIG_SUBSYSTEM_POST_INITIALIZE, PROC_REF(enable_antag_button))
 		RegisterSignal(SSatoms, COMSIG_SUBSYSTEM_POST_INITIALIZE, PROC_REF(enable_antag_button))
 
+/atom/movable/screen/lobby/button/antagonist/Click(location, control, params)
+	. = ..()
+	if(!.)
+		return
+
+	var/datum/preferences/preferences = hud.mymob.canon_client.prefs
+	var/antag_preference = preferences.read_preference(/datum/preference/toggle/be_antagonist)
+	preferences.write_preference(GLOB.preference_entries[/datum/preference/toggle/be_antagonist], !antag_preference)
+	preferences.save_preferences()
+	update_antag_status()
+
 /atom/movable/screen/lobby/button/antagonist/proc/enable_antag_button()
 	SIGNAL_HANDLER
 	set_button_status(TRUE)
+	update_antag_status()
 	UnregisterSignal(SSearly_assets, COMSIG_SUBSYSTEM_POST_INITIALIZE)
 	UnregisterSignal(SSatoms, COMSIG_SUBSYSTEM_POST_INITIALIZE)
+
+/atom/movable/screen/lobby/button/antagonist/proc/update_antag_status()
+	if(isnull(hud))
+		return
+
+	var/datum/preferences/preferences = hud.mymob.canon_client.prefs
+	var/antag_enabled = preferences.read_preference(/datum/preference/toggle/be_antagonist)
+	if(antag_enabled)
+		maptext = "<span style='font-family: \"Chakra Petch\"; font-size: 18pt; color: #21fa90; line-height: 0.90; -dm-text-outline: 1px #22252f'>Antag Enabled</span>"
+	else
+		maptext = "<span style='font-family: \"Chakra Petch\"; font-size: 18pt; color: #ffe45e; line-height: 0.90; -dm-text-outline: 1px #22252f'>Antag Disabled</span>"
 
 /atom/movable/screen/lobby/loading_screen
 	name = "Initializing game..."
@@ -950,7 +1056,8 @@
 /atom/movable/screen/lobby/loading_screen/Initialize(mapload, datum/hud/hud_owner)
 	. = ..()
 	if(SSticker?.current_state != GAME_STATE_STARTUP)
-		qdel(src)
+		icon = null
+		return
 
 	icon = SStitle.splash_turf.icon
 	icon_state = SStitle.splash_turf.icon_state
@@ -958,7 +1065,8 @@
 
 /atom/movable/screen/lobby/loading_screen/proc/enter_pregame(source)
 	SIGNAL_HANDLER
-	qdel(src)
+	icon = null
+	UnregisterSignal(SSticker, COMSIG_TICKER_ENTER_PREGAME)
 
 /atom/movable/screen/lobby/progress_bar
 	icon = 'local/icons/hud/lobby/loading.dmi'
@@ -969,7 +1077,8 @@
 /atom/movable/screen/lobby/progress_bar/Initialize(mapload, datum/hud/hud_owner)
 	. = ..()
 	if(SSticker?.current_state != GAME_STATE_STARTUP)
-		qdel(src)
+		icon_state = null
+		return
 
 	RegisterSignal(SSticker, COMSIG_TICKER_ENTER_PREGAME, PROC_REF(enter_pregame))
 	RegisterSignal(SSdcs, COMSIG_SUBSYSTEM_INCREMENT_PROGRESS, PROC_REF(init_progress))
@@ -980,7 +1089,9 @@
 	SIGNAL_HANDLER
 	if(hud.mymob)
 		winset(hud.mymob, "mapwindow.status_bar", "is-visible=true")
-	qdel(src)
+	icon_state = null
+	UnregisterSignal(SSticker, COMSIG_TICKER_ENTER_PREGAME)
+	UnregisterSignal(SSdcs, COMSIG_SUBSYSTEM_INCREMENT_PROGRESS)
 
 /atom/movable/screen/lobby/progress_bar/proc/init_progress(source, new_progress)
 	SIGNAL_HANDLER
@@ -993,18 +1104,24 @@
 	screen_loc = "BOTTOM:+28,LEFT:+72"
 	layer = PATH_ARROW_DEBUG_LAYER
 
-/atom/movable/screen/lobby/fluff_text/Initialize(mapload, datum/hud/hud_owner)
+// We want to be getting updates before the atom SS initializes
+/atom/movable/screen/lobby/fluff_text/New(loc, datum/hud/our_hud, ...)
 	. = ..()
 	if(SSticker?.current_state != GAME_STATE_STARTUP)
-		qdel(src)
+		maptext = null
+		return
 
 	RegisterSignal(SSticker, COMSIG_TICKER_ENTER_PREGAME, PROC_REF(enter_pregame))
+	RegisterSignal(SStitle, COMSIG_TITLE_FLUFF_MESSAGE, PROC_REF(on_fluff_message))
 
 /atom/movable/screen/lobby/fluff_text/proc/enter_pregame(source)
 	SIGNAL_HANDLER
-	qdel(src)
+	maptext = null
+	UnregisterSignal(SSticker, COMSIG_TICKER_ENTER_PREGAME)
+	UnregisterSignal(SStitle, COMSIG_TITLE_FLUFF_MESSAGE)
 
-/atom/movable/screen/lobby/fluff_text/proc/init_progress(fluff_message)
+/atom/movable/screen/lobby/fluff_text/proc/on_fluff_message(datum/source, fluff_message)
+	SIGNAL_HANDLER
 	maptext = "<span style='font-family: \"Chakra Petch\"; font-size: 12pt; line-height: 0.90; -dm-text-outline: 1px #22252f'>[fluff_message]</span>"
 // EffigyEdit Add End
 
@@ -1014,6 +1131,10 @@
 #undef SHUTTER_MOVEMENT_DURATION
 #undef SHUTTER_WAIT_DURATION
 #undef MAX_STATION_TRAIT_BUTTONS_VERTICAL
+#undef TRAIT_BUTTON_Y_ORIGIN
+#undef TRAIT_BUTTON_X_ORIGIN
+#undef TRAIT_BUTTON_OFFSET
+#undef SQUARE_VIEWPORT_OFFSET
 
 // EffigyEdit Add - Custom Lobby
 #undef LOBBY_MAPTEXT_HEIGHT

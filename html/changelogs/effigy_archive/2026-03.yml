@@ -1,0 +1,24 @@
+2026-03-09:
+  LT3:
+  - admin: Admins can manually trigger new round notification
+2026-03-14:
+  TealSeer:
+  - bugfix: fixed non-waggable tails being marked waggable, and vice versa
+  - code_imp: refactored parts of customization code, please report any weirdness
+2026-03-16:
+  TealSeer:
+  - bugfix: fixed species subtypes (e.g. ashwalkers) not being eligible for mutant
+      bodyparts
+2026-03-19:
+  unit0016:
+  - rscadd: Service's maintenance has been expanded on Rimpoint; and there's now a
+      dedicated trail to the escape pods.
+2026-03-20:
+  TealSeer:
+  - bugfix: fixed medical airlock closing icon having the wrong symbol
+2026-03-23:
+  LT3:
+  - bugfix: Fixed desynced elevator door sound
+2026-03-24:
+  TealSeer:
+  - bugfix: fixed organ manipulation surgery not working for synth organs

@@ -1,5 +1,5 @@
-// import { Feature, FeatureNumberInput } from '../base'; // EffigyEdit Change
-import { Feature, FeatureSliderInput } from '../base';
+// import { type Feature, FeatureNumberInput } from '../base'; // EffigyEdit Change
+import { type Feature, FeatureSliderInput } from '../base';
 
 export const age: Feature<number> = {
   name: 'Age',

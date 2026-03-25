@@ -374,6 +374,10 @@ em {
   color: hsl(88.6, 58.9%, 42%);
 }
 
+.enteradio {
+  color: hsl(176.1, 20%, 45.1%);
+}
+
 .syndradio {
   color: hsl(358.7, 26.7%, 33.7%);
 }
@@ -388,10 +392,6 @@ em {
 
 .aiprivradio {
   color: hsl(300, 100%, 50%);
-}
-
-.enteradio {
-  color: hsl(176.1, 20%, 45.1%);
 }
 
 .redteamradio {
@@ -930,7 +930,9 @@ h2.alert {
 }
 
 .drone {
-  color: hsl(60, 0.8%, 51.4%);
+  color: hsl(60 100% 50%);
+  background-color: hsl(287 62% 36%);
+  font-style: italic;
 }
 
 .monkey {
@@ -946,12 +948,8 @@ h2.alert {
 }
 
 .upside_down {
-  display: inline;
-  -moz-transform: scale(-1, -1);
-  -webkit-transform: scale(-1, -1);
-  -o-transform: scale(-1, -1);
-  -ms-transform: scale(-1, -1);
-  transform: scale(-1, -1);
+  transform: rotate(180deg);
+  display: inline-block;
 }
 
 .connectionClosed,
@@ -1252,28 +1250,28 @@ $border-width-px: $border-width * 1px;
   }
 }
 
-/* EffigyEdit Additions */
+/* EffigyEdit Add */
 
-.debugcyan {
-  color: hsl(183, 100%, 75%); // EffigyEdit Change - TGUI
+.cyan {
+  color: hsl(200, 100%, 30%);
 }
 
-.debugpink {
-  color: hsl(330, 100%, 68%); // EffigyEdit Change - TGUI
+.pink {
+  color: hsl(330, 100%, 50%);
 }
 
-.debugwhite {
-  color: hsl(228, 11%, 91%); // EffigyEdit Change - TGUI
+.white {
+  color: hsl(228, 11%, 45%);
 }
 
-.debugyellow {
-  color: hsl(50, 100%, 68%); // EffigyEdit Change - TGUI
+.yellow {
+  color: hsl(21, 100%, 45%);
 }
 
 .looc {
-  color: #b300b0;
+  color: hsl(300, 100%, 35%);
 }
 
 .rlooc {
-  color: #b300b0;
+  color: hsl(300, 100%, 35%);
 }

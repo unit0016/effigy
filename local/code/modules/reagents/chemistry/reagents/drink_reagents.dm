@@ -53,7 +53,7 @@
 	desc = "A purrfect drink for a cat."
 
 /datum/reagent/consumable/catnip_tea/on_mob_life(mob/living/carbon/M)
-	M.adjustStaminaLoss(min(50 - M.getStaminaLoss(), 3))
+	M.adjust_stamina_loss(min(50 - M.get_stamina_loss(), 3))
 	if(isfelinid(M))
 		if(prob(20))
 			M.emote("nya")
@@ -62,3 +62,22 @@
 	else
 		to_chat(M, span_notice("[pick("I feel oddly calm.", "I feel relaxed.", "Mew?")]"))
 	..()
+
+// Synth reagents
+/datum/reagent/consumable/laughter/synth
+	name = "humorlib.dll"
+	chemical_flags = REAGENT_NEUROWARE_PACKAGE
+	process_flags = REAGENT_SYNTHETIC
+	self_consuming = TRUE
+	purge_multiplier = 0
+
+NEUROWARE_METABOLIZE_HELPER(/datum/reagent/consumable/laughter/synth)
+
+/datum/reagent/consumable/superlaughter/synth
+	name = "HAHAHAHAHA.exe"
+	chemical_flags = REAGENT_NEUROWARE_PACKAGE
+	process_flags = REAGENT_SYNTHETIC
+	self_consuming = TRUE
+	purge_multiplier = 0
+
+NEUROWARE_METABOLIZE_HELPER(/datum/reagent/consumable/superlaughter/synth)

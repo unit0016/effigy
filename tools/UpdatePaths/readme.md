@@ -4,7 +4,7 @@
 
 Drag one of the scripts in the “Scripts” folder onto the .bat file “Update Paths” to open it with the `.bat` file (or use the Python script directly depending on your operating system). Let the script run to completion.
 
-Use this tool before using MapMerge2 or opening the map in an map editor. This is because the map editor may discard any unknown paths not found in the /tg/station environment (or what it builds after parsing `tgstation.dme`).
+Use this tool before using MapMerge2 or opening the map in an map editor. This is because the map editor may discard any unknown paths not found in the /tg/station environment (or what it builds after parsing `effigy.dme`).
 
 ## Scriptmaking:
 
@@ -180,7 +180,7 @@ So, let's assume we have the following map file:
 	name = "really large big chungus"
 	},
 /turf/open/floor/iron,
-/area/station/maintainence/fore/greater),
+/area/station/maintenance/fore/greater),
 ```
 
 Running the script will update this into:
@@ -195,7 +195,7 @@ Running the script will update this into:
 	name = "really large big chungus"
 	},
 /turf/open/floor/iron,
-/area/station/maintainence/fore/greater),
+/area/station/maintenance/fore/greater),
 ```
 
 Note how since you kept in `{@OLD}`, it was able to retain the re-named variables of the subtypes.

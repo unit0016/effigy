@@ -12,6 +12,14 @@
 	QDEL_NULL(mob_examine_panel)
 	return ..()
 
+// we let borgs have some bark too
+/mob/living/silicon/Login()
+	blooper = SSblooper.blooper_list[client.prefs.read_preference(/datum/preference/choiced/blooper)]
+	blooper_speed = client.prefs.read_preference(/datum/preference/numeric/blooper_speed)
+	blooper_pitch = client.prefs.read_preference(/datum/preference/numeric/blooper_pitch)
+	blooper_pitch_range = client.prefs.read_preference(/datum/preference/numeric/blooper_pitch_range)
+	. = ..()
+
 /**
  *  Returns a list of lines containing silicon flavour text and a link to "look closer" and open the examine panel.
  *  Intended to be appended at the end of examine() result.
@@ -22,7 +30,7 @@
 	/// The first 1-FLAVOR_PREVIEW_LIMIT characters in the mob's client's silicon_flavour_text preference datum. FLAVOR_PREVIEW_LIMIT is defined in flavor_defines.dm.
 	var/silicon_preview_text = copytext_char((client?.prefs.read_preference(/datum/preference/text/silicon_flavour_text)), 1, FLAVOUR_TEXT_PREVIEW_LIMIT)
 
-	flavour_text_link = span_notice("[silicon_preview_text]... <a href='?src=[REF(src)];lookup_info=open_examine_panel'>Look closer?</a>")
+	flavour_text_link = span_notice("[silicon_preview_text]... <a href='byond://?src=[REF(src)];lookup_info=open_examine_panel'>Look closer?</a>")
 
 	if (flavour_text_link)
 		. += flavour_text_link

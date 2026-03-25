@@ -7,15 +7,6 @@
 	associated_skill_path = /datum/skill/salvaging
 
 /obj/item/clothing/neck/robe_cape
-	name = "robe cape"
-	desc = "A comfortable northern-style cape, draped down your back and held around your neck with a brooch. Reminds you of a sort of robe."
-	icon = 'icons/map_icons/clothing/neck.dmi'
-	icon_state = "/obj/item/clothing/neck/robe_cape"
-	post_init_icon_state = "robe_cape"
-	greyscale_config = /datum/greyscale_config/robe_cape
-	greyscale_config_worn = /datum/greyscale_config/robe_cape/worn
-	greyscale_colors = "#867361"
-	flags_1 = IS_PLAYER_COLORABLE_1
 	body_parts_covered = CHEST|ARMS
 
 /obj/item/clothing/neck/long_cape
@@ -29,11 +20,23 @@
 	greyscale_colors = "#867361#4d433d#b2a69c#b2a69c"
 	flags_1 = IS_PLAYER_COLORABLE_1
 	body_parts_covered = CHEST|ARMS
-	obj_flags = INFINITE_RESKIN
-	unique_reskin = list(
-		"Default" = "long_cape",
-		"Adjusted" = "long_cape_t",
-	)
+
+/obj/item/clothing/neck/long_cape/Initialize(mapload)
+	. = ..()
+	AddComponent(/datum/component/reskinable_item, /datum/atom_skin/long_cape, infinite = TRUE)
+
+/datum/atom_skin/long_cape
+	abstract_type = /datum/atom_skin/long_cape
+	greyscale_item_path = /obj/item/clothing/neck/long_cape
+	reset_missing = FALSE
+
+/datum/atom_skin/long_cape/default
+	preview_name = "Default"
+	new_icon_state = "long_cape"
+
+/datum/atom_skin/long_cape/adjusted
+	preview_name = "Adjusted"
+	new_icon_state = "long_cape_t"
 
 /obj/item/clothing/neck/wide_cape
 	name = "wide cape"

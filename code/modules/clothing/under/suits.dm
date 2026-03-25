@@ -5,14 +5,6 @@
 	female_sprite_flags = FEMALE_UNIFORM_NO_BREASTS
 	inhand_icon_state = null
 
-/obj/item/clothing/under/suit/green
-	name = "green suit"
-	desc = "A green suit and yellow necktie. Baller."
-	icon = 'icons/obj/clothing/under/captain.dmi'
-	icon_state = "green_suit"
-	inhand_icon_state = "dg_suit"
-	worn_icon = 'icons/mob/clothing/under/captain.dmi'
-
 /obj/item/clothing/under/suit/red //Also used by the Curator's suit, /obj/item/clothing/under/rank/civilian/curator
 	name = "red suit"
 	desc = "A red suit and blue tie. Somewhat formal."
@@ -84,6 +76,8 @@
 	desc = "It's a very smart uniform with a special pocket for tip."
 	icon_state = "waiter"
 	inhand_icon_state = "waiter"
+	random_sensor = FALSE // EffigyEdit Add - Waiter suit sensors off by default
+	sensor_mode = SENSOR_OFF // EffigyEdit Add - Waiter suit sensors off by default
 
 /obj/item/clothing/under/suit/black_really
 	name = "executive suit"
@@ -109,14 +103,15 @@
 
 /obj/item/clothing/under/suit/tuxedo/Initialize(mapload)
 	. = ..()
-	AddComponent(/datum/component/adjust_fishing_difficulty, 4) //You aren't going to fish with this are you?
+	AddElement(/datum/element/adjust_fishing_difficulty, 4) //You aren't going to fish with this are you?
 
 /obj/item/clothing/under/suit/carpskin
 	name = "carpskin suit"
 	desc = "A luxurious suit made with only the finest scales, perfect for conducting dodgy business deals."
 	icon_state = "carpskin_suit"
 	inhand_icon_state = null
+	clothing_flags = parent_type::clothing_flags | CARP_STYLE_FACTOR
 
 /obj/item/clothing/under/suit/carpskin/Initialize(mapload)
 	. = ..()
-	AddComponent(/datum/component/adjust_fishing_difficulty, -4)
+	AddElement(/datum/element/adjust_fishing_difficulty, -4)

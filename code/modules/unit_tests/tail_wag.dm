@@ -6,6 +6,7 @@
 /datum/unit_test/tail_wag/Run()
 	var/mob/living/carbon/human/dummy = allocate(/mob/living/carbon/human/consistent)
 	var/obj/item/organ/tail/cat/dummy_tail = allocate(/obj/item/organ/tail/cat)
+	dummy_tail.bodypart_overlay.imprint_on_next_insertion = TRUE // EffigyEdit Add - Overwrite randomized sprite accessory next insert
 	dummy_tail.Insert(dummy, special = TRUE, movement_flags = DELETE_IF_REPLACED)
 
 	// SANITY TEST
@@ -92,7 +93,7 @@
 		TEST_FAIL("Tail did not start wagging when it should have!")
 
 	// kill the mob, see if it stops wagging
-	dummy.adjustBruteLoss(9001)
+	dummy.adjust_brute_loss(9001)
 	if(dummy_tail.wag_flags & WAG_WAGGING)
 		TEST_FAIL("A mob's tail was still wagging after being killed!")
 
@@ -100,3 +101,16 @@
 	dummy.wag_tail()
 	if(dummy_tail.wag_flags & WAG_WAGGING)
 		TEST_FAIL("A dead mob was able to wag their tail!")
+
+// EffigyEdit Add - Character Preferences
+/// Test to make sure tails with wagging sprites are flagged as waggable, and vice versa
+/datum/unit_test/tail_wagging_sprites
+
+/datum/unit_test/tail_wagging_sprites/Run()
+	for(var/datum/sprite_accessory/tails/tail as anything in subtypesof(/datum/sprite_accessory/tails))
+		var/sprite_exists = icon_exists(tail.icon, "m_tail_wagging_[tail.icon_state]_FRONT")
+		if(sprite_exists && !tail.can_wag)
+			TEST_FAIL("[tail] has wagging sprites but can_wag is FALSE!")
+		else if(!sprite_exists && tail.can_wag)
+			TEST_FAIL("[tail] lacks wagging sprites but can_wag is TRUE!")
+// EffigyEdit Add End

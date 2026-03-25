@@ -1,0 +1,23 @@
+2025-12-01:
+  TealSeer:
+  - refactor: blooper global list to subsystem
+2025-12-10:
+  TealSeer:
+  - bugfix: fixed stairs being invisible
+  - map: added a camera near the xenobio freezer on Foxhole
+  - map: several improvements to Sigma Octantis cargo
+  - map: Sigma Octantis cargo now starts with two MULEbots
+2025-12-11:
+  LT3:
+  - admin: Admins with +SERVER can change the server hub tagline
+2025-12-14:
+  LT3:
+  - rscadd: Atmospheric modsuit is again available through cargo order
+2025-12-24:
+  TealSeer:
+  - admin: the CTRL-click quick spawn option now lets you choose the style of supply
+      pod
+  - qol: lidocaine now spawns in runtimestation surgical tray
+2025-12-25:
+  LT3:
+  - admin: All adminhelps are sent to Discord

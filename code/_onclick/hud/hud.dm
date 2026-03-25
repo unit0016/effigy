@@ -7,6 +7,11 @@
 // The default UI style is the first one in the list
 // EffigyEdit Change - Custom UI Styles
 GLOBAL_LIST_INIT(available_ui_styles, list(
+	"Effigy-Cyan" = 'local/icons/hud/screen_efcyan.dmi',
+	"Effigy-Magenta" = 'local/icons/hud/screen_efmagenta.dmi',
+	"Effigy-Yellow" = 'local/icons/hud/screen_efyellow.dmi',
+	"Effigy-Green" = 'local/icons/hud/screen_efgreen.dmi',
+	"Effigy-Slate" = 'local/icons/hud/screen_efslate.dmi',
 	"Midnight" = 'icons/hud/screen_midnight.dmi',
 	"Retro" = 'icons/hud/screen_retro.dmi',
 	"Plasmafire" = 'icons/hud/screen_plasmafire.dmi',
@@ -16,10 +21,6 @@ GLOBAL_LIST_INIT(available_ui_styles, list(
 	"Glass" = 'icons/hud/screen_glass.dmi',
 	"Trasen-Knox" = 'icons/hud/screen_trasenknox.dmi',
 	"Detective" = 'icons/hud/screen_detective.dmi',
-	"Effigy Cyan" = 'local/icons/hud/screen_efcyan.dmi',
-	"Effigy Magenta" = 'local/icons/hud/screen_efmagenta.dmi',
-	"Effigy Yellow" = 'local/icons/hud/screen_efyellow.dmi',
-	"Effigy Green" = 'local/icons/hud/screen_efgreen.dmi',
 ))
 // EffigyEdit Change End
 
@@ -54,7 +55,8 @@ GLOBAL_LIST_INIT(available_ui_styles, list(
 	var/list/always_visible_inventory = list()
 	var/list/inv_slots[SLOTS_AMT] // /atom/movable/screen/inventory objects, ordered by their slot ID.
 	var/list/hand_slots // /atom/movable/screen/inventory/hand objects, assoc list of "[held_index]" = object
-
+	/// storages (and its content) currently open by mob
+	var/list/open_containers = list()
 	/// Assoc list of key => "plane master groups"
 	/// This is normally just the main window, but it'll occasionally contain things like spyglasses windows
 	var/list/datum/plane_master_group/master_groups = list()
@@ -100,12 +102,13 @@ GLOBAL_LIST_INIT(available_ui_styles, list(
 	var/atom/movable/screen/healthdoll/healthdoll
 	var/atom/movable/screen/spacesuit
 	var/atom/movable/screen/hunger/hunger
-	// subtypes can override this to force a specific UI style
+
+	/// Subtypes can override this to force a specific UI style
 	var/ui_style
 
-	// List of weakrefs to objects that we add to our screen that we don't expect to DO anything
-	// They typically use * in their render target. They exist solely so we can reuse them,
-	// and avoid needing to make changes to all idk 300 consumers if we want to change the appearance
+	/// List of weakrefs to objects that we add to our screen that we don't expect to DO anything
+	/// They typically use * in their render target. They exist solely so we can reuse them,
+	/// and avoid needing to make changes to all idk 300 consumers if we want to change the appearance
 	var/list/asset_refs_for_reuse = list()
 
 /datum/hud/New(mob/owner)
@@ -188,7 +191,7 @@ GLOBAL_LIST_INIT(available_ui_styles, list(
 	if(should_sight_scale(new_sight) == should_sight_scale(old_sight))
 		return
 
-	for(var/group_key as anything in master_groups)
+	for(var/group_key in master_groups)
 		var/datum/plane_master_group/group = master_groups[group_key]
 		group.build_planes_offset(src, current_plane_offset)
 
@@ -212,7 +215,7 @@ GLOBAL_LIST_INIT(available_ui_styles, list(
 	current_plane_offset = new_offset
 
 	SEND_SIGNAL(src, COMSIG_HUD_OFFSET_CHANGED, old_offset, new_offset)
-	for(var/group_key as anything in master_groups)
+	for(var/group_key in master_groups)
 		var/datum/plane_master_group/group = master_groups[group_key]
 		group.build_planes_offset(src, new_offset)
 
@@ -235,6 +238,7 @@ GLOBAL_LIST_INIT(available_ui_styles, list(
 	zone_select = null
 	pull_icon = null
 	rest_icon = null
+	sleep_icon = null
 	floor_change = null
 	hand_slots.Cut()
 
@@ -243,6 +247,7 @@ GLOBAL_LIST_INIT(available_ui_styles, list(
 	throw_icon = null
 	resist_icon = null
 	QDEL_LIST(infodisplay)
+	open_containers = null
 
 	healths = null
 	stamina = null
@@ -346,11 +351,10 @@ GLOBAL_LIST_INIT(available_ui_styles, list(
 				screenmob.client.screen += infodisplay
 			if(always_visible_inventory.len)
 				screenmob.client.screen += always_visible_inventory
-
+			if(open_containers.len && screenmob == mymob) // Don't show open inventories to ghosts
+				list_clear_nulls(open_containers)
+				screenmob.client.screen += open_containers
 			screenmob.client.screen += toggle_palette
-
-			if(action_intent)
-				action_intent.screen_loc = initial(action_intent.screen_loc) //Restore intent selection to the original position
 
 		if(HUD_STYLE_REDUCED) //Reduced HUD
 			hud_shown = FALSE //Governs behavior of other procs
@@ -408,6 +412,7 @@ GLOBAL_LIST_INIT(available_ui_styles, list(
 		for(var/M in mymob.observers)
 			show_hud(hud_version, M)
 	else if (viewmob.hud_used)
+		viewmob.hide_other_mob_action_buttons(mymob)
 		viewmob.hud_used.plane_masters_update()
 		viewmob.show_other_mob_action_buttons(mymob)
 
@@ -840,4 +845,4 @@ GLOBAL_LIST_INIT(available_ui_styles, list(
 
 /datum/action_group/listed/refresh_actions()
 	. = ..()
-	owner.palette_actions.refresh_actions() // We effect them, so we gotta refresh em
+	owner?.palette_actions.refresh_actions() // We effect them, so we gotta refresh em

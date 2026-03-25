@@ -1,5 +1,18 @@
+/mob/living/carbon/human/species/animalid
+	race = /datum/species/animalid
+
+/mob/living/carbon/human/species/synth
+	race = /datum/species/synth
+
 /mob/living/carbon/human/Initialize(mapload)
 	. = ..()
+	// clientless mobs are given a random voice
+	if(!client && length(SSblooper.blooper_list))
+		var/blooper_key = pick(SSblooper.blooper_list)
+		blooper = SSblooper.blooper_list[blooper_key]
+		blooper_speed = rand(0, 100)
+		blooper_pitch = rand(0, 100)
+		blooper_pitch_range = rand(0, 100)
 	mob_examine_panel = new(src) //create the datum
 	//AddComponent(/datum/component/interactable)
 
@@ -12,6 +25,7 @@
 /mob/living/carbon/human/Topic(href, href_list)
 	. = ..()
 	if(href_list["lookup_info"] == "open_examine_panel")
+		mob_examine_panel.holder = src
 		mob_examine_panel.ui_interact(usr) //datum has a examine_panel component, here we open the window
 
 /mob/living/carbon/human/Move(NewLoc, direct)

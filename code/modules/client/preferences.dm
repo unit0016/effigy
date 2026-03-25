@@ -9,7 +9,7 @@ GLOBAL_LIST_EMPTY(preferences_datums)
 	/// Ensures that we always load the last used save, QOL
 	var/default_slot = 1
 	/// The maximum number of slots we're allowed to contain
-	var/max_save_slots = 3
+	var/max_save_slots = 24 // EffigyEdit Change - Original: 3
 
 	/// Bitflags for communications that are muted
 	var/muted = NONE
@@ -101,8 +101,13 @@ GLOBAL_LIST_EMPTY(preferences_datums)
 		middleware += new middleware_type(src)
 
 	if(IS_CLIENT_OR_MOCK(parent))
-		load_and_save = !is_guest_key(parent.key)
-		load_path(parent.ckey)
+		if(is_guest_key(parent.key))
+			if(parent.is_localhost())
+				path = DEV_PREFS_PATH // guest + locallost = dev instance, load dev preferences if possible
+			else
+				load_and_save = FALSE // guest + not localhost = guest on live, don't save anything
+		else
+			load_path(parent.ckey) // not guest = load their actual savefile
 		if(load_and_save && !fexists(path))
 			try_savefile_type_migration()
 
@@ -222,7 +227,7 @@ GLOBAL_LIST_EMPTY(preferences_datums)
 			remove_current_slot()
 			return TRUE
 		if ("rotate")
-			character_preview_view.setDir(turn(character_preview_view.dir, -90))
+			character_preview_view.setDir(turn(character_preview_view.dir, params["ccw"] ? 90 : -90)) // EffigyEdit Change - Two rotate buttons in character setup
 			return TRUE
 		if ("set_preference")
 			var/requested_preference_key = params["preference"]
@@ -259,13 +264,12 @@ GLOBAL_LIST_EMPTY(preferences_datums)
 			var/default_value = read_preference(requested_preference.type)
 
 			// Yielding
-			// EffigyEdit Change - TGUI Color Picker
 			var/new_color = tgui_color_picker(
 				usr,
-				"Select new color",
+				null,
 				null,
 				default_value || COLOR_WHITE,
-			) // EffigyEdit Change End
+			)
 
 			if (!new_color)
 				return FALSE
@@ -295,7 +299,7 @@ GLOBAL_LIST_EMPTY(preferences_datums)
 			// Yielding
 			var/new_color = tgui_color_picker(
 				usr,
-				"Select new color",
+				null,
 				null,
 				default_value || COLOR_WHITE,
 			)
@@ -393,11 +397,20 @@ GLOBAL_LIST_EMPTY(preferences_datums)
 	/// Whether we show current job clothes or nude/loadout only
 	var/show_job_clothes = TRUE
 
+	// EffigyEdit Add - Oversized/big sprite canvas resizing
+	var/image/canvas
+	var/last_canvas_size
+	// EffigyEdit Add End
+
 /atom/movable/screen/map_view/char_preview/Initialize(mapload, datum/preferences/preferences)
 	. = ..()
 	src.preferences = preferences
 
 /atom/movable/screen/map_view/char_preview/Destroy()
+	// EffigyEdit Add - Oversized/big sprite canvas resizing
+	canvas?.cut_overlays()
+	QDEL_NULL(canvas)
+	// EffigyEdit Add End
 	QDEL_NULL(body)
 	preferences?.character_preview_view = null
 	preferences = null
@@ -410,7 +423,40 @@ GLOBAL_LIST_EMPTY(preferences_datums)
 	else
 		body.wipe_state()
 
-	appearance = preferences.render_new_preview_appearance(body, show_job_clothes)
+	// EffigyEdit Change - Oversized/big sprite canvas resizing
+	// appearance = preferences.render_new_preview_appearance(body, show_job_clothes) // ORIGINAL CODE
+	if (canvas)
+		canvas.cut_overlays()
+
+	preferences.render_new_preview_appearance(body, show_job_clothes)
+
+	var/canvas_size = 0
+
+	// Being over 1.1 scales it up
+	if (!isnull(body.dna.features["body_size"]) && body.dna.features["body_size"] > 1.1)
+		canvas_size = 1
+	// Add extra level if we're oversized
+	if (preferences.all_quirks.Find("Oversized"))
+		canvas_size += 1
+
+	if (last_canvas_size != canvas_size)
+		QDEL_NULL(canvas)
+		switch(canvas_size)
+			if(0)
+				body.pixel_x = 0
+				canvas = image('local/icons/ui/character_creator/template.dmi', icon_state = "default")
+			if(1)
+				body.pixel_x = 16
+				canvas = image('local/icons/ui/character_creator/template_64x64.dmi', icon_state = "default")
+			else
+				body.pixel_x = 32
+				canvas = image('local/icons/ui/character_creator/template_96x96.dmi', icon_state = "default")
+
+	last_canvas_size = canvas_size
+
+	canvas.add_overlay(body.appearance)
+	appearance = canvas.appearance
+	// EffigyEdit Change End
 
 /atom/movable/screen/map_view/char_preview/proc/create_body()
 	QDEL_NULL(body)
@@ -462,7 +508,7 @@ GLOBAL_LIST_EMPTY(preferences_datums)
 	return TRUE
 
 /datum/preferences/proc/GetQuirkBalance()
-	var/bal = 0
+	var/bal = CONFIG_GET(number/default_quirk_points)
 	for(var/V in all_quirks)
 		var/datum/quirk/T = SSquirks.quirks[V]
 		bal -= initial(T.value)
@@ -548,12 +594,22 @@ GLOBAL_LIST_EMPTY(preferences_datums)
 	apply_character_randomization_prefs(is_antag)
 	apply_prefs_to(character, icon_updates)
 
-/// Applies the given preferences to a human mob.
-/datum/preferences/proc/apply_prefs_to(mob/living/carbon/human/character, icon_updates = TRUE)
+/**
+ * Applies the given preferences to a human mob.
+ *
+ * Arguments:
+ * * character - The human mob to apply the preferences to
+ * * icon_updates - Whether to update the mob's icons after applying preferences.
+ * Is often skipped to save processing when an update will happen later anyway.
+ * * do_not_apply - A list of preference types to skip when applying preferences.
+ */
+/datum/preferences/proc/apply_prefs_to(mob/living/carbon/human/character, icon_updates = TRUE, list/do_not_apply)
 	character.dna.features = list()
 
 	for (var/datum/preference/preference as anything in get_preferences_in_priority_order())
 		if (preference.savefile_identifier != PREFERENCE_CHARACTER)
+			continue
+		if (preference.type in do_not_apply)
 			continue
 
 		preference.apply_to_human(character, read_preference(preference.type))
@@ -617,4 +673,4 @@ GLOBAL_LIST_EMPTY(preferences_datums)
 
 	unlock_content = !!byond_member
 	if(unlock_content)
-		max_save_slots = 8
+		max_save_slots = 48 // EffigyEdit Change - Original: 8

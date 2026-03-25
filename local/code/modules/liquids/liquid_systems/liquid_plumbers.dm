@@ -25,7 +25,7 @@
 
 	/// Currently pumping.
 	var/is_pumping = FALSE
-	/// Floor tile is placed down
+	/// If true, we are embedded in a floor tile. If false, we're sitting on top of the floor.
 	var/tile_placed = FALSE
 
 /obj/machinery/plumbing/floor_pump/Initialize(mapload, bolt, layer)
@@ -89,7 +89,7 @@
 /obj/machinery/plumbing/floor_pump/proc/on_hide(atom/movable/AM, should_hide)
 	SIGNAL_HANDLER
 
-	tile_placed = should_hide
+	tile_placed = !should_hide
 	update_appearance()
 
 /**
@@ -414,10 +414,7 @@ MAPPING_DIRECTIONAL_HELPERS(/obj/machinery/plumbing/floor_pump/output/on/supply/
 
 /obj/machinery/plumbing/filter/water_filter
 	left = list(/datum/reagent/water, /datum/reagent/consumable/ice)
-	english_left = list("Water", "Ice")
 
 /obj/machinery/plumbing/filter/water_filter/right_output
 	left = list()
 	right = list(/datum/reagent/water, /datum/reagent/consumable/ice)
-	english_left = list()
-	english_right = list("Water", "Ice")

@@ -11,6 +11,15 @@
 		if(bodypart.body_zone == zone)
 			return bodypart
 
+///Returns TRUE/FALSE on whether the mob should have a limb in a given zone, used for species-restrictions.
+/mob/living/carbon/proc/should_have_limb(zone)
+	if(!zone || !dna)
+		return TRUE
+	var/datum/species/carbon_species = dna.species
+	if(zone in carbon_species.bodypart_overrides)
+		return TRUE
+	return FALSE
+
 /// Replaces a single limb and deletes the old one if there was one
 /mob/living/carbon/proc/del_and_replace_bodypart(obj/item/bodypart/new_limb, special)
 	var/obj/item/bodypart/old_limb = get_bodypart(new_limb.body_zone)
@@ -108,10 +117,25 @@
 /mob/living/carbon/alien/larva/has_right_hand(check_disabled = TRUE)
 	return TRUE
 
+/// Returns the bodypart holding the passed item
+/mob/living/carbon/proc/get_hand_of_item(obj/item/I)
+	return get_bodypart(get_hand_zone_of_item(I))
 
-/mob/living/carbon/proc/get_missing_limbs()
+///Returns a list of all limbs this mob should have.
+/mob/living/proc/get_all_limbs() as /list
 	RETURN_TYPE(/list)
-	var/list/full = GLOB.all_body_zones.Copy()
+	return GLOB.all_body_zones.Copy()
+
+///Returns a list of all limbs this mob should have.
+/mob/living/carbon/get_all_limbs()
+	if(dna)
+		return dna.species.bodypart_overrides.Copy()
+	return ..()
+
+///Returns a list of all missing limbs this mob should have on them, but don't.
+/mob/living/carbon/proc/get_missing_limbs() as /list
+	RETURN_TYPE(/list)
+	var/list/full = get_all_limbs()
 	for(var/zone in full)
 		if(get_bodypart(zone))
 			full -= zone
@@ -128,7 +152,7 @@
 	return list()
 
 /mob/living/carbon/get_disabled_limbs()
-	var/list/full = GLOB.all_body_zones.Copy()
+	var/list/full = get_all_limbs()
 	var/list/disabled = list()
 	for(var/zone in full)
 		var/obj/item/bodypart/affecting = get_bodypart(zone)
@@ -169,6 +193,8 @@
 // FUCK YOU AUGMENT CODE - With love, Kapu
 /mob/living/carbon/proc/newBodyPart(zone)
 	var/path = dna.species.bodypart_overrides[zone]
+	if(isnull(path))
+		return null
 	var/obj/item/bodypart/new_bodypart = new path()
 	return new_bodypart
 
@@ -223,37 +249,37 @@
 	. = 0
 	switch(skin_tone)
 		if("caucasian1")
-			. = "#ffe0d1"
+			. = "#ffd5cc" // EffigyEdit Change - Greyscale Bodyparts - Original: #ffe0d1
 		if("caucasian2")
-			. = "#fcccb3"
+			. = "#feb8a0" // EffigyEdit Change - Greyscale Bodyparts - Original: #fcccb3
 		if("caucasian3")
-			. = "#e8b59b"
+			. = "#eaa78d" // EffigyEdit Change - Greyscale Bodyparts - Original: #e8b59b
 		if("latino")
-			. = "#d9ae96"
+			. = "#e7a992" // EffigyEdit Change - Greyscale Bodyparts - Original: #d9ae96
 		if("mediterranean")
-			. = "#c79b8b"
+			. = "#d49487" // EffigyEdit Change - Greyscale Bodyparts - Original: #c79b8b
 		if("asian1")
-			. = "#ffdeb3"
+			. = "#facca4" // EffigyEdit Change - Greyscale Bodyparts - Original: #ffdeb3
 		if("asian2")
-			. = "#e3ba84"
+			. = "#e8b782" // EffigyEdit Change - Greyscale Bodyparts - Original: #e3ba84
 		if("arab")
-			. = "#c4915e"
+			. = "#c48c5e" // EffigyEdit Change - Greyscale Bodyparts - Original: #c4915e
 		if("indian")
-			. = "#b87840"
+			. = "#bd7740" // EffigyEdit Change - Greyscale Bodyparts - Original: #b87840
 		if("mixed1")
-			. = "#a57a66"
+			. = "#ab7968" // EffigyEdit Change - Greyscale Bodyparts - Original: #a57a66
 		if("mixed2")
-			. = "#87563d"
+			. = "#8c553f" // EffigyEdit Change - Greyscale Bodyparts - Original: #87563d
 		if("mixed3")
-			. = "#725547"
+			. = "#755246" // EffigyEdit Change - Greyscale Bodyparts - Original: #725547
 		if("mixed4")
-			. = "#866e63"
+			. = "#86655b" // EffigyEdit Change - Greyscale Bodyparts - Original: #866e63
 		if("african1")
-			. = "#754523"
+			. = "#754223" // EffigyEdit Change - Greyscale Bodyparts - Original: #754523
 		if("african2")
-			. = "#471c18"
+			. = "#471b18" // EffigyEdit Change - Greyscale Bodyparts - Original: #471c18
 		if("albino")
-			. = "#fff4e6"
+			. = "#ffe2db" // EffigyEdit Change - Greyscale Bodyparts - Original: #fff4e6
 		if("orange")
 			. = "#ffc905"
 		if("green")

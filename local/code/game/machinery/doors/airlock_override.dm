@@ -14,7 +14,7 @@
  * Sensitive areas like the vault, command quarters, heads' offices, etc. are not applicable.
 */
 
-/area/station/ai_monitored/command/storage/eva
+/area/station/command/eva
 	engineering_override_eligible = TRUE
 
 /area/station/cargo
@@ -88,9 +88,11 @@
 ///Check for the three states of open access. Emergency, Unrestricted, and Engineering/Fire Override
 /obj/machinery/door/airlock/allowed(mob/user)
 	if(emergency)
+		rapid_open()
 		return TRUE
 
 	if(unrestricted_side(user))
+		rapid_open()
 		return TRUE
 
 	if(engineering_override || fire_active)

@@ -1,6 +1,8 @@
-import { filter, map, sortBy } from 'common/collections';
-import { ReactNode, useState } from 'react';
-import { sendAct, useBackend } from 'tgui/backend';
+import { sortBy } from 'es-toolkit';
+import { filter, map } from 'es-toolkit/compat';
+import { type ReactNode, useState } from 'react';
+import { useBackend } from 'tgui/backend';
+import type { sendAct } from 'tgui/events/act';
 import {
   Box,
   Button,
@@ -21,15 +23,15 @@ import { PageButton } from '../components/PageButton';
 import { RandomizationButton } from '../components/RandomizationButton';
 import { features } from '../preferences/features';
 import {
-  FeatureChoicedServerData,
+  type FeatureChoicedServerData,
   FeatureValueInput,
 } from '../preferences/features/base';
-import { Gender, GENDERS } from '../preferences/gender';
+import { GENDERS, Gender } from '../preferences/gender';
 import {
   createSetPreference,
-  PreferencesMenuData,
+  type PreferencesMenuData,
   RandomSetting,
-  ServerData,
+  type ServerData,
 } from '../types';
 import { useRandomToggleState } from '../useRandomToggleState';
 import { useServerPrefs } from '../useServerPrefs';
@@ -44,7 +46,7 @@ const CLOTHING_SELECTION_WIDTH = 8.3;
 const CLOTHING_SELECTION_MULTIPLIER = 4.3;
 
 type CharacterControlsProps = {
-  handleRotate: () => void;
+  handleRotate: (ccw: boolean) => void;
   handleOpenSpecies: () => void;
   gender: Gender;
   setGender: (gender: Gender) => void;
@@ -58,7 +60,7 @@ function CharacterControls(props: CharacterControlsProps) {
     <Stack>
       <Stack.Item>
         <Button
-          onClick={props.handleRotate}
+          onClick={() => props.handleRotate(true)}
           fontSize="22px"
           icon="undo"
           tooltip="Rotate"
@@ -68,7 +70,7 @@ function CharacterControls(props: CharacterControlsProps) {
 
       <Stack.Item>
         <Button
-          onClick={props.handleRotate}
+          onClick={() => props.handleRotate(false)}
           fontSize="22px"
           icon="redo"
           tooltip="Rotate"
@@ -393,10 +395,12 @@ const createSetRandomization =
   };
 
 function sortPreferences(array: [string, unknown][]) {
-  return sortBy(array, ([featureId, _]) => {
-    const feature = features[featureId];
-    return feature?.name;
-  });
+  return sortBy(array, [
+    ([featureId, _]) => {
+      const feature = features[featureId];
+      return feature?.name;
+    },
+  ]);
 }
 
 type PreferenceListProps = {
@@ -518,7 +522,7 @@ export function MainPage(props: MainPageProps) {
   const serverData = useServerPrefs();
 
   const currentSpeciesData =
-    serverData && serverData.species[data.character_preferences.misc.species];
+    serverData?.species[data.character_preferences.misc.species];
 
   const contextualPreferences =
     data.character_preferences.secondary_features || [];
@@ -543,12 +547,12 @@ export function MainPage(props: MainPageProps) {
   };
 
   if (randomBodyEnabled) {
-    nonContextualPreferences['random_species'] =
-      data.character_preferences.randomization['species'];
+    nonContextualPreferences.random_species =
+      data.character_preferences.randomization.species;
   } else {
     // We can't use random_name/is_accessible because the
     // server doesn't know whether the random toggle is on.
-    delete nonContextualPreferences['random_name'];
+    delete nonContextualPreferences.random_name;
   }
 
   // EffigyEdit Add - Character Preferences
@@ -679,8 +683,10 @@ export function MainPage(props: MainPageProps) {
               <CharacterControls
                 gender={data.character_preferences.misc.gender}
                 handleOpenSpecies={props.openSpecies}
-                handleRotate={() => {
-                  act('rotate');
+                handleRotate={(value) => {
+                  act('rotate', {
+                    ccw: value,
+                  });
                 }}
                 setGender={createSetPreference(act, 'gender')}
                 showGender={

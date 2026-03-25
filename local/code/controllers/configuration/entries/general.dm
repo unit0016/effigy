@@ -1,11 +1,32 @@
+/// Short server name used on Hub entry
+/datum/config_entry/string/tagline_name
+	default = "a generic TG-based server"
+
+/// Subheader text used on Hub entry
+/datum/config_entry/string/tagline_desc
+	default = "oh god how did this get here i am not good with config.txt"
+
+/// URL for site used on Hub entry
+/datum/config_entry/string/tagline_url
+	default = ""
+
 /datum/config_entry/string/discordlink
-	default = "https://tgstation13.org/phpBB/viewforum.php?f=60"
+	default = ""
+
+/datum/config_entry/string/discord_roles_channel_id
+	default = ""
+
+/datum/config_entry/string/role_announce_new_game
+	default = ""
 
 /// manifest preview in pre-lobby
 /datum/config_entry/flag/show_manifest_preview
 	default = TRUE
 
 /datum/config_entry/flag/setup_bypass_player_check
+
+/// Automatically reboot after a TGS deployment if the server is idle
+/datum/config_entry/flag/reboot_on_idle_deployment
 
 /// File where fluff status messages are stored
 /datum/config_entry/string/fluff_status_file

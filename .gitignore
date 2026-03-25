@@ -2,6 +2,8 @@
 
 # Local overrides--you can use this to change the config for your dev environment (like setting up SQL) without worrying about committing it
 /config/dev_overrides.txt
+/config/dev_preferences.json
+/config/dev_preferences.json.updatebac
 /config/effigy_splash_fluff.txt
 
 #Ignore everything in datafolder and subdirectories
@@ -215,6 +217,9 @@ Temporary Items
 !/config/title_music/sounds/exclude
 /config/title_screens/images/*
 !/config/title_screens/images/exclude
+/config/bloopers/*
+!/config/bloopers/blooper_config.json.example
+!/config/bloopers/README.md
 
 #Linux docker
 /tools/tgs_test/.vs/*

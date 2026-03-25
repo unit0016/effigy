@@ -165,6 +165,19 @@
 /atom/movable/screen/language_menu/Click()
 	usr.get_language_holder().open_language_menu(usr)
 
+/atom/movable/screen/memories
+	name = "Memories"
+	icon = 'icons/hud/screen_midnight.dmi'
+	icon_state = "memories"
+	screen_loc = ui_memories_menu
+	mouse_over_pointer = MOUSE_HAND_POINTER
+
+/atom/movable/screen/memories/Click()
+	if(!isliving(usr))
+		return TRUE
+	var/mob/living/daydreamer = usr
+	daydreamer.open_memory_panel()
+
 /atom/movable/screen/inventory
 	/// The identifier for the slot. It has nothing to do with ID cards.
 	var/slot_id
@@ -763,6 +776,9 @@
 		var/mob/living/carbon/C = usr
 		C.check_self_for_injuries()
 
+/atom/movable/screen/healthdoll/proc/update_body_zones()
+	return
+
 /atom/movable/screen/healthdoll/living
 	icon_state = "fullhealth0"
 	screen_loc = ui_living_healthdoll
@@ -777,15 +793,22 @@
 
 /atom/movable/screen/healthdoll/human/Initialize(mapload, datum/hud/hud_owner)
 	. = ..()
+	if(isnull(hud_owner)) //we require a hud owner to work properly, so return out.
+		return
+	update_body_zones()
+	update_appearance()
+
+/atom/movable/screen/healthdoll/human/update_body_zones()
 	limbs = list()
-	for(var/i in GLOB.all_body_zones)
+	vis_contents.Cut()
+	var/mob/living/carbon/human/owner = hud.mymob
+	for(var/body_zone in owner.get_all_limbs())
 		var/atom/movable/screen/healthdoll_limb/limb = new(src, null)
 		// layer chest above other limbs, it's the center after all
-		limb.layer = i == BODY_ZONE_CHEST ? layer + 0.05 : layer
-		limbs[i] = limb
+		limb.layer = body_zone == BODY_ZONE_CHEST ? layer + 0.05 : layer
+		limbs[body_zone] = limb
 		// why viscontents? why not overlays? - because i want to animate filters
 		vis_contents += limb
-	update_appearance()
 
 /atom/movable/screen/healthdoll/human/Destroy()
 	QDEL_LIST_ASSOC_VAL(limbs)
@@ -885,10 +908,11 @@ INITIALIZE_IMMEDIATE(/atom/movable/screen/splash)
 
 	holder.screen += src
 
-/atom/movable/screen/splash/proc/Fade(out, qdel_after = TRUE)
+/atom/movable/screen/splash/proc/fade(out, qdel_after = TRUE)
 	if(QDELETED(src))
 		return
 	if(out)
+		mouse_opacity = MOUSE_OPACITY_TRANSPARENT
 		animate(src, alpha = 0, time = 30)
 	else
 		alpha = 0
@@ -1085,13 +1109,13 @@ INITIALIZE_IMMEDIATE(/atom/movable/screen/splash)
 	VAR_PRIVATE/static/icon/bar_mask
 	/// Gradient used to color the bar
 	VAR_PRIVATE/static/list/hunger_gradient = list(
-		0.0, "#FF0000",
+		0.0, "#F0197D", // EffigyEdit Change - Original: #FF0000
 		0.2, "#FF8000",
-		0.4, "#f0f000",
-		0.6, "#00FF00",
+		0.4, "#FFE45E", // EffigyEdit Change - Original: #f0f000
+		0.6, "#21FA90", // EffigyEdit Change - Original: #00FF00
 		0.8, "#46daff",
-		1.0, "#2A72AA",
-		1.2, "#494949",
+		1.0, "#2CCAFF", // EffigyEdit Change - Original: #2A72AA
+		1.2, "#757575", // EffigyEdit Change - Original: #494949
 	)
 	/// Offset of the mask
 	VAR_PRIVATE/bar_offset
@@ -1152,12 +1176,12 @@ INITIALIZE_IMMEDIATE(/atom/movable/screen/splash)
 		return INITIALIZE_HINT_QDEL
 	RegisterSignal(hud_owner.mymob, COMSIG_LIVING_LIFE, PROC_REF(on_mob_life))
 
-/atom/movable/screen/blood_level/proc/on_mob_life(mob/living/source, seconds_per_tick, times_fired)
+/atom/movable/screen/blood_level/proc/on_mob_life(mob/living/source, seconds_per_tick)
 	SIGNAL_HANDLER
 
 	if(!isliving(source))
 		return
-	maptext = FORMAT_BLOOD_LEVEL_HUD_MAPTEXT(source.blood_volume)
+	maptext = FORMAT_BLOOD_LEVEL_HUD_MAPTEXT(source.get_blood_volume())
 
 #undef FORMAT_BLOOD_LEVEL_HUD_MAPTEXT
 

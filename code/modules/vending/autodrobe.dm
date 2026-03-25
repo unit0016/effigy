@@ -90,16 +90,18 @@ GLOBAL_LIST_INIT(autodrobe_entretainers_items, list(
 	/obj/item/clothing/under/costume/singer/yellow = 1,
 	/obj/item/clothing/shoes/singerb = 1,
 	/obj/item/clothing/under/costume/singer/blue = 1,
+	/obj/item/clothing/shoes/singerr = 1,
+	/obj/item/clothing/under/costume/singer/red = 1,
 	/obj/item/clothing/head/costume/cueball = 1,
 ))
 
 GLOBAL_LIST_INIT(autodrobe_fancy_items, list(
-	/obj/item/clothing/under/rank/captain/suit = 1,
-	/obj/item/clothing/under/rank/captain/suit/skirt = 1,
-	/obj/item/clothing/under/costume/schoolgirl = 3,
-	/obj/item/clothing/under/costume/schoolgirl/red = 3,
-	/obj/item/clothing/under/costume/schoolgirl/green = 3,
-	/obj/item/clothing/under/costume/schoolgirl/orange = 3,
+	/obj/item/clothing/under/costume/captain = 1,
+	/obj/item/clothing/under/costume/captain/skirt = 1,
+	/obj/item/clothing/under/costume/seifuku = 3,
+	/obj/item/clothing/under/costume/seifuku/red = 3,
+	/obj/item/clothing/under/costume/seifuku/teal = 3,
+	/obj/item/clothing/under/costume/seifuku/tan = 3,
 	/obj/item/clothing/under/dress/skirt = 3,
 	/obj/item/clothing/neck/tie = 3,
 	/obj/item/clothing/head/hats/tophat = 3,
@@ -113,6 +115,11 @@ GLOBAL_LIST_INIT(autodrobe_fancy_items, list(
 	/obj/item/clothing/suit/costume/changshan_blue = 3,
 	/obj/item/clothing/suit/costume/cheongsam_red = 3,
 	/obj/item/clothing/suit/costume/cheongsam_blue = 3,
+	// EffigyEdit Add - Autodrobe Items
+	/obj/item/clothing/shoes/fancy_heels = 4,
+	/obj/item/clothing/under/dress/wedding_dress = 4,
+	/obj/item/clothing/under/dress/wedding_dress/ribbon = 4,
+	// EffigyEdit Add End
 ))
 
 GLOBAL_LIST_INIT(autodrobe_animal_items, list(
@@ -144,10 +151,8 @@ GLOBAL_LIST_INIT(autodrobe_service_items, list(
 	/obj/item/clothing/under/suit/waiter = 4,
 	/obj/item/clothing/suit/apron = 3,
 	/obj/item/clothing/suit/apron/overalls = 3,
-	/obj/item/clothing/head/costume/maidheadband = 3,
+	/obj/item/clothing/head/costume/maid_headband = 3,
 	/obj/item/clothing/under/costume/maid = 3,
-	/obj/item/clothing/gloves/maid = 3,
-	/obj/item/clothing/neck/maid = 3,
 	/obj/item/clothing/under/rank/civilian/janitor/maid = 3,
 	/obj/item/clothing/accessory/maidapron = 3,
 ))
@@ -156,7 +161,7 @@ GLOBAL_LIST_INIT(autodrobe_other_items, list(
 	/obj/item/clothing/head/wig/random = 6,
 	/obj/item/clothing/head/flatcap = 3,
 	/obj/item/clothing/suit/jacket/miljacket = 3,
-	/obj/item/clothing/shoes/jackboots = 3,
+	/obj/item/clothing/shoes/workboots/black = 3,
 	/obj/item/clothing/mask/fakemoustache = 3,
 	/obj/item/clothing/glasses/cold= 3,
 	/obj/item/clothing/glasses/heat= 3,

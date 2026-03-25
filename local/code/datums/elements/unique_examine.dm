@@ -70,9 +70,9 @@
 	// Having hint = TRUE will register a normal examine signal to give examiners a hint additional info is present
 	if(hint)
 		what_are_we = get_identifier(thing)
-		RegisterSignal(thing, COMSIG_ATOM_EXAMINE, .proc/on_examine)
+		RegisterSignal(thing, COMSIG_ATOM_EXAMINE, PROC_REF(on_examine))
 
-	RegisterSignal(thing, COMSIG_ATOM_EXAMINE_MORE, .proc/on_examine_more)
+	RegisterSignal(thing, COMSIG_ATOM_EXAMINE_MORE, PROC_REF(on_examine_more))
 
 /datum/element/unique_examine/Detach(atom/thing)
 	. = ..()
@@ -133,7 +133,7 @@
 					continue
 
 				// "Your status as a secret agent" or "Your status as a traitor"
-				var/antag_title = special_affiliation || antag_datum.job_rank
+				var/antag_title = special_affiliation || antag_datum.jobban_flag || antag_datum.pref_flag
 				return "Your status as a [span_red(span_bold(antag_title))] has given you insight here:"
 
 		// Job checks by title
@@ -164,7 +164,7 @@
 		// Standard faction checks
 		if(EXAMINE_CHECK_FACTION)
 			// What factions do they have that fulfills our requirements?
-			var/list/required_factions = requirements & examiner.faction
+			var/list/required_factions = requirements & examiner.get_faction()
 			if(!length(required_factions))
 				return
 

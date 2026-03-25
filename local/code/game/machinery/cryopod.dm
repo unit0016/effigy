@@ -118,17 +118,22 @@ MAPPING_DIRECTIONAL_HELPERS(/obj/machinery/computer/cryopod, 32)
 		else
 			CRASH("Illegal action for ui_act: '[action]'")
 
-/obj/machinery/computer/cryopod/proc/announce(message_type, user, rank)
+/obj/machinery/computer/cryopod/proc/announce(message_type, mob/living/user, rank)
 	switch(message_type)
 		if("CRYO_JOIN")
-			radio.talk_into(src, "[user][rank ? ", [rank]" : ""] has woken up from cryo storage.", announcement_channel)
+			radio.talk_into(src, "[user.real_name][rank ? ", [rank]" : ""] has woken up from cryo storage.", announcement_channel)
 		if("CRYO_LEAVE")
-			radio.talk_into(src, "[user][rank ? ", [rank]" : ""] has been moved to cryo storage.", announcement_channel)
+			radio.talk_into(src, "[user.real_name][rank ? ", [rank]" : ""] has been moved to cryo storage.", announcement_channel)
+			var/is_command = user?.mind?.assigned_role.departments_bitflags & DEPARTMENT_BITFLAG_COMMAND
+			var/last_of_command = length(SSjob.get_all_heads())
+			if(is_command && last_of_command <= 1)
+				minor_announce(title = "Command Staffing Update", message = "[station_name()]'s last member of command staff has entered cryogenic storage. \
+				\n Please ensure that the station's essential operational equipment is secured.")
 
 /// Cryopods
 /obj/machinery/cryopod
 	name = "cryogenic freezer"
-	desc = "Suited for Cyborgs and Humanoids, the pod is a safe place for personnel affected by the Space Sleep Disorder to get some rest."
+	desc = "Suited for Cyborgs and Humanoids, the pod is a safe place for personnel affected by Space Sleep Disorder to get some rest."
 	icon = 'icons/obj/machines/sleeper.dmi'
 	icon_state = "sleeper-open"
 	base_icon_state = "sleeper"
@@ -205,12 +210,9 @@ MAPPING_DIRECTIONAL_HELPERS(/obj/machinery/computer/cryopod, 32)
 		var/mob/living/comedy_target = joining_mob
 		playsound(get_turf(src), 'sound/effects/meteorimpact.ogg', 100, TRUE)
 		playsound(src, 'sound/effects/smoke.ogg', 50, TRUE, -3)
-		var/datum/effect_system/fluid_spread/smoke/bad/smoke = new
-		smoke.set_up(1, holder = src, location = src)
-		smoke.start()
-		qdel(smoke) // We're done with you
+		do_smoke(1, src, src, smoke_type = /datum/effect_system/fluid_spread/smoke/bad)
 		comedy_target.Paralyze(8 SECONDS)
-		comedy_target.adjustStaminaLoss(40)
+		comedy_target.adjust_stamina_loss(40)
 		step_away(comedy_target, src)
 		shake_camera(comedy_target, 4, 3)
 		comedy_target.visible_message(
@@ -221,8 +223,7 @@ MAPPING_DIRECTIONAL_HELPERS(/obj/machinery/computer/cryopod, 32)
 		close_machine(joining_mob)
 
 /obj/machinery/cryopod/proc/find_control_computer(urgent = FALSE)
-	for(var/cryo_console as anything in GLOB.cryopod_computers)
-		var/obj/machinery/computer/cryopod/console = cryo_console
+	for(var/obj/machinery/computer/cryopod/console as anything in GLOB.cryopod_computers)
 		if(get_area(console) == get_area(src))
 			control_computer_weakref = WEAKREF(console)
 			break
@@ -251,10 +252,6 @@ MAPPING_DIRECTIONAL_HELPERS(/obj/machinery/computer/cryopod, 32)
 				stored_rank = mob_occupant.mind.assigned_role.title
 				if(isnull(stored_ckey))
 					stored_ckey = mob_occupant.mind.key // if mob does not have a ckey and was placed in cryo by someone else, we can get the key this way
-
-		var/mob/living/carbon/human/human_occupant = occupant
-		if(istype(human_occupant) && human_occupant.mind)
-			human_occupant.save_individual_persistence(stored_ckey)
 
 		COOLDOWN_START(src, despawn_world_time, time_till_despawn)
 
@@ -347,7 +344,7 @@ MAPPING_DIRECTIONAL_HELPERS(/obj/machinery/computer/cryopod, 32)
 		// Handle tater cleanup.
 		if(LAZYLEN(mob_occupant.mind.objectives))
 			mob_occupant.mind.objectives.Cut()
-			mob_occupant.mind.special_role = null
+			LAZYNULL(mob_occupant.mind.special_roles)
 		// Handle freeing the high priest role for the next chaplain in line
 		if(mob_occupant.mind.holy_role == HOLY_ROLE_HIGHPRIEST)
 			reset_religion()
@@ -381,7 +378,7 @@ MAPPING_DIRECTIONAL_HELPERS(/obj/machinery/computer/cryopod, 32)
 
 	// Make an announcement and log the person entering storage. If set to quiet, does not make an announcement.
 	if(!quiet)
-		control_computer.announce("CRYO_LEAVE", mob_occupant.real_name, announce_rank)
+		control_computer.announce("CRYO_LEAVE", mob_occupant, announce_rank)
 
 	visible_message(span_notice("[src] hums and hisses as it moves [mob_occupant.real_name] into storage."))
 
@@ -420,7 +417,7 @@ MAPPING_DIRECTIONAL_HELPERS(/obj/machinery/computer/cryopod, 32)
 	GLOB.prev_favor = GLOB.religious_sect.favor
 	GLOB.prev_sect_type = GLOB.religious_sect.type
 
- // set the altar references to the old religious_sect to null
+	// set the altar references to the old religious_sect to null
 	for(var/obj/structure/altar/of_gods/altar in GLOB.chaplain_altars)
 		altar.GetComponent(/datum/component/religious_tool).easy_access_sect = null
 		altar.sect_to_altar = null

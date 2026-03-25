@@ -5,7 +5,7 @@ SUBSYSTEM_DEF(ticker)
 	name = "Ticker"
 	priority = FIRE_PRIORITY_TICKER
 	flags = SS_KEEP_TIMING
-	runlevels = RUNLEVEL_LOBBY | RUNLEVEL_SETUP | RUNLEVEL_GAME
+	runlevels = RUNLEVEL_LOBBY | RUNLEVEL_SETUP | RUNLEVEL_GAME | RUNLEVEL_POSTGAME
 
 	/// state of current round (used by process()) Use the defines GAME_STATE_* !
 	var/current_state = GAME_STATE_STARTUP
@@ -14,7 +14,11 @@ SUBSYSTEM_DEF(ticker)
 	/// or a "round-ending" event, like summoning Nar'Sie, a blob victory, the nuke going off, etc. ([FORCE_END_ROUND])
 	var/force_ending = END_ROUND_AS_NORMAL
 	/// If TRUE, there is no lobby phase, the game starts immediately.
+	#ifdef ABSOLUTE_MINIMUM
+	var/start_immediately = TRUE
+	#else
 	var/start_immediately = FALSE
+	#endif
 	/// Boolean to track and check if our subsystem setup is done.
 	var/setup_done = FALSE
 
@@ -35,7 +39,7 @@ SUBSYSTEM_DEF(ticker)
 	var/start_at
 
 	var/gametime_offset = 432000 //Deciseconds to add to world.time for station time.
-	var/station_time_rate_multiplier = 12 //factor of station time progressal vs real time.
+	var/station_time_rate_multiplier = 3 //factor of station time progressal vs real time. // EffigyEdit Change - Original: 12 - Prevent station time rollover during rounds
 
 	/// Num of players, used for pregame stats on statpanel
 	var/totalPlayers = 0
@@ -54,6 +58,7 @@ SUBSYSTEM_DEF(ticker)
 	var/roundend_check_paused = FALSE
 
 	var/round_start_time = 0
+	var/utc_init_time = 0 // EffigyEdit Add
 	var/list/round_start_events
 	var/list/round_end_events
 	var/mode_result = "undefined"
@@ -65,26 +70,13 @@ SUBSYSTEM_DEF(ticker)
 	/// Why an emergency shuttle was called
 	var/emergency_reason
 
+	///The display of how much time is left before a reboot, given to all clients post-game.
+	var/atom/movable/screen/reboot_timer/reboot_hud
 	/// ID of round reboot timer, if it exists
 	var/reboot_timer = null
 
 /datum/controller/subsystem/ticker/Initialize()
 	if(!CONFIG_GET(flag/use_scheduled_lobby_track)) // EffigyEdit Add - Custom Lobby
-		var/list/byond_sound_formats = list(
-			"mid" = TRUE,
-			"midi" = TRUE,
-			"mod" = TRUE,
-			"it" = TRUE,
-			"s3m" = TRUE,
-			"xm" = TRUE,
-			"oxm" = TRUE,
-			"wav" = TRUE,
-			"ogg" = TRUE,
-			"raw" = TRUE,
-			"wma" = TRUE,
-			"aiff" = TRUE,
-		)
-
 		var/list/provisional_title_music = flist("[global.config.directory]/title_music/sounds/")
 		var/list/music = list()
 		var/use_rare_music = prob(1)
@@ -112,11 +104,8 @@ SUBSYSTEM_DEF(ticker)
 			music -= old_login_music
 
 		for(var/S in music)
-			var/list/L = splittext(S,".")
-			if(L.len >= 2)
-				var/ext = LOWER_TEXT(L[L.len]) //pick the real extension, no 'honk.ogg.exe' nonsense here
-				if(byond_sound_formats[ext])
-					continue
+			if(IS_SOUND_FILE(S))
+				continue
 			music -= S
 
 		if(!length(music))
@@ -145,13 +134,15 @@ SUBSYSTEM_DEF(ticker)
 
 		GLOB.syndicate_code_response_regex = codeword_match
 
-	start_at = COUNTDOWN_GAME_INIT // EffigyEdit Change - Custom Lobby - Original: world.time + (CONFIG_GET(number/lobby_countdown) * 10)
+	start_at = COUNTDOWN_GAME_INIT // EffigyEdit Change - Custom Lobby - Original: world.time + (CONFIG_GET(number/lobby_countdown) * (1 SECONDS))
+	round_start_time = start_at // May be changed later, but prevents the time from jumping back when the round actually starts
 	if(CONFIG_GET(flag/randomize_shift_time))
-		gametime_offset = rand(0, 23) HOURS
+		gametime_offset = rand(0, 23) * (1 HOURS)
 	else if(CONFIG_GET(flag/shift_time_realtime))
-		gametime_offset = world.timeofday
+		gametime_offset = world.timeofday + GLOB.timezoneOffset
+		station_time_rate_multiplier = 1
 	else
-		gametime_offset = (CONFIG_GET(number/shift_time_start_hour) HOURS)
+		gametime_offset = (CONFIG_GET(number/shift_time_start_hour) * (1 HOURS))
 	return SS_INIT_SUCCESS
 
 /datum/controller/subsystem/ticker/fire()
@@ -162,10 +153,14 @@ SUBSYSTEM_DEF(ticker)
 			for(var/client/C in GLOB.clients)
 				window_flash(C, ignorepref = TRUE) //let them know lobby has opened up.
 			to_chat(world, span_notice("<b>Welcome to [station_name()]!</b>"))
+			/* EffigyEdit Remove - New Round Discord Notification
 			for(var/channel_tag in CONFIG_GET(str_list/channel_announce_new_game))
 				send2chat(new /datum/tgs_message_content("New round starting on [SSmapping.current_map.map_name]!"), channel_tag)
+			*/// EffigyEdit Remove End
 			current_state = GAME_STATE_PREGAME
-			// EffigyEdit Add - Storyteller
+			// EffigyEdit Add - Storyteller and TGS
+			utc_init_time = REALTIMEOFDAY
+			announce_new_round_to_discord()
 			GLOB.init_message_clients = null
 			var/storyteller = CONFIG_GET(string/default_storyteller)
 			if(storyteller)
@@ -189,22 +184,23 @@ SUBSYSTEM_DEF(ticker)
 					if(player.client?.holder)
 						++total_admins_ready
 
-			// EffigyEdit Add - Custom Lobby
-			if(timeLeft == COUNTDOWN_GAME_INIT)
-				return // server isn't finished init
-			// EffigyEdit Add End
-
 			if(start_immediately)
 				timeLeft = 0
 				CONFIG_SET(flag/setup_bypass_player_check, TRUE) // EffigyEdit Add - Custom Lobby
 
+			// EffigyEdit Add - Custom Lobby
+			if(timeLeft <= 0 && launch_queued && totalPlayersReady > 0)
+				SSticker.queue_game_start(94 SECONDS)
+				launch_queued = FALSE
+			// EffigyEdit Add End
+
 			//countdown
-			if(timeLeft < 0 && CONFIG_GET(flag/setup_bypass_player_check)) // EffigyEdit Change - Custom Lobby - Original: timeLeft < 0
+			if(timeLeft < 0 && !CONFIG_GET(flag/setup_bypass_player_check)) // EffigyEdit Change - Custom Lobby - Original: timeLeft < 0
 				return
 			timeLeft -= wait
 
 			// EffigyEdit Add - Custom Lobby
-			if(CONFIG_GET(flag/use_scheduled_lobby_track) && timeLeft <= lobby_track_duration && lobby_track_duration > 0 && !lobby_track_fired)
+			if(CONFIG_GET(flag/use_scheduled_lobby_track) && timeLeft <= lobby_track_duration && lobby_track_duration > 0 && !lobby_track_fired && totalPlayersReady > 0)
 				if(timeLeft >= lobby_track_duration - 4 SECONDS)
 					play_lobby_track(lobby_track_id)
 				lobby_track_fired = TRUE
@@ -227,10 +223,6 @@ SUBSYSTEM_DEF(ticker)
 			if(timeLeft <= 94 SECONDS && timeLeft > 0 && !hr_announce_fired && totalPlayersReady > 0 && !CONFIG_GET(flag/setup_bypass_player_check))
 				queue_game_start_announcement()
 				hr_announce_fired = TRUE
-
-			if(timeLeft <= 0 && launch_queued && totalPlayersReady > 0)
-				SSticker.queue_game_start(94 SECONDS)
-				launch_queued = FALSE
 			// EffigyEdit Add End
 
 			if(timeLeft <= 0)
@@ -260,6 +252,13 @@ SUBSYSTEM_DEF(ticker)
 				declare_completion(force_ending)
 				Master.SetRunLevel(RUNLEVEL_POSTGAME)
 
+		if(GAME_STATE_FINISHED)
+			if(ready_for_reboot)
+				if(isnull(reboot_timer))
+					reboot_hud.maptext = MAPTEXT_PIXELLARI("<center>Server reboot \n\ DELAYED</center>")
+				else
+					reboot_hud.maptext = MAPTEXT_PIXELLARI("<center>Server rebooting in:\n\ [DisplayTimeText(timeleft(SSticker.reboot_timer), 1)]</center>")
+
 /// Checks if the round should be ending, called every ticker tick
 /datum/controller/subsystem/ticker/proc/check_finished()
 	if(!setup_done)
@@ -268,19 +267,29 @@ SUBSYSTEM_DEF(ticker)
 		return TRUE
 	if(GLOB.station_was_nuked)
 		return TRUE
-	if(GLOB.revolutionary_win)
+	if(GLOB.revolution_handler?.result == REVOLUTION_VICTORY)
 		return TRUE
 	return FALSE
+
+/// Gets a list of players with their readied state so we can post it as a log
+/datum/controller/subsystem/ticker/proc/get_player_ready_states()
+	var/list/player_states = list()
+	for(var/mob/dead/new_player/player as anything in GLOB.new_player_list)
+		player_states[player.ckey] = player.ready
+	return player_states
 
 /datum/controller/subsystem/ticker/proc/setup()
 	to_chat(world, alert_boxed_message(BLUE, "Starting game...")) // EffigyEdit Change - TGUI
 	var/init_start = world.timeofday
 
+	var/list/players_and_readiness = get_player_ready_states()
+	log_game("Players and Readiness: [json_encode(players_and_readiness)]", players_and_readiness)
+
 	CHECK_TICK
 	//Configure mode and assign player to antagonists
 	var/can_continue = FALSE
 	// EffigyEdit Change - Storyteller
-	// can_continue = SSdynamic.pre_setup() //Choose antagonists
+	// can_continue = SSdynamic.select_roundstart_antagonists() //Choose antagonists
 	SSgamemode.init_storyteller()
 	can_continue = SSgamemode.pre_setup()
 	// EffigyEdit Change End
@@ -289,7 +298,7 @@ SUBSYSTEM_DEF(ticker)
 	can_continue = can_continue && SSjob.divide_occupations() //Distribute jobs
 	CHECK_TICK
 
-	if(!GLOB.Debug2)
+	if(!GLOB.debugging_enabled)
 		if(!can_continue)
 			log_game("Game failed pre_setup")
 			to_chat(world, "<B>Error setting up game.</B> Reverting to pre-game lobby.")
@@ -329,11 +338,11 @@ SUBSYSTEM_DEF(ticker)
 	round_start_time = world.time //otherwise round_start_time would be 0 for the signals
 	// EffigyEdit Add - Automated Transfer Shuttle
 	SSgamemode.auto_shuttle_start_time = world.realtime
-	message_admins("Shuttle auto-call status is [SSgamemode.auto_shuttle_call ? "enabled" : "disabled"].")
-	log_game("Shuttle auto-call status is [SSgamemode.auto_shuttle_call ? "enabled" : "disabled"].")
+	message_admins("Auto-shuttle (emergency) status is [SSgamemode.auto_shuttle_call ? "enabled" : "disabled"].")
+	log_game("Auto-shuttle (emergency) status is [SSgamemode.auto_shuttle_call ? "enabled" : "disabled"].")
 	if(SSgamemode.auto_shuttle_call)
-		message_admins("Auto-call configured time is [DisplayTimeText(SSgamemode.auto_shuttle_fire_time)].")
-		log_game("Auto-call configured time is [DisplayTimeText(SSgamemode.auto_shuttle_fire_time)].")
+		message_admins("Auto-shuttle configured time is [DisplayTimeText(SSgamemode.auto_shuttle_fire_time)].")
+		log_game("Auto-shuttle configured time is [DisplayTimeText(SSgamemode.auto_shuttle_fire_time)].")
 	// EffigyEdit Add End
 	SEND_SIGNAL(src, COMSIG_TICKER_ROUND_STARTING, world.time)
 
@@ -358,7 +367,43 @@ SUBSYSTEM_DEF(ticker)
 
 /datum/controller/subsystem/ticker/proc/PostSetup()
 	set waitfor = FALSE
-	SSdynamic.post_setup()
+
+	// Spawn traitors and stuff
+	for(var/datum/dynamic_ruleset/roundstart/ruleset in SSdynamic.queued_rulesets)
+		ruleset.execute()
+		SSdynamic.unqueue_ruleset(ruleset)
+		SSdynamic.executed_rulesets += ruleset
+	// Queue roundstart intercept report
+	/* EffigyEdit Remove - Storyteller
+	if(!CONFIG_GET(flag/no_intercept_report))
+		GLOB.communications_controller.queue_roundstart_report()
+	*/// EffigyEdit Remove End
+	// Queue admin logout report
+	var/roundstart_logout_timer = CONFIG_GET(number/roundstart_logout_report_time_average)
+	var/roundstart_report_variance = CONFIG_GET(number/roundstart_logout_report_time_variance)
+	var/randomized_callback_timer = rand((roundstart_logout_timer - roundstart_report_variance), (roundstart_logout_timer + roundstart_report_variance))
+	addtimer(CALLBACK(src, PROC_REF(display_roundstart_logout_report)), randomized_callback_timer)
+	GLOB.logout_timer_set = randomized_callback_timer
+	// Queue suicide slot handling
+	if(CONFIG_GET(flag/reopen_roundstart_suicide_roles))
+		var/delay = (CONFIG_GET(number/reopen_roundstart_suicide_roles_delay) * 1 SECONDS) || 4 MINUTES
+		addtimer(CALLBACK(src, PROC_REF(reopen_roundstart_suicide_roles)), delay)
+	// Handle database
+	if(SSdbcore.Connect())
+		var/list/to_set = list()
+		var/arguments = list()
+		if(GLOB.revdata.originmastercommit)
+			to_set += "commit_hash = :commit_hash"
+			arguments["commit_hash"] = GLOB.revdata.GetDatabaseCommitSha()
+		if(to_set.len)
+			arguments["round_id"] = GLOB.round_id
+			var/datum/db_query/query_round_game_mode = SSdbcore.NewQuery(
+				"UPDATE [format_table_name("round")] SET [to_set.Join(", ")] WHERE id = :round_id",
+				arguments
+			)
+			query_round_game_mode.Execute()
+			qdel(query_round_game_mode)
+
 	SSgamemode.post_setup() // EffigyEdit Add - Storyteller
 	GLOB.start_state = new /datum/station_state()
 	GLOB.start_state.count()
@@ -386,10 +431,99 @@ SUBSYSTEM_DEF(ticker)
 
 		if(!iter_human.hardcore_survival_score)
 			continue
-		if(iter_human.mind?.special_role)
+		if(iter_human.is_antag())
 			to_chat(iter_human, span_notice("You will gain [round(iter_human.hardcore_survival_score) * 2] hardcore random points if you greentext this round!"))
 		else
 			to_chat(iter_human, span_notice("You will gain [round(iter_human.hardcore_survival_score)] hardcore random points if you survive this round!"))
+
+/datum/controller/subsystem/ticker/proc/display_roundstart_logout_report()
+	var/list/msg = list("[span_boldnotice("Roundstart logout report")]\n\n")
+
+	for(var/i in GLOB.mob_living_list)
+		var/mob/living/L = i
+		var/mob/living/carbon/C = L
+		if (istype(C) && !C.last_mind)
+			continue  // never had a client
+
+		if(L.ckey && !GLOB.directory[L.ckey])
+			msg += "<b>[L.name]</b> ([L.key]), the [L.job] (<font color='#ffcc00'><b>Disconnected</b></font>)\n"
+
+
+		if(L.ckey && L.client)
+			var/failed = FALSE
+			if(L.client.inactivity >= GLOB.logout_timer_set) //Connected, but inactive (alt+tabbed or something)
+				msg += "<b>[L.name]</b> ([L.key]), the [L.job] (<font color='#ffcc00'><b>Connected, Inactive</b></font>)\n"
+				failed = TRUE //AFK client
+			if(!failed && L.stat)
+				if(HAS_TRAIT(L, TRAIT_SUICIDED)) //Suicider
+					msg += "<b>[L.name]</b> ([L.key]), the [L.job] ([span_bolddanger("Suicide")])\n"
+					failed = TRUE //Disconnected client
+				if(!failed && (L.stat == UNCONSCIOUS || L.stat == HARD_CRIT))
+					msg += "<b>[L.name]</b> ([L.key]), the [L.job] (Dying)\n"
+					failed = TRUE //Unconscious
+				if(!failed && L.stat == DEAD)
+					msg += "<b>[L.name]</b> ([L.key]), the [L.job] (Dead)\n"
+					failed = TRUE //Dead
+
+			continue //Happy connected client
+		for(var/mob/dead/observer/D in GLOB.dead_mob_list)
+			if(D.mind && D.mind.current == L)
+				if(L.stat == DEAD)
+					if(HAS_TRAIT(L, TRAIT_SUICIDED)) //Suicider
+						msg += "<b>[L.name]</b> ([ckey(D.mind.key)]), the [L.job] ([span_bolddanger("Suicide")])\n"
+						continue //Disconnected client
+					else
+						msg += "<b>[L.name]</b> ([ckey(D.mind.key)]), the [L.job] (Dead)\n"
+						continue //Dead mob, ghost abandoned
+				else
+					if(D.can_reenter_corpse)
+						continue //Adminghost, or cult/wizard ghost
+					else
+						msg += "<b>[L.name]</b> ([ckey(D.mind.key)]), the [L.job] ([span_bolddanger("Ghosted")])\n"
+						continue //Ghosted while alive
+
+	msg += "[span_boldnotice("Roundstart logout reported at: [DisplayTimeText(GLOB.logout_timer_set)]")]\n"
+
+	var/concatenated_message = msg.Join()
+	log_admin(concatenated_message)
+	to_chat(GLOB.admins, concatenated_message)
+
+/datum/controller/subsystem/ticker/proc/reopen_roundstart_suicide_roles()
+	var/include_command = CONFIG_GET(flag/reopen_roundstart_suicide_roles_command_positions)
+	var/list/reopened_jobs = list()
+
+	for(var/mob/living/quitter in GLOB.suicided_mob_list)
+		var/datum/job/job = SSjob.get_job(quitter.job)
+		if(!job || !(job.job_flags & JOB_REOPEN_ON_ROUNDSTART_LOSS))
+			continue
+		if(!include_command && job.departments_bitflags & DEPARTMENT_BITFLAG_COMMAND)
+			continue
+		job.current_positions = max(job.current_positions - 1, 0)
+		reopened_jobs += quitter.job
+
+	if(CONFIG_GET(flag/reopen_roundstart_suicide_roles_command_report))
+		if(reopened_jobs.len)
+			var/reopened_job_report_positions
+			for(var/dead_dudes_job in reopened_jobs)
+				reopened_job_report_positions = "[reopened_job_report_positions ? "[reopened_job_report_positions]\n":""][dead_dudes_job]"
+
+			var/suicide_command_report = {"
+				<font size = 3><b>[command_name()] Human Resources Board</b><br>
+				Notice of Personnel Change</font><hr>
+				To personnel management staff aboard [station_name()]:<br><br>
+				Our medical staff have detected a series of anomalies in the vital sensors
+				of some of the staff aboard your station.<br><br>
+				Further investigation into the situation on our end resulted in us discovering
+				a series of rather... unforturnate decisions that were made on the part of said staff.<br><br>
+				As such, we have taken the liberty to automatically reopen employment opportunities for the positions of the crew members
+				who have decided not to partake in our research. We will be forwarding their cases to our employment review board
+				to determine their eligibility for continued service with the company (and of course the
+				continued storage of cloning records within the central medical backup server.)<br><br>
+				<i>The following positions have been reopened on our behalf:<br><br>
+				[reopened_job_report_positions]</i>
+			"}
+
+			print_command_report(suicide_command_report, "Central Command Personnel Update")
 
 //These callbacks will fire after roundstart key transfer
 /datum/controller/subsystem/ticker/proc/OnRoundstart(datum/callback/cb)
@@ -478,11 +612,16 @@ SUBSYSTEM_DEF(ticker)
 			captainless = FALSE
 			var/acting_captain = !is_captain_job(player_assigned_role)
 			SSjob.promote_to_captain(new_player_living, acting_captain)
-			OnRoundstart(CALLBACK(GLOBAL_PROC, GLOBAL_PROC_REF(minor_announce), player_assigned_role.get_captaincy_announcement(new_player_living)))
-		if((player_assigned_role.job_flags & JOB_ASSIGN_QUIRKS) && ishuman(new_player_living) && CONFIG_GET(flag/roundstart_traits))
-			if(new_player_mob.client?.prefs?.should_be_random_hardcore(player_assigned_role, new_player_living.mind))
-				new_player_mob.client.prefs.hardcore_random_setup(new_player_living)
-			SSquirks.AssignQuirks(new_player_living, new_player_mob.client)
+			OnRoundstart(CALLBACK(GLOBAL_PROC, GLOBAL_PROC_REF(roundstart_captaincy_announcement), player_assigned_role.get_captaincy_announcement(new_player_living))) // EffigyEdit Change - Original: GLOBAL_PROC_REF(minor_announce)
+		if(ishuman(new_player_living))
+			if(player_assigned_role.job_flags & JOB_ASSIGN_QUIRKS)
+				if(CONFIG_GET(flag/roundstart_traits))
+					if(new_player_mob.client?.prefs?.should_be_random_hardcore(player_assigned_role, new_player_living.mind))
+						new_player_mob.client.prefs.hardcore_random_setup(new_player_living)
+					SSquirks.AssignQuirks(new_player_living, new_player_mob.client)
+			else // clear any personalities the prefs added since our job clearly does not want them
+				new_player_living.clear_personalities()
+
 		if(ishuman(new_player_living))
 			SEND_SIGNAL(new_player_living, COMSIG_HUMAN_CHARACTER_SETUP_FINISHED)
 		CHECK_TICK
@@ -528,8 +667,8 @@ SUBSYSTEM_DEF(ticker)
 			qdel(player)
 			ADD_TRAIT(living, TRAIT_NO_TRANSFORM, SS_TICKER_TRAIT)
 			if(living.client)
-				var/atom/movable/screen/splash/fade_out = new(null, living.client, TRUE)
-				fade_out.Fade(TRUE)
+				var/atom/movable/screen/splash/fade_out = new(null, null, living.client, TRUE)
+				fade_out.fade(TRUE)
 				living.client.init_verbs()
 			livings += living
 	if(livings.len)
@@ -624,6 +763,7 @@ SUBSYSTEM_DEF(ticker)
 	var/news_message
 	var/news_source = "Nanotrasen News Network"
 	var/decoded_station_name = html_decode(station_name()) //decode station_name to avoid minor_announce double encode
+	var/decoded_emergency_reason = html_decode(emergency_reason)
 
 	switch(news_report)
 		// The nuke was detonated on the syndicate recon outpost
@@ -639,7 +779,7 @@ SUBSYSTEM_DEF(ticker)
 			// Had an emergency reason supplied to pass along
 			if(emergency_reason)
 				news_message = "[decoded_station_name] has been evacuated after transmitting \
-					the following distress beacon:\n\n[html_decode(emergency_reason)]"
+					the following distress beacon:\n\n[decoded_emergency_reason]"
 			else
 				news_message = "The crew of [decoded_station_name] has been \
 					evacuated amid unconfirmed reports of enemy activity."
@@ -708,7 +848,8 @@ SUBSYSTEM_DEF(ticker)
 		// The emergency escape shuttle was hijacked
 		if(SHUTTLE_HIJACK)
 			news_message = "During routine evacuation procedures, the emergency shuttle of [decoded_station_name] \
-				had its navigation protocols corrupted and went off course, but was recovered shortly after."
+				had its navigation protocols corrupted and went off course, but was recovered shortly after. \
+				The following distress beacon was sent prior to evacuation:\n\n[Gibberish(decoded_emergency_reason, FALSE, 8)]"
 		// A supermatter cascade triggered
 		if(SUPERMATTER_CASCADE)
 			news_message = "Officials are advising nearby colonies about a newly declared exclusion zone in \
@@ -763,6 +904,8 @@ SUBSYSTEM_DEF(ticker)
 
 	var/start_wait = world.time
 	UNTIL(round_end_sound_sent || (world.time - start_wait) > (delay * 2)) //don't wait forever
+	if(!isnull(reboot_timer)) //Override existing reboot timers.
+		deltimer(reboot_timer)
 	reboot_timer = addtimer(CALLBACK(src, PROC_REF(reboot_callback), reason, end_string), delay - (world.time - start_wait), TIMER_STOPPABLE)
 
 

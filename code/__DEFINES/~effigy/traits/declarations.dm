@@ -1,4 +1,29 @@
 /// The trait that determines if someone has the oversized quirk.
-#define TRAIT_OVERSIZED "trait_oversized"
+#define TRAIT_OVERSIZED "oversized_mob"
 /// Snout hurts when booped
 #define TRAIT_SENSITIVESNOUT "sensitive_snout"
+/// I LOVE THE FEELING OF GLASS SHARDS UNDER MY FEET
+#define TRAIT_HARD_SOLES "hard_soles"
+/// Enable Catbrain
+#define TRAIT_FELINID "felinid_traits"
+/// :clueless:
+#define TRAIT_SELF_UNAWARE "self_unaware"
+/// wag fluffy tail
+#define TRAIT_EXCITABLE "excitable"
+
+// Defines for some extra inherent traits
+#define TRAIT_REVIVES_BY_HEALING "trait_revives_by_healing"
+#define TRAIT_ROBOTIC_DNA_ORGANS "trait_robotic_dna_organs"
+
+// Isolation trait for synths
+#define TRAIT_SYNTH "trait_synth"
+
+/// The trait that determines if someone has the system shock quirk.
+#define TRAIT_SYSTEM_SHOCK "trait_system_shock"
+
+/// The trait that determines if someone has the robotic limb reattachment quirk.
+#define TRAIT_ROBOTIC_LIMBATTACHMENT "trait_robotic_limbattachment"
+
+// We use a trait to avoid erronous setting of a variable to false if two people are repairing and one stops.
+/// When someone is fixing electrical damage, this trait is set and prevents the wound from worsening.
+#define TRAIT_ELECTRICAL_DAMAGE_REPAIRING "electrical_damage_repairing"

@@ -12,7 +12,7 @@ import {
   MedicalButton,
 } from './AlertButtonEffigy'; // EffigyEdit Change - TGUI
 import { MessageModal } from './MessageModal';
-import { CommsConsoleData, ShuttleState } from './types';
+import { type CommsConsoleData, ShuttleState } from './types';
 
 export function PageMain(props) {
   const { act, data } = useBackend<CommsConsoleData>();

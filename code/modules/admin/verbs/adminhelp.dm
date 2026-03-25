@@ -291,17 +291,23 @@ GLOBAL_DATUM_INIT(ahelp_tickets, /datum/admin_help_tickets, new)
 /datum/admin_help/proc/send_message_to_tgs(message, urgent = FALSE)
 	var/message_to_send = message
 
+	// EffigyEdit Remove - adminhelps to Discord
+	/*
 	if(urgent)
 		var/extra_message = CONFIG_GET(string/urgent_ahelp_message)
 		to_chat(initiator, span_boldwarning("Notified admins to prioritize your ticket"))
 		var/datum/discord_embed/embed = format_embed_discord(message)
 		embed.content = extra_message
-		embed.footer = "This player requested an admin"
+		embed.footer = "The player marked this ahelp as Urgent" // EffigyEdit Change - Original: "This player requested an admin"
 		send2adminchat_webhook(embed, urgent = TRUE)
 		webhook_sent = WEBHOOK_URGENT
+	*/
+	// EffigyEdit Remove End
 	//send it to TGS if nobody is on and tell us how many were on
 	var/admin_number_present = send2tgs_adminless_only(initiator_ckey, "Ticket #[id]: [message_to_send]")
 	log_admin_private("Ticket #[id]: [key_name(initiator)]: [name] - heard by [admin_number_present] non-AFK admins who have +BAN.")
+	// EffigyEdit Change - adminhelps to Discord
+	/*
 	if(admin_number_present <= 0)
 		to_chat(initiator, span_notice("No active admins are online, your adminhelp was sent to admins who are available through IRC or Discord."), confidential = TRUE)
 		heard_by_no_admins = TRUE
@@ -313,6 +319,18 @@ GLOBAL_DATUM_INIT(ahelp_tickets, /datum/admin_help_tickets, new)
 			embed.footer = "This player sent an ahelp when no admins are available [urgent? "and also requested an admin": ""]"
 			send2adminchat_webhook(embed, urgent = FALSE)
 			webhook_sent = WEBHOOK_NON_URGENT
+	*/
+	heard_by_no_admins = TRUE
+	var/regular_webhook_url = CONFIG_GET(string/regular_adminhelp_webhook_url)
+	if(regular_webhook_url)
+		to_chat(initiator, alert_boxed_message(PURPLE, "Your adminhelp is automatically sent to admins who are available through Discord."), confidential = TRUE)
+		var/extra_message = CONFIG_GET(string/ahelp_message)
+		var/datum/discord_embed/embed = format_embed_discord(message)
+		embed.content = extra_message
+		embed.footer = "heard by [admin_number_present] non-AFK admins who have +BAN"
+		send2adminchat_webhook(embed, urgent = FALSE)
+		webhook_sent = WEBHOOK_NON_URGENT
+	// EffigyEdit Change End - adminhelps to Discord
 
 /proc/send2adminchat_webhook(message_or_embed, urgent)
 	var/webhook = CONFIG_GET(string/urgent_adminhelp_webhook_url)
@@ -339,9 +357,9 @@ GLOBAL_DATUM_INIT(ahelp_tickets, /datum/admin_help_tickets, new)
 	// send2chat(new /datum/tgs_message_conent("[initiator_ckey] | [message_content]"), "ahelp", TRUE)
 	var/list/headers = list()
 	headers["Content-Type"] = "application/json"
-	var/datum/http_request/request = new()
+	var/datum/http_request/request = new
 	request.prepare(RUSTG_HTTP_METHOD_POST, webhook, json_encode(webhook_info), headers, "tmp/response.json")
-	request.begin_async()
+	request.fire_and_forget()
 
 /datum/admin_help/Destroy()
 	RemoveActive()
@@ -665,7 +683,7 @@ GLOBAL_DATUM_INIT(ahelp_tickets, /datum/admin_help_tickets, new)
 			dat += "CLOSED</b>"
 		else
 			dat += "UNKNOWN</b>"
-	dat += "\n[FOURSPACES]<A href='byond://?_src_=holder;[HrefToken(forceGlobal = TRUE)];player_ticket_panel=1'>Refresh</A>"
+	dat += "\n[FOURSPACES]<A href='byond://?_src_=usr;player_ticket_panel=1'>Refresh</A>"
 	dat += "<br><br>Opened at: [gameTimestamp("hh:mm:ss", opened_at)] (Approx [DisplayTimeText(world.time - opened_at)] ago)"
 	if(closed_at)
 		dat += "<br>Closed at: [gameTimestamp("hh:mm:ss", closed_at)] (Approx [DisplayTimeText(world.time - closed_at)] ago)"
@@ -1022,9 +1040,7 @@ GLOBAL_DATUM_INIT(admin_help_ui_handler, /datum/admin_help_ui_handler, new)
 							mobs_found += found
 							if(!ai_found && isAI(found))
 								ai_found = 1
-							var/is_antag = 0
-							if(is_special_character(found))
-								is_antag = 1
+							var/is_antag = found.is_antag()
 							founds += "Name: [found.name]([found.real_name]) Key: [found.key] Ckey: [found.ckey] [is_antag ? "(Antag)" : null] "
 							msg += "[original_word]<font size='1' color='[is_antag ? "red" : "black"]'>(<A href='byond://?_src_=holder;[HrefToken(forceGlobal = TRUE)];adminmoreinfo=[REF(found)]'>?</A>|<A href='byond://?_src_=holder;[HrefToken(forceGlobal = TRUE)];adminplayerobservefollow=[REF(found)]'>F</A>)</font> "
 							continue

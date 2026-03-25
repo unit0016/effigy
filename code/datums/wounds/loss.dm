@@ -5,7 +5,7 @@
 	required_limb_biostate = NONE
 	require_any_biostate = TRUE
 
-	required_wounding_types = list(WOUND_ALL)
+	required_wounding_type = WOUND_ALL
 
 	wound_series = WOUND_SERIES_LOSS_BASIC
 
@@ -49,7 +49,7 @@
 	set_limb(dismembered_part)
 	second_wind()
 	log_wound(victim, src)
-	if(dismembered_part.can_bleed() && wounding_type != WOUND_BURN && victim.blood_volume)
+	if(dismembered_part.can_bleed() && wounding_type != WOUND_BURN && victim.get_blood_volume())
 		victim.spray_blood(attack_direction, severity)
 	dismembered_part.dismember(wounding_type == WOUND_BURN ? BURN : BRUTE, wounding_type = wounding_type)
 	qdel(src)
@@ -58,6 +58,8 @@
 /obj/item/bodypart/proc/get_dismember_message(wounding_type, outright)
 	var/occur_text
 
+	// EffigyEdit Change - Robotic Wounds
+	/*
 	if(outright)
 		switch(wounding_type)
 			if(WOUND_BLUNT)
@@ -69,17 +71,19 @@
 			if(WOUND_BURN)
 				occur_text = "is outright incinerated, falling to dust!"
 	else
-		var/bone_text = get_internal_description()
-		var/tissue_text = get_external_description()
+	*/
+	var/bone_text = get_internal_description()
+	var/tissue_text = get_external_description()
 
-		switch(wounding_type)
-			if(WOUND_BLUNT)
-				occur_text = "is shattered through the last [bone_text] holding it together, severing it completely!"
-			if(WOUND_SLASH)
-				occur_text = "is slashed through the last [tissue_text] holding it together, severing it completely!"
-			if(WOUND_PIERCE)
-				occur_text = "is pierced through the last [tissue_text] holding it together, severing it completely!"
-			if(WOUND_BURN)
-				occur_text = "is completely incinerated, falling to dust!"
+	switch(wounding_type)
+		if(WOUND_BLUNT)
+			occur_text = "is shattered through the last [bone_text] holding it together, severing it completely!"
+		if(WOUND_SLASH)
+			occur_text = "is slashed through the last [tissue_text] holding it together, severing it completely!"
+		if(WOUND_PIERCE)
+			occur_text = "is pierced through the last [tissue_text] holding it together, severing it completely!"
+		if(WOUND_BURN)
+			occur_text = "is completely incinerated, falling to dust!"
+	// EffigyEdit Change End - Robotic Wounds
 
 	return occur_text

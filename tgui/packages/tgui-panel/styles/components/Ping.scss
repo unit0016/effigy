@@ -10,7 +10,7 @@
   padding: var(--space-xs) var(--space-sm);
   border: var(--border-thickness-tiny) solid
     hsl(from var(--color-border-primary) h 10 50 / 0.33);
-  // EffigyEdit Change - TGUI - var(--border-radius-medium);
+  // EffigyEdit Change - TGUI - Original: var(--border-radius-medium);
   border-radius: var(--border-radius-none);
   min-width: 5em; // EffigyEdit Change - TGUI - Original: 4em;
   max-width: 6em; // EffigyEdit Change - TGUI - Original: 5em;
@@ -20,10 +20,10 @@
 .Ping__indicator {
   content: '';
   position: absolute;
-  top: 0;
-  left: 0;
+  top: 0; // EffigyEdit Change - TGUI - Original: var(--space-m);
+  left: 0; // EffigyEdit Change - TGUI - Original: var(--space-m);
   width: 0.5em;
-  height: 100%;
+  height: 100%; // EffigyEdit Change - TGUI - Original: 0.5em;
   background-color: hsl(
     225,
     10%,

@@ -105,10 +105,10 @@ SUBSYSTEM_DEF(gamemode)
 
 	/// Auto call the escape shuttle at the fixed time
 	var/auto_shuttle_call = TRUE
-	/// UTC time of round start
+	/// BYOND world realtime of round start
 	var/auto_shuttle_start_time = 0
 	/// Time for auto calling the escape shuttle
-	var/auto_shuttle_fire_time = 135 MINUTES
+	var/auto_shuttle_fire_time = 90 MINUTES
 	/// Have we sent the auto shuttle
 	var/auto_shuttle_dispatched = FALSE
 
@@ -132,6 +132,9 @@ SUBSYSTEM_DEF(gamemode)
 	var/eng_crew = 0
 	var/sec_crew = 0
 	var/med_crew = 0
+
+	// Security Based Antag Cap
+	var/sec_antag_cap = 0
 
 	/// Whether we looked up pop info in this process tick
 	var/pop_data_cached = FALSE
@@ -182,9 +185,10 @@ SUBSYSTEM_DEF(gamemode)
 			event_pools[event.track] += event //Add it to the categorized event pools
 
 	// Auto-shuttle
-	auto_shuttle_fire_time = (CONFIG_GET(number/auto_shuttle_time) MINUTES)
 	if(CONFIG_GET(flag/disable_auto_shuttle))
 		auto_shuttle_call = FALSE
+	else
+		auto_shuttle_fire_time = (CONFIG_GET(number/auto_shuttle_time) MINUTES)
 
 	return SS_INIT_SUCCESS
 
@@ -209,7 +213,7 @@ SUBSYSTEM_DEF(gamemode)
 		else if(!sch_event.alerted_admins && world.time >= sch_event.start_time - 1 MINUTES)
 			///Alert admins 1 minute before running and allow them to cancel or refund the event, once again.
 			sch_event.alerted_admins = TRUE
-			message_admins("Scheduled Event: [sch_event.event] will run in [(sch_event.start_time - world.time) / 10] seconds. (<a href='?src=[REF(sch_event)];action=cancel'>CANCEL</a>) (<a href='?src=[REF(sch_event)];action=refund'>REFUND</a>)")
+			message_admins("Scheduled Event: [sch_event.event] will run in [(sch_event.start_time - world.time) / 10] seconds. (<a href='byond://?src=[REF(sch_event)];action=cancel'>CANCEL</a>) (<a href='byond://?src=[REF(sch_event)];action=refund'>REFUND</a>)")
 
 	if(!storyteller_halted)
 		// We update crew information here to adjust population scalling and event thresholds for the storyteller.
@@ -242,7 +246,7 @@ SUBSYSTEM_DEF(gamemode)
 		return 0
 	if(!storyteller.antag_divisor)
 		return 0
-	return round(max(min(get_correct_popcount() / storyteller.antag_divisor + sec_crew ,sec_crew * 1.5),ANTAG_CAP_FLAT))
+	return round(max(min(get_correct_popcount() / storyteller.antag_divisor + sec_antag_cap, sec_antag_cap * 1.5), ANTAG_CAP_FLAT))
 
 /// Whether events can inject more antagonists into the round
 /datum/controller/subsystem/gamemode/proc/can_inject_antags()
@@ -255,8 +259,6 @@ SUBSYSTEM_DEF(gamemode)
 	special_role_flag,
 	pick_observers,
 	pick_roundstart_players,
-	required_time,
-	inherit_required_time = TRUE,
 	no_antags = TRUE,
 	list/restricted_roles,
 	)
@@ -266,7 +268,7 @@ SUBSYSTEM_DEF(gamemode)
 	var/list/candidate_candidates = list() //lol
 	if(pick_roundstart_players)
 		for(var/mob/dead/new_player/player in GLOB.new_player_list)
-			if(player.ready == PLAYER_READY_TO_PLAY && player.mind && player.check_preferences())
+			if(player.ready == PLAYER_READY_TO_PLAY && player.mind && player.check_job_preferences())
 				candidate_candidates += player
 	else if(pick_observers)
 		for(var/mob/player as anything in GLOB.dead_mob_list)
@@ -283,7 +285,7 @@ SUBSYSTEM_DEF(gamemode)
 	for(var/mob/candidate as anything in candidate_candidates)
 		if(QDELETED(candidate) || !candidate.key || !candidate.client || !candidate.mind)
 			continue
-		if(no_antags && candidate.mind.special_role)
+		if(no_antags && LAZYLEN(candidate.mind.special_roles))
 			continue
 		if(restricted_roles && (candidate.mind.assigned_role.title in restricted_roles))
 			continue
@@ -291,13 +293,7 @@ SUBSYSTEM_DEF(gamemode)
 			if(!(candidate.client.prefs) || !(special_role_flag in candidate.client.prefs.be_special))
 				continue
 
-			var/time_to_check
-			if(required_time)
-				time_to_check = required_time
-			else if (inherit_required_time)
-				time_to_check = GLOB.special_roles[special_role_flag]
-
-			if(time_to_check && candidate.client.get_remaining_days(time_to_check) > 0)
+			if(candidate.client.get_days_to_play_antag(special_role_flag) > 0)
 				continue
 
 		if(special_role_flag && is_banned_from(candidate.ckey, list(special_role_flag, ROLE_SYNDICATE)))
@@ -306,10 +302,8 @@ SUBSYSTEM_DEF(gamemode)
 		if(is_banned_from(candidate.client.ckey, BAN_ANTAGONIST))
 			continue
 		*/
-		/* EffigyEdit TODO - Antag Pref
-		if(!candidate.client?.prefs?.read_preference(/datum/preference/toggle/be_antag))
+		if(!candidate.client?.prefs?.read_preference(/datum/preference/toggle/be_antagonist))
 			continue
-		*/
 		candidates += candidate
 	return candidates
 
@@ -400,16 +394,16 @@ SUBSYSTEM_DEF(gamemode)
 			continue
 		ASYNC
 			event.try_start()
-//		INVOKE_ASYNC(event, /datum/round_event.proc/try_start)
+//		INVOKE_ASYNC(event, TYPE_PROC_REF(/datum/round_event, try_start))
 
 /// Schedules an event to run later.
 /datum/controller/subsystem/gamemode/proc/schedule_event(datum/round_event_control/passed_event, passed_time, passed_cost, passed_ignore, passed_announce)
 	var/datum/scheduled_event/scheduled = new (passed_event, world.time + passed_time, passed_cost, passed_ignore, passed_announce)
 	var/round_started = SSticker.HasRoundStarted()
 	if(round_started)
-		message_admins("Event: [passed_event] has been scheduled to run in [passed_time / 10] seconds. (<a href='?src=[REF(scheduled)];action=cancel'>CANCEL</a>) (<a href='?src=[REF(scheduled)];action=refund'>REFUND</a>)")
+		message_admins("Event: [passed_event] has been scheduled to run in [passed_time / 10] seconds. (<a href='byond://?src=[REF(scheduled)];action=cancel'>CANCEL</a>) (<a href='byond://?src=[REF(scheduled)];action=refund'>REFUND</a>)")
 	else //Only roundstart events can be scheduled before round start
-		message_admins("Event: [passed_event] has been scheduled to run on roundstart. (<a href='?src=[REF(scheduled)];action=cancel'>CANCEL</a>)")
+		message_admins("Event: [passed_event] has been scheduled to run on roundstart. (<a href='byond://?src=[REF(scheduled)];action=cancel'>CANCEL</a>)")
 	scheduled_events += scheduled
 
 /datum/controller/subsystem/gamemode/proc/update_crew_infos()
@@ -419,6 +413,7 @@ SUBSYSTEM_DEF(gamemode)
 	eng_crew = 0
 	med_crew = 0
 	sec_crew = 0
+	sec_antag_cap = 0
 	for(var/mob/player_mob as anything in GLOB.player_list)
 		if(!player_mob.client)
 			continue
@@ -439,6 +434,7 @@ SUBSYSTEM_DEF(gamemode)
 				med_crew++
 			if(player_role.departments_bitflags & DEPARTMENT_BITFLAG_SECURITY)
 				sec_crew++
+				sec_antag_cap += player_role.sec_antag_cap
 	pop_data_cached = TRUE
 
 /datum/controller/subsystem/gamemode/proc/TriggerEvent(datum/round_event_control/event)
@@ -532,7 +528,6 @@ SUBSYSTEM_DEF(gamemode)
 /datum/controller/subsystem/gamemode/proc/post_setup(report) //Gamemodes can override the intercept report. Passing TRUE as the argument will force a report.
 	if(!report)
 		report = !CONFIG_GET(flag/no_intercept_report)
-	addtimer(CALLBACK(GLOBAL_PROC, .proc/display_roundstart_logout_report), ROUNDSTART_LOGOUT_REPORT_TIME)
 
 	if(SSdbcore.Connect())
 		var/list/to_set = list()
@@ -571,63 +566,6 @@ SUBSYSTEM_DEF(gamemode)
 		return TRUE
 	if(force_ending)
 		return TRUE
-
-//////////////////////////
-//Reports player logouts//
-//////////////////////////
-/proc/display_roundstart_logout_report()
-	var/list/msg = list("[span_boldnotice("Roundstart logout report")]\n\n")
-	for(var/i in GLOB.mob_living_list)
-		var/mob/living/L = i
-		var/mob/living/carbon/C = L
-		// var/mob/living/carbon/human/H = C // EffigyEdit TODO - DNR
-		if (istype(C) && !C.last_mind)
-			continue  // never had a client
-
-		if(L.ckey && !GLOB.directory[L.ckey])
-			msg += "<b>[L.name]</b> ([L.key]), the [L.job] (<font color='#ffcc00'><b>Disconnected</b></font>)\n"
-
-
-		if(L.ckey && L.client)
-			var/failed = FALSE
-			if(L.client.inactivity >= (ROUNDSTART_LOGOUT_REPORT_TIME / 2)) //Connected, but inactive (alt+tabbed or something)
-				msg += "<b>[L.name]</b> ([L.key]), the [L.job] (<font color='#ffcc00'><b>Connected, Inactive</b></font>)\n"
-				failed = TRUE //AFK client
-			if(!failed && L.stat)
-				/* EffigyEdit TODO - DNR
-				if(H.get_dnr()) //Suicider
-					msg += "<b>[L.name]</b> ([L.key]), the [L.job] ([span_boldannounce("Suicide")])\n"
-					failed = TRUE //Disconnected client
-				*/
-				if(!failed && (L.stat == UNCONSCIOUS || L.stat == HARD_CRIT))
-					msg += "<b>[L.name]</b> ([L.key]), the [L.job] (Dying)\n"
-					failed = TRUE //Unconscious
-				if(!failed && L.stat == DEAD)
-					msg += "<b>[L.name]</b> ([L.key]), the [L.job] (Dead)\n"
-					failed = TRUE //Dead
-
-			continue //Happy connected client
-		for(var/mob/dead/observer/D in GLOB.dead_mob_list)
-			if(D.mind && D.mind.current == L)
-				if(L.stat == DEAD)
-					/* EffigyEdit TODO - DNR
-					if(H.get_dnr()) //Suicider
-						msg += "<b>[L.name]</b> ([ckey(D.mind.key)]), the [L.job] ([span_boldannounce("Suicide")])\n"
-						continue //Disconnected client
-					*/
-
-					msg += "<b>[L.name]</b> ([ckey(D.mind.key)]), the [L.job] (Dead)\n"
-					continue //Dead mob, ghost abandoned
-				else
-					if(D.can_reenter_corpse)
-						continue //Adminghost, or cult/wizard ghost
-					else
-						msg += "<b>[L.name]</b> ([ckey(D.mind.key)]), the [L.job] ([span_boldannounce("Ghosted")])\n"
-						continue //Ghosted while alive
-
-
-	for (var/C in GLOB.admins)
-		to_chat(C, msg.Join())
 
 //Set result and news report here
 /datum/controller/subsystem/gamemode/proc/set_round_result()

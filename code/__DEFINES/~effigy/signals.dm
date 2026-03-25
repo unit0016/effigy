@@ -8,12 +8,12 @@
 #define COMSIG_TURF_MOB_FALL "turf_mob_fall"
 
 // Keybinds
-#define COMSIG_KB_MOB_PIXEL_SHIFT_DOWN "keybinding_mob_pixel_shift_down"
-#define COMSIG_KB_MOB_PIXEL_SHIFT_UP "keybinding_mob_pixel_shift_up"
-#define COMSIG_KB_MOB_ITEM_PIXEL_SHIFT_DOWN "keybinding_mob_item_pixelshift_down"
-#define COMSIG_KB_MOB_ITEM_PIXEL_SHIFT_UP "keybinding_mob_item_pixelshift_up"
-#define COMSIG_KB_MOB_PIXEL_TILT_DOWN "keybinding_mob_pixeltilt_down"
-#define COMSIG_KB_MOB_PIXEL_TILT_UP "keybinding_mob_pixeltilt_up"
+#define COMSIG_KB_LIVING_PIXEL_SHIFT_DOWN "keybinding_living_pixel_shift_down"
+#define COMSIG_KB_LIVING_PIXEL_SHIFT_UP "keybinding_living_pixel_shift_up"
+#define COMSIG_KB_LIVING_ITEM_PIXEL_SHIFT_DOWN "keybinding_living_item_pixelshift_down"
+#define COMSIG_KB_LIVING_ITEM_PIXEL_SHIFT_UP "keybinding_living_item_pixelshift_up"
+#define COMSIG_KB_LIVING_PIXEL_TILT_DOWN "keybinding_living_pixeltilt_down"
+#define COMSIG_KB_LIVING_PIXEL_TILT_UP "keybinding_living_pixeltilt_up"
 #define COMSIG_KB_CLIENT_LOOC_DOWN "keybinding_client_looc_down"
 #define COMSIG_KB_CLIENT_EMOTE_STANDARD_DOWN "keybinding_client_emote_standard_down"
 #define COMSIG_KB_CLIENT_EMOTE_WHISPER_DOWN "keybinding_client_emote_whisper_down"
@@ -26,6 +26,7 @@
 #define COMSIG_LIVING_RESET_PULL_OFFSETS "living_reset_pull_offsets"
 //from base of living/CanAllowThrough(): (atom/movable/mover, border_dir)
 #define COMSIG_LIVING_CAN_ALLOW_THROUGH "living_can_allow_through"
+	#define COMPONENT_LIVING_PASSABLE (1<<0)
 
 //when a character name is changed
 #define COMSIG_PREFERENCES_NAME_APPLIED "preferences_name_applied"

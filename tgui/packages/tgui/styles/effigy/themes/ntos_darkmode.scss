@@ -1,0 +1,13 @@
+.theme-ntos_darkmode:root {
+  --button-background-default: hsl(
+    from var(--color-nanotrasen) h s calc(l - 12)
+  );
+  --button-color-transparent: var(--color-light-grey);
+  --tab-background: hsl(from var(--color-nanotrasen) h s calc(l - 12));
+
+  color: var(--color-text-fixed-black);
+
+  .Tab--selected.Tab--color--green {
+    color: var(--color-blue);
+  }
+}

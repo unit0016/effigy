@@ -1,0 +1,12 @@
+.theme-ntos:root {
+  --nanotrasen-color: hsl(224, 35%, 12%);
+
+  // Base
+  --color-base: var(--nanotrasen-color);
+  --secondary-lightness-adjustment: 3;
+
+  // Components
+  --button-color: var(--color-text-fixed-white);
+  --button-background-default: hsl(224, 35%, 18%);
+  --button-color-transparent: var(--color-light-grey);
+}

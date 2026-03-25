@@ -2,43 +2,14 @@
 	///	This variable is read by the regenerate_organs() proc to know what organ subtype to give
 	var/ear_type = NO_VARIATION
 
-/datum/controller/subsystem/accessories
-	var/list/ears_list_lizard
-	var/list/ears_list_dog
-	var/list/ears_list_fox
-	var/list/ears_list_flying
-	var/list/ears_list_monkey
-	var/list/ears_list_mammal
-	var/list/ears_list_fish
-	var/list/ears_list_humanoid
-	var/list/ears_list_synthetic
-
-/datum/controller/subsystem/accessories/setup_lists()
+/datum/species/regenerate_organs(mob/living/carbon/target, datum/species/old_species, replace_current = TRUE, list/excluded_zones, visual_only = FALSE, replace_missing = TRUE)
 	. = ..()
-	ears_list_lizard = init_sprite_accessory_subtypes(/datum/sprite_accessory/ears_anthro/lizard)["default_sprites"]
-	ears_list_dog = init_sprite_accessory_subtypes(/datum/sprite_accessory/ears_anthro/dog)["default_sprites"]
-	ears_list_fox = init_sprite_accessory_subtypes(/datum/sprite_accessory/ears_anthro/fox)["default_sprites"]
-	ears_list_flying = init_sprite_accessory_subtypes(/datum/sprite_accessory/ears_anthro/flying)["default_sprites"]
-	ears_list_monkey = init_sprite_accessory_subtypes(/datum/sprite_accessory/ears_anthro/monkey)["default_sprites"]
-	ears_list_mammal = init_sprite_accessory_subtypes(/datum/sprite_accessory/ears_anthro/mammal)["default_sprites"]
-	ears_list_fish = init_sprite_accessory_subtypes(/datum/sprite_accessory/ears_anthro/fish)["default_sprites"]
-	ears_list_humanoid = init_sprite_accessory_subtypes(/datum/sprite_accessory/ears_anthro/humanoid)["default_sprites"]
-	ears_list_synthetic = init_sprite_accessory_subtypes(/datum/sprite_accessory/ears_anthro/cybernetic)["default_sprites"]
-
-/datum/species/regenerate_organs(mob/living/carbon/target, datum/species/old_species, replace_current = TRUE, list/excluded_zones, visual_only = FALSE)
-	. = ..()
-	if(target.dna.features["ears"] && (type in GLOB.bodypart_allowed_species[EARS]))
-		if(target.dna.ear_type == NO_VARIATION)
-			return .
-		else if(target.dna.features["ears"] != /datum/sprite_accessory/ears/none::name && target.dna.features["ears"] != /datum/sprite_accessory/blank::name)
-			var/obj/item/organ/organ_path
-			if(target.dna.ear_type == AQUATIC_TYPE)
-				organ_path = text2path("/obj/item/organ/ears/fish")
-			else
-				organ_path = text2path("/obj/item/organ/ears/[target.dna.ear_type]")
-			var/obj/item/organ/replacement = SSwardrobe.provide_type(organ_path)
+	if(target.dna.ear_type != NO_VARIATION && is_type_in_typecache(src, GLOB.bodypart_allowed_species[FEATURE_EARS]))
+		var/obj/item/organ/ears/ear_type = GLOB.ear_variations[target.dna.ear_type]
+		var/feature_key = ear_type::bodypart_overlay::feature_key
+		if(target.dna.features[feature_key] != /datum/sprite_accessory/blank::name)
+			var/obj/item/organ/replacement = SSwardrobe.provide_type(ear_type)
 			replacement.Insert(target, special = TRUE, movement_flags = DELETE_IF_REPLACED)
-			return .
 
 /// Ear type
 /datum/preference/choiced/ear_variation
@@ -49,8 +20,6 @@
 
 /datum/preference/choiced/ear_variation/apply_to_human(mob/living/carbon/human/target, chosen_variation)
 	target.dna.ear_type = chosen_variation
-	if(chosen_variation == NO_VARIATION)
-		target.dna.features["ears"] = /datum/sprite_accessory/ears/none::name
 
 /datum/preference/choiced/ear_variation/create_default_value()
 	return NO_VARIATION
@@ -61,33 +30,31 @@
 /datum/preference/choiced/ear_variation/is_accessible(datum/preferences/preferences)
 	. = ..()
 	var/datum/species/species = preferences.read_preference(/datum/preference/choiced/species)
-	if(!(species.type in GLOB.bodypart_allowed_species[EARS]))
+	if(!is_type_in_typecache(species, GLOB.bodypart_allowed_species[FEATURE_EARS]))
 		return FALSE
 
 	return TRUE
 
 ///	Cat ears type
-/datum/preference/choiced/felinid_ears
+/datum/preference/choiced/species_feature/felinid_ears
 	category = PREFERENCE_CATEGORY_CLOTHING
-	relevant_external_organ = null
+	relevant_organ = null
 	should_generate_icons = TRUE
 	main_feature_name = "Ears"
+	feature_key = FEATURE_EARS_CAT
+	priority = PREFERENCE_PRIORITY_PRE_SPECIES
 
-/datum/preference/choiced/felinid_ears/apply_to_human(mob/living/carbon/human/target, value)
-	if(target.dna.ear_type == CAT_TYPE)
-		target.dna.features["ears"] = value
+/datum/preference/choiced/species_feature/felinid_ears/create_default_value()
+	return /datum/sprite_accessory/blank::name
 
-/datum/preference/choiced/felinid_ears/create_default_value()
-	return /datum/sprite_accessory/ears/none::name
-
-/datum/preference/choiced/felinid_ears/icon_for(value)
-	var/datum/sprite_accessory/chosen_ears = SSaccessories.ears_list[value]
+/datum/preference/choiced/species_feature/felinid_ears/icon_for(value)
+	var/datum/sprite_accessory/chosen_ears = get_accessory_for_value(value)
 	return generate_ears_icon(chosen_ears)
 
-/datum/preference/choiced/felinid_ears/is_accessible(datum/preferences/preferences)
+/datum/preference/choiced/species_feature/felinid_ears/is_accessible(datum/preferences/preferences)
 	. = ..()
 	var/datum/species/species = preferences.read_preference(/datum/preference/choiced/species)
-	if(!(species.type in GLOB.bodypart_allowed_species[EARS]))
+	if(!is_type_in_typecache(species, GLOB.bodypart_allowed_species[FEATURE_EARS]))
 		return FALSE
 
 	var/chosen_variation = preferences.read_preference(/datum/preference/choiced/ear_variation)
@@ -97,32 +64,26 @@
 	return FALSE
 
 ///	Lizard ears type
-/datum/preference/choiced/lizard_ears
+/datum/preference/choiced/species_feature/lizard_ears
 	savefile_key = "feature_lizard_ears"
 	savefile_identifier = PREFERENCE_CHARACTER
 	category = PREFERENCE_CATEGORY_CLOTHING
-	relevant_external_organ = null
 	should_generate_icons = TRUE
 	main_feature_name = "Ears"
+	feature_key = FEATURE_EARS_LIZARD
+	priority = PREFERENCE_PRIORITY_PRE_SPECIES
 
-/datum/preference/choiced/lizard_ears/apply_to_human(mob/living/carbon/human/target, value)
-	if(target.dna.ear_type == LIZARD_TYPE)
-		target.dna.features["ears"] = value
+/datum/preference/choiced/species_feature/lizard_ears/create_default_value()
+	return /datum/sprite_accessory/blank::name
 
-/datum/preference/choiced/lizard_ears/create_default_value()
-	return /datum/sprite_accessory/ears_anthro/lizard/none::name
-
-/datum/preference/choiced/lizard_ears/icon_for(value)
-	var/datum/sprite_accessory/chosen_ears = SSaccessories.ears_list_lizard[value]
+/datum/preference/choiced/species_feature/lizard_ears/icon_for(value)
+	var/datum/sprite_accessory/chosen_ears = get_accessory_for_value(value)
 	return generate_ears_icon(chosen_ears)
 
-/datum/preference/choiced/lizard_ears/init_possible_values()
-	return assoc_to_keys_features(SSaccessories.ears_list_lizard)
-
-/datum/preference/choiced/lizard_ears/is_accessible(datum/preferences/preferences)
+/datum/preference/choiced/species_feature/lizard_ears/is_accessible(datum/preferences/preferences)
 	. = ..()
 	var/datum/species/species = preferences.read_preference(/datum/preference/choiced/species)
-	if(!(species.type in GLOB.bodypart_allowed_species[EARS]))
+	if(!is_type_in_typecache(species, GLOB.bodypart_allowed_species[FEATURE_EARS]))
 		return FALSE
 
 	var/chosen_variation = preferences.read_preference(/datum/preference/choiced/ear_variation)
@@ -132,32 +93,26 @@
 	return FALSE
 
 ///	Fox ears type
-/datum/preference/choiced/fox_ears
+/datum/preference/choiced/species_feature/fox_ears
 	savefile_key = "feature_fox_ears"
 	savefile_identifier = PREFERENCE_CHARACTER
 	category = PREFERENCE_CATEGORY_CLOTHING
-	relevant_external_organ = null
 	should_generate_icons = TRUE
 	main_feature_name = "Ears"
+	feature_key = FEATURE_EARS_FOX
+	priority = PREFERENCE_PRIORITY_PRE_SPECIES
 
-/datum/preference/choiced/fox_ears/apply_to_human(mob/living/carbon/human/target, value)
-	if(target.dna.ear_type == FOX_TYPE)
-		target.dna.features["ears"] = value
+/datum/preference/choiced/species_feature/fox_ears/create_default_value()
+	return /datum/sprite_accessory/blank::name
 
-/datum/preference/choiced/fox_ears/create_default_value()
-	return /datum/sprite_accessory/ears_anthro/fox/none::name
-
-/datum/preference/choiced/fox_ears/icon_for(value)
-	var/datum/sprite_accessory/chosen_ears = SSaccessories.ears_list_fox[value]
+/datum/preference/choiced/species_feature/fox_ears/icon_for(value)
+	var/datum/sprite_accessory/chosen_ears = get_accessory_for_value(value)
 	return generate_ears_icon(chosen_ears)
 
-/datum/preference/choiced/fox_ears/init_possible_values()
-	return assoc_to_keys_features(SSaccessories.ears_list_fox)
-
-/datum/preference/choiced/fox_ears/is_accessible(datum/preferences/preferences)
+/datum/preference/choiced/species_feature/fox_ears/is_accessible(datum/preferences/preferences)
 	. = ..()
 	var/datum/species/species = preferences.read_preference(/datum/preference/choiced/species)
-	if(!(species.type in GLOB.bodypart_allowed_species[EARS]))
+	if(!is_type_in_typecache(species, GLOB.bodypart_allowed_species[FEATURE_EARS]))
 		return FALSE
 
 	var/chosen_variation = preferences.read_preference(/datum/preference/choiced/ear_variation)
@@ -167,21 +122,19 @@
 	return FALSE
 
 ///	Dog ears type
-/datum/preference/choiced/dog_ears
+/datum/preference/choiced/species_feature/dog_ears
 	savefile_key = "feature_dog_ears"
 	savefile_identifier = PREFERENCE_CHARACTER
 	category = PREFERENCE_CATEGORY_CLOTHING
-	relevant_external_organ = null
 	should_generate_icons = TRUE
 	main_feature_name = "Ears"
+	feature_key = FEATURE_EARS_DOG
+	priority = PREFERENCE_PRIORITY_PRE_SPECIES
 
-/datum/preference/choiced/dog_ears/init_possible_values()
-	return assoc_to_keys_features(SSaccessories.ears_list_dog)
-
-/datum/preference/choiced/dog_ears/is_accessible(datum/preferences/preferences)
+/datum/preference/choiced/species_feature/dog_ears/is_accessible(datum/preferences/preferences)
 	. = ..()
 	var/datum/species/species = preferences.read_preference(/datum/preference/choiced/species)
-	if(!(species.type in GLOB.bodypart_allowed_species[EARS]))
+	if(!is_type_in_typecache(species, GLOB.bodypart_allowed_species[FEATURE_EARS]))
 		return FALSE
 
 	var/chosen_variation = preferences.read_preference(/datum/preference/choiced/ear_variation)
@@ -190,44 +143,34 @@
 
 	return FALSE
 
-/datum/preference/choiced/dog_ears/create_default_value()
-	return /datum/sprite_accessory/ears_anthro/dog/none::name
+/datum/preference/choiced/species_feature/dog_ears/create_default_value()
+	return /datum/sprite_accessory/blank::name
 
-/datum/preference/choiced/dog_ears/apply_to_human(mob/living/carbon/human/target, value)
-	if(target.dna.ear_type == DOG_TYPE)
-		target.dna.features["ears"] = value
-
-/datum/preference/choiced/dog_ears/icon_for(value)
-	var/datum/sprite_accessory/chosen_ears = SSaccessories.ears_list_dog[value]
+/datum/preference/choiced/species_feature/dog_ears/icon_for(value)
+	var/datum/sprite_accessory/chosen_ears = get_accessory_for_value(value)
 	return generate_ears_icon(chosen_ears)
 
 ///	Flying ears type
-/datum/preference/choiced/flying_ears
+/datum/preference/choiced/species_feature/flying_ears
 	savefile_key = "feature_flying_ears"
 	savefile_identifier = PREFERENCE_CHARACTER
 	category = PREFERENCE_CATEGORY_CLOTHING
-	relevant_external_organ = null
 	should_generate_icons = TRUE
 	main_feature_name = "Ears"
+	feature_key = FEATURE_EARS_FLYING
+	priority = PREFERENCE_PRIORITY_PRE_SPECIES
 
-/datum/preference/choiced/flying_ears/apply_to_human(mob/living/carbon/human/target, value)
-	if(target.dna.ear_type == FLYING_TYPE)
-		target.dna.features["ears"] = value
+/datum/preference/choiced/species_feature/flying_ears/create_default_value()
+	return /datum/sprite_accessory/blank::name
 
-/datum/preference/choiced/flying_ears/create_default_value()
-	return /datum/sprite_accessory/ears_anthro/flying/none::name
-
-/datum/preference/choiced/flying_ears/icon_for(value)
-	var/datum/sprite_accessory/chosen_ears = SSaccessories.ears_list_flying[value]
+/datum/preference/choiced/species_feature/flying_ears/icon_for(value)
+	var/datum/sprite_accessory/chosen_ears = get_accessory_for_value(value)
 	return generate_ears_icon(chosen_ears)
 
-/datum/preference/choiced/flying_ears/init_possible_values()
-	return assoc_to_keys_features(SSaccessories.ears_list_flying)
-
-/datum/preference/choiced/flying_ears/is_accessible(datum/preferences/preferences)
+/datum/preference/choiced/species_feature/flying_ears/is_accessible(datum/preferences/preferences)
 	. = ..()
 	var/datum/species/species = preferences.read_preference(/datum/preference/choiced/species)
-	if(!(species.type in GLOB.bodypart_allowed_species[EARS]))
+	if(!is_type_in_typecache(species, GLOB.bodypart_allowed_species[FEATURE_EARS]))
 		return FALSE
 
 	var/chosen_variation = preferences.read_preference(/datum/preference/choiced/ear_variation)
@@ -237,32 +180,26 @@
 	return FALSE
 
 ///	Monkey ears type
-/datum/preference/choiced/monkey_ears
+/datum/preference/choiced/species_feature/monkey_ears
 	savefile_key = "feature_monkey_ears"
 	savefile_identifier = PREFERENCE_CHARACTER
 	category = PREFERENCE_CATEGORY_CLOTHING
-	relevant_external_organ = null
 	should_generate_icons = TRUE
 	main_feature_name = "Ears"
+	feature_key = FEATURE_EARS_MONKEY
+	priority = PREFERENCE_PRIORITY_PRE_SPECIES
 
-/datum/preference/choiced/monkey_ears/apply_to_human(mob/living/carbon/human/target, value)
-	if(target.dna.ear_type == MONKEY_TYPE)
-		target.dna.features["ears"] = value
+/datum/preference/choiced/species_feature/monkey_ears/create_default_value()
+	return /datum/sprite_accessory/blank::name
 
-/datum/preference/choiced/monkey_ears/create_default_value()
-	return /datum/sprite_accessory/ears_anthro/monkey/none::name
-
-/datum/preference/choiced/monkey_ears/icon_for(value)
-	var/datum/sprite_accessory/chosen_ears = SSaccessories.ears_list_monkey[value]
+/datum/preference/choiced/species_feature/monkey_ears/icon_for(value)
+	var/datum/sprite_accessory/chosen_ears = get_accessory_for_value(value)
 	return generate_ears_icon(chosen_ears)
 
-/datum/preference/choiced/monkey_ears/init_possible_values()
-	return assoc_to_keys_features(SSaccessories.ears_list_monkey)
-
-/datum/preference/choiced/monkey_ears/is_accessible(datum/preferences/preferences)
+/datum/preference/choiced/species_feature/monkey_ears/is_accessible(datum/preferences/preferences)
 	. = ..()
 	var/datum/species/species = preferences.read_preference(/datum/preference/choiced/species)
-	if(!(species.type in GLOB.bodypart_allowed_species[EARS]))
+	if(!is_type_in_typecache(species, GLOB.bodypart_allowed_species[FEATURE_EARS]))
 		return FALSE
 
 	var/chosen_variation = preferences.read_preference(/datum/preference/choiced/ear_variation)
@@ -272,32 +209,26 @@
 	return FALSE
 
 ///	Mammal ears type
-/datum/preference/choiced/mammal_ears
+/datum/preference/choiced/species_feature/mammal_ears
 	savefile_key = "feature_mammal_ears"
 	savefile_identifier = PREFERENCE_CHARACTER
 	category = PREFERENCE_CATEGORY_CLOTHING
-	relevant_external_organ = null
 	should_generate_icons = TRUE
 	main_feature_name = "Ears"
+	feature_key = FEATURE_EARS_MAMMAL
+	priority = PREFERENCE_PRIORITY_PRE_SPECIES
 
-/datum/preference/choiced/mammal_ears/apply_to_human(mob/living/carbon/human/target, value)
-	if(target.dna.ear_type == MAMMAL_TYPE)
-		target.dna.features["ears"] = value
+/datum/preference/choiced/species_feature/mammal_ears/create_default_value()
+	return /datum/sprite_accessory/blank::name
 
-/datum/preference/choiced/mammal_ears/create_default_value()
-	return /datum/sprite_accessory/ears_anthro/mammal/none::name
-
-/datum/preference/choiced/mammal_ears/icon_for(value)
-	var/datum/sprite_accessory/chosen_ears = SSaccessories.ears_list_mammal[value]
+/datum/preference/choiced/species_feature/mammal_ears/icon_for(value)
+	var/datum/sprite_accessory/chosen_ears = get_accessory_for_value(value)
 	return generate_ears_icon(chosen_ears)
 
-/datum/preference/choiced/mammal_ears/init_possible_values()
-	return assoc_to_keys_features(SSaccessories.ears_list_mammal)
-
-/datum/preference/choiced/mammal_ears/is_accessible(datum/preferences/preferences)
+/datum/preference/choiced/species_feature/mammal_ears/is_accessible(datum/preferences/preferences)
 	. = ..()
 	var/datum/species/species = preferences.read_preference(/datum/preference/choiced/species)
-	if(!(species.type in GLOB.bodypart_allowed_species[EARS]))
+	if(!is_type_in_typecache(species, GLOB.bodypart_allowed_species[FEATURE_EARS]))
 		return FALSE
 
 	var/chosen_variation = preferences.read_preference(/datum/preference/choiced/ear_variation)
@@ -307,32 +238,26 @@
 	return FALSE
 
 ///	Aquatic ears type
-/datum/preference/choiced/fish_ears
+/datum/preference/choiced/species_feature/fish_ears
 	savefile_key = "feature_fish_ears"
 	savefile_identifier = PREFERENCE_CHARACTER
 	category = PREFERENCE_CATEGORY_CLOTHING
-	relevant_external_organ = null
 	should_generate_icons = TRUE
 	main_feature_name = "Ears"
+	feature_key = FEATURE_EARS_AQUATIC
+	priority = PREFERENCE_PRIORITY_PRE_SPECIES
 
-/datum/preference/choiced/fish_ears/apply_to_human(mob/living/carbon/human/target, value)
-	if(target.dna.ear_type == AQUATIC_TYPE)
-		target.dna.features["ears"] = value
+/datum/preference/choiced/species_feature/fish_ears/create_default_value()
+	return /datum/sprite_accessory/blank::name
 
-/datum/preference/choiced/fish_ears/create_default_value()
-	return /datum/sprite_accessory/ears_anthro/fish/none::name
-
-/datum/preference/choiced/fish_ears/icon_for(value)
-	var/datum/sprite_accessory/chosen_ears = SSaccessories.ears_list_fish[value]
+/datum/preference/choiced/species_feature/fish_ears/icon_for(value)
+	var/datum/sprite_accessory/chosen_ears = get_accessory_for_value(value)
 	return generate_ears_icon(chosen_ears)
 
-/datum/preference/choiced/fish_ears/init_possible_values()
-	return assoc_to_keys_features(SSaccessories.ears_list_fish)
-
-/datum/preference/choiced/fish_ears/is_accessible(datum/preferences/preferences)
+/datum/preference/choiced/species_feature/fish_ears/is_accessible(datum/preferences/preferences)
 	. = ..()
 	var/datum/species/species = preferences.read_preference(/datum/preference/choiced/species)
-	if(!(species.type in GLOB.bodypart_allowed_species[EARS]))
+	if(!is_type_in_typecache(species, GLOB.bodypart_allowed_species[FEATURE_EARS]))
 		return FALSE
 
 	var/chosen_variation = preferences.read_preference(/datum/preference/choiced/ear_variation)
@@ -342,32 +267,26 @@
 	return FALSE
 
 ///	Humanoid ears type
-/datum/preference/choiced/humanoid_ears
+/datum/preference/choiced/species_feature/humanoid_ears
 	savefile_key = "feature_humanoid_ears"
 	savefile_identifier = PREFERENCE_CHARACTER
 	category = PREFERENCE_CATEGORY_CLOTHING
-	relevant_external_organ = null
 	should_generate_icons = TRUE
 	main_feature_name = "Ears"
+	feature_key = FEATURE_EARS_HUMANOID
+	priority = PREFERENCE_PRIORITY_PRE_SPECIES
 
-/datum/preference/choiced/humanoid_ears/apply_to_human(mob/living/carbon/human/target, value)
-	if(target.dna.ear_type == HUMANOID_TYPE)
-		target.dna.features["ears"] = value
+/datum/preference/choiced/species_feature/humanoid_ears/create_default_value()
+	return /datum/sprite_accessory/blank::name
 
-/datum/preference/choiced/humanoid_ears/create_default_value()
-	return /datum/sprite_accessory/ears_anthro/humanoid/none::name
-
-/datum/preference/choiced/humanoid_ears/icon_for(value)
-	var/datum/sprite_accessory/chosen_ears = SSaccessories.ears_list_humanoid[value]
+/datum/preference/choiced/species_feature/humanoid_ears/icon_for(value)
+	var/datum/sprite_accessory/chosen_ears = get_accessory_for_value(value)
 	return generate_ears_icon(chosen_ears)
 
-/datum/preference/choiced/humanoid_ears/init_possible_values()
-	return assoc_to_keys_features(SSaccessories.ears_list_humanoid)
-
-/datum/preference/choiced/humanoid_ears/is_accessible(datum/preferences/preferences)
+/datum/preference/choiced/species_feature/humanoid_ears/is_accessible(datum/preferences/preferences)
 	. = ..()
 	var/datum/species/species = preferences.read_preference(/datum/preference/choiced/species)
-	if(!(species.type in GLOB.bodypart_allowed_species[EARS]))
+	if(!is_type_in_typecache(species, GLOB.bodypart_allowed_species[FEATURE_EARS]))
 		return FALSE
 
 	var/chosen_variation = preferences.read_preference(/datum/preference/choiced/ear_variation)
@@ -376,33 +295,28 @@
 
 	return FALSE
 
+/* There's no sprites for this
 ///	Synth ears type
-/datum/preference/choiced/synthetic_ears
+/datum/preference/choiced/species_feature/synthetic_ears
 	savefile_key = "feature_synth_ears"
 	savefile_identifier = PREFERENCE_CHARACTER
 	category = PREFERENCE_CATEGORY_CLOTHING
-	relevant_external_organ = null
 	should_generate_icons = TRUE
 	main_feature_name = "Ears"
+	feature_key = "ears_synthetic"
+	priority = PREFERENCE_PRIORITY_PRE_SPECIES
 
-/datum/preference/choiced/synthetic_ears/apply_to_human(mob/living/carbon/human/target, value)
-	if(target.dna.ear_type == CYBERNETIC_TYPE)
-		target.dna.features["ears"] = value
+/datum/preference/choiced/species_feature/synthetic_ears/create_default_value()
+	return /datum/sprite_accessory/blank::name
 
-/datum/preference/choiced/synthetic_ears/create_default_value()
-	return /datum/sprite_accessory/ears_anthro/cybernetic/none::name
-
-/datum/preference/choiced/synthetic_ears/icon_for(value)
-	var/datum/sprite_accessory/chosen_ears = SSaccessories.ears_list_synthetic[value]
+/datum/preference/choiced/species_feature/synthetic_ears/icon_for(value)
+	var/datum/sprite_accessory/chosen_ears = get_accessory_for_value(value)
 	return generate_ears_icon(chosen_ears)
 
-/datum/preference/choiced/synthetic_ears/init_possible_values()
-	return assoc_to_keys_features(SSaccessories.ears_list_synthetic)
-
-/datum/preference/choiced/synthetic_ears/is_accessible(datum/preferences/preferences)
+/datum/preference/choiced/species_feature/synthetic_ears/is_accessible(datum/preferences/preferences)
 	. = ..()
 	var/datum/species/species = preferences.read_preference(/datum/preference/choiced/species)
-	if(!(species.type in GLOB.bodypart_allowed_species[EARS]))
+	if(!is_type_in_typecache(species, GLOB.bodypart_allowed_species[FEATURE_EARS]))
 		return FALSE
 
 	var/chosen_variation = preferences.read_preference(/datum/preference/choiced/ear_variation)
@@ -410,6 +324,12 @@
 		return TRUE
 
 	return FALSE
+
+/datum/preference/choiced/species_feature/synthetic_ears/compile_constant_data()
+	var/list/data = ..()
+	data[SUPPLEMENTAL_FEATURE_KEY] = /datum/preference/tri_color/ears_color::savefile_key
+	return data
+*/
 
 /// Generate selection preview
 /datum/preference/choiced/proc/generate_ears_icon(chosen_ears)
@@ -504,52 +424,47 @@
 		return overlay
 	return ..()
 
-/datum/preference/choiced/felinid_ears/compile_constant_data()
+/datum/preference/choiced/species_feature/felinid_ears/compile_constant_data()
 	var/list/data = ..()
 	data[SUPPLEMENTAL_FEATURE_KEY] = /datum/preference/tri_color/ears_color::savefile_key
 	return data
 
-/datum/preference/choiced/lizard_ears/compile_constant_data()
+/datum/preference/choiced/species_feature/lizard_ears/compile_constant_data()
 	var/list/data = ..()
 	data[SUPPLEMENTAL_FEATURE_KEY] = /datum/preference/tri_color/ears_color::savefile_key
 	return data
 
-/datum/preference/choiced/dog_ears/compile_constant_data()
+/datum/preference/choiced/species_feature/dog_ears/compile_constant_data()
 	var/list/data = ..()
 	data[SUPPLEMENTAL_FEATURE_KEY] = /datum/preference/tri_color/ears_color::savefile_key
 	return data
 
-/datum/preference/choiced/fox_ears/compile_constant_data()
+/datum/preference/choiced/species_feature/fox_ears/compile_constant_data()
 	var/list/data = ..()
 	data[SUPPLEMENTAL_FEATURE_KEY] = /datum/preference/tri_color/ears_color::savefile_key
 	return data
 
-/datum/preference/choiced/flying_ears/compile_constant_data()
+/datum/preference/choiced/species_feature/flying_ears/compile_constant_data()
 	var/list/data = ..()
 	data[SUPPLEMENTAL_FEATURE_KEY] = /datum/preference/tri_color/ears_color::savefile_key
 	return data
 
-/datum/preference/choiced/mammal_ears/compile_constant_data()
+/datum/preference/choiced/species_feature/mammal_ears/compile_constant_data()
 	var/list/data = ..()
 	data[SUPPLEMENTAL_FEATURE_KEY] = /datum/preference/tri_color/ears_color::savefile_key
 	return data
 
-/datum/preference/choiced/monkey_ears/compile_constant_data()
+/datum/preference/choiced/species_feature/monkey_ears/compile_constant_data()
 	var/list/data = ..()
 	data[SUPPLEMENTAL_FEATURE_KEY] = /datum/preference/tri_color/ears_color::savefile_key
 	return data
 
-/datum/preference/choiced/fish_ears/compile_constant_data()
+/datum/preference/choiced/species_feature/fish_ears/compile_constant_data()
 	var/list/data = ..()
 	data[SUPPLEMENTAL_FEATURE_KEY] = /datum/preference/tri_color/ears_color::savefile_key
 	return data
 
-/datum/preference/choiced/humanoid_ears/compile_constant_data()
-	var/list/data = ..()
-	data[SUPPLEMENTAL_FEATURE_KEY] = /datum/preference/tri_color/ears_color::savefile_key
-	return data
-
-/datum/preference/choiced/synthetic_ears/compile_constant_data()
+/datum/preference/choiced/species_feature/humanoid_ears/compile_constant_data()
 	var/list/data = ..()
 	data[SUPPLEMENTAL_FEATURE_KEY] = /datum/preference/tri_color/ears_color::savefile_key
 	return data

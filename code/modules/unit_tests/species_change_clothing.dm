@@ -7,7 +7,7 @@
 	var/mob/living/carbon/human/morphing_human = allocate(/mob/living/carbon/human/dummy/consistent)
 
 	morphing_human.equipOutfit(/datum/outfit/job/assistant/consistent)
-	morphing_human.dna.features["legs"] = DIGITIGRADE_LEGS //you WILL have digitigrade legs
+	morphing_human.dna.features[FEATURE_LEGS] = DIGITIGRADE_LEGS //you WILL have digitigrade legs
 
 	// EffigyEdit Remove - Character Preferences
 	/*

@@ -337,35 +337,39 @@ em {
 /* IF YOU CHANGE THIS KEEP IT IN SYNC WITH TGUI CONSTANTS */
 
 .radio {
-  color: hsl(151, 96%, 56%); // EffigyEdit Change - TGUI
+  color: hsl(132.8, 74.4%, 45.9%);
 }
 
 .sciradio {
-  color: hsl(281, 100%, 66%); // EffigyEdit Change - TGUI
+  color: hsl(271.6, 91.7%, 76.5%);
 }
 
 .comradio {
-  color: hsl(50, 100%, 68%); // EffigyEdit Change - TGUI
+  color: hsl(53, 97.6%, 50%);
 }
 
 .secradio {
-  color: hsl(336, 100%, 66%); // EffigyEdit Change - TGUI
+  color: hsl(0, 71.2%, 53.7%);
 }
 
 .medradio {
-  color: hsl(195, 100%, 59%); // EffigyEdit Change - TGUI
+  color: hsl(202, 83.6%, 64.1%);
 }
 
 .engradio {
-  color: hsl(16, 100%, 66%); // EffigyEdit Change - TGUI
+  color: hsl(17, 87.8%, 61.4%);
 }
 
 .suppradio {
-  color: hsl(14, 44%, 57%); // EffigyEdit Change - TGUI
+  color: hsl(33.7, 44.9%, 49.8%);
 }
 
 .servradio {
-  color: hsl(151, 96%, 40%); // EffigyEdit Change - TGUI
+  color: hsl(88.1, 60.6%, 40.8%);
+}
+
+.enteradio {
+  color: hsl(157.1, 39.6%, 62.4%);
 }
 
 .syndradio {
@@ -382,10 +386,6 @@ em {
 
 .aiprivradio {
   color: hsl(308, 87%, 61%); // EffigyEdit Change - TGUI
-}
-
-.enteradio {
-  color: hsl(151, 96%, 40%); // EffigyEdit Change - TGUI
 }
 
 .redteamradio {
@@ -927,7 +927,9 @@ em {
 }
 
 .drone {
-  color: hsl(60, 1%, 54%); // EffigyEdit Change - TGUI
+  color: hsl(60, 100%, 50%);
+  background-color: hsl(287 62% 36%);
+  font-style: italic;
 }
 
 .monkey {
@@ -943,12 +945,8 @@ em {
 }
 
 .upside_down {
-  display: inline;
-  -moz-transform: scale(-1, -1);
-  -webkit-transform: scale(-1, -1);
-  -o-transform: scale(-1, -1);
-  -ms-transform: scale(-1, -1);
-  transform: scale(-1, -1);
+  transform: rotate(180deg);
+  display: inline-block;
 }
 
 .connectionClosed,
@@ -1022,6 +1020,7 @@ em {
   background: hsl(220, 10%, 10%);
   border: var(--border-thickness-tiny) solid;
   border-left: var(--border-thickness-large) solid;
+  // EffigyEdit Change - TGUI - Original: hsla(220, 40%, 75%, 0.25);
   border-color: hsl(224, 16%, 32%);
   margin: var(--space-m) 0;
   padding: var(--space-m) var(--space-l);
@@ -1282,28 +1281,28 @@ $border-width-px: $border-width * 1px;
   }
 }
 
-/* EffigyEdit Additions */
+/* EffigyEdit Add */
 
-.debugcyan {
-  color: hsl(183, 100%, 75%); // EffigyEdit Change - TGUI
+.cyan {
+  color: hsl(195, 100%, 59%);
 }
 
-.debugpink {
-  color: hsl(330, 100%, 68%); // EffigyEdit Change - TGUI
+.pink {
+  color: hsl(330, 100%, 68%);
 }
 
-.debugwhite {
-  color: hsl(228, 11%, 91%); // EffigyEdit Change - TGUI
+.white {
+  color: hsl(228, 11%, 91%);
 }
 
-.debugyellow {
-  color: hsl(50, 100%, 68%); // EffigyEdit Change - TGUI
+.yellow {
+  color: hsl(50, 100%, 68%);
 }
 
 .looc {
-  color: #ffd861;
+  color: hsl(45, 100%, 70%);
 }
 
 .rlooc {
-  color: #ffd861;
+  color: hsl(45, 100%, 70%);
 }
