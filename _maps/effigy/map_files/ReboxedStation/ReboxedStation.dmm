@@ -5227,6 +5227,7 @@
 /obj/structure/chair/office{
 	dir = 1
 	},
+/obj/effect/landmark/start/lawyer,
 /turf/open/floor/iron/grimy,
 /area/station/service/lawoffice)
 "jqh" = (
